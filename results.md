@@ -22,11 +22,11 @@ The cell values are the bits of security for each such component.
 
 **Proof Size Estimate:** 1352 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | FRI batching round | FRI commit round 1 | FRI commit round 2 | FRI commit round 3 | FRI commit round 4 | FRI commit round 5 | FRI query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 185 | 167 | 162 | 165 | 165 | 165 | 165 | 165 | 53 |
-| JBR | 58 | 181 | 163 | 142 | 159 | 159 | 159 | 159 | 159 | 58 |
-| best attack | 128 | — | — | — | — | — | — | — | — | — |
+| regime | total | ALI | DEEP | FRI batching round | FRI commit rounds (×5) | FRI query phase |
+| --- | --- | --- | --- | --- | --- | --- |
+| UDR | 53 | 185 | 167 | 162 | 165 | 53 |
+| JBR | 58 | 181 | 163 | 142 | 159 | 58 |
+| best attack | 128 | — | — | — | — | — |
 
 ## miden
 
@@ -40,11 +40,11 @@ The cell values are the bits of security for each such component.
 
 **Proof Size Estimate:** 114 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | FRI batching round | FRI commit round 1 | FRI commit round 2 | FRI commit round 3 | FRI commit round 4 | FRI commit round 5 | FRI commit round 6 | FRI commit round 7 | FRI query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 38 | 121 | 106 | 100 | 105 | 105 | 105 | 105 | 105 | 105 | 105 | 38 |
-| JBR | 55 | 115 | 101 | 77 | 98 | 98 | 98 | 98 | 98 | 98 | 98 | 55 |
-| best attack | 96 | — | — | — | — | — | — | — | — | — | — | — |
+| regime | total | ALI | DEEP | FRI batching round | FRI commit rounds (×7) | FRI query phase |
+| --- | --- | --- | --- | --- | --- | --- |
+| UDR | 38 | 121 | 106 | 100 | 105 | 38 |
+| JBR | 55 | 115 | 101 | 77 | 98 | 55 |
+| best attack | 96 | — | — | — | — | — |
 
 ## risc0
 
@@ -58,11 +58,11 @@ The cell values are the bits of security for each such component.
 
 **Proof Size Estimate:** 223 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | FRI batching round | FRI commit round 1 | FRI commit round 2 | FRI commit round 3 | FRI commit round 4 | FRI query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 33 | 115 | 100 | 92 | 96 | 96 | 96 | 96 | 33 |
-| JBR | 47 | 110 | 95 | 70 | 90 | 90 | 90 | 90 | 47 |
-| best attack | 99 | — | — | — | — | — | — | — | — |
+| regime | total | ALI | DEEP | FRI batching round | FRI commit rounds (×4) | FRI query phase |
+| --- | --- | --- | --- | --- | --- | --- |
+| UDR | 33 | 115 | 100 | 92 | 96 | 33 |
+| JBR | 47 | 110 | 95 | 70 | 90 | 47 |
+| best attack | 99 | — | — | — | — | — |
 
 ## Pico
 
@@ -76,8 +76,8 @@ The cell values are the bits of security for each such component.
 
 **Proof Size Estimate:** 908 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | FRI batching round | FRI commit round 1 | FRI commit round 10 | FRI commit round 11 | FRI commit round 12 | FRI commit round 13 | FRI commit round 14 | FRI commit round 15 | FRI commit round 16 | FRI commit round 17 | FRI commit round 18 | FRI commit round 19 | FRI commit round 2 | FRI commit round 20 | FRI commit round 21 | FRI commit round 3 | FRI commit round 4 | FRI commit round 5 | FRI commit round 6 | FRI commit round 7 | FRI commit round 8 | FRI commit round 9 | FRI query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 50 | 113 | 99 | 90 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 100 | 50 |
-| JBR | 54 | 109 | 95 | 70 | 94 | 94 | 94 | 94 | 94 | 94 | 94 | 94 | 94 | 94 | 94 | 94 | 94 | 94 | 94 | 94 | 94 | 94 | 94 | 94 | 94 | 54 |
-| best attack | 99 | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — | — |
+| regime | total | ALI | DEEP | FRI batching round | FRI commit rounds (×21) | FRI query phase |
+| --- | --- | --- | --- | --- | --- | --- |
+| UDR | 50 | 113 | 99 | 90 | 100 | 50 |
+| JBR | 54 | 109 | 95 | 70 | 94 | 54 |
+| best attack | 99 | — | — | — | — | — |
