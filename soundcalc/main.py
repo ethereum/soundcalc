@@ -6,6 +6,7 @@ from soundcalc.regimes.best_attack import best_attack_security
 from soundcalc.zkevms.risc0 import Risc0Preset
 from soundcalc.zkevms.miden import MidenPreset
 from soundcalc.zkevms.zisk import ZiskPreset
+from soundcalc.zkevms.pico import PicoPreset
 from soundcalc.regimes.johnson_bound import JohnsonBoundRegime
 from soundcalc.regimes.unique_decoding import UniqueDecodingRegime
 from soundcalc.report import build_markdown_report
@@ -83,6 +84,7 @@ def main() -> None:
         ZiskPreset.default(),
         MidenPreset.default(),
         Risc0Preset.default(),
+        PicoPreset.default()
     ]
 
     security_regimes = [
