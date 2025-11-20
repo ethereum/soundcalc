@@ -15,7 +15,7 @@ The cell values are the bits of security for each such component.
 **Parameters:**
 - Number of queries: 128
 - Grinding (bits): 0
-- Field: Goldilocks³
+- Field: Goldilocks^3
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
 - Batching: Powers
@@ -33,7 +33,7 @@ The cell values are the bits of security for each such component.
 **Parameters:**
 - Number of queries: 27
 - Grinding (bits): 16
-- Field: Goldilocks²
+- Field: Goldilocks^2
 - Rate (ρ): 0.125
 - Trace length (H): $2^{18}$
 - Batching: Powers
@@ -51,7 +51,7 @@ The cell values are the bits of security for each such component.
 **Parameters:**
 - Number of queries: 50
 - Grinding (bits): 0
-- Field: BabyBear⁴
+- Field: BabyBear^4
 - Rate (ρ): 0.25
 - Trace length (H): $2^{21}$
 - Batching: Powers
@@ -69,7 +69,7 @@ The cell values are the bits of security for each such component.
 **Parameters:**
 - Number of queries: 84
 - Grinding (bits): 16
-- Field: BabyBear⁴
+- Field: KoalaBear^4
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
 - Batching: Powers
