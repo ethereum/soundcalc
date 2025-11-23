@@ -11,13 +11,14 @@ How to read this report:
 - [ZisK](#zisk)
 - [Miden](#miden)
 - [RISC0](#risc0)
+- [Pico](#pico)
 
 ## ZisK
 
 **Parameters:**
 - Number of queries: 128
 - Grinding (bits): 0
-- Field: Goldilocks³
+- Field: Goldilocks^3
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
 - Batching: Powers
@@ -35,7 +36,7 @@ How to read this report:
 **Parameters:**
 - Number of queries: 27
 - Grinding (bits): 16
-- Field: Goldilocks²
+- Field: Goldilocks^2
 - Rate (ρ): 0.125
 - Trace length (H): $2^{18}$
 - Batching: Powers
@@ -53,7 +54,7 @@ How to read this report:
 **Parameters:**
 - Number of queries: 50
 - Grinding (bits): 0
-- Field: BabyBear⁴
+- Field: BabyBear^4
 - Rate (ρ): 0.25
 - Trace length (H): $2^{21}$
 - Batching: Powers
@@ -64,4 +65,22 @@ How to read this report:
 | --- | --- | --- | --- | --- | --- | --- |
 | UDR | 33 | 115 | 100 | 92 | 96 | 33 |
 | JBR | 47 | 110 | 95 | 70 | 90 | 47 |
+| best attack | 99 | — | — | — | — | — |
+
+## Pico
+
+**Parameters:**
+- Number of queries: 84
+- Grinding (bits): 16
+- Field: KoalaBear^4
+- Rate (ρ): 0.5
+- Trace length (H): $2^{22}$
+- Batching: Powers
+
+**Proof Size Estimate:** 4344 KiB, where 1 KiB = 1024 bytes
+
+| regime | total | ALI | DEEP | FRI batching round | FRI commit rounds (×21) | FRI query phase |
+| --- | --- | --- | --- | --- | --- | --- |
+| UDR | 50 | 113 | 99 | 90 | 100 | 50 |
+| JBR | 54 | 109 | 95 | 70 | 94 | 54 |
 | best attack | 99 | — | — | — | — | — |

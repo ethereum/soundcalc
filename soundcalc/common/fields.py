@@ -27,7 +27,7 @@ def _F(p: int, ext_size: int) -> float:
 # Base fields
 GOLDILOCKS_P = (1 << 64) - (1 << 32) + 1
 BABYBEAR_P = (1 << 31) - (1 << 27) + 1
-
+KOALABEAR_P = (1 << 31) - (1 << 24) + 1  # Based on Plonky3: https://github.com/Plonky3/Plonky3/blob/main/koala-bear/src/koala_bear.rs
 
 # Preset extension fields
 GOLDILOCKS_2 = FieldParams(
@@ -57,6 +57,14 @@ BABYBEAR_5 = FieldParams(
     field_extension_degree=5,
     F=_F(BABYBEAR_P, 5),
 )
+
+KOALABEAR_4 = FieldParams(
+    name="KoalaBear^4",
+    p=KOALABEAR_P,
+    field_extension_degree=4,
+    F=_F(KOALABEAR_P, 4),
+)
+
 
 
 def field_element_size_bits(field: FieldParams) -> int:

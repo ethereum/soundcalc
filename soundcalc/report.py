@@ -46,7 +46,11 @@ def build_markdown_report(sections) -> str:
         lines.append(f"- Grinding (bits): {zkevm_params.grinding_query_phase}")
         # Get field name from the field extension degree and base field
         field_name = "Unknown"
-        if hasattr(zkevm_params, 'field_extension_degree'):
+        field = getattr(zkevm_params, "field", None)
+        if getattr(field, "name", None):
+            field_name = field.name
+
+        if field_name == "Unknown" and hasattr(zkevm_params, "field_extension_degree"):
             if zkevm_params.field_extension_degree == 2:
                 field_name = "Goldilocks²"
             elif zkevm_params.field_extension_degree == 3:

@@ -77,6 +77,7 @@ class zkEVMParams:
         self.FRI_early_stop_degree = zkevm_cfg.FRI_early_stop_degree
         self.grinding_query_phase = zkevm_cfg.grinding_query_phase
         self.AIR_max_degree = zkevm_cfg.AIR_max_degree
+        self.field = zkevm_cfg.field
 
         # Number of columns should be less or equal to the final number of polynomials in batched-FRI
         assert self.num_columns <= self.num_polys
