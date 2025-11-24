@@ -188,4 +188,13 @@ class WHIRBasedVM(zkVM):
         return proof_size
 
     def get_security_levels(self) -> dict[str, dict[str, int]]:
+
+        # TODO: add an error from the batching step
+
+        # TODO: for initial sum check: k0 errors
+
+        # TODO: for each iteration: OOD errors, shift errors, fold errors
+
+        # TODO: final error from final
+
         return {} # TODO: implement
