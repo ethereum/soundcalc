@@ -6,6 +6,65 @@ import math
 from typing import Dict, Any, List, Tuple
 
 from soundcalc.common.utils import KIB
+from soundcalc.zkvms.fri_based_vm import FRIBasedVM
+from soundcalc.zkvms.whir_based_vm import WHIRBasedVM
+
+
+def _field_label(field) -> str:
+    if hasattr(field, "to_string"):
+        return field.to_string()
+    return "Unknown"
+
+
+def _fri_parameter_lines(zkvm_obj: FRIBasedVM) -> list[str]:
+    batching = "Powers" if zkvm_obj.power_batching else "Affine"
+    return [
+        f"- Polynomial commitment scheme: FRI",
+        f"- Hash size (bits): {zkvm_obj.hash_size_bits}",
+        f"- Number of queries: {zkvm_obj.num_queries}",
+        f"- Grinding (bits): {zkvm_obj.grinding_query_phase}",
+        f"- Field: {_field_label(zkvm_obj.field)}",
+        f"- Rate (ρ): {zkvm_obj.rho}",
+        f"- Trace length (H): $2^{{{zkvm_obj.h}}}$",
+        f"- FRI folding factor: {zkvm_obj.FRI_folding_factor}",
+        f"- FRI early stop degree: {zkvm_obj.FRI_early_stop_degree}",
+        f"- Batching: {batching}",
+    ]
+
+
+def _whir_parameter_lines(zkvm_obj: WHIRBasedVM) -> list[str]:
+    batching = "Powers" if zkvm_obj.power_batching else "Affine"
+    return [
+        f"- Polynomial commitment scheme: WHIR",
+        f"- Hash size (bits): {zkvm_obj.hash_size_bits}",
+        f"- Field: {_field_label(zkvm_obj.field)}",
+        f"- Iterations (M): {zkvm_obj.num_iterations}",
+        f"- Folding factor (k): {zkvm_obj.folding_factor}",
+        f"- Constraint degree: {zkvm_obj.constraint_degree}",
+        f"- Batch size: {zkvm_obj.batch_size}",
+        f"- Batching: {batching}",
+        f"- Queries per iteration: {zkvm_obj.num_queries}",
+        f"- OOD samples per iteration: {zkvm_obj.num_ood_samples}",
+        f"- Total grinding overhead log2: {zkvm_obj.log_grinding_overhead}",
+    ]
+
+
+def _generic_parameter_lines(zkvm_obj) -> list[str]:
+    lines: list[str] = []
+    lines.append(f"- Polynomial commitment scheme: Unknown")
+    if hasattr(zkvm_obj, "hash_size_bits"):
+        lines.append(f"- Hash size (bits): {zkvm_obj.hash_size_bits}")
+    if hasattr(zkvm_obj, "field"):
+        lines.append(f"- Field: {_field_label(zkvm_obj.field)}")
+    return lines
+
+
+def _describe_vm(zkvm_obj):
+    if isinstance(zkvm_obj, FRIBasedVM):
+        return "", _fri_parameter_lines(zkvm_obj)
+    if isinstance(zkvm_obj, WHIRBasedVM):
+        return "", _whir_parameter_lines(zkvm_obj)
+    return "", _generic_parameter_lines(zkvm_obj)
 
 
 
@@ -31,10 +90,13 @@ def build_markdown_report(sections) -> str:
 
     for zkevm in sections:
         anchor = zkevm.lower().replace(" ", "-")
+
+        (zkvm_obj, results) = sections[zkevm]
+        commitment_label, parameter_lines = _describe_vm(zkvm_obj)
+
         lines.append(f"## {zkevm}")
         lines.append("")
 
-        (zkvm_obj, results) = sections[zkevm]
         display_results: dict[str, Any] = {
             name: data.copy() if isinstance(data, dict) else data
             for name, data in results.items()
@@ -42,26 +104,10 @@ def build_markdown_report(sections) -> str:
 
         # Add parameter information
         lines.append(f"**Parameters:**")
-        lines.append(f"- Number of queries: {zkvm_obj.num_queries}")
-        lines.append(f"- Grinding (bits): {zkvm_obj.grinding_query_phase}")
-        # Get field name from the field extension degree and base field
-        field_name = "Unknown"
-        if hasattr(zkvm_obj, 'field_extension_degree'):
-            if zkvm_obj.field_extension_degree == 2:
-                field_name = "Goldilocks²"
-            elif zkvm_obj.field_extension_degree == 3:
-                field_name = "Goldilocks³"
-            elif zkvm_obj.field_extension_degree == 4:
-                field_name = "BabyBear⁴"
-            elif zkvm_obj.field_extension_degree == 5:
-                field_name = "BabyBear⁵"
-        lines.append(f"- Field: {field_name}")
-        lines.append(f"- Rate (ρ): {zkvm_obj.rho}")
-        lines.append(f"- Trace length (H): $2^{{{zkvm_obj.h}}}$")
-        if zkvm_obj.power_batching:
-            lines.append(f"- Batching: Powers")
+        if parameter_lines:
+            lines.extend(parameter_lines)
         else:
-            lines.append(f"- Batching: Affine")
+            lines.append("- No parameter summary available.")
         lines.append("")
 
         # Proof size

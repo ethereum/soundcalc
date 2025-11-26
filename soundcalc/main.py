@@ -71,7 +71,7 @@ def main() -> None:
         sections[zkvm.get_name()] = (zkvm, security_levels)
 
     # Generate and save markdown report
-    # generate_and_save_md_report(sections)
+    generate_and_save_md_report(sections)
 
 if __name__ == "__main__":
     main()
