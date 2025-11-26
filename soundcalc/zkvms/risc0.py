@@ -52,7 +52,7 @@ class Risc0Preset:
             trace_length=trace_length,
             field=field,
             num_columns=C,
-            num_polys=L,
+            batch_size=L,
             power_batching=power_batching,
             num_queries=s,
             max_combo=max_combo,

@@ -65,9 +65,9 @@ class FRIBasedVMConfig:
     field: FieldParams
     # Total columns of AIR table
     num_columns: int
-    # Number of polynomials appearing in the batched-FRI
+    # Number of functions appearing in the batched-FRI
     # This can be greater than `num_columns`: some zkEVMs have to use "segment polynomials" (aka "composition polynomials")
-    num_polys: int
+    batch_size: int
     # Boolean flag to indicate if batched-FRI is implemented using coefficients
     # r^0, r^1, ... r^{num_polys-1} (power_batching = True) or
     # 1, r_1, r_2, ... r_{num_polys - 1} (power_batching = False)
@@ -104,7 +104,7 @@ class FRIBasedVM(zkVM):
         self.rho = config.rho
         self.trace_length = config.trace_length
         self.num_columns = config.num_columns
-        self.num_polys = config.num_polys
+        self.num_polys = config.batch_size
         self.power_batching = config.power_batching
         self.num_queries = config.num_queries
         self.max_combo = config.max_combo

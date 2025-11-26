@@ -42,7 +42,7 @@ class MidenPreset:
         trace_length = 1 << 18    #note that this is smaller than for other VMs, thus the security is higher for the same settings
         # XXX need to check the numbers below by running the prover
         num_columns = 100
-        num_polys = 100
+        batch_size = 100
 
         # XXX ???  TODO: ask the main Miden channel
         max_combo = 2
@@ -59,7 +59,7 @@ class MidenPreset:
             trace_length=trace_length,
             field=field,
             num_columns=num_columns,
-            num_polys=num_polys,
+            batch_size=batch_size,
             power_batching=power_batching,
             num_queries=num_queries,
             max_combo=max_combo,
