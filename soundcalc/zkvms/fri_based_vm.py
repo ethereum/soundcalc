@@ -283,5 +283,47 @@ class FRIBasedVM(zkVM):
         """
         Same as get_security_levels, but for a specific regime.
         """
-        # TODO implement
-        return {}
+
+        # TODO: remove that struct, it is ugly and redundant
+        params = FRIParameters(
+            hash_size_bits=self.hash_size_bits,
+            field_size_bits=field_element_size_bits(self.field),
+            rho=self.rho,
+            num_functions=self.num_polys,
+            num_queries=self.num_queries,
+            witness_size=int(self.D),
+            D=self.D,
+            F=self.F,
+            FRI_rounds_n=self.FRI_rounds_n,
+            power_batching=self.power_batching,
+            field_extension_degree=int(self.field_extension_degree),
+            early_stop_degree=int(self.FRI_early_stop_degree),
+            folding_factor=int(self.FRI_folding_factor),
+            grinding_query_phase=self.grinding_query_phase,
+            trace_length=self.trace_length,
+            max_combo=self.max_combo
+        )
+
+        bits = {}
+
+        # Compute FRI errors for batching
+        bits["batching"] = get_bits_of_security_from_error(self.get_batching_error(regime))
+
+        # Compute FRI error for folding / commit phase
+        FRI_rounds = params.FRI_rounds_n
+        for i in range(FRI_rounds):
+            bits[f"commit round {i+1}"] = get_bits_of_security_from_error(self.get_commit_phase_error(regime))
+
+        # Compute FRI error for query phase
+        bits["query phase"] = get_bits_of_security_from_error(self.get_query_phase_error(regime))
+
+        return bits
+
+    def get_batching_error(self, regime: ProximityGapsRegime) -> float:
+        return 1 #TODO
+
+    def get_commit_phase_error(self, regime: ProximityGapsRegime) -> float:
+        return 1 #TODO
+
+    def get_query_phase_error(self, regime: ProximityGapsRegime) -> float:
+        return 1 #TODO

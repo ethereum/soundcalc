@@ -29,11 +29,11 @@ How to read this report:
 
 **Proof Size Estimate:** 992 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP |
-| --- | --- | --- | --- |
-| UDR | 167 | 185 | 167 |
-| JBR | 162 | 180 | 162 |
-| best attack | 128 | — | — |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 0 | 185 | 167 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| JBR | 0 | 180 | 162 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 ## Miden
 
@@ -51,11 +51,11 @@ How to read this report:
 
 **Proof Size Estimate:** 175 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP |
-| --- | --- | --- | --- |
-| UDR | 106 | 121 | 106 |
-| JBR | 99 | 114 | 99 |
-| best attack | 96 | — | — |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 0 | 121 | 106 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| JBR | 0 | 114 | 99 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| best attack | 96 | — | — | — | — | — | — | — | — | — | — | — |
 
 ## RISC0
 
@@ -73,11 +73,11 @@ How to read this report:
 
 **Proof Size Estimate:** 576 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP |
-| --- | --- | --- | --- |
-| UDR | 100 | 115 | 100 |
-| JBR | 94 | 109 | 94 |
-| best attack | 99 | — | — |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 0 | 115 | 100 | 0 | 0 | 0 | 0 | 0 | 0 |
+| JBR | 0 | 109 | 94 | 0 | 0 | 0 | 0 | 0 | 0 |
+| best attack | 99 | — | — | — | — | — | — | — | — |
 
 ## DummyWHIR
 

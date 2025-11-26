@@ -1,10 +1,33 @@
 from __future__ import annotations
 
-from soundcalc.regimes.fri_regime import FRIParameters
-
 
 from ..common.utils import get_bits_of_security_from_error
 
+from dataclasses import dataclass
+
+@dataclass(frozen=True)
+class FRIParameters:
+    """
+    Models the parameters that the FRI protocol has.
+    Note that this is different from FRI-based zkVM parameters,
+    as such a VM may have additional parameters.
+    """
+    hash_size_bits: int
+    field_size_bits: int
+    rho: float
+    D: int
+    F: float
+    power_batching: bool
+    num_functions: int
+    num_queries: int
+    witness_size: int
+    field_extension_degree: int
+    early_stop_degree: int
+    FRI_rounds_n: int
+    folding_factor: int
+    grinding_query_phase: int
+    trace_length: int
+    max_combo: int
 
 def best_attack_security(params: FRIParameters) -> int:
     """
