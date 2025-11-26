@@ -9,8 +9,7 @@ from soundcalc.common.utils import get_bits_of_security_from_error
 from soundcalc.proxgaps.johnson_bound import JohnsonBoundRegime
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
 from soundcalc.proxgaps.unique_decoding import UniqueDecodingRegime
-from soundcalc.zkvms.best_attack import best_attack_security
-from soundcalc.regimes.fri_regime import FRIParameters
+from soundcalc.zkvms.best_attack import FRIParameters, best_attack_security
 from soundcalc.zkvms.zkvm import zkVM
 from ..common.fields import FieldParams, field_element_size_bits
 from ..common.fri import get_FRI_proof_size_bits, get_num_FRI_folding_rounds
