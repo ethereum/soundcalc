@@ -76,7 +76,7 @@ class JohnsonBoundRegime(FRIRegime):
 
         m = self._get_m()
         rho = params.rho
-        error = ((m + 0.5) ** 5) / (3 * (rho ** 1.5)) * (params.D) / params.F
+        error = ((2*(m + 0.5) ** 5 + 3*(m + 0.5)*rho)) / (3 * rho * math.sqrt(rho)) * (params.D) / params.F
         if params.power_batching:
             error *= params.num_functions
         return error
