@@ -361,7 +361,7 @@ class WHIRBasedVM(zkVM):
         rate = 2 ** (-self.log_inv_rates[0])
         dimension = 2 ** self.log_degrees[0]
 
-        epsilon = regime.get_error_linear(rate, dimension, self.field, self.batch_size)
+        epsilon = regime.get_error_linear(rate, dimension, self.field)
         if self.power_batching:
             epsilon = regime.get_error_powers(rate, dimension, self.field, self.batch_size)
 

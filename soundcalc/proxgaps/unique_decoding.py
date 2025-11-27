@@ -23,6 +23,6 @@ class UniqueDecodingRegime(ProximityGapsRegime):
         return num_functions * n / field.F
 
 
-    def get_error_linear(self, rate: float, dimension: int, field: FieldParams, num_functions: int) -> float:
+    def get_error_linear(self, rate: float, dimension: int, field: FieldParams) -> float:
         n = dimension / rate
         return n / field.F

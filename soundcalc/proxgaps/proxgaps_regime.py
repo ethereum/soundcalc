@@ -49,7 +49,7 @@ class ProximityGapsRegime:
         """
         raise NotImplementedError
 
-    def get_error_linear(self, rate: float, dimension: int, field: FieldParams, num_functions: int) -> float:
+    def get_error_linear(self, rate: float, dimension: int, field: FieldParams) -> float:
         """
         Returns an upper bound on the MCA error when applying a random linear combination.
         The coefficients are assumed to be independent here.

@@ -43,10 +43,10 @@ class JohnsonBoundRegime(ProximityGapsRegime):
         return eta
 
     def get_error_powers(self, rate: float, dimension: int, field: FieldParams, num_functions: int) -> float:
-        return self.get_error_linear(rate, dimension, field, num_functions) * (num_functions - 1)
+        return self.get_error_linear(rate, dimension, field) * (num_functions - 1)
 
 
-    def get_error_linear(self, rate: float, dimension: int, field: FieldParams, num_functions: int) -> float:
+    def get_error_linear(self, rate: float, dimension: int, field: FieldParams) -> float:
 
         # following WHIR bound in Conjecture 4.12, and noting that 1 - √ρ - delta = η
         exponent = 5
