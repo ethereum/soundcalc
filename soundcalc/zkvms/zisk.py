@@ -31,8 +31,8 @@ class ZiskPreset:
         rho = 1 / blowup_factor
 
         trace_length = 1 << 22
-        num_columns = 66
-        batch_size = num_columns + 2 # +2 for the composition polynomials
+        num_constraints = 66
+        batch_size = num_constraints + 2 # +2 for the composition polynomials
 
         num_queries = 128 // int(math.log2(blowup_factor))
 
@@ -54,7 +54,7 @@ class ZiskPreset:
             rho=rho,
             trace_length=trace_length,
             field=field,
-            num_columns=num_columns,
+            num_constraints=num_constraints,
             batch_size=batch_size,
             power_batching=True,
             num_queries=num_queries,

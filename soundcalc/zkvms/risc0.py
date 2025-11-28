@@ -60,7 +60,7 @@ class Risc0Preset:
             rho=rho,
             trace_length=trace_length,
             field=field,
-            num_columns=C,
+            num_constraints=C,
             batch_size=L,
             power_batching=power_batching,
             num_queries=s,

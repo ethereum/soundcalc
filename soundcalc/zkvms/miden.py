@@ -52,7 +52,7 @@ class MidenPreset:
             n //= FRI_folding_factor
 
         # XXX need to check the numbers below by running the prover
-        num_columns = 100
+        num_constraints = 100
         batch_size = 100
 
         # XXX ???  TODO: ask the main Miden channel
@@ -69,7 +69,7 @@ class MidenPreset:
             rho=rho,
             trace_length=trace_length,
             field=field,
-            num_columns=num_columns,
+            num_constraints=num_constraints,
             batch_size=batch_size,
             power_batching=power_batching,
             num_queries=num_queries,
