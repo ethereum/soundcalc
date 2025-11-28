@@ -64,7 +64,7 @@ class FRIRegime:
         """
         raise NotImplementedError
 
-    def get_commit_phase_error(self, params: FRIParameters) -> float:
+    def get_commit_phase_error(self, params: FRIParameters, round_idx: int) -> float:
         """
         Returns the error for the FRI commit phase for this regime.
         """
@@ -85,7 +85,7 @@ class FRIRegime:
         # Compute FRI error for folding / commit phase
         FRI_rounds = params.FRI_rounds_n
         for i in range(FRI_rounds):
-            bits[f"FRI commit round {i+1}"] = get_bits_of_security_from_error(self.get_commit_phase_error(params))
+            bits[f"FRI commit round {i+1}"] = get_bits_of_security_from_error(self.get_commit_phase_error(params, i))
 
         # Compute FRI error for query phase
         theta = self.get_theta(params)

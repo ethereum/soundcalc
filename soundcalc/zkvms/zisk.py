@@ -18,8 +18,6 @@ class ZiskPreset:
            https://eprint.iacr.org/2023/474
         """
 
-        field = GOLDILOCKS_3
-
         # We generate a STARK proof of different traces with different parameters.
         # Therefore, in what follows, I put the parameters for our worst-case trace in terms of area.
 
@@ -30,9 +28,9 @@ class ZiskPreset:
         blowup_factor = 2
         rho = 1 / blowup_factor
 
-        trace_length = 1 << 22
-        num_columns = 66
-        batch_size = num_columns + 2 # +2 for the composition polynomials
+        trace_length = 1 << 16
+        num_columns = 3022
+        batch_size = 4065
 
         num_queries = 128 // int(math.log2(blowup_factor))
 
@@ -41,16 +39,14 @@ class ZiskPreset:
         FRI_folding_factor = 2**4
         FRI_early_stop_degree = 2**5
 
-        max_combo = 3
-
-        hash_size_bits = 256 # TODO: check if that is actually true
+        max_combo = 2
 
         cfg = FRIBasedVMConfig(
             name="ZisK",
-            hash_size_bits=hash_size_bits,
+            hash_size_bits=256,
             rho=rho,
             trace_length=trace_length,
-            field=field,
+            field=GOLDILOCKS_3,
             num_columns=num_columns,
             batch_size=batch_size,
             power_batching=True,

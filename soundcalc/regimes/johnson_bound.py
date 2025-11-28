@@ -49,6 +49,9 @@ class JohnsonBoundRegime(FRIRegime):
         """
         Returns the theta for the query phase error.
         """
+
+        # This is a number in the range [(1 - ρ)/2, 1 - √ρ)
+
         m = self._get_m()
         alpha, theta = self._get_alpha_and_theta(params.rho, m)
         return theta
@@ -74,6 +77,8 @@ class JohnsonBoundRegime(FRIRegime):
         #
         # Then easiest way to see the difference is to compare Theorems 1.5 and 1.6.
 
+        # See Theorem 4.2 of BCHKS25.
+
         m = self._get_m()
         rho = params.rho
         error = ((2*(m + 0.5) ** 5 + 3*(m + 0.5)*rho)) / (3 * rho * math.sqrt(rho)) * (params.D) / params.F
@@ -81,20 +86,29 @@ class JohnsonBoundRegime(FRIRegime):
             error *= params.num_functions
         return error
 
-    def get_commit_phase_error(self, params: FRIParameters) -> float:
+    def get_commit_phase_error(self, params: FRIParameters, round_idx: int) -> float:
         """
         Returns the error for the FRI commit phase for this regime.
         """
 
-        # See Theorem 8.3 of BCIKS20.
-        # Also, seen in Theorem 2 of Ha22, and Theorem 1 of eSTARK paper.
+        # The same as the batching error, but with the domain adjusted to each folding round.
+        # In particular, if we let 𝜀 be the batching error we can obtain the commit error as:
+        #   𝜀 * (folding_factorᵢ - 1) / Π folding_factors
 
         # Note: This function is also used by CBR, but there is no good foundation for it yet.
         # TODO Find a better formula for CBR.
 
-        # TODO: check this formula carefully
         m = self._get_m()
-        error = (2 * m + 1) * (params.D + 1) * params.folding_factor / (math.sqrt(params.rho) * params.F)
+        rho = params.rho
+        error = ((2*(m + 0.5) ** 5 + 3*(m + 0.5)*rho)) / (3 * rho * math.sqrt(rho)) * (params.D) / params.F
+
+        # Compute accumulated folding factor up to round_idx
+        # TODO: This assumes all folding factors are the same. Generalize!!
+        acc_folding_factor = 1
+        for i in range(round_idx + 1):
+            acc_folding_factor *= params.folding_factor
+
+        error *= (params.folding_factor - 1) / acc_folding_factor
         return error
 
 
@@ -123,6 +137,6 @@ class JohnsonBoundRegime(FRIRegime):
         #         let m_plus = 1.0 / (params.biggest_combo * (alpha / rho_plus.sqrt() - 1.0));
         return math.ceil(1 / (2 * (alpha / math.sqrt(r_plus) - 1)))
 
-    def _get_m(self):
+    def _get_m(self) -> int:
         m = get_johnson_parameter_m()  # TODO DK: it is not clear if this is the right m to use. To investigate.
         return m

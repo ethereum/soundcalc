@@ -53,7 +53,7 @@ class UniqueDecodingRegime(FRIRegime):
             error *= params.num_functions
         return error
 
-    def get_commit_phase_error(self, params: FRIParameters) -> float:
+    def get_commit_phase_error(self, params: FRIParameters, round_idx: int) -> float:
         """
         Returns the error for the FRI commit phase for this regime.
         """
