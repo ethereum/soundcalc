@@ -46,7 +46,7 @@ def print_summary_for_zkvm(zkvm: zkVM, security_levels: dict | None = None) -> N
     print("")
     print("")
 
-def main() -> None:
+def main(print_only: list[str] | None = None) -> None:
     """
     Main entry point for soundcalc
 
@@ -67,7 +67,10 @@ def main() -> None:
     # Analyze each zkVM
     for zkvm in zkvms:
         security_levels = zkvm.get_security_levels()
-        print_summary_for_zkvm(zkvm, security_levels)
+
+        if print_only is None or zkvm.get_name() in print_only:
+            print_summary_for_zkvm(zkvm, security_levels)
+
         sections[zkvm.get_name()] = (zkvm, security_levels)
 
     # Generate and save markdown report
