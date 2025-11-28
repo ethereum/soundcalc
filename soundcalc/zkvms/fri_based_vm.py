@@ -24,14 +24,16 @@ def get_DEEP_ALI_errors(L_plus: float, params: FRIBasedVM):
     Returns a dictionary containing levels for ALI and DEEP
     """
 
-    # TODO Check that it holds for all regimes
-
-    # XXX These proof system errors are actually quite RISC0 specific.
-    # See Section 3.4 from the RISC0 technical report.
-    # We might want to generalize this further for other zkEVMs.
-    # For example, Miden also computes similar values for DEEP-ALI in:
-    # https://github.com/facebook/winterfell/blob/2f78ee9bf667a561bdfcdfa68668d0f9b18b8315/air/src/proof/security.rs#L188-L210
-    e_ALI = L_plus * params.num_columns / params.field_size
+    # Theorem 8 of https://eprint.iacr.org/2022/1216.pdf
+    # Note: These bounds are regime independent
+    # TODO: If linear batching is used, the num_constraints term in e_ALI should be removed
+    # TODO: L_plus computation depends on how the FRI batching is performed.
+    #       For instance, if I want to prove the evaluation of f(X) at both z and g·z, then I can
+    #       either run a LDT over functions g1(X) = (f(X) - f(z)) / (X - z) and g2(X) = (f(X) - f(g·z)) / (X - g·z)
+    #       or I can run a LDT over a single function h(X) = (f(X) - U(X)) / ((X - z)(X - g·z)) 
+    #       where U(X) is the unique degree < 2 interpolant through points (z, f(z)) and (g·z, f(g·z)).
+    #       Here it is assumed that the second approach is used.
+    e_ALI = L_plus * params.num_constraints / params.field_size
     e_DEEP = (
         L_plus
         * (params.AIR_max_degree * (params.trace_length + params.max_combo - 1) + (params.trace_length - 1))
@@ -63,10 +65,9 @@ class FRIBasedVMConfig:
     trace_length: int
     # Preset field parameters (contains p, ext_size, F)
     field: FieldParams
-    # Total columns of AIR table
-    num_columns: int
+    # Total AIR constraints
+    num_constraints: int
     # Number of functions appearing in the batched-FRI
-    # This can be greater than `num_columns`: some zkEVMs have to use "segment polynomials" (aka "composition polynomials")
     batch_size: int
     # Boolean flag to indicate if batched-FRI is implemented using coefficients
     # r^0, r^1, ... r^{batch_size-1} (power_batching = True) or
@@ -103,7 +104,7 @@ class FRIBasedVM(zkVM):
         self.hash_size_bits = config.hash_size_bits
         self.rho = config.rho
         self.trace_length = config.trace_length
-        self.num_columns = config.num_columns
+        self.num_constraints = config.num_constraints
         self.batch_size = config.batch_size
         self.power_batching = config.power_batching
         self.num_queries = config.num_queries
@@ -112,9 +113,6 @@ class FRIBasedVM(zkVM):
         self.FRI_early_stop_degree = config.FRI_early_stop_degree
         self.grinding_query_phase = config.grinding_query_phase
         self.AIR_max_degree = config.AIR_max_degree
-
-        # Number of columns should be less or equal to the final number of polynomials in batched-FRI
-        assert self.num_columns <= self.batch_size
 
         # Now, also compute some auxiliary parameters
 
@@ -167,7 +165,7 @@ class FRIBasedVM(zkVM):
             "trace_length": self.trace_length,
             "h = log2(trace_length)": self.h,
             "domain_size D = trace_length / rho": self.D,
-            "num_columns": self.num_columns,
+            "num_constraints": self.num_constraints,
             "batch_size": self.batch_size,
             "power_batching": self.power_batching,
             "num_queries": self.num_queries,
