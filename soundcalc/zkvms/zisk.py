@@ -13,13 +13,11 @@ class ZiskPreset:
 
         For ZisK, we populate the trace parameters from its constraint description:
             https://github.com/0xPolygonHermez/zisk/blob/main/pil/zisk.pil
-
-        The rest of the parameters are adapted from the "eSTARK: Extending STARKs with Arguments" paper:
-           https://eprint.iacr.org/2023/474
         """
 
         # We generate a STARK proof of different traces with different parameters.
-        # Therefore, in what follows, I put the parameters for our worst-case trace in terms of area.
+        # Therefore, in what follows, we put the parameters for our worst-case trace
+        # in terms of columns and batch size.
 
         # The blowup factor is dinamically chosen by this tool:
         #       https://github.com/0xPolygonHermez/pil2-proofman-js/blob/main/src/pil2-stark/pil_info/imPolsCalculation/imPolynomials.js#L96
@@ -29,12 +27,12 @@ class ZiskPreset:
         rho = 1 / blowup_factor
 
         trace_length = 1 << 16
-        num_columns = 3022
+        num_columns = 3024
         batch_size = 4065
 
-        num_queries = 128 // int(math.log2(blowup_factor))
+        num_queries = 128
 
-        AIR_max_degree = blowup_factor + 1
+        AIR_max_degree = 3
 
         FRI_folding_factor = 2**4
         FRI_early_stop_degree = 2**5

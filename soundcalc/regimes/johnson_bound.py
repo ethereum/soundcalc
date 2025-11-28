@@ -104,11 +104,12 @@ class JohnsonBoundRegime(FRIRegime):
 
         # Compute accumulated folding factor up to round_idx
         # TODO: This assumes all folding factors are the same. Generalize!!
+        folding_factor = params.folding_factor
         acc_folding_factor = 1
         for i in range(round_idx + 1):
-            acc_folding_factor *= params.folding_factor
+            acc_folding_factor *= folding_factor
 
-        error *= (params.folding_factor - 1) / acc_folding_factor
+        error *= (folding_factor - 1) / acc_folding_factor
         return error
 
 

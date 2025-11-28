@@ -57,9 +57,15 @@ class UniqueDecodingRegime(FRIRegime):
         """
         Returns the error for the FRI commit phase for this regime.
         """
-        D = params.D
-        FRI_folding_factor = params.folding_factor
-        F = params.F
 
-        fri_folding_error = (D * (FRI_folding_factor - 1)) / F
-        return fri_folding_error
+        error = params.D / params.F
+
+        # Compute accumulated folding factor up to round_idx
+        # TODO: This assumes all folding factors are the same. Generalize!!
+        folding_factor = params.folding_factor
+        acc_folding_factor = 1
+        for i in range(round_idx + 1):
+            acc_folding_factor *= folding_factor
+
+        error *= (folding_factor - 1) / acc_folding_factor
+        return error

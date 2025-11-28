@@ -22,18 +22,18 @@ How to read this report:
 - Grinding (bits): 0
 - Field: Goldilocks³
 - Rate (ρ): 0.5
-- Trace length (H): $2^{22}$
+- Trace length (H): $2^{16}$
 - FRI folding factor: 16
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 992 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 24678 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | FRI batching round | FRI commit rounds (×5) | FRI query phase |
-| --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 185 | 167 | 162 | 165 | 53 |
-| JBR | 58 | 181 | 163 | 142 | 159 | 58 |
-| best attack | 128 | — | — | — | — | — |
+| regime | total | ALI | DEEP | FRI batching round | FRI commit round 1 | FRI commit round 2 | FRI commit round 3 | FRI query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 53 | 180 | 173 | 163 | 175 | 179 | 183 | 53 |
+| JBR | 58 | 175 | 169 | 141 | 153 | 157 | 161 | 58 |
+| best attack | 128 | — | — | — | — | — | — | — |
 
 ## Miden
 
@@ -51,11 +51,11 @@ How to read this report:
 
 **Proof Size Estimate:** 175 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | FRI batching round | FRI commit rounds (×7) | FRI query phase |
-| --- | --- | --- | --- | --- | --- | --- |
-| UDR | 38 | 121 | 106 | 100 | 105 | 38 |
-| JBR | 55 | 115 | 101 | 77 | 98 | 55 |
-| best attack | 96 | — | — | — | — | — |
+| regime | total | ALI | DEEP | FRI batching round | FRI commit round 1 | FRI commit round 2 | FRI commit round 3 | FRI commit round 4 | FRI commit round 5 | FRI commit round 6 | FRI commit round 7 | FRI query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 38 | 121 | 106 | 100 | 107 | 109 | 111 | 113 | 115 | 117 | 119 | 38 |
+| JBR | 55 | 115 | 101 | 76 | 83 | 85 | 87 | 89 | 91 | 93 | 95 | 55 |
+| best attack | 96 | — | — | — | — | — | — | — | — | — | — | — |
 
 ## RISC0
 
@@ -73,11 +73,11 @@ How to read this report:
 
 **Proof Size Estimate:** 576 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | FRI batching round | FRI commit rounds (×4) | FRI query phase |
-| --- | --- | --- | --- | --- | --- | --- |
-| UDR | 33 | 115 | 100 | 92 | 96 | 33 |
-| JBR | 47 | 110 | 95 | 70 | 90 | 47 |
-| best attack | 99 | — | — | — | — | — |
+| regime | total | ALI | DEEP | FRI batching round | FRI commit round 1 | FRI commit round 2 | FRI commit round 3 | FRI commit round 4 | FRI query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 33 | 115 | 100 | 92 | 100 | 104 | 108 | 112 | 33 |
+| JBR | 47 | 110 | 95 | 69 | 78 | 82 | 86 | 90 | 47 |
+| best attack | 99 | — | — | — | — | — | — | — | — |
 
 ## DummyWHIR
 
