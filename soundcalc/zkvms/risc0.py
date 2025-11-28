@@ -1,15 +1,15 @@
 from __future__ import annotations
 
-from soundcalc.zkvms.fri_based_vm import FRIBasedVM, FRIBasedVMConfig
+from soundcalc.zkvms.fri_based_vm import FRIBasedCircuit, FRIBasedVM, FRIBasedVMConfig
 
 from ..common.fields import *
 
 
 class Risc0Preset:
     @staticmethod
-    def default() -> "Risc0Preset":
+    def default() -> FRIBasedVM:
         """
-        Populate a zkEVMConfig instance with zkVM parameters.
+        Create a RISC0 VM.
 
         For RISC0, we use the ones in https://github.com/risc0/risc0/blob/ebc18c770c4dd5a8e8dfdca1297edb181848405f/risc0/zkp/src/docs/soundness.ipynb
         (dated September 2024)
@@ -18,6 +18,13 @@ class Risc0Preset:
 
         Thanks a lot to Paul Gafni for helping out!
         """
+        return FRIBasedVM(
+            name="RISC0",
+            circuits=[Risc0Preset._main_circuit()]
+        )
+
+    @staticmethod
+    def _main_circuit() -> FRIBasedCircuit:
         rho = 1 / 4.0
         trace_length = 1 << 21
 
@@ -55,7 +62,7 @@ class Risc0Preset:
         hash_size_bits = 256 # TODO: check if that is actually true
 
         cfg = FRIBasedVMConfig(
-            name="RISC0",
+            name="main",
             hash_size_bits=hash_size_bits,
             rho=rho,
             trace_length=trace_length,
@@ -70,4 +77,4 @@ class Risc0Preset:
             grinding_query_phase=0,
             AIR_max_degree=AIR_max_degree,
         )
-        return FRIBasedVM(cfg)
+        return FRIBasedCircuit(cfg)

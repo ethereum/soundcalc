@@ -1,15 +1,15 @@
 from __future__ import annotations
 
-from soundcalc.zkvms.fri_based_vm import FRIBasedVM, FRIBasedVMConfig
+from soundcalc.zkvms.fri_based_vm import FRIBasedCircuit, FRIBasedVM, FRIBasedVMConfig
 
 from ..common.fields import *
 
 
 class MidenPreset:
     @staticmethod
-    def default() -> "MidenPreset":
+    def default() -> FRIBasedVM:
         """
-        Populate a zkEVMConfig instance with zkVM parameters.
+        Create a Miden VM.
 
         For Miden, we use the parameters from the `RECURSIVE_96_BITS` configuration in:
             https://github.com/0xMiden/miden-vm/blob/fde5256c7ea99112e7dc2677b4c57ad824f63dcb/air/src/options.rs#L47C15-L47C32
@@ -19,6 +19,13 @@ class MidenPreset:
 
         Thanks a lot to Al Kindi for the help!
         """
+        return FRIBasedVM(
+            name="Miden",
+            circuits=[MidenPreset._main_circuit()]
+        )
+
+    @staticmethod
+    def _main_circuit() -> FRIBasedCircuit:
 
         # TODO Not sure if this is the actual parameters used in prod.
 
@@ -64,7 +71,7 @@ class MidenPreset:
         hash_size_bits = 256 # TODO: check if that is actually true
 
         cfg = FRIBasedVMConfig(
-            name="Miden",
+            name="main",
             hash_size_bits=hash_size_bits,
             rho=rho,
             trace_length=trace_length,
@@ -79,4 +86,4 @@ class MidenPreset:
             grinding_query_phase=grinding_query_phase,
             AIR_max_degree=AIR_max_degree,
         )
-        return FRIBasedVM(cfg)
+        return FRIBasedCircuit(cfg)

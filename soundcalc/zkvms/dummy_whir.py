@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from soundcalc.zkvms.whir_based_vm import WHIRBasedVM, WHIRBasedVMConfig
+from soundcalc.zkvms.whir_based_vm import WHIRBasedCircuit, WHIRBasedVM, WHIRBasedVMConfig
 
 
 from ..common.fields import *
@@ -8,12 +8,19 @@ from ..common.fields import *
 
 class DummyWHIRPreset:
     @staticmethod
-    def default() -> "DummyWHIR":
+    def default() -> WHIRBasedVM:
         """
         A dummy zkVM using WHIR for testing WHIR
         """
+        return WHIRBasedVM(
+            name="DummyWHIR",
+            circuits=[DummyWHIRPreset._main_circuit()]
+        )
 
-        name = "DummyWHIR"
+    @staticmethod
+    def _main_circuit() -> WHIRBasedCircuit:
+
+        name = "main"
         hash_size_bits = 256
         log_inv_rate = 1 # rate 1/2
         num_iterations = 5
@@ -51,4 +58,4 @@ class DummyWHIRPreset:
             num_ood_samples=num_ood_samples,
             grinding_bits_ood=grinding_bits_ood
         )
-        return WHIRBasedVM(cfg)
+        return WHIRBasedCircuit(cfg)
