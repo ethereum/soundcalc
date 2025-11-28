@@ -1,27 +1,38 @@
 from __future__ import annotations
 import json
+import os
 
 from soundcalc.common.utils import KIB
 from soundcalc.zkvms.dummy_whir import DummyWHIRPreset
 from soundcalc.zkvms.risc0 import Risc0Preset
 from soundcalc.zkvms.miden import MidenPreset
 from soundcalc.zkvms.zisk import ZiskPreset
-from soundcalc.report import build_markdown_report
+from soundcalc.report import build_zkvm_report
 from soundcalc.zkvms.zkvm import Circuit, zkVM
 
 
+REPORTS_DIR = "reports"
 
-def generate_and_save_md_report(sections) -> None:
+
+def generate_and_save_reports(zkvms: list[zkVM]) -> None:
     """
-    Generate markdown report and save it to disk.
+    Generate markdown reports for each zkVM and save to reports/ directory.
     """
-    md = build_markdown_report(sections)
-    md_path = "results.md"
+    os.makedirs(REPORTS_DIR, exist_ok=True)
 
-    with open(md_path, "w", encoding="utf-8") as f:
-        f.write(md)
+    for zkvm in zkvms:
+        zkvm_name = zkvm.get_name()
+        # ZisK gets multi-circuit mode (all circuits inlined)
+        multi_circuit = zkvm_name == "ZisK"
 
-    print(f"wrote :: {md_path}")
+        md = build_zkvm_report(zkvm, multi_circuit=multi_circuit)
+        filename = f"{zkvm_name.lower().replace(' ', '_')}.md"
+        md_path = os.path.join(REPORTS_DIR, filename)
+
+        with open(md_path, "w", encoding="utf-8") as f:
+            f.write(md)
+
+        print(f"wrote :: {md_path}")
 
 
 def print_summary_for_circuit(circuit: Circuit) -> None:
@@ -73,8 +84,6 @@ def main() -> None:
     generate reports, and save results to disk.
     """
 
-    sections: dict[str, tuple[zkVM, dict[str, dict]]] = {}
-
     # We consider the following zkVMs
     zkvms = [
         ZiskPreset.default(),
@@ -83,17 +92,12 @@ def main() -> None:
         DummyWHIRPreset.default(),
     ]
 
-    # Analyze each zkVM
+    # Print summary for each zkVM
     for zkvm in zkvms:
         print_summary_for_zkvm(zkvm)
-        # For now, store first circuit's security levels for markdown report
-        # TODO: Update markdown report to handle multiple circuits
-        circuits = zkvm.get_circuits()
-        security_levels = circuits[0].get_security_levels()
-        sections[zkvm.get_name()] = (zkvm, security_levels)
 
-    # Generate and save markdown report
-    generate_and_save_md_report(sections)
+    # Generate and save markdown reports (one per zkVM)
+    generate_and_save_reports(zkvms)
 
 if __name__ == "__main__":
     main()

@@ -3,7 +3,7 @@
 
 🚧 **WIP right now. Please give us some time.** 🚧
 
-> 🔎 **Latest report lives in [`results.md`](results.md)**
+> 🔎 **Latest reports live in [`reports/`](reports/)**
 
 A universal soundness calculator across hash-based zkEVM proof systems and security regimes.
 
@@ -13,14 +13,14 @@ It aims to answer questions like:
 - "What if ZisK moves from the Toy Problem heuristic to the provable Unique Decoding Regime?"
 
 You can run the calculator by doing `python3 -m soundcalc`.
-As a result, the calculator generates / updates [`results.md`](results.md).
+As a result, the calculator generates / updates reports in [`reports/`](reports/).
 
 ## Supported systems
 
 We currently support the following zkEVMs:
-- RISC0
-- Miden
-- ZisK
+- [RISC0](reports/risc0.md)
+- [Miden](reports/miden.md)
+- [ZisK](reports/zisk.md)
 
 We support the following security regimes (see below for explanation of regimes):
 - Unique Decoding Regime (UDR)
