@@ -6,8 +6,8 @@ import math
 from typing import Dict, Any, List, Tuple
 
 from soundcalc.common.utils import KIB
-from soundcalc.zkvms.fri_based_vm import FRIBasedVM
-from soundcalc.zkvms.whir_based_vm import WHIRBasedVM
+from soundcalc.zkvms.fri_based_vm import FRIBasedCircuit, FRIBasedVM
+from soundcalc.zkvms.whir_based_vm import WHIRBasedCircuit, WHIRBasedVM
 
 
 def _field_label(field) -> str:
@@ -16,55 +16,65 @@ def _field_label(field) -> str:
     return "Unknown"
 
 
-def _fri_parameter_lines(zkvm_obj: FRIBasedVM) -> list[str]:
-    batching = "Powers" if zkvm_obj.power_batching else "Affine"
+def _fri_parameter_lines(circuit: FRIBasedCircuit) -> list[str]:
+    batching = "Powers" if circuit.power_batching else "Affine"
     return [
         f"- Polynomial commitment scheme: FRI",
-        f"- Hash size (bits): {zkvm_obj.hash_size_bits}",
-        f"- Number of queries: {zkvm_obj.num_queries}",
-        f"- Grinding (bits): {zkvm_obj.grinding_query_phase}",
-        f"- Field: {_field_label(zkvm_obj.field)}",
-        f"- Rate (ρ): {zkvm_obj.rho}",
-        f"- Trace length (H): $2^{{{zkvm_obj.h}}}$",
-        f"- FRI rounds: {zkvm_obj.FRI_rounds_n}",
-        f"- FRI folding factors: {zkvm_obj.FRI_folding_factors}",
-        f"- FRI early stop degree: {zkvm_obj.FRI_early_stop_degree}",
+        f"- Hash size (bits): {circuit.hash_size_bits}",
+        f"- Number of queries: {circuit.num_queries}",
+        f"- Grinding (bits): {circuit.grinding_query_phase}",
+        f"- Field: {_field_label(circuit.field)}",
+        f"- Rate (ρ): {circuit.rho}",
+        f"- Trace length (H): $2^{{{circuit.h}}}$",
+        f"- FRI rounds: {circuit.FRI_rounds_n}",
+        f"- FRI folding factors: {circuit.FRI_folding_factors}",
+        f"- FRI early stop degree: {circuit.FRI_early_stop_degree}",
         f"- Batching: {batching}",
     ]
 
 
-def _whir_parameter_lines(zkvm_obj: WHIRBasedVM) -> list[str]:
-    batching = "Powers" if zkvm_obj.power_batching else "Affine"
+def _whir_parameter_lines(circuit: WHIRBasedCircuit) -> list[str]:
+    batching = "Powers" if circuit.power_batching else "Affine"
     return [
         f"- Polynomial commitment scheme: WHIR",
-        f"- Hash size (bits): {zkvm_obj.hash_size_bits}",
-        f"- Field: {_field_label(zkvm_obj.field)}",
-        f"- Iterations (M): {zkvm_obj.num_iterations}",
-        f"- Folding factor (k): {zkvm_obj.folding_factor}",
-        f"- Constraint degree: {zkvm_obj.constraint_degree}",
-        f"- Batch size: {zkvm_obj.batch_size}",
+        f"- Hash size (bits): {circuit.hash_size_bits}",
+        f"- Field: {_field_label(circuit.field)}",
+        f"- Iterations (M): {circuit.num_iterations}",
+        f"- Folding factor (k): {circuit.folding_factor}",
+        f"- Constraint degree: {circuit.constraint_degree}",
+        f"- Batch size: {circuit.batch_size}",
         f"- Batching: {batching}",
-        f"- Queries per iteration: {zkvm_obj.num_queries}",
-        f"- OOD samples per iteration: {zkvm_obj.num_ood_samples}",
-        f"- Total grinding overhead log2: {zkvm_obj.log_grinding_overhead}",
+        f"- Queries per iteration: {circuit.num_queries}",
+        f"- OOD samples per iteration: {circuit.num_ood_samples}",
+        f"- Total grinding overhead log2: {circuit.log_grinding_overhead}",
     ]
 
 
-def _generic_parameter_lines(zkvm_obj) -> list[str]:
+def _generic_parameter_lines(circuit) -> list[str]:
     lines: list[str] = []
     lines.append(f"- Polynomial commitment scheme: Unknown")
-    if hasattr(zkvm_obj, "hash_size_bits"):
-        lines.append(f"- Hash size (bits): {zkvm_obj.hash_size_bits}")
-    if hasattr(zkvm_obj, "field"):
-        lines.append(f"- Field: {_field_label(zkvm_obj.field)}")
+    if hasattr(circuit, "hash_size_bits"):
+        lines.append(f"- Hash size (bits): {circuit.hash_size_bits}")
+    if hasattr(circuit, "field"):
+        lines.append(f"- Field: {_field_label(circuit.field)}")
     return lines
 
 
+def _describe_circuit(circuit):
+    """Get parameter lines for a circuit."""
+    if isinstance(circuit, FRIBasedCircuit):
+        return "", _fri_parameter_lines(circuit)
+    if isinstance(circuit, WHIRBasedCircuit):
+        return "", _whir_parameter_lines(circuit)
+    return "", _generic_parameter_lines(circuit)
+
+
 def _describe_vm(zkvm_obj):
-    if isinstance(zkvm_obj, FRIBasedVM):
-        return "", _fri_parameter_lines(zkvm_obj)
-    if isinstance(zkvm_obj, WHIRBasedVM):
-        return "", _whir_parameter_lines(zkvm_obj)
+    """Get parameter lines for a VM (uses first circuit)."""
+    # TODO: Update to handle multiple circuits properly
+    circuits = zkvm_obj.get_circuits()
+    if circuits:
+        return _describe_circuit(circuits[0])
     return "", _generic_parameter_lines(zkvm_obj)
 
 
@@ -111,8 +121,10 @@ def build_markdown_report(sections) -> str:
             lines.append("- No parameter summary available.")
         lines.append("")
 
-        # Proof size
-        proof_size_kib = zkvm_obj.get_proof_size_bits() // KIB
+        # Proof size (use first circuit for now)
+        # TODO: Update to handle multiple circuits properly
+        circuits = zkvm_obj.get_circuits()
+        proof_size_kib = circuits[0].get_proof_size_bits() // KIB if circuits else 0
         lines.append(f"**Proof Size Estimate:** {proof_size_kib} KiB, where 1 KiB = 1024 bytes")
         lines.append("")
 

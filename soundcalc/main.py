@@ -7,7 +7,7 @@ from soundcalc.zkvms.risc0 import Risc0Preset
 from soundcalc.zkvms.miden import MidenPreset
 from soundcalc.zkvms.zisk import ZiskPreset
 from soundcalc.report import build_markdown_report
-from soundcalc.zkvms.zkvm import zkVM
+from soundcalc.zkvms.zkvm import Circuit, zkVM
 
 
 
@@ -24,27 +24,46 @@ def generate_and_save_md_report(sections) -> None:
     print(f"wrote :: {md_path}")
 
 
-def print_summary_for_zkvm(zkvm: zkVM, security_levels: dict | None = None) -> None:
+def print_summary_for_circuit(circuit: Circuit) -> None:
     """
-    Print a summary of security results for a single zkVM.
+    Print a summary of security results for a single circuit.
     """
+    proof_size_kib = circuit.get_proof_size_bits() // KIB
+    print(f"proof size estimate: {proof_size_kib} KiB, where 1 KiB = 1024 bytes")
+    print("")
+    print(f"parameters: \n {circuit.get_parameter_summary()}")
+    print("")
+    security_levels = circuit.get_security_levels()
+    print(f"security levels (rbr): \n {json.dumps(security_levels, indent=4)}")
+
+
+def print_summary_for_zkvm(zkvm: zkVM) -> None:
+    """
+    Print a summary of security results for a zkVM and all its circuits.
+    """
+    circuits = zkvm.get_circuits()
+
     print("")
     print("#############################################")
     print(f"#  zkVM: {zkvm.get_name()}")
     print("#############################################")
-    proof_size_kib = zkvm.get_proof_size_bits() // KIB
+
+    if len(circuits) == 1:
+        # Single circuit - print directly
+        print("")
+        print_summary_for_circuit(circuits[0])
+    else:
+        # Multiple circuits - print each as a subsection
+        for circuit in circuits:
+            print("")
+            print(f"--- Circuit: {circuit.get_name()} ---")
+            print("")
+            print_summary_for_circuit(circuit)
+
     print("")
-    print(f"proof size estimate: {proof_size_kib} KiB, where 1 KiB = 1024 bytes")
-    print("")
-    print(f"parameters: \n {zkvm.get_parameter_summary()}")
-    print("")
-    if security_levels is None:
-        security_levels = zkvm.get_security_levels()
-    print(f"security levels (rbr): \n {json.dumps(security_levels, indent=4)}")
     print("")
     print("")
-    print("")
-    print("")
+
 
 def main() -> None:
     """
@@ -66,8 +85,11 @@ def main() -> None:
 
     # Analyze each zkVM
     for zkvm in zkvms:
-        security_levels = zkvm.get_security_levels()
-        print_summary_for_zkvm(zkvm, security_levels)
+        print_summary_for_zkvm(zkvm)
+        # For now, store first circuit's security levels for markdown report
+        # TODO: Update markdown report to handle multiple circuits
+        circuits = zkvm.get_circuits()
+        security_levels = circuits[0].get_security_levels()
         sections[zkvm.get_name()] = (zkvm, security_levels)
 
     # Generate and save markdown report
