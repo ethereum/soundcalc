@@ -29,14 +29,14 @@ How to read this report:
 - [SpecifiedRanges](#specifiedranges)
 - [VirtualTable0](#virtualtable0)
 - [VirtualTable1](#virtualtable1)
-- [ArithEq Compressor](#aritheq-compressor)
-- [ArithEq384 Compressor](#aritheq384-compressor)
-- [Keccakf Compressor](#keccakf-compressor)
-- [Sha256f Compressor](#sha256f-compressor)
-- [VirtualTable1 Compressor](#virtualtable1-compressor)
-- [Recursive1](#recursive1)
+- [ArithEq-compressor](#aritheq-compressor)
+- [ArithEq384-compressor](#aritheq384-compressor)
+- [Keccakf-compressor](#keccakf-compressor)
+- [Sha256f-compressor](#sha256f-compressor)
+- [VirtualTable0-compressor](#virtualtable0-compressor)
+- [VirtualTable1-compressor](#virtualtable1-compressor)
 - [Recursive2](#recursive2)
-- [Final](#final)
+- [vadcop_final](#vadcop_final)
 
 ## Main
 
@@ -81,8 +81,8 @@ How to read this report:
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 190 | 168 | 164 | 168 | 172 | 176 | 176 | 179 | 53 |
-| JBR | 58 | 185 | 163 | 143 | 147 | 151 | 155 | 155 | 158 | 58 |
+| UDR | 53 | 189 | 168 | 164 | 168 | 172 | 176 | 176 | 179 | 53 |
+| JBR | 58 | 184 | 163 | 143 | 147 | 151 | 155 | 155 | 158 | 58 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -105,8 +105,8 @@ How to read this report:
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 188 | 167 | 164 | 168 | 172 | 176 | 176 | 179 | 53 |
-| JBR | 58 | 183 | 162 | 142 | 146 | 150 | 154 | 154 | 157 | 58 |
+| UDR | 53 | 187 | 167 | 164 | 168 | 172 | 176 | 176 | 179 | 53 |
+| JBR | 58 | 182 | 162 | 142 | 146 | 150 | 154 | 154 | 157 | 58 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -153,8 +153,8 @@ How to read this report:
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 188 | 168 | 165 | 169 | 173 | 174 | 177 | 180 | 53 |
-| JBR | 58 | 183 | 163 | 143 | 147 | 151 | 152 | 155 | 158 | 58 |
+| UDR | 53 | 187 | 168 | 165 | 169 | 173 | 174 | 177 | 180 | 53 |
+| JBR | 58 | 182 | 163 | 143 | 147 | 151 | 152 | 155 | 158 | 58 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -177,8 +177,8 @@ How to read this report:
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 187 | 168 | 164 | 168 | 172 | 173 | 176 | 179 | 53 |
-| JBR | 58 | 182 | 163 | 142 | 146 | 150 | 151 | 154 | 157 | 58 |
+| UDR | 53 | 186 | 168 | 164 | 168 | 172 | 173 | 176 | 179 | 53 |
+| JBR | 58 | 181 | 163 | 142 | 146 | 150 | 151 | 154 | 157 | 58 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -225,8 +225,8 @@ How to read this report:
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 188 | 167 | 164 | 168 | 172 | 176 | 176 | 179 | 53 |
-| JBR | 58 | 183 | 162 | 143 | 147 | 151 | 155 | 155 | 158 | 58 |
+| UDR | 53 | 187 | 167 | 164 | 168 | 172 | 176 | 176 | 179 | 53 |
+| JBR | 58 | 182 | 162 | 143 | 147 | 151 | 155 | 155 | 158 | 58 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -249,8 +249,8 @@ How to read this report:
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 188 | 167 | 164 | 168 | 172 | 176 | 176 | 179 | 53 |
-| JBR | 58 | 183 | 162 | 143 | 147 | 151 | 155 | 155 | 158 | 58 |
+| UDR | 53 | 187 | 167 | 164 | 168 | 172 | 176 | 176 | 179 | 53 |
+| JBR | 58 | 182 | 162 | 143 | 147 | 151 | 155 | 155 | 158 | 58 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -321,8 +321,8 @@ How to read this report:
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 188 | 167 | 164 | 168 | 172 | 176 | 176 | 179 | 53 |
-| JBR | 58 | 183 | 162 | 143 | 147 | 151 | 155 | 155 | 158 | 58 |
+| UDR | 53 | 187 | 167 | 164 | 168 | 172 | 176 | 176 | 179 | 53 |
+| JBR | 58 | 182 | 162 | 143 | 147 | 151 | 155 | 155 | 158 | 58 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -345,8 +345,8 @@ How to read this report:
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 187 | 167 | 163 | 167 | 171 | 175 | 175 | 178 | 53 |
-| JBR | 58 | 182 | 162 | 142 | 146 | 150 | 154 | 154 | 157 | 58 |
+| UDR | 53 | 186 | 167 | 163 | 167 | 171 | 175 | 175 | 178 | 53 |
+| JBR | 58 | 181 | 162 | 142 | 146 | 150 | 154 | 154 | 157 | 58 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -369,8 +369,8 @@ How to read this report:
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 186 | 169 | 164 | 168 | 172 | 176 | 180 | 53 |
-| JBR | 58 | 181 | 164 | 143 | 147 | 151 | 155 | 159 | 58 |
+| UDR | 53 | 185 | 169 | 164 | 168 | 172 | 176 | 180 | 53 |
+| JBR | 58 | 180 | 164 | 143 | 147 | 151 | 155 | 159 | 58 |
 | best attack | 128 | — | — | — | — | — | — | — | — |
 
 
@@ -431,19 +431,19 @@ How to read this report:
 - Grinding (bits): 0
 - Field: Goldilocks³
 - Rate (ρ): 0.5
-- Trace length (H): $2^{16}$
-- FRI rounds: 3
-- FRI folding factors: [16, 16, 16]
+- Trace length (H): $2^{21}$
+- FRI rounds: 5
+- FRI folding factors: [16, 16, 8, 8, 8]
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 24694 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 2058 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 180 | 173 | 163 | 167 | 171 | 175 | 53 |
-| JBR | 58 | 175 | 168 | 141 | 145 | 149 | 153 | 58 |
-| best attack | 128 | — | — | — | — | — | — | — |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 53 | 185 | 168 | 161 | 165 | 169 | 170 | 173 | 176 | 53 |
+| JBR | 58 | 180 | 163 | 140 | 144 | 148 | 149 | 152 | 155 | 58 |
+| best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
 ## Sha256f
@@ -509,12 +509,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 1238 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1298 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 185 | 169 | 163 | 167 | 171 | 175 | 179 | 53 |
-| JBR | 58 | 180 | 164 | 142 | 146 | 150 | 154 | 158 | 58 |
+| UDR | 53 | 184 | 169 | 163 | 167 | 171 | 175 | 179 | 53 |
+| JBR | 58 | 179 | 164 | 142 | 146 | 150 | 154 | 158 | 58 |
 | best attack | 128 | — | — | — | — | — | — | — | — |
 
 
@@ -542,7 +542,7 @@ How to read this report:
 | best attack | 128 | — | — | — | — | — | — | — | — |
 
 
-## ArithEq Compressor
+## ArithEq-compressor
 
 **Parameters:**
 - Polynomial commitment scheme: FRI
@@ -557,7 +557,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 916 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 691 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -566,7 +566,7 @@ How to read this report:
 | best attack | 128 | — | — | — | — | — | — | — | — |
 
 
-## ArithEq384 Compressor
+## ArithEq384-compressor
 
 **Parameters:**
 - Polynomial commitment scheme: FRI
@@ -581,7 +581,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 916 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 691 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -590,7 +590,7 @@ How to read this report:
 | best attack | 128 | — | — | — | — | — | — | — | — |
 
 
-## Keccakf Compressor
+## Keccakf-compressor
 
 **Parameters:**
 - Polynomial commitment scheme: FRI
@@ -599,22 +599,22 @@ How to read this report:
 - Grinding (bits): 0
 - Field: Goldilocks³
 - Rate (ρ): 0.25
-- Trace length (H): $2^{21}$
-- FRI rounds: 5
-- FRI folding factors: [16, 16, 16, 8, 8]
+- Trace length (H): $2^{18}$
+- FRI rounds: 4
+- FRI folding factors: [16, 16, 16, 8]
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 974 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 691 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 43 | 185 | 168 | 161 | 165 | 169 | 173 | 173 | 176 | 43 |
-| JBR | 61 | 179 | 162 | 138 | 142 | 146 | 150 | 150 | 153 | 61 |
-| best attack | 128 | — | — | — | — | — | — | — | — | — |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 43 | 185 | 171 | 164 | 168 | 172 | 176 | 176 | 43 |
+| JBR | 61 | 179 | 165 | 141 | 145 | 149 | 153 | 153 | 61 |
+| best attack | 128 | — | — | — | — | — | — | — | — |
 
 
-## Sha256f Compressor
+## Sha256f-compressor
 
 **Parameters:**
 - Polynomial commitment scheme: FRI
@@ -629,7 +629,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 946 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 721 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -638,7 +638,7 @@ How to read this report:
 | best attack | 128 | — | — | — | — | — | — | — | — |
 
 
-## VirtualTable1 Compressor
+## VirtualTable0-compressor
 
 **Parameters:**
 - Polynomial commitment scheme: FRI
@@ -653,7 +653,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 916 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 691 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -662,28 +662,28 @@ How to read this report:
 | best attack | 128 | — | — | — | — | — | — | — | — |
 
 
-## Recursive1
+## VirtualTable1-compressor
 
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 43
+- Number of queries: 64
 - Grinding (bits): 0
 - Field: Goldilocks³
-- Rate (ρ): 0.125
-- Trace length (H): $2^{17}$
+- Rate (ρ): 0.25
+- Trace length (H): $2^{18}$
 - FRI rounds: 4
 - FRI folding factors: [16, 16, 16, 8]
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 625 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 691 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 35 | 185 | 172 | 164 | 168 | 172 | 176 | 176 | 35 |
-| JBR | 62 | 178 | 165 | 139 | 143 | 147 | 151 | 151 | 62 |
-| best attack | 129 | — | — | — | — | — | — | — | — |
+| UDR | 43 | 185 | 171 | 164 | 168 | 172 | 176 | 176 | 43 |
+| JBR | 61 | 179 | 165 | 141 | 145 | 149 | 153 | 153 | 61 |
+| best attack | 128 | — | — | — | — | — | — | — | — |
 
 
 ## Recursive2
@@ -701,16 +701,16 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 625 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 409 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 35 | 185 | 172 | 164 | 168 | 172 | 176 | 176 | 35 |
-| JBR | 62 | 178 | 165 | 139 | 143 | 147 | 151 | 151 | 62 |
+| UDR | 35 | 185 | 171 | 164 | 168 | 172 | 176 | 176 | 35 |
+| JBR | 62 | 178 | 164 | 140 | 144 | 148 | 152 | 152 | 62 |
 | best attack | 129 | — | — | — | — | — | — | — | — |
 
 
-## Final
+## vadcop_final
 
 **Parameters:**
 - Polynomial commitment scheme: FRI
@@ -725,11 +725,11 @@ How to read this report:
 - FRI early stop degree: 1024
 - Batching: Powers
 
-**Proof Size Estimate:** 449 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 289 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 29 | 185 | 173 | 164 | 169 | 174 | 29 |
-| JBR | 62 | 177 | 165 | 138 | 143 | 148 | 62 |
+| UDR | 29 | 185 | 172 | 164 | 169 | 174 | 29 |
+| JBR | 62 | 177 | 164 | 138 | 143 | 148 | 62 |
 | best attack | 128 | — | — | — | — | — | — |
 
