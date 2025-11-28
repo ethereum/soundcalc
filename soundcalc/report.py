@@ -26,7 +26,8 @@ def _fri_parameter_lines(zkvm_obj: FRIBasedVM) -> list[str]:
         f"- Field: {_field_label(zkvm_obj.field)}",
         f"- Rate (ρ): {zkvm_obj.rho}",
         f"- Trace length (H): $2^{{{zkvm_obj.h}}}$",
-        f"- FRI folding factor: {zkvm_obj.FRI_folding_factor}",
+        f"- FRI rounds: {zkvm_obj.FRI_rounds_n}",
+        f"- FRI folding factors: {zkvm_obj.FRI_folding_factors}",
         f"- FRI early stop degree: {zkvm_obj.FRI_early_stop_degree}",
         f"- Batching: {batching}",
     ]

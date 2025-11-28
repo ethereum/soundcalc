@@ -77,8 +77,8 @@ class FRIBasedVMConfig:
     # Maximum constraint degree
     AIR_max_degree: int
 
-    # FRI folding factor (arity of folding per round)
-    FRI_folding_factor: int
+    # FRI folding factor: one factor per FRI round
+    FRI_folding_factors: list[int]
     # Many zkEVMs don't FRI fold until the final poly is of degree 1. They instead stop earlier.
     # This is the degree they stop at (and it influences the number of FRI folding rounds).
     FRI_early_stop_degree: int
@@ -108,7 +108,7 @@ class FRIBasedVM(zkVM):
         self.power_batching = config.power_batching
         self.num_queries = config.num_queries
         self.max_combo = config.max_combo
-        self.FRI_folding_factor = config.FRI_folding_factor
+        self.FRI_folding_factors = config.FRI_folding_factors
         self.FRI_early_stop_degree = config.FRI_early_stop_degree
         self.grinding_query_phase = config.grinding_query_phase
         self.AIR_max_degree = config.AIR_max_degree
@@ -136,7 +136,7 @@ class FRIBasedVM(zkVM):
         self.FRI_rounds_n = get_num_FRI_folding_rounds(
             witness_size=int(self.D),
             field_extension_degree=int(self.field_extension_degree),
-            folding_factor=int(self.FRI_folding_factor),
+            folding_factors=self.FRI_folding_factors,
             fri_early_stop_degree=int(self.FRI_early_stop_degree),
         )
 
@@ -172,7 +172,7 @@ class FRIBasedVM(zkVM):
             "power_batching": self.power_batching,
             "num_queries": self.num_queries,
             "max_combo": self.max_combo,
-            "FRI_folding_factor": self.FRI_folding_factor,
+            "FRI_folding_factors": self.FRI_folding_factors,
             "FRI_early_stop_degree": self.FRI_early_stop_degree,
             "FRI_rounds_n": self.FRI_rounds_n,
             "grinding_query_phase": self.grinding_query_phase,
@@ -209,7 +209,7 @@ class FRIBasedVM(zkVM):
             witness_size=int(self.D),
             field_extension_degree=int(self.field_extension_degree),
             early_stop_degree=int(self.FRI_early_stop_degree),
-            folding_factor=int(self.FRI_folding_factor),
+            folding_factors=self.FRI_folding_factors,
         )
 
     def get_security_levels(self) -> dict[str, dict[str, int]]:
@@ -297,7 +297,8 @@ class FRIBasedVM(zkVM):
         """
 
         rate = self.rho
-        dimension = self.trace_length / (self.FRI_folding_factor ** (round + 1)) #TODO: check if it is round or round+1
+        #TODO: check if it is round or round+1
+        dimension = self.trace_length / (self.FRI_folding_factors[round] ** (round + 1))
 
         epsilon = regime.get_error_powers(rate, dimension, self.field, self.batch_size)
 

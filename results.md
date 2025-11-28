@@ -23,16 +23,17 @@ How to read this report:
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
-- FRI folding factor: 16
+- FRI rounds: 5
+- FRI folding factors: [16, 16, 16, 8, 8]
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 992 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 928 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 185 | 167 | 162 | 166 | 170 | 174 | 178 | 182 | 53 |
-| JBR | 58 | 180 | 162 | 141 | 145 | 149 | 153 | 157 | 161 | 58 |
+| UDR | 53 | 185 | 167 | 162 | 166 | 170 | 174 | 174 | 177 | 53 |
+| JBR | 58 | 180 | 162 | 141 | 145 | 149 | 153 | 153 | 156 | 58 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 ## Miden
@@ -45,11 +46,12 @@ How to read this report:
 - Field: Goldilocks²
 - Rate (ρ): 0.125
 - Trace length (H): $2^{18}$
-- FRI folding factor: 4
+- FRI rounds: 7
+- FRI folding factors: [4, 4, 4, 4, 4, 4, 4]
 - FRI early stop degree: 128
 - Batching: Powers
 
-**Proof Size Estimate:** 175 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 177 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -67,11 +69,12 @@ How to read this report:
 - Field: BabyBear⁴
 - Rate (ρ): 0.25
 - Trace length (H): $2^{21}$
-- FRI folding factor: 16
-- FRI early stop degree: 256
+- FRI rounds: 4
+- FRI folding factors: [16, 16, 16, 16]
+- FRI early stop degree: 128
 - Batching: Powers
 
-**Proof Size Estimate:** 576 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 582 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |

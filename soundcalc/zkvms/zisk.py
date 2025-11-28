@@ -38,7 +38,10 @@ class ZiskPreset:
 
         AIR_max_degree = blowup_factor + 1
 
-        FRI_folding_factor = 2**4
+        # D = trace_length / rho = 2^23
+        # Product of factors should equal D / early_stop = 2^23 / 2^5 = 2^18
+        # [16, 16, 16, 8, 8] = 2^4 * 2^4 * 2^4 * 2^3 * 2^3 = 2^18 ✓
+        FRI_folding_factors = [2**4, 2**4, 2**4, 2**3, 2**3]
         FRI_early_stop_degree = 2**5
 
         max_combo = 3
@@ -56,7 +59,7 @@ class ZiskPreset:
             power_batching=True,
             num_queries=num_queries,
             AIR_max_degree=AIR_max_degree,
-            FRI_folding_factor=FRI_folding_factor,
+            FRI_folding_factors=FRI_folding_factors,
             FRI_early_stop_degree=FRI_early_stop_degree,
             max_combo=max_combo,
             grinding_query_phase=0,

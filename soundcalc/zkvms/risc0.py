@@ -32,8 +32,17 @@ class Risc0Preset:
         max_combo = 9
         AIR_max_degree = 4 #They use 5 but in the DEEP-ALI error they use (d-1) so we put 4 here.
 
+        # FRI parameters
         FRI_folding_factor = 16
-        FRI_early_stop_degree = 2**8
+        FRI_early_stop_degree = 2**7
+
+        # Compute list of FRI folding factors given the above FRI parameters
+        D = int(trace_length / rho)
+        FRI_folding_factors = []
+        n = D
+        while n > FRI_early_stop_degree:
+            FRI_folding_factors.append(FRI_folding_factor)
+            n //= FRI_folding_factor
 
         # according to https://dev.risczero.com/proof-system-in-detail.pdf Sections C.6 and 3.4
         # Risc0 uses batching with coefficients r^0, r^1, r^2, ...
@@ -56,7 +65,7 @@ class Risc0Preset:
             power_batching=power_batching,
             num_queries=s,
             max_combo=max_combo,
-            FRI_folding_factor=FRI_folding_factor,
+            FRI_folding_factors=FRI_folding_factors,
             FRI_early_stop_degree=FRI_early_stop_degree,
             grinding_query_phase=0,
             AIR_max_degree=AIR_max_degree,

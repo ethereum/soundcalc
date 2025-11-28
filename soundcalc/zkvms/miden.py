@@ -30,9 +30,6 @@ class MidenPreset:
 
         num_queries = 27
 
-        FRI_folding_factor = 4
-        # The Miden code uses 127 (likely for internal reasons) but we use a power of 2
-        FRI_early_stop_degree = 2**7
 
         field = GOLDILOCKS_2
 
@@ -40,6 +37,20 @@ class MidenPreset:
         #    https://github.com/facebook/winterfell/blob/main/air/src/proof/security.rs
         # Might be inaccurate?
         trace_length = 1 << 18    #note that this is smaller than for other VMs, thus the security is higher for the same settings
+
+        # FRI parameters
+        FRI_folding_factor = 4
+        # The Miden code uses 127 (likely for internal reasons) but we use a power of 2
+        FRI_early_stop_degree = 2**7
+
+        # Compute list of FRI folding factors given the above FRI parameters
+        D = int(trace_length / rho)
+        FRI_folding_factors = []
+        n = D
+        while n > FRI_early_stop_degree:
+            FRI_folding_factors.append(FRI_folding_factor)
+            n //= FRI_folding_factor
+
         # XXX need to check the numbers below by running the prover
         num_columns = 100
         batch_size = 100
@@ -63,7 +74,7 @@ class MidenPreset:
             power_batching=power_batching,
             num_queries=num_queries,
             max_combo=max_combo,
-            FRI_folding_factor=FRI_folding_factor,
+            FRI_folding_factors=FRI_folding_factors,
             FRI_early_stop_degree=FRI_early_stop_degree,
             grinding_query_phase=grinding_query_phase,
             AIR_max_degree=AIR_max_degree,
