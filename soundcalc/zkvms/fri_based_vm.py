@@ -322,10 +322,14 @@ class FRIBasedCircuit(Circuit):
         """
 
         rate = self.rho
-        #TODO: check if it is round or round+1
-        dimension = self.trace_length / (self.FRI_folding_factors[round] ** (round + 1))
 
-        epsilon = regime.get_error_powers(rate, dimension, self.field, self.batch_size)
+        acc_folding_factor = 1
+        for i in range(round + 1):
+            acc_folding_factor *= self.FRI_folding_factors[i]
+
+        dimension = self.trace_length / acc_folding_factor
+
+        epsilon = regime.get_error_powers(rate, dimension, self.field, self.FRI_folding_factors[round])
 
         return epsilon
 

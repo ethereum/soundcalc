@@ -19,10 +19,7 @@ class UniqueDecodingRegime(ProximityGapsRegime):
         return 1
 
     def get_error_powers(self, rate: float, dimension: int, field: FieldParams, num_functions: int) -> float:
-        n = dimension / rate
-        return num_functions * n / field.F
-
+        return self.get_error_linear(rate, dimension, field) * (num_functions - 1)
 
     def get_error_linear(self, rate: float, dimension: int, field: FieldParams) -> float:
-        n = dimension / rate
-        return n / field.F
+        return dimension / field.F
