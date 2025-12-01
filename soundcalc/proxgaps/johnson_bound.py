@@ -31,11 +31,13 @@ class JohnsonBoundRegime(ProximityGapsRegime):
         eta = self.get_eta(rate)
         return 1.0 / (2 * eta * math.sqrt(rate))
 
-    def get_eta(self, rate) -> float:
+    def get_m(self) -> int:
         # ASN This is hardcoded to 16, whereas winterfell brute forces it:
         # https://github.com/facebook/winterfell/blob/main/air/src/proof/security.rs#L290-L306
+        return 16
 
-        m = 16
+    def get_eta(self, rate) -> float:
+        m = self.get_m()
 
         # ASN Is this a good value for eta?
         eta = math.sqrt(rate) / (2 * m)
@@ -45,16 +47,11 @@ class JohnsonBoundRegime(ProximityGapsRegime):
     def get_error_powers(self, rate: float, dimension: int, field: FieldParams, num_functions: int) -> float:
         return self.get_error_linear(rate, dimension, field) * (num_functions - 1)
 
-
     def get_error_linear(self, rate: float, dimension: int, field: FieldParams) -> float:
-
-        # following WHIR bound in Conjecture 4.12, and noting that 1 - √ρ - delta = η
-        exponent = 5
-        sqrt_rate_div_20 = math.sqrt(rate) / 20
-        eta = self.get_eta(rate)
-        denominator = (2 * min(eta, sqrt_rate_div_20)) ** exponent
+        # Theorem 4.2 of BCHKS25
+        m = self.get_m()
+        numerator = (2 * (m + 0.5) ** 5 + 3 * (m + 0.5) * rate) * dimension
+        denominator = 3 * rate * math.sqrt(rate)
         denominator *= field.F
-
-        numerator = dimension
 
         return numerator / denominator
