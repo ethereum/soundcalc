@@ -36,7 +36,7 @@ How to read this report:
 - [VirtualTable0-compressor](#virtualtable0-compressor)
 - [VirtualTable1-compressor](#virtualtable1-compressor)
 - [Recursive2](#recursive2)
-- [vadcop_final](#vadcop_final)
+- [Final](#final)
 
 ## Main
 
@@ -710,7 +710,7 @@ How to read this report:
 | best attack | 129 | — | — | — | — | — | — | — | — |
 
 
-## vadcop_final
+## Final
 
 **Parameters:**
 - Polynomial commitment scheme: FRI
