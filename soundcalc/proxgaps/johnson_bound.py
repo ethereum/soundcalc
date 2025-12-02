@@ -48,7 +48,8 @@ class JohnsonBoundRegime(ProximityGapsRegime):
         return self.get_error_linear(rate, dimension, field) * (num_functions - 1)
 
     def get_error_linear(self, rate: float, dimension: int, field: FieldParams) -> float:
-        # Theorem 4.2 of BCHKS25
+        # Using Theorem 4.2 from BCHKS25, and taking a slightly bigger bound by assuming ɣ·n <= n-1
+        # This assumption simplifies the bound by removing the factor (m + 1/2)/sqrt(ρ) and the dependence on ɣ.
         m = self.get_m()
         numerator = (2 * (m + 0.5) ** 5 + 3 * (m + 0.5) * rate) * dimension
         denominator = 3 * rate * math.sqrt(rate)
