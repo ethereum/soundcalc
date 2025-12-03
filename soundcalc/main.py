@@ -3,8 +3,7 @@ import json
 import os
 
 from soundcalc.common.utils import KIB
-from soundcalc.zkvms.dummy_whir import DummyWHIRPreset
-from soundcalc.zkvms import risc0, miden, zisk
+from soundcalc.zkvms import risc0, miden, zisk, dummy_whir
 from soundcalc.report import build_zkvm_report
 from soundcalc.zkvms.zkvm import Circuit, zkVM
 
@@ -86,7 +85,7 @@ def main(print_only: list[str] | None = None) -> None:
         zisk.load(),
         miden.load(),
         risc0.load(),
-        DummyWHIRPreset.default(),
+        dummy_whir.load(),
     ]
 
     if print_only:

@@ -1,0 +1,25 @@
+# A dummy zkVM using WHIR for testing WHIR
+
+[zkevm]
+name = "DummyWHIR"
+protocol_family = "WHIR"
+field = "Goldilocks^2"
+hash_size_bits = 256
+
+[[circuits]]
+name = "main"
+log_inv_rate = 1  # rate 1/2
+num_iterations = 5
+folding_factor = 4
+log_degree = 23
+batch_size = 100
+power_batching = true
+constraint_degree = 1
+num_queries = [80, 35, 22, 12, 9]
+num_ood_samples = [2, 2, 2, 2]
+
+# grinding
+grinding_bits_batching = 10
+grinding_bits_folding = [[10, 10, 10, 10], [10, 10, 10, 10], [10, 10, 10, 10], [10, 10, 10, 10], [10, 10, 10, 10]]
+grinding_bits_queries = [0, 0, 0, 12, 20]
+grinding_bits_ood = [0, 0, 0, 0]
