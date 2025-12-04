@@ -1,0 +1,65 @@
+\section{FRI}
+
+This section contains the soundness formula for the FRI protocol.
+
+
+\subsection{FRI protocol analysis}
+
+\begin{itemize}
+    \item $m_J$ --- Johnson parameter.
+    \item $r_{FRI}$ --- number of FRI rounds.
+    \item Folding factors $\folds=[k_0,k_1,\ldots,k_{r_{FRI}-1}]$;
+    \item $t$ --- number of queries.
+    \item $\theta$.
+    \item $\bgriq$ --- grinding parameter for the query phase.
+    \item $n$ --- witness size.
+    \item $\bhash$ --- number of bits in the hash function output.
+    \item $\bproof$ --- proof size in bits.
+    \item $\sbtch$ --- batch size.
+\end{itemize}
+
+
+\subsection{Fixed constants}
+
+We fix the following constants for the soundness calculator:
+\begin{itemize}
+    \item $m_{\mathrm{J}}=16$. Set in \begin{verbatim}fri.py/get_johnson_parameter_m()\end{verbatim}
+    \item \end{itemize}
+
+\subsection{Soundness formula}
+
+Query phase error:
+\begin{equation}
+    \epsilon_{\mathrm{query}} = (1-\theta)^{t}\cdot 2^{-\bgriq}
+\end{equation}
+The query phase error without grinding is computed as per \cite{}\footnote{Code refers to (7) and Th2 of [Hab22]}
+
+\subsection{Proof size}
+
+This calculation is performed in \begin{verbatim}fri.py/get_FRI_proof_size_bits()\end{verbatim}.
+The FRI proof contains two parts: Merkle roots, and one "openings" per query,
+  where an "opening" is a Merkle path for each folding layer.
+     For each layer we count the size that
+     this layer contributes, which includes the root and all Merkle paths.
+
+Initial round: one root and one path per query.
+     We assume that for the initial functions, there is only one Merkle root, and
+     each leaf $i$ for that root contains symbols $i$ for all initial functions.
+
+    Folding rounds:
+     we assume that "siblings" for the following layers are grouped together
+     in one leaf. This is natural as they always need to be opened together.
+
+The proof size is calculated as follows:
+\begin{multline}
+    \bproof =   \underbrace{ \bhash+ t\cdot MP(\frac{n}{\folds[0]},\sbtch, |\FFF|,\bhash)}_{\text{Initial round}} + \\
+    +\underbrace{\sum_{1\leq i \leq r_{FRI}-2} \left(\bhash+
+     t\cdot MP(\frac{n}{\prod_{1\leq j \leq  i} \folds[j]},\sbtch, |\FFF|,\bhash)\right)}_{\text{Folding rounds but last }}+\\
+    +\underbrace{ \left(\bhash+
+     t\cdot MP(\frac{n}{\folds[r_{FRI}-1]\prod_{1\leq j \leq  r_{FRI}-1} \folds[j]},\sbtch, |\FFF|,\bhash)\right)}_{\text{Last folding round }}
+    \end{multline}
+where $MP(n, s, q, b)$ is the Merkle path size
+calculated as
+\begin{equation}
+    MP(n,s,q,b) =   \underbrace{sq}_{\text{leaf size}}+\underbrace{sq}_{\text{sibling}}+ \underbrace{\left\lceil \log_2 n \right \rceil \cdot b}_{\text{co-path}}
+\end{equation}
