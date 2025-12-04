@@ -3,7 +3,7 @@
 This section contains the soundness formula for the FRI protocol.
 
 
-\subsection{FRI protocol analysis}
+\subsection{FRI parameters}
 
 Global parameters used in the FRI analysis:
 \begin{itemize}
@@ -12,6 +12,10 @@ Global parameters used in the FRI analysis:
     \item Folding factors $\folds=[k_0,k_1,\ldots,k_{r_{FRI}-1}]$;
     \item $t$ --- number of queries.
     \item $\theta$.
+    \item $\delta$.
+    \item $\rho$ --- rate of the Reed-Solomon code.
+    \item $l_t$ --- trace length.
+    \item $L$ --- list size.
     \item $\bgriq$ --- grinding parameter for the query phase.
     \item $n$ --- witness size.
     \item $\bhash$ --- number of bits in the hash function output.
@@ -31,6 +35,21 @@ We fix the following constants for the soundness calculator:
 \begin{itemize}
     \item $m_{\mathrm{J}}=16$. Set in \begin{verbatim}fri.py/get_johnson_parameter_m()\end{verbatim}
     \end{itemize}
+
+\subsection{Security level for a FRI-based VM}
+
+The security level is calculated in \begin{verbatim}zkvms/fri_based_vm.py/get_security_levels()\end{verbatim}.
+
+It is done separately for two different regimes: UDR and JBR --- using the same procedure:
+\begin{enumerate}
+    \item Calculate the FRI round-by-round soundness errors $\efrirbrU,\efrirbrJ$ using the formula from the next section.
+    \item Obtain optimal $\delta_U,\delta_J$ parameters.
+    \item Obtain the list sizes $L_U,L_J$.
+\end{enumerate}
+
+\subsubsection{RBR soundness in UDR}\label{sec:fri_rbr_udr}
+
+\subsubsection{RBR soundness in UDR}\label{ sec:fri_rbr_jbr}
 
 
 
