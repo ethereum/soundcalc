@@ -50,7 +50,7 @@ Here, we currently follow the **Toy Problem Regime (TPR) / ethSTARK conjecture**
 A flurry of new results on proximity gaps were published in November 2025 (see [Nico's summary](https://blog.zksecurity.xyz/posts/proximity-conjecture/)).
 
 In soundcalc we have incorporated:
-- The [improved JBR security bounds](https://github.com/asn-d6/soundcalc/commit/0f91fba90661af1a7c9fa6114e6eb41e79d18ebf) of [BGHKS25](https://eprint.iacr.org/2025/2055.pdf)
+- The [improved JBR security bounds](https://github.com/asn-d6/soundcalc/commit/0f91fba90661af1a7c9fa6114e6eb41e79d18ebf) of [BCHKS25](https://eprint.iacr.org/2025/2055.pdf)
 - The [removal of the CBR regime](https://github.com/asn-d6/soundcalc/commit/ffaeb81dbb450b7c905c90338af8304c2bbfeb60), following the results of [DG25](https://eprint.iacr.org/2025/2010.pdf) and [CS25](https://eprint.iacr.org/2025/2046.pdf)
 
 ## Project Layout
