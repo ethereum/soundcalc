@@ -23,7 +23,7 @@ num_columns = 279
 # max_combo = 9
 opening_points = 9
 # L = C + 4 = 283
-num_pols = 283
+batch_size = 283
 # according to https://dev.risczero.com/proof-system-in-detail.pdf Sections C.6 and 3.4
 # Risc0 uses batching with coefficients r^0, r^1, r^2, ...
 power_batching = true

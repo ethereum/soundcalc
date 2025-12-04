@@ -375,7 +375,7 @@ class FRIBasedVM(zkVM):
                 trace_length=section["trace_length"],
                 field=field,
                 num_columns=section["num_columns"],
-                batch_size=section["num_pols"],
+                batch_size=section["batch_size"],
                 power_batching=section["power_batching"],
                 num_queries=section["num_queries"],
                 AIR_max_degree=section["air_max_degree"],

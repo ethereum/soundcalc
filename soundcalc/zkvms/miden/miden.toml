@@ -28,7 +28,7 @@ num_columns = 100
 # XXX ???  TODO: ask the main Miden channel
 opening_points = 2
 # XXX need to check the numbers below by running the prover
-num_pols = 100
+batch_size = 100
 # The RECURSIVE_96_BITS config uses algebraic batching
 power_batching = true
 num_queries = 27

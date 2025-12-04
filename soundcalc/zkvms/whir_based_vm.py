@@ -118,6 +118,7 @@ class WHIRBasedCircuit(Circuit):
         assert(config.log_inv_rate > 0 and config.folding_factor >= 1)
 
         # the log degrees that we have are (m0, m1 = m0 - k, m2 = m0 - 2k, ..., m(M) = m0 - (M)k)
+        self.log_degree = config.log_degree
         assert (self.num_iterations * self.folding_factor <= config.log_degree)
         self.log_degrees = [config.log_degree - i * self.folding_factor for i in range(self.num_iterations + 1)]
 
@@ -168,6 +169,7 @@ class WHIRBasedCircuit(Circuit):
 
         lines.append("")
         lines.append("  Per-round parameters:")
+        lines.append(f"    log_degree            : {self.log_degree}")
         lines.append(f"    log_degrees           : {self.log_degrees}")
         lines.append(f"    log_inv_rates         : {self.log_inv_rates}")
         lines.append(f"    num_queries           : {self.num_queries}")

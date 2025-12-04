@@ -31,7 +31,7 @@ class ProximityGapsRegime(ABC):
         ...
 
     @abstractmethod
-    def get_error_powers(self, rate: float, dimension: int, field: FieldParams, num_functions: int) -> float:
+    def get_error_powers(self, rate: float, dimension: int, field: FieldParams, batch_size: int) -> float:
         """
         Returns an upper bound on the MCA error when applying a random linear combination.
         The coefficients are assumed to be powers here.
@@ -39,14 +39,14 @@ class ProximityGapsRegime(ABC):
         Note: the errors for correlated agreement in the following two cases differ,
         which is related to the batching method:
 
-        Case 1: we batch with randomness r^0, r^1, ..., r^{num_functions-1}
+        Case 1: we batch with randomness r^0, r^1, ..., r^{batch_size-1}
         This is what is called batching over parameterized curves in BCIKS20.
-        Here, the error depends on num_functions (called l in BCIKS20), and we find
+        Here, the error depends on batch_size (called l in BCIKS20), and we find
         the error in Theorem 6.2.
 
-        Case 2: we batch with randomness r_0 = 1, r_1, r_2, r_{num_functions-1}
+        Case 2: we batch with randomness r_0 = 1, r_1, r_2, r_{batch_size-1}
         This is what is called batching over affine spaces in BCIKS20.
-        Here, the error does not depend on num_functions (called l in BCIKS20), and we find
+        Here, the error does not depend on batch_size (called l in BCIKS20), and we find
         the error in Theorem 1.6.
 
         Then easiest way to see the difference is to compare Theorems 1.5 and 1.6.
