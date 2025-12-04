@@ -5,6 +5,7 @@ This section contains the soundness formula for the FRI protocol.
 
 \subsection{FRI protocol analysis}
 
+Global parameters used in the FRI analysis:
 \begin{itemize}
     \item $m_J$ --- Johnson parameter.
     \item $r_{FRI}$ --- number of FRI rounds.
@@ -18,15 +19,24 @@ This section contains the soundness formula for the FRI protocol.
     \item $\sbtch$ --- batch size.
 \end{itemize}
 
+Notation specific to the Johnson bound:
+\begin{itemize}
+    \item
+\end{itemize}
+
 
 \subsection{Fixed constants}
 
 We fix the following constants for the soundness calculator:
 \begin{itemize}
     \item $m_{\mathrm{J}}=16$. Set in \begin{verbatim}fri.py/get_johnson_parameter_m()\end{verbatim}
-    \item \end{itemize}
+    \end{itemize}
+
+
 
 \subsection{Soundness formula}
+
+This is calculated in \begin{verbatim}fri.py/get_FRI_query_phase_error()\end{verbatim}.
 
 Query phase error:
 \begin{equation}
