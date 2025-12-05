@@ -1,0 +1,233 @@
+\newpage
+
+\section{WHIR-based VM security level calculation}\label{sec:whir_security_level}
+
+
+
+
+\subsection{Notation and parameters}
+
+\begin{itemize}
+  \item Number of iterations: \(M = \texttt{num\_iterations}\)
+  \item Iteration index: \(i \in \{0,\dots,M-1\}\)
+  \item Folding round index: \(s \in \{0,\dots,k\}\)
+  \item Field size: \(|\mathbb{F}| = F\)
+  \item Constraint degree: \(d = \texttt{constraint\_degree}\)
+  \item Folding factor: \(k = \texttt{folding\_factor}\)
+  \item Log-degree in iteration \(i\): \(m_i = \texttt{log\_degrees}[i]\), and we set $m_i = m_0-k\cdot i$
+  \item Log-inverted rate in iteration \(i\): \(\mu_i = \texttt{log\_inv\_rates}[i]\) , and we set $\mu_i = \log_2 \frac{1}{\rho}+(k-1)\cdot i$
+  \item Number of OOD samples in iteration \(i\): \(w_i = \texttt{num\_ood\_samples}[i]\)
+  \item Number of queries in iteration \(i\): \(t_i = \texttt{num\_queries}[i]\)
+  \item Grinding bits:
+    \[
+      g_{\mathrm{batch}},\quad
+      g^{\mathrm{fold}}_{i,s},\quad
+      g^{\mathrm{ood}}_i,\quad
+      g^{\mathrm{qry}}_i.
+    \]
+\end{itemize}
+
+\begin{comment}
+\subsection{Code Parameters \(C_{RS}^{i,s}\)}
+
+\[
+n_{i,s} = 2^{m_i - s}, \qquad
+R_i = 2^{-\texttt{log\_inv\_rates}[i]}.
+\]
+
+\subsection{Delta for Iteration \(i\)}
+
+\[
+  \delta_i = \min_{1 \le s \le k} \delta_{i,s},
+\qquad
+  \delta_{i,s}
+    = \texttt{regime.get\_max\_delta}(R_i, n_{i,s}, \mathbb{F}).
+\]
+
+\subsection{List Size \(\ell_{i,s}\)}
+
+\[
+  \ell_{i,s}
+  = \texttt{regime.get\_max\_list\_size}(R_i, n_{i,s}, \mathbb{F}, \delta_i).
+\]
+\end{comment}
+\subsection{Batching Error \(\epsilon_{\mathrm{batch}}\)}
+
+In the Johnson Bound Regime (JBR) we proceed as follows:
+\begin{itemize}
+    \item Find $\eta$:
+    $$
+    \eta = \frac{\sqrt{\rho}}{32}
+    $$
+    \item Compute linear error:
+    $$
+    \ebatchlinJ = \frac{2^{m_0}}{(2\min(\eta,\sqrt{\rho}/20))^5}
+    $$
+    \item Compute powers error:
+    $$
+    \ebatchpowJ = \ebatchlinJ\cdot(B-1)
+    $$
+\end{itemize}
+
+
+Base error:
+\[
+\varepsilon_{\mathrm{batch}, JBR}^{\text{base}} =
+\begin{cases}
+   \ebatchpowJ & \text{(power batching)}, \\[4pt]
+  \ebatchlinJ& \text{(linear batching)}.
+\end{cases}
+\]
+
+After grinding:
+\[
+  \epsilon_{\mathrm{batch}}
+  = \varepsilon_{\mathrm{batch}}^{\text{base}}
+    \cdot 2^{-g_{\mathrm{batch}}}.
+\]
+
+\begin{comment}
+\subsection{Folding Error \(\epsilon^{\mathrm{fold}}_{i,s}\)}
+
+Base error (two terms):
+\[
+  \varepsilon^{\mathrm{fold,base}}_{i,s}
+    = d \cdot \frac{\ell_{i,s-1}}{F}
+      + \texttt{regime.get\_error\_powers}(R_i, n_{i,s}, \mathbb{F}, 2).
+\]
+
+After grinding:
+\[
+  \epsilon^{\mathrm{fold}}_{i,s}
+    = \varepsilon^{\mathrm{fold,base}}_{i,s}
+      \cdot 2^{-g^{\mathrm{fold}}_{i,s}}.
+\]
+
+\subsection{OOD Error \(\epsilon^{\mathrm{out}}_i\)}
+
+Base error:
+\[
+  \varepsilon^{\mathrm{out,base}}_i
+  = \ell_{i,0}^2
+    \left(\frac{2^{m_i}}{2F}\right)^{w_i}.
+\]
+
+After grinding:
+\[
+  \epsilon^{\mathrm{out}}_i
+  = \varepsilon^{\mathrm{out,base}}_i
+    \cdot 2^{-g^{\mathrm{ood}}_i}.
+\]
+
+\subsection{Shift Error \(\epsilon^{\mathrm{shift}}_i\)}
+
+Base error (two terms):
+\[
+  \varepsilon^{\mathrm{shift,base}}_i
+    = (1 - \delta_{i-1})^{t_{i-1}}
+      + \ell_{i,0} \cdot \frac{t_{i-1} + 1}{F}.
+\]
+
+After grinding:
+\[
+  \epsilon^{\mathrm{shift}}_i
+    = \varepsilon^{\mathrm{shift,base}}_i
+      \cdot 2^{-g^{\mathrm{qry}}_{i-1}}.
+\]
+
+\subsection{Final Round Error \(\epsilon^{\mathrm{fin}}\)}
+
+Base error:
+\[
+  \varepsilon^{\mathrm{fin,base}}
+    = (1 - \delta_{M-1})^{t_{M-1}}.
+\]
+
+After grinding:
+\[
+  \epsilon^{\mathrm{fin}}
+  = (1 - \delta_{M-1})^{t_{M-1}}
+    \cdot 2^{-g^{\mathrm{qry}}_{M-1}}.
+\]
+\end{comment}
+\subsection{Bits of Security in UDR and JBR}
+
+Computed in \verb|get_security_levels_for_regime()|.
+
+For any error term:
+\[
+  \lambda(\epsilon)
+  = \lfloor-\log_2\epsilon\rfloor.
+\]
+
+Overall security:
+\[
+  \lambda_{\mathrm{total}}
+    = \min\{
+      \lambda_{\mathrm{batch}},
+      \lambda^{\mathrm{fold}}_{i,s},
+      \lambda^{\mathrm{out}}_i,
+      \lambda^{\mathrm{shift}}_i,
+      \lambda^{\mathrm{fin}}
+    \}.
+\]
+
+\section{Proof Size Calculations}
+
+This section summarizes the proof-size formula computed in \verb|get_proof_size_bits()|.
+
+\subsection{Initial Function  Size}
+\[
+  S_{\mathrm{if}} = \bhash.
+\]
+
+\subsection{Initial Sumcheck Size}
+
+
+Thus the folding proof size per round is
+\[
+  S_{\mathrm{sumcheck}} = kd\log_2 |\FFF|.
+\]
+
+\subsection{OOD Proof Size for Iteration \(i\)}
+
+\[
+  S_{\mathrm{ood},i}
+    = \bhash+w_i\cdot\log_2|\FFF|+kd\log_2|\FFF|
+\]
+
+$$
+S_{\mathrm{ood},M}=+2^{m_M}\log_2|\FFF|
+$$
+
+\subsection{Query Proof Size for Iteration \(i\)}
+
+
+Thus
+\[
+  S_{\mathrm{qry},i}
+    = t_i \cdot MP(2^{m_i+\mu_i-k},2^k,\log_2 q,\bhash) .
+\]
+
+
+\subsection{Total Proof Size}
+
+Collecting all terms and summing over all \(M\) iterations:
+
+\[
+\boxed{
+S_{\mathrm{total}}
+  = S_{\mathrm{if}}+S_{\mathrm{sumcheck}}
+    + \sum_{i\in[M]}
+      \left(
+         S_{\mathrm{ood},i}
+        + S_{\mathrm{qry},i}
+      \right)
+}
+\]
+
+
+Expanding,$$
+\swhirtotal=\bhash + kd\log_2 |\FFF|+2^{m_M}\log_2|\FFF|+\sum_{i\in[M-1]}\left(\bhash+w_i\cdot\log_2|\FFF|+kd\log_2|\FFF| \right)
++\sum_{i\in[M]}\left(t_i \cdot MP(2^{m_i+\mu_i-k},2^k,\log_2 q,\bhash)   \right)
+$$
