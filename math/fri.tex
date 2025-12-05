@@ -45,16 +45,23 @@ It is done separately for two different regimes: UDR and JBR --- using the same 
     \item Obtain optimal $\delta_U,\delta_J$ parameters using the formula from \cref{sec:fri_optimal_distance_udr} and \cref{sec:fri_optimal_distance_jbr}.
     \item Obtain the list sizes $L_U,L_J$ for the respective  $\delta_U,\delta_J$.
     \item Obtain the DEEP-ALI soundness errors $\edeepU,\edeepJ$ using the formulas from Section \ref{sec:deep_ali_soundness}.
-    \item Compute
+    \item Compute the total soundness errors as
+     $$
+    \epsilon_U = \min(\efrirbrU, \edeepU),\quad \epsilon_J = \min(\efrirbrJ, \edeepJ).
+    $$
 \end{enumerate}
+Then the  full security level in bits is the maximum of the two regimes:
+$$
+\text{Security level} = \max(-\log_2 \epsilon_U, -\log_2 \epsilon_J).
+$$
 
 \subsubsection{RBR soundness in UDR}\label{sec:fri-rbr-udr}
 
-\begin{verbatim}unique_decoding.py/get_security_levels_for_regime()\end{verbatim}
+\begin{verbatim}fri_based_vm.py/get_security_levels_for_regime()\end{verbatim}
 
-\subsubsection{RBR soundness in JBR}\label{ sec:fri-rbr-jbr}
+\subsubsection{RBR soundness in JBR}\label{sec:fri-rbr-jbr}
 
-\begin{verbatim}johnson_bound.py/get_security_levels_for_regime()\end{verbatim}
+\begin{verbatim}fri_based_vm.py/get_security_levels_for_regime()\end{verbatim}
 
 \subsubsection{Optimal distance in UDR}\label{sec:fri_optimal_distance_udr}
 
@@ -71,6 +78,8 @@ It is done separately for two different regimes: UDR and JBR --- using the same 
 
 \begin{verbatim}johnson_bound.py/get_max_list_size()\end{verbatim}
 
+\subsubsection{DEEP-ALI errors}\label{sec:fri-deep-ali}
+\begin{verbatim}fri_based_vm.py/get_DEEP_ALI_errors()\end{verbatim}
 
 \subsection{Soundness formula}
 
@@ -100,11 +109,11 @@ Initial round: one root and one path per query.
 
 The proof size is calculated as follows:
 \begin{multline}
-    \bproof =   \underbrace{ \bhash+ t\cdot MP(\frac{n}{\folds[0]},\sbtch, |\FFF|,\bhash)}_{\text{Initial round}} + \\
+    \bproof =   \underbrace{ \bhash+ t\cdot MP(\frac{n}{\folds[0]},\sbtch,\log_2 |\FFF|,\bhash)}_{\text{Initial round}} + \\
     +\underbrace{\sum_{1\leq i \leq r_{FRI}-2} \left(\bhash+
-     t\cdot MP(\frac{n}{\prod_{1\leq j \leq  i} \folds[j]},\sbtch, |\FFF|,\bhash)\right)}_{\text{Folding rounds but last }}+\\
+     t\cdot MP(\frac{n}{\prod_{1\leq j \leq  i} \folds[j]},\sbtch, \log_2|\FFF|,\bhash)\right)}_{\text{Folding rounds but last }}+\\
     +\underbrace{ \left(\bhash+
-     t\cdot MP(\frac{n}{\folds[r_{FRI}-1]\prod_{1\leq j \leq  r_{FRI}-1} \folds[j]},\sbtch, |\FFF|,\bhash)\right)}_{\text{Last folding round }}
+     t\cdot MP(\frac{n}{\folds[r_{FRI}-1]\prod_{1\leq j \leq  r_{FRI}-1} \folds[j]},\sbtch,\log_2 |\FFF|,\bhash)\right)}_{\text{Last folding round }}
     \end{multline}
 where $MP(n, s, q, b)$ is the Merkle path size
 calculated as
