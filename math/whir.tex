@@ -53,6 +53,8 @@ R_i = 2^{-\texttt{log\_inv\_rates}[i]}.
 \end{comment}
 \subsection{Batching Error \(\epsilon_{\mathrm{batch}}\)}
 
+\verb|get_batching_error()|
+
 In the Johnson Bound Regime (JBR) we proceed as follows:
 \begin{itemize}
     \item Find $\eta$:
@@ -61,7 +63,7 @@ In the Johnson Bound Regime (JBR) we proceed as follows:
     $$
     \item Compute linear error:
     $$
-    \ebatchlinJ = \frac{2^{m_0}}{(2\min(\eta,\sqrt{\rho}/20))^5}
+    \ebatchlinJ = \frac{2^{m_0}}{q(2\min(\eta,\sqrt{\rho}/20))^5}
     $$
     \item Compute powers error:
     $$
@@ -85,23 +87,38 @@ After grinding:
   = \varepsilon_{\mathrm{batch}}^{\text{base}}
     \cdot 2^{-g_{\mathrm{batch}}}.
 \]
+\subsection{Folding Error in JBR}
 
-\begin{comment}
-\subsection{Folding Error \(\epsilon^{\mathrm{fold}}_{i,s}\)}
+\verb|epsilon_fold()|
 
+For iteration \(i\in[M]\) and folding round \(s\in\{1,2,\ldots,k\}\):
+\begin{itemize}
+    \item Get list size
+    $$
+    \ell_{i,s-1} = \texttt{regime.get\_max\_list\_size}(i, s-1,JBR).
+    $$
+\item Get rate and dimension:
+$$
+(\rho,m) = \verb|get_code_for_iteration_and_round(i,s)|
+$$
+    \item
 Base error (two terms):
 \[
   \varepsilon^{\mathrm{fold,base}}_{i,s}
-    = d \cdot \frac{\ell_{i,s-1}}{F}
-      + \texttt{regime.get\_error\_powers}(R_i, n_{i,s}, \mathbb{F}, 2).
+    = d \cdot \frac{\ell_{i,s-1}}{q}
+      + \ebatchpowJ(\rho,m,q,2).
 \]
-
+    \item
 After grinding:
 \[
   \epsilon^{\mathrm{fold}}_{i,s}
     = \varepsilon^{\mathrm{fold,base}}_{i,s}
       \cdot 2^{-g^{\mathrm{fold}}_{i,s}}.
 \]
+\end{itemize}
+
+
+\begin{comment}
 
 \subsection{OOD Error \(\epsilon^{\mathrm{out}}_i\)}
 
