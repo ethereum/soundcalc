@@ -12,7 +12,7 @@ from soundcalc.proxgaps.johnson_bound import JohnsonBoundRegime
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
 from soundcalc.proxgaps.unique_decoding import UniqueDecodingRegime
 from soundcalc.zkvms.zkvm import Circuit, zkVM
-from ..common.fields import FieldParams, field_element_size_bits, parse_field
+from ..common.fields import FieldParams, parse_field
 from ..common.fri import get_FRI_proof_size_bits, get_num_FRI_folding_rounds
 
 
@@ -228,7 +228,7 @@ class FRIBasedCircuit(Circuit):
 
         return get_FRI_proof_size_bits(
             hash_size_bits=self.hash_size_bits,
-            field_size_bits=field_element_size_bits(self.field),
+            field_size_bits=self.field.extension_field_element_size_bits(),
             batch_size=self.batch_size,
             num_queries=self.num_queries,
             witness_size=int(self.D),
