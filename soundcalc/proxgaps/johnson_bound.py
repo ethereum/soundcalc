@@ -14,8 +14,8 @@ class JohnsonBoundRegime(ProximityGapsRegime):
 
     def get_proximity_parameter(self, rate: float, dimension: int) -> float:
         # The proximity parameter defines how close we are to the Johnson Bound 1-sqrt(rate).
-        # TODO: We are doing 1/n, but this is arbitrary. Think about it more carefully
-        return 1 - math.sqrt(rate) - (1 / dimension)
+        n = dimension / rate
+        return 1 - math.sqrt(rate) - (1 / n)
 
     def get_max_list_size(self, rate: float, dimension: int) -> int:
         # Reed-Solomon codes are (1 - sqrt(rate) - pp, (2*pp*sqrt(rate))⁻¹)-list decodable.
@@ -48,10 +48,11 @@ class JohnsonBoundRegime(ProximityGapsRegime):
         pp = self.get_proximity_parameter(rate, dimension)
         m = self.get_m(rate, dimension)
         m_shifted = m + 0.5
+        n = dimension / rate
 
         # Using Theorem 4.2 from BCHKS25,
         # compute the first fraction
-        numerator = (2 * m_shifted**5 + 3 * m_shifted * (pp * rate)) * dimension
+        numerator = (2 * m_shifted**5 + 3 * m_shifted * (pp * rate)) * n
         denominator = 3 * rate * sqrt_rate
         first_fraction = numerator / denominator
 

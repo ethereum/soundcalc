@@ -22,4 +22,5 @@ class UniqueDecodingRegime(ProximityGapsRegime):
 
     def get_error_linear(self, rate: float, dimension: int, field: FieldParams) -> float:
         # Using Theorem 4.1 from BCIKS20
-        return dimension / field.F
+        n = dimension / rate
+        return n / field.F
