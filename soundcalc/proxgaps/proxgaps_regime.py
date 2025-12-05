@@ -13,14 +13,14 @@ class ProximityGapsRegime:
         """
         raise NotImplementedError
 
-    def get_max_delta(self, rate: float, dimension: int, field: FieldParams) -> float:
+    def get_proximity_parameter(self, rate: float, dimension: int) -> float:
         """
         Returns the maximum delta for this regime, based on the rate
         and the dimension of the code.
         """
         raise NotImplementedError
 
-    def get_max_list_size(self, rate: float, dimension: int, field: FieldParams, delta: float) -> int:
+    def get_max_list_size(self, rate: float, dimension: int) -> int:
         """
         Returns an upper bound on the list size for this regime, and for a given delta
         E.g., unique decoding regime may return 1.

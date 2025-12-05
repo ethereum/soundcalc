@@ -237,8 +237,7 @@ class FRIBasedCircuit(Circuit):
 
             # Compute security levels
             fri_levels = self.get_security_levels_for_regime(regime)
-            delta = regime.get_max_delta(rate, dimension, self.field)
-            list_size = regime.get_max_list_size(rate, dimension, self.field, delta)
+            list_size = regime.get_max_list_size(rate, dimension)
             proof_system_levels = get_DEEP_ALI_errors(list_size, self)
 
             # Note down security levels
@@ -316,9 +315,9 @@ class FRIBasedCircuit(Circuit):
         rate = self.rho
         dimension = self.trace_length
 
-        # error is (1-delta)^number of queries
-        delta = regime.get_max_delta(rate, dimension, self.field)
-        epsilon = (1 - delta) ** self.num_queries
+        # error is (1-pp)^number of queries
+        pp = regime.get_proximity_parameter(rate, dimension)
+        epsilon = (1 - pp) ** self.num_queries
 
         # add grinding
         epsilon *= 2 ** (-self.grinding_query_phase)

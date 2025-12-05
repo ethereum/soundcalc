@@ -323,7 +323,7 @@ class WHIRBasedCircuit(Circuit):
 
         for round in range(1, self.folding_factor + 1):
             (rate, dimension) = self.get_code_for_iteration_and_round(iteration, round)
-            delta_round = regime.get_max_delta(rate, dimension, self.field)
+            delta_round = regime.get_proximity_parameter(rate, dimension)
             delta = min(delta, delta_round)
 
         return delta
@@ -345,7 +345,7 @@ class WHIRBasedCircuit(Circuit):
 
         # now compute the list size from it. This requires the code parameters for C_{RS}^{i,s}.
         (rate, dimension) = self.get_code_for_iteration_and_round(iteration, round)
-        list_size = regime.get_max_list_size(rate, dimension, self.field, delta)
+        list_size = regime.get_max_list_size(rate, dimension)
 
         return list_size
 
