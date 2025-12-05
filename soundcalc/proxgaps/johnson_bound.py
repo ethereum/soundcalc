@@ -1,5 +1,3 @@
-
-
 from soundcalc.common.fields import FieldParams
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
 
@@ -15,6 +13,7 @@ class JohnsonBoundRegime(ProximityGapsRegime):
     def get_proximity_parameter(self, rate: float, dimension: int) -> float:
         # The proximity parameter defines how close we are to the Johnson Bound 1-sqrt(rate).
         n = dimension / rate
+        # TODO: Using 1/n here is arbitrary. Think more about it.
         return 1 - math.sqrt(rate) - (1 / n)
 
     def get_max_list_size(self, rate: float, dimension: int) -> int:
@@ -43,6 +42,8 @@ class JohnsonBoundRegime(ProximityGapsRegime):
         return self.get_error_linear(rate, dimension, field) * (num_functions - 1)
 
     def get_error_linear(self, rate: float, dimension: int, field: FieldParams) -> float:
+        """ Use Theorem 4.2 from BCHKS25 to compute the error"""
+
         sqrt_rate = math.sqrt(rate)
 
         pp = self.get_proximity_parameter(rate, dimension)
@@ -50,8 +51,7 @@ class JohnsonBoundRegime(ProximityGapsRegime):
         m_shifted = m + 0.5
         n = dimension / rate
 
-        # Using Theorem 4.2 from BCHKS25,
-        # compute the first fraction
+        # Compute the first fraction
         numerator = (2 * m_shifted**5 + 3 * m_shifted * (pp * rate)) * n
         denominator = 3 * rate * sqrt_rate
         first_fraction = numerator / denominator
