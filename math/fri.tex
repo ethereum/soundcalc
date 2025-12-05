@@ -1,7 +1,6 @@
-\section{FRI}
+\section{FRI-based VM security level calculation}
 
-This section contains the soundness formula for the FRI protocol.
-
+This section calculates the security level for a FRI-based VM in \cref{sec:fri_security_level}.
 
 \subsection{FRI parameters}
 
@@ -36,21 +35,41 @@ We fix the following constants for the soundness calculator:
     \item $m_{\mathrm{J}}=16$. Set in \begin{verbatim}fri.py/get_johnson_parameter_m()\end{verbatim}
     \end{itemize}
 
-\subsection{Security level for a FRI-based VM}
+\subsection{Security level for a FRI-based VM}\label{sec:fri_security_level}
 
 The security level is calculated in \begin{verbatim}zkvms/fri_based_vm.py/get_security_levels()\end{verbatim}.
 
 It is done separately for two different regimes: UDR and JBR --- using the same procedure:
 \begin{enumerate}
-    \item Calculate the FRI round-by-round soundness errors $\efrirbrU,\efrirbrJ$ using the formula from the next section.
-    \item Obtain optimal $\delta_U,\delta_J$ parameters.
-    \item Obtain the list sizes $L_U,L_J$.
+    \item Calculate the FRI round-by-round soundness errors $\efrirbrU,\efrirbrJ$ using the formula from \cref{sec:fri-rbr-udr} and \cref{sec:fri-rbr-jbr}.
+    \item Obtain optimal $\delta_U,\delta_J$ parameters using the formula from \cref{sec:fri_optimal_distance_udr} and \cref{sec:fri_optimal_distance_jbr}.
+    \item Obtain the list sizes $L_U,L_J$ for the respective  $\delta_U,\delta_J$.
+    \item Obtain the DEEP-ALI soundness errors $\edeepU,\edeepJ$ using the formulas from Section \ref{sec:deep_ali_soundness}.
+    \item Compute
 \end{enumerate}
 
-\subsubsection{RBR soundness in UDR}\label{sec:fri_rbr_udr}
+\subsubsection{RBR soundness in UDR}\label{sec:fri-rbr-udr}
 
-\subsubsection{RBR soundness in UDR}\label{ sec:fri_rbr_jbr}
+\begin{verbatim}unique_decoding.py/get_security_levels_for_regime()\end{verbatim}
 
+\subsubsection{RBR soundness in JBR}\label{ sec:fri-rbr-jbr}
+
+\begin{verbatim}johnson_bound.py/get_security_levels_for_regime()\end{verbatim}
+
+\subsubsection{Optimal distance in UDR}\label{sec:fri_optimal_distance_udr}
+
+
+\begin{verbatim}unique_decoding.py/get_max_delta()\end{verbatim}
+
+\subsubsection{Optimal distance in JBR}\label{sec:fri_optimal_distance_jbr}
+
+
+\begin{verbatim}johnson_bound.py/get_max_delta()\end{verbatim}
+
+\subsubsection{List sizes} \label{sec:fri_list_sizes}
+\begin{verbatim}unique_decoding.py/get_max_list_size()\end{verbatim}
+
+\begin{verbatim}johnson_bound.py/get_max_list_size()\end{verbatim}
 
 
 \subsection{Soundness formula}
