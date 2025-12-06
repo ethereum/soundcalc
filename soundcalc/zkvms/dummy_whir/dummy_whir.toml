@@ -14,7 +14,7 @@ folding_factor = 4
 log_degree = 23
 batch_size = 100
 power_batching = true
-constraint_degree = 1
+constraint_degree = 3
 num_queries = [119, 47, 29, 22, 18]
 num_ood_samples = [2, 2, 2, 2]
 
