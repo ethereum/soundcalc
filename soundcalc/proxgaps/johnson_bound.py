@@ -25,12 +25,14 @@ class JohnsonBoundRegime(ProximityGapsRegime):
         return 1 - sqrt_rate - gap
 
     def get_max_list_size(self, rate: float, dimension: int) -> int:
-        # Reed-Solomon codes are (1 - sqrt(rate) - pp, (2*pp*sqrt(rate))⁻¹)-list decodable.
+        # Reed-Solomon codes are (1 - sqrt(rate) - gap, (2*gap*sqrt(rate))⁻¹)-list decodable.
         sqrt_rate = math.sqrt(rate)
         pp = self.get_proximity_parameter(rate, dimension)
-        assert pp < 1 - sqrt_rate
 
-        return 1.0 / (2 * pp * sqrt_rate)
+        gap = 1 - sqrt_rate - pp
+        assert gap > 0
+
+        return 1.0 / (2 * gap * sqrt_rate)
 
     def get_m(self, rate: float, dimension: int) -> int:
         """
