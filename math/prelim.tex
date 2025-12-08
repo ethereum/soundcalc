@@ -1,14 +1,43 @@
-\section{Notation and Preliminaries}
+\section{ Preliminaries}
 
 \subsection{Fields}
 
 Fields of size $q$ are denoted as $\FFF_q$ or simply $\FFF$.
 
-\subsection{Reed-Solomon codes}
+\subsection{Regime-specific bounds}
 
-We use the following notation:
-\begin{itemize}
-    \item $RS[\FFF, S, \rho]$: Reed-Solomon code over the field $\FFF$ with evaluation domain $S$ and rate $\rho$.
-    \item $\deg(f)$: degree of the polynomial $f$.
-\end{itemize}
+
+
+\subsubsection{Optimal distance }\label{sec:fri_optimal_distance_udr}\label{sec:fri_optimal_distance_jbr}
+
+
+\begin{verbatim}unique_decoding.py/get_max_delta()\end{verbatim}
+
+In UDR
+\begin{equation}\label{eq:delta_udr}
+    \delta_U(\rho) =(1-\rho)/2
+\end{equation}
+
+
+In JBR we use the $\eta = \frac{\sqrt{\rho}}{32}$ as per \verb|johnson_bound.py/get_eta()|
+
+\begin{verbatim}johnson_bound.py/get_max_delta()\end{verbatim}
+
+\begin{equation}\label{eq:delta_jbr}
+    \delta_J(\rho) =1-\sqrt{ \rho}  -\eta = 1-\sqrt{ \rho}  -\frac{\sqrt{\rho}}{32}
+\end{equation}
+
+
+\subsubsection{List sizes} \label{sec:fri_list_sizes}
+\begin{verbatim}unique_decoding.py/get_max_list_size()\end{verbatim}
+$$
+\ell = 1
+$$
+
+\begin{verbatim}johnson_bound.py/get_max_list_size()\end{verbatim}
+Using \cref{sec:fri_optimal_distance_jbr} we have
+$$
+\ell(\rho ) = \frac{1}{2\eta\sqrt{\rho}} = \frac{16}{\rho}.
+$$
+
 

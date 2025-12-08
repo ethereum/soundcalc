@@ -13,7 +13,7 @@ Global parameters used in the FRI analysis:
     \item $\theta$.
     \item $\delta$.
     \item $\rho$ --- rate of the Reed-Solomon code.
-    \item $l_t$ --- trace length.
+    \item $N$ --- trace length.
     \item $L$ --- list size.
     \item $\bgriq$ --- grinding parameter for the query phase.
     \item $n$ --- witness size.
@@ -63,32 +63,65 @@ $$
 
 \begin{verbatim}fri_based_vm.py/get_security_levels_for_regime()\end{verbatim}
 
-\subsubsection{Optimal distance in UDR}\label{sec:fri_optimal_distance_udr}
-
-
-\begin{verbatim}unique_decoding.py/get_max_delta()\end{verbatim}
-
-\subsubsection{Optimal distance in JBR}\label{sec:fri_optimal_distance_jbr}
-This uses the $\eta = \frac{\sqrt{\rho}}{32}$ as per \verb|johnson_bound.py/get_eta()|
-
-\begin{verbatim}johnson_bound.py/get_max_delta()\end{verbatim}
-
-\begin{equation}\label{eq:delta_jbr}
-    \delta_J(\rho) =1-\sqrt{ \rho}  -\eta = 1-\sqrt{ \rho}  -\frac{\sqrt{\rho}}{32}
-\end{equation}
-
-
-\subsubsection{List sizes} \label{sec:fri_list_sizes}
-\begin{verbatim}unique_decoding.py/get_max_list_size()\end{verbatim}
-
-\begin{verbatim}johnson_bound.py/get_max_list_size()\end{verbatim}
-Using \cref{sec:fri_optimal_distance_jbr} we have
-$$
-\ell(\rho ) = \frac{1}{2\eta\sqrt{\rho}} = \frac{16}{\rho}.
-$$
-
 \subsubsection{DEEP-ALI errors}\label{sec:fri-deep-ali}
 \begin{verbatim}fri_based_vm.py/get_DEEP_ALI_errors()\end{verbatim}
+
+
+
+
+\subsection{Batching Error \(\epsilon_{\mathrm{batch}}\)}
+
+This computes the batching error with parameters from \cref{sec:whir_notation}.
+\verb|get_batching_error()|
+
+In the Johnson Bound Regime (JBR) we proceed as follows:
+\begin{itemize}
+    \item Find $\eta$ as a function of $\rho$:
+    $$
+    \eta(\rho) = \frac{\sqrt{\rho}}{32}
+    $$
+    \item Compute linear error:
+    $$
+    \ebatchlinJ = \frac{N}{q(2\min(\eta(\rho),\sqrt{\rho}/20))^5}
+    $$
+    \item Compute powers error:
+    $$
+    \ebatchpowJ(B) = \ebatchlinJ \cdot(B-1)
+    $$
+    \item Compute base error:
+\[
+\varepsilon_{\mathrm{batch}, JBR}^{\text{base}} =
+\begin{cases}
+   \ebatchpowJ & \text{(power batching)}, \\[4pt]
+  \ebatchlinJ& \text{(linear batching)}.
+\end{cases}
+\]
+\end{itemize}
+Whereas in the UDR we do as follows:
+\begin{itemize}
+    \item Compute linear error:
+    $$
+    \ebatchlinU = \frac{N}{q\rho}
+    $$
+    \item Compute powers error:
+    $$
+    \ebatchpowU( B) = \ebatchlinJ \cdot B
+    $$
+    \item Compute base error:
+\[
+\varepsilon_{\mathrm{batch}, UDR}^{\text{base}} =
+\begin{cases}
+   \ebatchpowU & \text{(power batching)}, \\[4pt]
+  \ebatchlinU& \text{(linear batching)}.
+\end{cases}
+\]
+\end{itemize}
+
+\subsection{Commit phase error}
+For round $i$
+we set $$
+N_i = \frac{N}{k_i^{i}}
+$$
 
 \subsection{Soundness formula}
 

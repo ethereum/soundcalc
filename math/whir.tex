@@ -25,9 +25,9 @@
   \item Grinding bits:
     \[
       g_{\mathrm{batch}},\quad
-      g^{\mathrm{fold}}_{i,s},\quad
-      g^{\mathrm{ood}}_i,\quad
-      g^{\mathrm{qry}}_i.
+      \{g^{\mathrm{fold}}_{i,s}\}_{i\in [M],s\in[k]},\quad
+      \{g^{\mathrm{ood}}_i\}_{i\in M},\quad
+      \{g^{\mathrm{qry}}_i\}_{i\in M}.
     \]
 \end{itemize}
 
@@ -65,7 +65,7 @@ This computes the batching error with parameters from \cref{sec:whir_notation}.
 In the Johnson Bound Regime (JBR) we proceed as follows:
 \begin{itemize}
     \item Set code parameters $$
-    (\rho,m)= \left(\mu_0, m_0\right)
+    (\rho,N)= \left(2^{-\mu_0}, 2^{m_0}\right)
     $$
     \item Find $\eta$ as a function of $\rho$:
     $$
@@ -79,69 +79,95 @@ In the Johnson Bound Regime (JBR) we proceed as follows:
     $$
     \ebatchpowJ(\rho,N,q,B) = \ebatchlinJ( \rho,N,q)\cdot(B-1)
     $$
+    \item Compute base error:
+\[
+\varepsilon_{\mathrm{batch}, JBR}^{\text{base}} =
+\begin{cases}
+   \ebatchpowJ & \text{(power batching)}, \\[4pt]
+  \ebatchlinJ& \text{(linear batching)}.
+\end{cases}
+\]
 \end{itemize}
 Whereas in the UDR we do as follows:
 \begin{itemize}
     \item Compute linear error:
     $$
-    \ebatchlinU(\rho,N,q) = \frac{N}{q(2\min(\eta(\rho),\sqrt{\rho}/20))^5}
+    \ebatchlinU(\rho,N,q) = \frac{N}{q\rho}
     $$
     \item Compute powers error:
     $$
-    \ebatchpowU(\rho,N,q,B) = \ebatchlinJ( \rho,N,q)\cdot(B-1)
+    \ebatchpowU(\rho,N,q,B) = \ebatchlinJ( \rho,N,q)\cdot B
     $$
+    \item Compute base error:
+\[
+\varepsilon_{\mathrm{batch}, UDR}^{\text{base}} =
+\begin{cases}
+   \ebatchpowU & \text{(power batching)}, \\[4pt]
+  \ebatchlinU& \text{(linear batching)}.
+\end{cases}
+\]
 \end{itemize}
 
-
-After grinding:
+In both regimes we do as follows after grinding:
 \[
   \epsilon_{\mathrm{batch}}
   = \varepsilon_{\mathrm{batch}}^{\text{base}}
     \cdot 2^{-g_{\mathrm{batch}}}.
 \]
-\subsection{Folding Error in JBR}
+\subsection{Folding Error}
 
 \verb|epsilon_fold()|
 
-For iteration \(i\in[M]\) and folding round \(s\in[k]\):
+For iteration \(i\in[M]\) and folding round \(s\in[k]\) in JBR we do:
 \begin{itemize}
-    \item  \verb|get_list_size_for_iteration_and_round()|
-    \begin{itemize}
-    \item  Get list size
+    \item % \verb|get_list_size_for_iteration_and_round()|
+ %   \begin{itemize}
+   % \item
+    Get list size
     $$
     \ell_{i,s} =\ell(\CC_{i,s}[\rho])
     $$
-    \end{itemize}
+  %  \end{itemize}
     \item
 Base error (two terms):
 \[
-  \varepsilon^{\mathrm{fold,base}}_{i,s}
+  \varepsilon^{\mathrm{fold,base,J}}_{i,s}
     = d \cdot \frac{\ell_{i,s}}{q}
       + \ebatchpowJ(\CC_{i,s+1}[\rho],\CC_{i,s+1}[N],q,B=2).
 \]
-    \item
+\end{itemize} And in UDR the base error is
+
+\[
+  \varepsilon^{\mathrm{fold,base,U}}_{i,s}
+    =  \frac{d}{q}
+      + \ebatchpowU(\CC_{i,s+1}[\rho],\CC_{i,s+1}[N],q,B=2).
+\]
+
 After grinding:
 \[
   \epsilon^{\mathrm{fold}}_{i,s}
     = \varepsilon^{\mathrm{fold,base}}_{i,s}
       \cdot 2^{-g^{\mathrm{fold}}_{i,s}}.
 \]
-\end{itemize}
 
-\subsection{OOD error in JBR}
+\subsection{OOD error }
 
 \verb|epsilon_out()|
 
 For iteration \(i\in\{1,2,\ldots,M-1\}\)
 \begin{itemize}
     \item
-Base error:
+Base error in JBR:
 \[
-  \varepsilon^{\mathrm{out,base}}_i
+  \varepsilon^{\mathrm{out,base,J}}_i
   = \ell_{i,0}^2
     \left(\frac{2^{m_i}}{2q}\right)^{w_{i-1}}.
 \]
-
+\item Base error in UDR:
+\[
+  \varepsilon^{\mathrm{out,base,U}}_i
+  =  \left(\frac{2^{m_i}}{2q}\right)^{w_{i-1}}.
+\]
 \item After grinding:
 \[
   \epsilon^{\mathrm{out}}_i
@@ -154,7 +180,7 @@ Base error:
 
 \verb|epsilon_shift()|
 
-For iteration \(i\in\{1,2,\ldots,M-1\}\)
+For iteration \(i\in\{1,2,\ldots,M-1\}\) in JBR
 \begin{itemize}
     \item   Get $\delta$ for the iteration using \eqref{eq:delta_jbr}:
     $$
@@ -167,23 +193,54 @@ For iteration \(i\in\{1,2,\ldots,M-1\}\)
       + \ell_{i,0} \cdot \frac{t_{i-1} + 1}{F}.
 \]
 
-\item After grinding:
+\end{itemize}
+
+Same procedure in UDR:
+\begin{itemize}
+    \item   Get $\delta$ for the iteration using \eqref{eq:delta_jbr}:
+    $$
+    \delta_i =\min_{s\in[k]}\delta_U(\CC_{i-1,s}[\rho])
+    $$
+\item Base error  :
+\[
+  \varepsilon^{\mathrm{shift,base}}_i
+    = (1 - \delta_i )^{t_{i-1}}
+      +   \frac{t_{i-1} + 1}{F}.
+\]
+
+\end{itemize}
+
+ After grinding:
 \[
   \epsilon^{\mathrm{shift}}_i
     = \varepsilon^{\mathrm{shift,base}}_i
       \cdot 2^{-g^{\mathrm{qry}}_{i-1}}.
 \]
 
-\end{itemize}
 
-\subsection{Final Round Error in JBR}
+\subsection{Final Round Error }
 \verb|epsilon_final()|
-Base error:
+
+JBR:
+\begin{itemize}
+    \item  Get $\delta$ for the iteration using \eqref{eq:delta_jbr}:
+    $$
+    \delta_{M-1} =\min_{s\in[k]}\delta_J(\CC_{M-1,s}[\rho])
+    $$
+\end{itemize}
+UDR:
+ \begin{itemize}
+    \item  Get $\delta$ for the iteration using \eqref{eq:delta_udr}:
+    $$
+    \delta_{M-1} =\min_{s\in[k]}\delta_U(\CC_{M-1,s}[\rho])
+    $$
+\end{itemize}
+Then
+the base error is :
 \[
   \varepsilon^{\mathrm{fin,base}}
     = (1 - \delta_{M-1})^{t_{M-1}}.
 \]
-
 After grinding:
 \[
   \epsilon^{\mathrm{fin}}
