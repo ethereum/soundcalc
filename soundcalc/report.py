@@ -6,25 +6,22 @@ This file is a mess.
 
 from __future__ import annotations
 
-import math
-from typing import Dict, Any, List, Tuple
+from typing import Any
 
 from soundcalc.common.utils import KIB
-from soundcalc.zkvms.fri_based_vm import FRIBasedCircuit, FRIBasedVM
-from soundcalc.zkvms.whir_based_vm import WHIRBasedCircuit, WHIRBasedVM
+from soundcalc.zkvms.fri_based_vm import FRIBasedCircuit
+from soundcalc.zkvms.whir_based_vm import WHIRBasedCircuit
 from soundcalc.zkvms.zkvm import Circuit, zkVM
 
 
 def _field_label(field) -> str:
-    if hasattr(field, "to_string"):
-        return field.to_string()
-    return "Unknown"
+    return str(field) if field else "Unknown"
 
 
 def _fri_parameter_lines(circuit: FRIBasedCircuit) -> list[str]:
     batching = "Powers" if circuit.power_batching else "Affine"
     return [
-        f"- Polynomial commitment scheme: FRI",
+        "- Polynomial commitment scheme: FRI",
         f"- Hash size (bits): {circuit.hash_size_bits}",
         f"- Number of queries: {circuit.num_queries}",
         f"- Grinding (bits): {circuit.grinding_query_phase}",
@@ -41,7 +38,7 @@ def _fri_parameter_lines(circuit: FRIBasedCircuit) -> list[str]:
 def _whir_parameter_lines(circuit: WHIRBasedCircuit) -> list[str]:
     batching = "Powers" if circuit.power_batching else "Affine"
     return [
-        f"- Polynomial commitment scheme: WHIR",
+        "- Polynomial commitment scheme: WHIR",
         f"- Hash size (bits): {circuit.hash_size_bits}",
         f"- Field: {_field_label(circuit.field)}",
         f"- Iterations (M): {circuit.num_iterations}",
@@ -57,7 +54,7 @@ def _whir_parameter_lines(circuit: WHIRBasedCircuit) -> list[str]:
 
 def _generic_parameter_lines(circuit) -> list[str]:
     lines: list[str] = []
-    lines.append(f"- Polynomial commitment scheme: Unknown")
+    lines.append("- Polynomial commitment scheme: Unknown")
     if hasattr(circuit, "hash_size_bits"):
         lines.append(f"- Hash size (bits): {circuit.hash_size_bits}")
     if hasattr(circuit, "field"):
@@ -93,9 +90,7 @@ def _build_security_table(results: dict[str, Any]) -> str:
     ordered_columns.extend(sorted(col for col in columns if col != "total"))
     columns = ordered_columns
 
-    fri_commit_columns = [
-        col for col in columns if col.startswith("FRI commit round ")
-    ]
+    fri_commit_columns = [col for col in columns if col.startswith("FRI commit round ")]
 
     def should_collapse_commit_columns() -> bool:
         if len(fri_commit_columns) <= 1:
@@ -185,7 +180,9 @@ def build_zkvm_report(zkvm: zkVM, multi_circuit: bool = False) -> str:
         lines.append("## Circuits")
         lines.append("")
         for circuit in circuits:
-            lines.append(f"- [{circuit.get_name()}](#{circuit.get_name().lower().replace(' ', '-')})")
+            lines.append(
+                f"- [{circuit.get_name()}](#{circuit.get_name().lower().replace(' ', '-')})"
+            )
         lines.append("")
 
         for circuit in circuits:
@@ -199,7 +196,9 @@ def build_zkvm_report(zkvm: zkVM, multi_circuit: bool = False) -> str:
 
             # Proof size
             proof_size_kib = circuit.get_proof_size_bits() // KIB
-            lines.append(f"**Proof Size Estimate:** {proof_size_kib} KiB, where 1 KiB = 1024 bytes")
+            lines.append(
+                f"**Proof Size Estimate:** {proof_size_kib} KiB, where 1 KiB = 1024 bytes"
+            )
             lines.append("")
 
             # Security table
@@ -217,7 +216,9 @@ def build_zkvm_report(zkvm: zkVM, multi_circuit: bool = False) -> str:
 
             # Proof size
             proof_size_kib = circuit.get_proof_size_bits() // KIB
-            lines.append(f"**Proof Size Estimate:** {proof_size_kib} KiB, where 1 KiB = 1024 bytes")
+            lines.append(
+                f"**Proof Size Estimate:** {proof_size_kib} KiB, where 1 KiB = 1024 bytes"
+            )
             lines.append("")
 
             # Security table

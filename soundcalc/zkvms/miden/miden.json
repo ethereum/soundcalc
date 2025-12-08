@@ -1,0 +1,24 @@
+{
+  "zkevm": {
+    "name": "Miden",
+    "protocol_family": "FRI_STARK",
+    "field": "Goldilocks^2",
+    "hash_size_bits": 256
+  },
+  "circuits": [
+    {
+      "name": "main",
+      "rho": 0.125,
+      "trace_length": 262144,
+      "air_max_degree": 9,
+      "num_columns": 100,
+      "opening_points": 2,
+      "batch_size": 100,
+      "power_batching": true,
+      "num_queries": 27,
+      "fri_folding_factors": [4, 4, 4, 4, 4, 4, 4],
+      "fri_early_stop_degree": 128,
+      "grinding_query_phase": 16
+    }
+  ]
+}

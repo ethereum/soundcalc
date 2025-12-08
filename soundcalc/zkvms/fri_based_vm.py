@@ -1,22 +1,23 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
-from pathlib import Path
-from typing import Protocol, Mapping, Any
-
 from math import log2
-import toml
+from pathlib import Path
 
+from pydantic import BaseModel, ConfigDict
+
+from soundcalc.common.fields import FieldParams
+from soundcalc.common.fri import get_FRI_proof_size_bits, get_num_FRI_folding_rounds
 from soundcalc.common.utils import get_bits_of_security_from_error
 from soundcalc.proxgaps.johnson_bound import JohnsonBoundRegime
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
 from soundcalc.proxgaps.unique_decoding import UniqueDecodingRegime
+from soundcalc.schemas import FRIConfig
 from soundcalc.zkvms.zkvm import Circuit, zkVM
-from ..common.fields import FieldParams, parse_field
-from ..common.fri import get_FRI_proof_size_bits, get_num_FRI_folding_rounds
 
 
-def get_best_attack_security(field_size: float, rho: float, num_queries: int, grinding_query_phase: int) -> int:
+def get_best_attack_security(
+    field_size: float, rho: float, num_queries: int, grinding_query_phase: int
+) -> int:
     """
     Security level based on the best known attack.
 
@@ -31,9 +32,11 @@ def get_best_attack_security(field_size: float, rho: float, num_queries: int, gr
     # FRI errors under the toy problem regime
     # see "Toy problem security" in §5.9.1 of the ethSTARK paper
     commit_phase_error = 1 / field_size
-    query_phase_error_without_grinding = rho ** num_queries
+    query_phase_error_without_grinding = rho**num_queries
     # Add bits of security from grinding (see section 6.3 in ethSTARK)
-    query_phase_error_with_grinding = query_phase_error_without_grinding * 2 ** (-grinding_query_phase)
+    query_phase_error_with_grinding = query_phase_error_without_grinding * 2 ** (
+        -grinding_query_phase
+    )
 
     final_error = commit_phase_error + query_phase_error_with_grinding
     final_level = get_bits_of_security_from_error(final_error)
@@ -59,7 +62,10 @@ def get_DEEP_ALI_errors(L_plus: float, params: "FRIBasedCircuit"):
     e_ALI = L_plus * params.num_columns / params.field_size
     e_DEEP = (
         L_plus
-        * (params.AIR_max_degree * (params.trace_length + params.max_combo - 1) + (params.trace_length - 1))
+        * (
+            params.AIR_max_degree * (params.trace_length + params.max_combo - 1)
+            + (params.trace_length - 1)
+        )
         / (params.field_size - params.trace_length - params.D)
     )
 
@@ -69,56 +75,74 @@ def get_DEEP_ALI_errors(L_plus: float, params: "FRIBasedCircuit"):
 
     return levels
 
-@dataclass(frozen=True)
-class FRIBasedCircuitConfig:
-    """
-    A configuration of a FRI-based zkVM
-    """
 
-    # Name of the proof system
+class FRIBasedCircuitConfig(BaseModel):
+    """A configuration of a FRI-based zkVM."""
+
+    model_config = ConfigDict(frozen=True)
+
     name: str
+    """Name of the proof system."""
 
-    # The output length of the hash function that is used in bits
-    # Note: this concerns the hash function used for Merkle trees
     hash_size_bits: int
+    """
+    The output length of the hash function that is used in bits.
+    Note: this concerns the hash function used for Merkle trees.
+    """
 
-    # The code rate ρ
     rho: float
-    # Domain size before low-degree extension (i.e. trace length)
+    """The code rate ρ."""
+
     trace_length: int
-    # Preset field parameters (contains p, ext_size, F)
+    """Domain size before low-degree extension (i.e. trace length)."""
+
     field: FieldParams
-    # Total columns of AIR table
+    """Preset field parameters (contains p, ext_size, F)."""
+
     num_columns: int
-    # Number of functions appearing in the batched-FRI
-    # This can be greater than `num_columns`: some zkEVMs have to use "segment polynomials" (aka "composition polynomials")
+    """Total columns of AIR table."""
+
     batch_size: int
-    # Boolean flag to indicate if batched-FRI is implemented using coefficients
-    # r^0, r^1, ... r^{batch_size-1} (power_batching = True) or
-    # 1, r_1, r_2, ... r_{batch_size - 1} (power_batching = False)
+    """
+    Number of functions appearing in the batched-FRI.
+    This can be greater than `num_columns`: some zkEVMs have to use
+    "segment polynomials" (aka "composition polynomials").
+    """
+
     power_batching: bool
-    # Number of FRI queries
+    """
+    Boolean flag to indicate if batched-FRI is implemented using coefficients
+    r^0, r^1, ... r^{batch_size-1} (power_batching = True) or
+    1, r_1, r_2, ... r_{batch_size - 1} (power_batching = False).
+    """
+
     num_queries: int
-    # Maximum constraint degree
+    """Number of FRI queries."""
+
     AIR_max_degree: int
+    """Maximum constraint degree."""
 
-    # FRI folding factor: one factor per FRI round
     FRI_folding_factors: list[int]
-    # Many zkEVMs don't FRI fold until the final poly is of degree 1. They instead stop earlier.
-    # This is the degree they stop at (and it influences the number of FRI folding rounds).
+    """FRI folding factor: one factor per FRI round."""
+
     FRI_early_stop_degree: int
+    """
+    Many zkEVMs don't FRI fold until the final poly is of degree 1. They instead stop earlier.
+    This is the degree they stop at (and it influences the number of FRI folding rounds).
+    """
 
-    # Maximum number of entries from a single column referenced in a single constraint
     max_combo: int
+    """Maximum number of entries from a single column referenced in a single constraint."""
 
-    # Proof of Work grinding compute during FRI query phase (expressed in bits of security)
     grinding_query_phase: int
+    """Proof of Work grinding compute during FRI query phase (expressed in bits of security)."""
 
 
 class FRIBasedCircuit(Circuit):
     """
     Models a single circuit that is based on FRI.
     """
+
     def __init__(self, config: FRIBasedCircuitConfig):
         """
         Given a config, compute all the parameters relevant for the zkVM.
@@ -165,8 +189,6 @@ class FRIBasedCircuit(Circuit):
             fri_early_stop_degree=int(self.FRI_early_stop_degree),
         )
 
-
-
     def get_name(self) -> str:
         return self.name
 
@@ -202,7 +224,7 @@ class FRIBasedCircuit(Circuit):
             "FRI_rounds_n": self.FRI_rounds_n,
             "grinding_query_phase": self.grinding_query_phase,
             "AIR_max_degree": self.AIR_max_degree,
-            "field": self.field.to_string(),
+            "field": str(self.field),
             "field_extension_degree": self.field_extension_degree,
         }
 
@@ -269,17 +291,18 @@ class FRIBasedCircuit(Circuit):
             total = min(list(fri_levels.values()) + list(proof_system_levels.values()))
             result[id] = fri_levels | proof_system_levels | {"total": total}
 
-
         result["best attack"] = get_best_attack_security(
             field_size=self.field_size,
             rho=self.rho,
             num_queries=self.num_queries,
-            grinding_query_phase=self.grinding_query_phase
+            grinding_query_phase=self.grinding_query_phase,
         )
 
         return result
 
-    def get_security_levels_for_regime(self, regime: ProximityGapsRegime) -> dict[str, int]:
+    def get_security_levels_for_regime(
+        self, regime: ProximityGapsRegime
+    ) -> dict[str, int]:
         """
         Same as get_security_levels, but for a specific regime.
         """
@@ -287,15 +310,21 @@ class FRIBasedCircuit(Circuit):
         bits = {}
 
         # Compute FRI errors for batching
-        bits["batching"] = get_bits_of_security_from_error(self.get_batching_error(regime))
+        bits["batching"] = get_bits_of_security_from_error(
+            self.get_batching_error(regime)
+        )
 
         # Compute FRI error for folding / commit phase
         FRI_rounds = self.FRI_rounds_n
         for i in range(FRI_rounds):
-            bits[f"commit round {i+1}"] = get_bits_of_security_from_error(self.get_commit_phase_error(i, regime))
+            bits[f"commit round {i + 1}"] = get_bits_of_security_from_error(
+                self.get_commit_phase_error(i, regime)
+            )
 
         # Compute FRI error for query phase
-        bits["query phase"] = get_bits_of_security_from_error(self.get_query_phase_error(regime))
+        bits["query phase"] = get_bits_of_security_from_error(
+            self.get_query_phase_error(regime)
+        )
 
         return bits
 
@@ -328,7 +357,9 @@ class FRIBasedCircuit(Circuit):
 
         dimension = self.trace_length / acc_folding_factor
 
-        epsilon = regime.get_error_powers(rate, dimension, self.FRI_folding_factors[round])
+        epsilon = regime.get_error_powers(
+            rate, dimension, self.FRI_folding_factors[round]
+        )
 
         return epsilon
 
@@ -351,45 +382,38 @@ class FRIBasedCircuit(Circuit):
 
 
 class FRIBasedVM(zkVM):
-    """
-    A zkVM that contains one or more FRI-based circuits.
-    """
+    """A zkVM that contains one or more FRI-based circuits."""
 
     def __init__(self, name: str, circuits: list[FRIBasedCircuit]):
         self._name = name
         self._circuits = circuits
 
     @classmethod
-    def load_from_toml(cls, toml_path: Path) -> "FRIBasedVM":
-        """
-        Load a FRI-based VM from a TOML configuration file.
-        """
-        with open(toml_path, "r") as f:
-            config = toml.load(f)
-
-        field = parse_field(config["zkevm"]["field"])
-        circuits = []
-
-        for section in config.get("circuits", []):
-            cfg = FRIBasedCircuitConfig(
-                name=section["name"],
-                hash_size_bits=config["zkevm"]["hash_size_bits"],
-                rho=section["rho"],
-                trace_length=section["trace_length"],
-                field=field,
-                num_columns=section["num_columns"],
-                batch_size=section["batch_size"],
-                power_batching=section["power_batching"],
-                num_queries=section["num_queries"],
-                AIR_max_degree=section["air_max_degree"],
-                FRI_folding_factors=section.get("fri_folding_factors"),
-                FRI_early_stop_degree=section.get("fri_early_stop_degree"),
-                max_combo=section["opening_points"],
-                grinding_query_phase=section.get("grinding_query_phase", 0),
+    def load(cls, path: Path) -> "FRIBasedVM":
+        """Load a FRI-based VM from a JSON configuration file."""
+        data = FRIConfig.load(path)
+        circuits = [
+            FRIBasedCircuit(
+                FRIBasedCircuitConfig(
+                    name=c.name,
+                    hash_size_bits=data.zkevm.hash_size_bits,
+                    rho=c.rho,
+                    trace_length=c.trace_length,
+                    field=data.zkevm.field,
+                    num_columns=c.num_columns,
+                    batch_size=c.batch_size,
+                    power_batching=c.power_batching,
+                    num_queries=c.num_queries,
+                    AIR_max_degree=c.air_max_degree,
+                    FRI_folding_factors=c.fri_folding_factors,
+                    FRI_early_stop_degree=c.fri_early_stop_degree,
+                    max_combo=c.opening_points,
+                    grinding_query_phase=c.grinding_query_phase,
+                )
             )
-            circuits.append(FRIBasedCircuit(cfg))
-
-        return cls(config["zkevm"]["name"], circuits=circuits)
+            for c in data.circuits
+        ]
+        return cls(data.zkevm.name, circuits=circuits)
 
     def get_name(self) -> str:
         return self._name

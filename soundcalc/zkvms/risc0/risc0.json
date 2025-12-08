@@ -1,0 +1,24 @@
+{
+  "zkevm": {
+    "name": "RISC0",
+    "protocol_family": "FRI_STARK",
+    "field": "BabyBear^4",
+    "hash_size_bits": 256
+  },
+  "circuits": [
+    {
+      "name": "main",
+      "rho": 0.25,
+      "trace_length": 2097152,
+      "air_max_degree": 4,
+      "num_columns": 279,
+      "opening_points": 9,
+      "batch_size": 283,
+      "power_batching": true,
+      "num_queries": 50,
+      "fri_folding_factors": [16, 16, 16, 16],
+      "fri_early_stop_degree": 128,
+      "grinding_query_phase": 0
+    }
+  ]
+}

@@ -5,27 +5,40 @@ Preset finite fields to be used by the zkEVM configs
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
+from typing import Annotated, Any, ClassVar
+
+from pydantic import BaseModel, BeforeValidator, ConfigDict, computed_field
 
 
-@dataclass(frozen=True)
-class FieldParams:
+class FieldParams(BaseModel):
+    model_config = ConfigDict(frozen=True)
+
     name: str
-    # Base field characteristic (e.g., p = 2^{31} - 2^{27} + 1)
-    p: int
-    # Extension field degree (e.g., ext_size = 2 for Fp²)
-    field_extension_degree: int
-    # Extension field size |F| = p^{ext_size}
-    F: float
-    # Two-adicity of the multiplicative group (largest s such that 2^s divides p-1)
-    #
-    # This determines the maximum possible FFT domain size.
-    two_adicity: int
+    """Human-readable field name (e.g., "Goldilocks²")"""
 
-    def to_string(self) -> str:
-        """
-        Returns a human-readable string representing the field,
-        """
+    p: int
+    """Base field characteristic (e.g., p = 2^{31} - 2^{27} + 1)"""
+
+    field_extension_degree: int
+    """Extension field degree (e.g., ext_size = 2 for Fp²)"""
+
+    two_adicity: int
+    """
+    Two-adicity of the multiplicative group (largest s such that 2^s divides p-1)
+
+    This determines the maximum possible FFT domain size.
+    """
+
+    # Registry of known fields (populated below)
+    _registry: ClassVar[dict[str, FieldParams]] = {}
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def F(self) -> float:
+        """Extension field size |F| = p^{ext_size}"""
+        return math.pow(self.p, self.field_extension_degree)
+
+    def __str__(self) -> str:
         return self.name
 
     def base_field_element_size_bits(self) -> int:
@@ -40,70 +53,57 @@ class FieldParams:
         """
         return self.base_field_element_size_bits() * self.field_extension_degree
 
+    @classmethod
+    def register(cls, key: str, field: FieldParams) -> FieldParams:
+        """Register a field in the global registry."""
+        cls._registry[key] = field
+        return field
 
-def _F(p: int, ext_size: int) -> float:
-    # Keep as float to match existing zkEVMConfig expectations
-    return math.pow(p, ext_size)
-
-
-# Base fields
-GOLDILOCKS_P = (1 << 64) - (1 << 32) + 1
-# Goldilocks 2-adicity: 2^64 - 2^32 = 2^32 * (2^32 - 1). 32 is the max power of 2.
-GOLDILOCKS_TWO_ADICITY = 32
-
-BABYBEAR_P = (1 << 31) - (1 << 27) + 1
-# BabyBear 2-adicity: 2^31 - 2^27 = 2^27 * (2^4 - 1). 27 is the max power of 2.
-BABYBEAR_TWO_ADICITY = 27
+    @classmethod
+    def from_name(cls, name: str) -> FieldParams:
+        """Look up a field by its config name (e.g., 'Goldilocks^2')."""
+        if name not in cls._registry:
+            raise ValueError(f"Unknown field: {name}. Valid: {list(cls._registry)}")
+        return cls._registry[name]
 
 
-# Preset extension fields
-GOLDILOCKS_2 = FieldParams(
-    name="Goldilocks²",
-    p=GOLDILOCKS_P,
-    field_extension_degree=2,
-    F=_F(GOLDILOCKS_P, 2),
-    two_adicity=GOLDILOCKS_TWO_ADICITY,
-)
+_GOLDILOCKS = (p := (1 << 64) - (1 << 32) + 1, 32)
+"""
+Goldilocks prime: p = 2^64 - 2^32 + 1
+Two-adicity: p - 1 = 2^32 * (2^32 - 1), so 32 is the max power of 2
+"""
 
-GOLDILOCKS_3 = FieldParams(
-    name="Goldilocks³",
-    p=GOLDILOCKS_P,
-    field_extension_degree=3,
-    F=_F(GOLDILOCKS_P, 3),
-    two_adicity=GOLDILOCKS_TWO_ADICITY,
-)
-
-BABYBEAR_4 = FieldParams(
-    name="BabyBear⁴",
-    p=BABYBEAR_P,
-    field_extension_degree=4,
-    F=_F(BABYBEAR_P, 4),
-    two_adicity=BABYBEAR_TWO_ADICITY,
-)
-
-BABYBEAR_5 = FieldParams(
-    name="BabyBear⁵",
-    p=BABYBEAR_P,
-    field_extension_degree=5,
-    F=_F(BABYBEAR_P, 5),
-    two_adicity=BABYBEAR_TWO_ADICITY,
-)
+_BABYBEAR = (p := (1 << 31) - (1 << 27) + 1, 27)
+"""
+BabyBear prime: p = 2^31 - 2^27 + 1
+Two-adicity: p - 1 = 2^27 * (2^4 - 1), so 27 is the max power of 2
+"""
 
 
-# Map field strings (as used in TOML configs) to FieldParams
-FIELD_MAP = {
-    "Goldilocks^2": GOLDILOCKS_2,
-    "Goldilocks^3": GOLDILOCKS_3,
-    "BabyBear^4": BABYBEAR_4,
-    "BabyBear^5": BABYBEAR_5,
-}
+def _field(name: str, base: tuple[int, int], ext: int, key: str) -> FieldParams:
+    """Helper to create and register a field."""
+    return FieldParams.register(
+        key,
+        FieldParams(
+            name=name, p=base[0], field_extension_degree=ext, two_adicity=base[1]
+        ),
+    )
 
 
-def parse_field(field_str: str) -> FieldParams:
-    """
-    Parse a field string from a TOML config into a FieldParams object.
-    """
-    field = FIELD_MAP.get(field_str)
-    if field is None:
-        raise ValueError(f"Unknown field: {field_str}")
-    return field
+GOLDILOCKS_2 = _field("Goldilocks²", _GOLDILOCKS, 2, "Goldilocks^2")
+GOLDILOCKS_3 = _field("Goldilocks³", _GOLDILOCKS, 3, "Goldilocks^3")
+BABYBEAR_4 = _field("BabyBear⁴", _BABYBEAR, 4, "BabyBear^4")
+BABYBEAR_5 = _field("BabyBear⁵", _BABYBEAR, 5, "BabyBear^5")
+
+
+def _validate_field(v: Any) -> FieldParams:
+    """Pydantic validator: parse field string or pass through FieldParams."""
+    if isinstance(v, FieldParams):
+        return v
+    if isinstance(v, str):
+        return FieldParams.from_name(v)
+    raise TypeError(f"Expected str or FieldParams, got {type(v).__name__}")
+
+
+Field = Annotated[FieldParams, BeforeValidator(_validate_field)]
+"""Type annotation for automatic field parsing in Pydantic models."""

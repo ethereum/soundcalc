@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 import math
-from dataclasses import dataclass
 from pathlib import Path
 
-import toml
+from pydantic import BaseModel, ConfigDict
 
-from soundcalc.common.fields import FieldParams, parse_field
+from soundcalc.common.fields import FieldParams
 from soundcalc.common.utils import (
     get_bits_of_security_from_error,
     get_size_of_merkle_path_bits,
@@ -12,301 +13,329 @@ from soundcalc.common.utils import (
 from soundcalc.proxgaps.johnson_bound import JohnsonBoundRegime
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
 from soundcalc.proxgaps.unique_decoding import UniqueDecodingRegime
+from soundcalc.schemas import WHIRConfig
 from soundcalc.zkvms.zkvm import Circuit, zkVM
 
 
-@dataclass(frozen=True)
-class WHIRBasedVMConfig:
-    """
-    A configuration of a WHIR-based zkVM
-    """
+class WHIRBasedVMConfig(BaseModel):
+    """A configuration of a WHIR-based zkVM"""
 
-    # Name of the proof system
+    model_config = ConfigDict(frozen=True)
+
     name: str
+    """Name of the proof system"""
 
-    # The output length of the hash function that is used in bits
-    # Note: this concerns the hash function used for Merkle trees
     hash_size_bits: int
+    """
+    The output length of the hash function that is used in bits
+    Note: this concerns the hash function used for Merkle trees
+    """
 
-    # Parameters are inspired by Giacomo's script here for inspiration
-    # https://github.com/WizardOfMenlo/stir-whir-scripts/blob/main/src/whir.rs
-
-    # The base-2 logarithm of the inverse rate of the initial code.
-    #
-    # In the paper, the rate is denoted by ρ. This parameter represents:
-    #
-    # \begin{equation}
-    #    \text{log_inv_rate} = \log_2(\frac{1}{ρ})
-    # \end{equation}
-    #
-    # ### Mathematical Definition
-    #
-    # Per **Definition 4.2** (Reed-Solomon codes):
-    # - Let $2^m$ be the degree of the polynomial (size of message).
-    # - Let $|L|$ be the size of the evaluation domain (size of codeword).
-    #
-    # The rate is defined as ρ := $2^m / |L|$.
-    #
-    # Therefore, this parameter calculates the expansion factor in bits:
-    # \begin{equation}
-    #   \text{log_inv_rate} = \log_2(|L|) - m
-    # \end{equation}
-    #
-    # ### Examples
-    #
-    # - If ρ = 1/2: $\log_2(2) = 1$
-    # - If ρ = 1/4: $\log_2(4) = 2$
-    # - If ρ = 1/16: $\log_2(16) = 4$
-    #
-    # **NOTE**: The rate in WHIR decreases (becomes smaller) with every iteration.
-    #
-    # This parameter sets only the initial rate ρ.
     log_inv_rate: int
+    """
+    The base-2 logarithm of the inverse rate of the initial code.
 
-    # The total number of WHIR iterations, denoted by $M$ in the paper.
-    #
-    # This parameter dictates how many reduction steps are performed to reduce
-    # the polynomial from $m$ variables down to a constant size.
-    #
-    # **NOTE**: One WHIR iteration corresponds to multiple sumcheck rounds.
-    #
-    # A single WHIR iteration reduces the number of variable $m$ by $k$.
-    # To do this, it runs a sumcheck protocol as a sub-routine.
-    #
-    # Therefore, one iteration consists of:
-    #
-    # 1. Sumcheck phase ($k$ rounds):
-    #    The Prover and Verifier interact $k$ distinct times.
-    #    In each inner round, exactly one variable is eliminated.
-    #
-    # 2. Sampling phase:
-    #    The Verifier requests one or multiple Out-of-Domain (OOD) evaluations.
-    #
-    # 3. Folding phase:
-    #    The Prover computes and sends the new, smaller function.
-    #
-    # See Construction 5.1 for the flow of the main loop.
+    Parameters are inspired by Giacomo's script here for inspiration
+    https://github.com/WizardOfMenlo/stir-whir-scripts/blob/main/src/whir.rs
+
+    In the paper, the rate is denoted by ρ. This parameter represents:
+
+    \\begin{equation}
+       \\text{log_inv_rate} = \\log_2(\\frac{1}{ρ})
+    \\end{equation}
+
+    ### Mathematical Definition
+
+    Per **Definition 4.2** (Reed-Solomon codes):
+    - Let $2^m$ be the degree of the polynomial (size of message).
+    - Let $|L|$ be the size of the evaluation domain (size of codeword).
+
+    The rate is defined as ρ := $2^m / |L|$.
+
+    Therefore, this parameter calculates the expansion factor in bits:
+    \\begin{equation}
+      \\text{log_inv_rate} = \\log_2(|L|) - m
+    \\end{equation}
+
+    ### Examples
+
+    - If ρ = 1/2: $\\log_2(2) = 1$
+    - If ρ = 1/4: $\\log_2(4) = 2$
+    - If ρ = 1/16: $\\log_2(16) = 4$
+
+    **NOTE**: The rate in WHIR decreases (becomes smaller) with every iteration.
+
+    This parameter sets only the initial rate ρ.
+    """
+
     num_iterations: int
+    """
+    The total number of WHIR iterations, denoted by $M$ in the paper.
 
-    # The logarithmic reduction factor for each WHIR iteration.
-    #
-    # In the paper, this corresponds to the sequence $k_0, ..., k_{M-1}$
-    #
-    # This parameter dictates how aggressively the polynomial is compressed in every iteration.
-    #
-    # ### Mathematical Definition
-    #
-    # If the folding factor is $k$:
-    #
-    # 1. Polynomial Degree Reduction:
-    #    The number of variables decreases by $k$.
-    #    \begin{equation}
-    #       m_{new} = m_{old} - k
-    #    \end{equation}
-    #
-    # 2. Evaluation Domain Reduction:
-    #    The domain size reduces by a factor of 2.
-    #    \begin{equation}
-    #       |L_{new}| = |L_{old}| / 2
-    #    \end{equation}
-    #
-    # ### Impact on Rate
-    #
-    # Because the degree shrinks faster ($2^k$) than the domain ($2^1$),
-    # the rate of the code decreases with every step.
-    # \begin{equation}
-    #   \rho_{new} = 2^{1-k} ⋅ \rho_{old}
-    # \end{equation}
-    #
-    # ### Rust Calculator Note
-    #
-    # This corresponds to `folding_factors` in the Rust implementation.
-    #
-    # See `WhirParameters::fixed_domain_shift` in the reference script:
-    # https://github.com/WizardOfMenlo/stir-whir-scripts/blob/main/src/whir.rs#L72
-    #
-    # While the paper allows for variable $k_i$, this calculator (like the
-    # Rust script) currently assumes a constant $k$ for all iterations.
+    This parameter dictates how many reduction steps are performed to reduce
+    the polynomial from $m$ variables down to a constant size.
+
+    **NOTE**: One WHIR iteration corresponds to multiple sumcheck rounds.
+
+    A single WHIR iteration reduces the number of variable $m$ by $k$.
+    To do this, it runs a sumcheck protocol as a sub-routine.
+
+    Therefore, one iteration consists of:
+
+    1. Sumcheck phase ($k$ rounds):
+       The Prover and Verifier interact $k$ distinct times.
+       In each inner round, exactly one variable is eliminated.
+
+    2. Sampling phase:
+       The Verifier requests one or multiple Out-of-Domain (OOD) evaluations.
+
+    3. Folding phase:
+       The Prover computes and sends the new, smaller function.
+
+    See Construction 5.1 for the flow of the main loop.
+    """
+
     folding_factor: int
+    """
+    The logarithmic reduction factor for each WHIR iteration.
 
-    # The field that is used
+    In the paper, this corresponds to the sequence $k_0, ..., k_{M-1}$
+
+    This parameter dictates how aggressively the polynomial is compressed in every iteration.
+
+    ### Mathematical Definition
+
+    If the folding factor is $k$:
+
+    1. Polynomial Degree Reduction:
+       The number of variables decreases by $k$.
+       \\begin{equation}
+          m_{new} = m_{old} - k
+       \\end{equation}
+
+    2. Evaluation Domain Reduction:
+       The domain size reduces by a factor of 2.
+       \\begin{equation}
+          |L_{new}| = |L_{old}| / 2
+       \\end{equation}
+
+    ### Impact on Rate
+
+    Because the degree shrinks faster ($2^k$) than the domain ($2^1$),
+    the rate of the code decreases with every step.
+    \\begin{equation}
+      \\rho_{new} = 2^{1-k} ⋅ \\rho_{old}
+    \\end{equation}
+
+    ### Rust Calculator Note
+
+    This corresponds to `folding_factors` in the Rust implementation.
+
+    See `WhirParameters::fixed_domain_shift` in the reference script:
+    https://github.com/WizardOfMenlo/stir-whir-scripts/blob/main/src/whir.rs#L72
+
+    While the paper allows for variable $k_i$, this calculator (like the
+    Rust script) currently assumes a constant $k$ for all iterations.
+    """
+
     field: FieldParams
+    """The field that is used"""
 
-    # The initial number of variables of the multilinear polynomial.
-    #
-    # In the paper, this is denoted as $m$ (or $m_0$).
-    #
-    # This parameter effectively defines the size of the witness/message being proven.
-    #
-    # ### Mathematical Definition
-    #
-    # Per Definition 4.2 (Reed-Solomon codes), there is an equivalence
-    # between the univariate degree $d$ and the number of variables $m$:
-    #
-    # \begin{equation}
-    #    d = 2^m ⇒ m = \log_2(d)
-    # \end{equation}
-    #
-    # Thus, the code is defined as evaluations of polynomials with degree strictly less than $2^m$.
-    #
-    # ### Evolution
-    #
-    # This parameter sets the initial $m$. As the protocol proceeds through
-    # iterations of folding, this value decreases:
-    #
-    # \begin{equation}
-    #    m_{next} = m_{current} - k
-    # \end{equation}
-    #
-    # The protocol ends when $m$ is reduced to a small constant.
     log_degree: int
+    """
+    The initial number of variables of the multilinear polynomial.
 
-    # The number of polynomials verified simultaneously.
-    #
-    # In the paper, this is denoted as $t$ in **Construction 5.5** (Section 5.2).
-    #
-    # This parameter enables the protocol to verify multiple instances with a single proof
-    # by taking a random linear combination.
-    #
-    # ### Mathematical Definition
-    #
-    # Instead of verifying $t$ functions individually, the protocol verifies:
-    # \begin{equation}
-    #    f_{batch} = \sum_{i=0}^{t-1} c_i ⋅ f_i
-    # \end{equation}
-    #
-    # ### Coefficient Selection
-    #
-    # The generation of coefficients $c_i$ depends on the `power_batching` parameter:
-    # - Power Batching: $c_i = γ^i$ (as in Construction 5.5).
-    # - Linear Batching: $c_i = r_i$ (fully independent random values).
-    #
-    # ### Rust Calculator Note
-    #
-    # See `WhirParameters` in the reference script:
-    # https://github.com/WizardOfMenlo/stir-whir-scripts/blob/main/src/whir.rs#L144
+    In the paper, this is denoted as $m$ (or $m_0$).
+
+    This parameter effectively defines the size of the witness/message being proven.
+
+    ### Mathematical Definition
+
+    Per Definition 4.2 (Reed-Solomon codes), there is an equivalence
+    between the univariate degree $d$ and the number of variables $m$:
+
+    \\begin{equation}
+       d = 2^m ⇒ m = \\log_2(d)
+    \\end{equation}
+
+    Thus, the code is defined as evaluations of polynomials with degree strictly less than $2^m$.
+
+    ### Evolution
+
+    This parameter sets the initial $m$. As the protocol proceeds through
+    iterations of folding, this value decreases:
+
+    \\begin{equation}
+       m_{next} = m_{current} - k
+    \\end{equation}
+
+    The protocol ends when $m$ is reduced to a small constant.
+    """
+
     batch_size: int
+    """
+    The number of polynomials verified simultaneously.
 
-    # A flag determining the strategy for generating batching coefficients.
-    #
-    # This controls how coefficients $c_i$ are selected when computing the linear
-    # combination $f_{batch} = \sum c_i ⋅ f_i$.
-    #
-    # ### Strategies
-    #
-    # - True (Power Batching):
-    #   Coefficients are powers of a single random challenge $\gamma$.
-    #   \begin{equation}
-    #      c_i = \gamma^i
-    #   \end{equation}
-    #   This matches **Construction 5.5** in the paper.
-    #
-    # - False (Linear Batching):
-    #   Coefficients are independent random values $r_i$.
-    #   \begin{equation}
-    #      c_i = r_i
-    #   \end{equation}
-    #   This provides stronger soundness at the cost of consuming more randomness.
+    In the paper, this is denoted as $t$ in **Construction 5.5** (Section 5.2).
+
+    This parameter enables the protocol to verify multiple instances with a single proof
+    by taking a random linear combination.
+
+    ### Mathematical Definition
+
+    Instead of verifying $t$ functions individually, the protocol verifies:
+    \\begin{equation}
+       f_{batch} = \\sum_{i=0}^{t-1} c_i ⋅ f_i
+    \\end{equation}
+
+    ### Coefficient Selection
+
+    The generation of coefficients $c_i$ depends on the `power_batching` parameter:
+    - Power Batching: $c_i = γ^i$ (as in Construction 5.5).
+    - Linear Batching: $c_i = r_i$ (fully independent random values).
+
+    ### Rust Calculator Note
+
+    See `WhirParameters` in the reference script:
+    https://github.com/WizardOfMenlo/stir-whir-scripts/blob/main/src/whir.rs#L144
+    """
+
     power_batching: bool
+    """
+    A flag determining the strategy for generating batching coefficients.
 
-    # The number of grinding (Proof-of-Work) bits applied to the batching step.
-    #
-    # ### Definition
-    #
-    # Grinding forces the Prover to expend computational work to generate a specific
-    # prefix for the hash of the transcript.
-    #
-    # This reduces the soundness error probability by a factor of $2^{\text{bits}}$.
-    #
-    # This parameter reduces the specific error introduced by the batching linear combination.
+    This controls how coefficients $c_i$ are selected when computing the linear
+    combination $f_{batch} = \\sum c_i ⋅ f_i$.
+
+    ### Strategies
+
+    - True (Power Batching):
+      Coefficients are powers of a single random challenge $\\gamma$.
+      \\begin{equation}
+         c_i = \\gamma^i
+      \\end{equation}
+      This matches **Construction 5.5** in the paper.
+
+    - False (Linear Batching):
+      Coefficients are independent random values $r_i$.
+      \\begin{equation}
+         c_i = r_i
+      \\end{equation}
+      This provides stronger soundness at the cost of consuming more randomness.
+    """
+
     grinding_bits_batching: int
+    """
+    The number of grinding (Proof-of-Work) bits applied to the batching step.
 
-    # The degree of the polynomial constraints being verified.
-    #
-    # In the paper, this is denoted as $d$ in Construction 5.1.
-    #
-    # ### Mathematical Definition
-    #
-    # \begin{equation}
-    #    d = \max(d^*, 3)
-    # \end{equation}
-    #
-    # Where $d^*$ is derived from the weight polynomial $\hat{w}$:
-    # \begin{equation}
-    #    d^* = 1 + \deg_Z(\hat{w}) + \max_i \deg_{X_i}(\hat{w})
-    # \end{equation}
-    #
-    # This parameter impacts the proof size (sumcheck polynomials have degree $d$)
-    # and the soundness error term $\frac{d ⋅ ℓ}{|F|}$.
+    ### Definition
+
+    Grinding forces the Prover to expend computational work to generate a specific
+    prefix for the hash of the transcript.
+
+    This reduces the soundness error probability by a factor of $2^{\\text{bits}}$.
+
+    This parameter reduces the specific error introduced by the batching linear combination.
+    """
+
     constraint_degree: int
+    """
+    The degree of the polynomial constraints being verified.
 
-    # A 2D array of grinding bits for the folding steps.
-    #
-    # This applies Proof-of-Work to reduce the error of the Sumcheck folding rounds.
-    #
-    # ### Structure
-    #
-    # - Outer Dimension: Iterations ($i$ from $0$ to $M-1$).
-    # - Inner Dimension: Sumcheck Rounds ($s$ from $1$ to $k$).
-    #
-    # ### Impact on Soundness
-    #
-    # This directly reduces the error term $ϵ^{fold}_{i,s}$ defined in
-    # Theorem 5.2 (round-by-round soundness), where:
-    # - $0 ≤ i < M$
-    # - $1 ≤ s ≤ k$
+    In the paper, this is denoted as $d$ in Construction 5.1.
+
+    ### Mathematical Definition
+
+    \\begin{equation}
+       d = \\max(d^*, 3)
+    \\end{equation}
+
+    Where $d^*$ is derived from the weight polynomial $\\hat{w}$:
+    \\begin{equation}
+       d^* = 1 + \\deg_Z(\\hat{w}) + \\max_i \\deg_{X_i}(\\hat{w})
+    \\end{equation}
+
+    This parameter impacts the proof size (sumcheck polynomials have degree $d$)
+    and the soundness error term $\\frac{d ⋅ ℓ}{|F|}$.
+    """
+
     grinding_bits_folding: list[list[int]]
+    """
+    A 2D array of grinding bits for the folding steps.
 
-    # The number of verification queries performed per iteration.
-    #
-    # In the paper, this corresponds to the sequence $t_0, ..., t_{M-1}$
-    # defined in Construction 5.1.
-    #
-    # This list has length $M$ (one count for each iteration).
-    #
-    # ### Impact
-    #
-    # - Soundness: More queries reduce the probability that the Verifier misses an
-    #   inconsistency ($≈(1-δ)^t$).
-    # - Proof Size: Each query requires a Merkle path, increasing proof size.
+    This applies Proof-of-Work to reduce the error of the Sumcheck folding rounds.
+
+    ### Structure
+
+    - Outer Dimension: Iterations ($i$ from $0$ to $M-1$).
+    - Inner Dimension: Sumcheck Rounds ($s$ from $1$ to $k$).
+
+    ### Impact on Soundness
+
+    This directly reduces the error term $ϵ^{fold}_{i,s}$ defined in
+    Theorem 5.2 (round-by-round soundness), where:
+    - $0 ≤ i < M$
+    - $1 ≤ s ≤ k$
+    """
+
     num_queries: list[int]
+    """
+    The number of verification queries performed per iteration.
 
-    # A list of grinding bits applied to the query phases.
-    #
-    # This list has length $M$ (matching `num_queries`).
-    #
-    # ### Impact on soundness
-    #
-    # This reduces the error terms associated with:
-    # 1. The Shift checks ($ϵ^{shift}_i$).
-    # 2. The Final check ($ϵ^{fin}$).
-    #
-    # This allows trading off fewer queries (smaller proof) for more prover computation time.
+    In the paper, this corresponds to the sequence $t_0, ..., t_{M-1}$
+    defined in Construction 5.1.
+
+    This list has length $M$ (one count for each iteration).
+
+    ### Impact
+
+    - Soundness: More queries reduce the probability that the Verifier misses an
+      inconsistency ($≈(1-δ)^t$).
+    - Proof Size: Each query requires a Merkle path, increasing proof size.
+    """
+
     grinding_bits_queries: list[int]
+    """
+    A list of grinding bits applied to the query phases.
 
-    # The number of Out-of-Domain (OOD) samples requested per iteration.
-    #
-    # In the paper, this corresponds to the sample $z_{i,0}$ in Construction 5.1.
-    #
-    # This list has length $M-1$.
-    #
-    # ### Mechanism
-    #
-    # The verifier samples random points $z$ outside the evaluation domain to force
-    # consistency between the folded functions $f_i$ and their multilinear extensions.
+    This list has length $M$ (matching `num_queries`).
+
+    ### Impact on soundness
+
+    This reduces the error terms associated with:
+    1. The Shift checks ($ϵ^{shift}_i$).
+    2. The Final check ($ϵ^{fin}$).
+
+    This allows trading off fewer queries (smaller proof) for more prover computation time.
+    """
+
     num_ood_samples: list[int]
+    """
+    The number of Out-of-Domain (OOD) samples requested per iteration.
 
-    # A list of grinding bits applied to the OOD sampling phases.
-    #
-    # This list has length $M-1$ (matching `num_ood_samples`).
-    #
-    # ### Impact on Soundness
-    #
-    # This reduces the error term $ϵ^{out}_i$ in Theorem 5.2.
-    #
-    # It mitigates the risk of collision where distinct polynomials might
-    # agree on the sampled OOD point.
+    In the paper, this corresponds to the sample $z_{i,0}$ in Construction 5.1.
+
+    This list has length $M-1$.
+
+    ### Mechanism
+
+    The verifier samples random points $z$ outside the evaluation domain to force
+    consistency between the folded functions $f_i$ and their multilinear extensions.
+    """
+
     grinding_bits_ood: list[int]
+    """
+    A list of grinding bits applied to the OOD sampling phases.
+
+    This list has length $M-1$ (matching `num_ood_samples`).
+
+    ### Impact on Soundness
+
+    This reduces the error term $ϵ^{out}_i$ in Theorem 5.2.
+
+    It mitigates the risk of collision where distinct polynomials might
+    agree on the sampled OOD point.
+    """
 
 
 class WHIRBasedCircuit(Circuit):
@@ -471,7 +500,7 @@ class WHIRBasedCircuit(Circuit):
             "grinding_bits_batching": self.grinding_bits_batching,
             "num_iterations": self.num_iterations,
             "constraint_degree": self.constraint_degree,
-            "field": self.field.to_string(),
+            "field": str(self.field),
         }
 
         key_width = max(len(k) for k in params)
@@ -922,47 +951,40 @@ class WHIRBasedCircuit(Circuit):
 
 
 class WHIRBasedVM(zkVM):
-    """
-    A zkVM that contains one or more WHIR-based circuits.
-    """
+    """A zkVM that contains one or more WHIR-based circuits."""
 
     def __init__(self, name: str, circuits: list[WHIRBasedCircuit]):
         self._name = name
         self._circuits = circuits
 
     @classmethod
-    def load_from_toml(cls, toml_path: Path) -> "WHIRBasedVM":
-        """
-        Load a WHIR-based VM from a TOML configuration file.
-        """
-        with open(toml_path, "r") as f:
-            config = toml.load(f)
-
-        field = parse_field(config["zkevm"]["field"])
-        circuits = []
-
-        for section in config.get("circuits", []):
-            cfg = WHIRBasedVMConfig(
-                name=section["name"],
-                hash_size_bits=config["zkevm"]["hash_size_bits"],
-                log_inv_rate=section["log_inv_rate"],
-                num_iterations=section["num_iterations"],
-                folding_factor=section["folding_factor"],
-                field=field,
-                log_degree=section["log_degree"],
-                batch_size=section["batch_size"],
-                power_batching=section["power_batching"],
-                grinding_bits_batching=section["grinding_bits_batching"],
-                constraint_degree=section["constraint_degree"],
-                grinding_bits_folding=section["grinding_bits_folding"],
-                num_queries=section["num_queries"],
-                grinding_bits_queries=section["grinding_bits_queries"],
-                num_ood_samples=section["num_ood_samples"],
-                grinding_bits_ood=section["grinding_bits_ood"],
+    def load(cls, path: Path) -> "WHIRBasedVM":
+        """Load a WHIR-based VM from a JSON configuration file."""
+        data = WHIRConfig.load(path)
+        circuits = [
+            WHIRBasedCircuit(
+                WHIRBasedVMConfig(
+                    name=c.name,
+                    hash_size_bits=data.zkevm.hash_size_bits,
+                    log_inv_rate=c.log_inv_rate,
+                    num_iterations=c.num_iterations,
+                    folding_factor=c.folding_factor,
+                    field=data.zkevm.field,
+                    log_degree=c.log_degree,
+                    batch_size=c.batch_size,
+                    power_batching=c.power_batching,
+                    grinding_bits_batching=c.grinding_bits_batching,
+                    constraint_degree=c.constraint_degree,
+                    grinding_bits_folding=c.grinding_bits_folding,
+                    num_queries=c.num_queries,
+                    grinding_bits_queries=c.grinding_bits_queries,
+                    num_ood_samples=c.num_ood_samples,
+                    grinding_bits_ood=c.grinding_bits_ood,
+                )
             )
-            circuits.append(WHIRBasedCircuit(cfg))
-
-        return cls(config["zkevm"]["name"], circuits=circuits)
+            for c in data.circuits
+        ]
+        return cls(data.zkevm.name, circuits=circuits)
 
     def get_name(self) -> str:
         return self._name
