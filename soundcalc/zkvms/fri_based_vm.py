@@ -12,7 +12,7 @@ from soundcalc.proxgaps.johnson_bound import JohnsonBoundRegime
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
 from soundcalc.proxgaps.unique_decoding import UniqueDecodingRegime
 from soundcalc.zkvms.zkvm import Circuit, zkVM
-from ..common.fields import FieldParams, field_element_size_bits, parse_field
+from ..common.fields import FieldParams, parse_field
 from ..common.fri import get_FRI_proof_size_bits, get_num_FRI_folding_rounds
 
 
@@ -228,7 +228,7 @@ class FRIBasedCircuit(Circuit):
 
         return get_FRI_proof_size_bits(
             hash_size_bits=self.hash_size_bits,
-            field_size_bits=field_element_size_bits(self.field),
+            field_size_bits=self.field.extension_field_element_size_bits(),
             batch_size=self.batch_size,
             num_queries=self.num_queries,
             witness_size=int(self.D),
@@ -251,7 +251,7 @@ class FRIBasedCircuit(Circuit):
         """
 
         # we consider the following regimes, and for each regime do the analysis
-        regimes = [UniqueDecodingRegime(), JohnsonBoundRegime()]
+        regimes = [UniqueDecodingRegime(self.field), JohnsonBoundRegime(self.field)]
 
         result = {}
         for regime in regimes:
@@ -262,8 +262,7 @@ class FRIBasedCircuit(Circuit):
 
             # Compute security levels
             fri_levels = self.get_security_levels_for_regime(regime)
-            delta = regime.get_max_delta(rate, dimension, self.field)
-            list_size = regime.get_max_list_size(rate, dimension, self.field, delta)
+            list_size = regime.get_max_list_size(rate, dimension)
             proof_system_levels = get_DEEP_ALI_errors(list_size, self)
 
             # Note down security levels
@@ -310,9 +309,9 @@ class FRIBasedCircuit(Circuit):
         dimension = self.trace_length
 
         if self.power_batching:
-            epsilon = regime.get_error_powers(rate, dimension, self.field, self.batch_size)
+            epsilon = regime.get_error_powers(rate, dimension, self.batch_size)
         else:
-            epsilon = regime.get_error_linear(rate, dimension, self.field)
+            epsilon = regime.get_error_linear(rate, dimension)
 
         return epsilon
 
@@ -322,10 +321,14 @@ class FRIBasedCircuit(Circuit):
         """
 
         rate = self.rho
-        #TODO: check if it is round or round+1
-        dimension = self.trace_length / (self.FRI_folding_factors[round] ** (round + 1))
 
-        epsilon = regime.get_error_powers(rate, dimension, self.field, self.batch_size)
+        acc_folding_factor = 1
+        for i in range(round + 1):
+            acc_folding_factor *= self.FRI_folding_factors[i]
+
+        dimension = self.trace_length / acc_folding_factor
+
+        epsilon = regime.get_error_powers(rate, dimension, self.FRI_folding_factors[round])
 
         return epsilon
 
@@ -337,9 +340,9 @@ class FRIBasedCircuit(Circuit):
         rate = self.rho
         dimension = self.trace_length
 
-        # error is (1-delta)^number of queries
-        delta = regime.get_max_delta(rate, dimension, self.field)
-        epsilon = (1 - delta) ** self.num_queries
+        # error is (1-pp)^number of queries
+        pp = regime.get_proximity_parameter(rate, dimension)
+        epsilon = (1 - pp) ** self.num_queries
 
         # add grinding
         epsilon *= 2 ** (-self.grinding_query_phase)

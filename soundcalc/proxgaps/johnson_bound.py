@@ -1,6 +1,3 @@
-
-
-from soundcalc.common.fields import FieldParams
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
 
 import math
@@ -12,49 +9,64 @@ class JohnsonBoundRegime(ProximityGapsRegime):
     def identifier(self) -> str:
         return "JBR"
 
-    def get_max_delta(self, rate: float, dimension: int, field: FieldParams) -> float:
+    def get_proximity_parameter(self, rate: float, dimension: int) -> float:
+        # The proximity parameter defines how close we are to the Johnson Bound 1-sqrt(rate).
+        n = dimension / rate
+        sqrt_rate = math.sqrt(rate)
 
-        eta = self.get_eta(rate)
+        # TODO: Let's use a heuristic to figure out the proximity parameter here.
+        # If we are working over a large field (|F| > 2^150), use a tiny gap from JB: 1/n
+        # Otherwise, use a more conservative rho/20.
+        if self.field.F > 2**150:
+            gap = 1 / n
+        else:
+            gap = rate / 20
 
-        # And proximity parameter theta = 1 - sqrt(rho) - eta
-        #                               = 1 - sqrt(rho) * (1 + 1/ (2m) )
-        # as required by Theorem 2 of Ha22.
-        alpha = math.sqrt(rate) + eta
-        theta = 1 - alpha
-        return theta
+        return 1 - sqrt_rate - gap
 
-    def get_max_list_size(self, rate: float, dimension: int, field: FieldParams, delta: float) -> int:
-        assert delta <= self.get_max_delta(rate, dimension, field)
+    def get_max_list_size(self, rate: float, dimension: int) -> int:
+        # Reed-Solomon codes are (1 - sqrt(rate) - gap, (2*gap*sqrt(rate))⁻¹)-list decodable.
+        sqrt_rate = math.sqrt(rate)
+        pp = self.get_proximity_parameter(rate, dimension)
 
-        # following https://github.com/WizardOfMenlo/stir-whir-scripts/blob/main/src/errors.rs#L43
-        # By the JB, RS codes are (1 - √ρ - η, (2*η*√ρ)^-1)-list decodable.
-        eta = self.get_eta(rate)
-        return 1.0 / (2 * eta * math.sqrt(rate))
+        gap = 1 - sqrt_rate - pp
+        assert gap > 0
 
-    def get_eta(self, rate) -> float:
-        # ASN This is hardcoded to 16, whereas winterfell brute forces it:
-        # https://github.com/facebook/winterfell/blob/main/air/src/proof/security.rs#L290-L306
+        return 1.0 / (2 * gap * sqrt_rate)
 
-        m = 16
+    def get_m(self, rate: float, dimension: int) -> int:
+        """
+        Set m according to Theorem 4.2 of BCHKS25
+        """
+        sqrt_rate = math.sqrt(rate)
+        pp = self.get_proximity_parameter(rate, dimension)
+        assert pp < 1 - sqrt_rate
 
-        # ASN Is this a good value for eta?
-        eta = math.sqrt(rate) / (2 * m)
+        # Theorem 4.2 of BCHKS25 says:
+        #    m = max{ ceil( sqrt(rate) / (1 - sqrt(rate) - pp) ), 3 }
+        denominator = 1 - sqrt_rate - pp
+        m = math.ceil(sqrt_rate / denominator)
+        return max(m, 3)
 
-        return eta
+    def get_error_powers(self, rate: float, dimension: int, num_functions: int) -> float:
+        return self.get_error_linear(rate, dimension) * (num_functions - 1)
 
-    def get_error_powers(self, rate: float, dimension: int, field: FieldParams, num_functions: int) -> float:
-        return self.get_error_linear(rate, dimension, field) * (num_functions - 1)
+    def get_error_linear(self, rate: float, dimension: int) -> float:
+        """ Use Theorem 4.2 from BCHKS25 to compute the error"""
 
+        sqrt_rate = math.sqrt(rate)
 
-    def get_error_linear(self, rate: float, dimension: int, field: FieldParams) -> float:
+        pp = self.get_proximity_parameter(rate, dimension)
+        m = self.get_m(rate, dimension)
+        m_shifted = m + 0.5
+        n = dimension / rate
 
-        # following WHIR bound in Conjecture 4.12, and noting that 1 - √ρ - delta = η
-        exponent = 5
-        sqrt_rate_div_20 = math.sqrt(rate) / 20
-        eta = self.get_eta(rate)
-        denominator = (2 * min(eta, sqrt_rate_div_20)) ** exponent
-        denominator *= field.F
+        # Compute the first fraction
+        numerator = (2 * m_shifted**5 + 3 * m_shifted * (pp * rate)) * n
+        denominator = 3 * rate * sqrt_rate
+        first_fraction = numerator / denominator
 
-        numerator = dimension
+        # Now the second one
+        second_fraction = m_shifted / sqrt_rate
 
-        return numerator / denominator
+        return (first_fraction + second_fraction) / self.field.F

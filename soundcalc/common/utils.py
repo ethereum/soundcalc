@@ -30,7 +30,7 @@ def get_size_of_merkle_path_bits(num_leafs: int, tuple_size: int, element_size_b
     """
     assert num_leafs > 0
     leaf_size = tuple_size * element_size_bits
-    sibling = tuple_size * element_size_bits
+    sibling = min(tuple_size * element_size_bits, hash_size_bits)
     tree_depth = math.ceil(math.log2(num_leafs))
     co_path = (tree_depth - 1) * hash_size_bits
     return leaf_size + sibling + co_path

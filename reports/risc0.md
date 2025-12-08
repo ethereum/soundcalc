@@ -19,10 +19,10 @@ How to read this report:
 - FRI early stop degree: 128
 - Batching: Powers
 
-**Proof Size Estimate:** 582 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 338 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 33 | 115 | 100 | 92 | 96 | 100 | 104 | 108 | 33 |
-| JBR | 47 | 109 | 94 | 69 | 73 | 77 | 81 | 85 | 47 |
+| UDR | 33 | 115 | 100 | 92 | 100 | 104 | 108 | 112 | 33 |
+| JBR | 48 | 109 | 93 | 63 | 71 | 75 | 79 | 83 | 48 |
 | best attack | 99 | — | — | — | — | — | — | — | — |

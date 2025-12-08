@@ -1,6 +1,3 @@
-
-
-from soundcalc.common.fields import FieldParams
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
 
 
@@ -11,18 +8,16 @@ class UniqueDecodingRegime(ProximityGapsRegime):
     def identifier(self) -> str:
         return "UDR"
 
-    def get_max_delta(self, rate: float, dimension: int, field: FieldParams) -> float:
+    def get_proximity_parameter(self, rate: float, dimension: int) -> float:
         return (1 - rate) / 2
 
-    def get_max_list_size(self, rate: float, dimension: int, field: FieldParams, delta: float) -> int:
-        assert delta <= self.get_max_delta(rate, dimension, field)
+    def get_max_list_size(self, rate: float, dimension: int) -> int:
         return 1
 
-    def get_error_powers(self, rate: float, dimension: int, field: FieldParams, num_functions: int) -> float:
-        n = dimension / rate
-        return num_functions * n / field.F
+    def get_error_powers(self, rate: float, dimension: int, num_functions: int) -> float:
+        return self.get_error_linear(rate, dimension) * (num_functions - 1)
 
-
-    def get_error_linear(self, rate: float, dimension: int, field: FieldParams) -> float:
+    def get_error_linear(self, rate: float, dimension: int) -> float:
+        # Using Theorem 1.4 (which points to Theorem 1.2) from BCIKS20
         n = dimension / rate
-        return n / field.F
+        return n / self.field.F

@@ -53,12 +53,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 886 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 579 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 186 | 167 | 163 | 167 | 171 | 175 | 175 | 178 | 53 |
-| JBR | 58 | 181 | 162 | 141 | 145 | 149 | 153 | 153 | 156 | 58 |
+| UDR | 53 | 186 | 167 | 163 | 169 | 173 | 177 | 181 | 184 | 53 |
+| JBR | 49 | 163 | 145 | 49 | 75 | 99 | 123 | 142 | 160 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -77,12 +77,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 628 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 450 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 189 | 168 | 164 | 168 | 172 | 176 | 176 | 179 | 53 |
-| JBR | 58 | 184 | 163 | 143 | 147 | 151 | 155 | 155 | 158 | 58 |
+| UDR | 53 | 189 | 168 | 164 | 169 | 173 | 177 | 181 | 184 | 53 |
+| JBR | 51 | 167 | 145 | 51 | 75 | 99 | 123 | 142 | 160 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -101,12 +101,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 694 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 483 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 187 | 167 | 164 | 168 | 172 | 176 | 176 | 179 | 53 |
-| JBR | 58 | 182 | 162 | 142 | 146 | 150 | 154 | 154 | 157 | 58 |
+| UDR | 53 | 187 | 167 | 164 | 169 | 173 | 177 | 181 | 184 | 53 |
+| JBR | 50 | 165 | 145 | 50 | 75 | 99 | 123 | 142 | 160 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -125,12 +125,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 582 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 425 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 188 | 168 | 165 | 169 | 173 | 174 | 177 | 180 | 53 |
-| JBR | 58 | 183 | 163 | 144 | 148 | 152 | 153 | 156 | 159 | 58 |
+| UDR | 53 | 188 | 168 | 165 | 170 | 174 | 178 | 181 | 184 | 53 |
+| JBR | 57 | 166 | 147 | 57 | 81 | 105 | 124 | 142 | 160 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -149,12 +149,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 630 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 449 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 187 | 168 | 165 | 169 | 173 | 174 | 177 | 180 | 53 |
-| JBR | 58 | 182 | 163 | 143 | 147 | 151 | 152 | 155 | 158 | 58 |
+| UDR | 53 | 187 | 168 | 165 | 170 | 174 | 178 | 181 | 184 | 53 |
+| JBR | 56 | 166 | 147 | 56 | 81 | 105 | 124 | 142 | 160 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -173,12 +173,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 822 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 545 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 186 | 168 | 164 | 168 | 172 | 173 | 176 | 179 | 53 |
-| JBR | 58 | 181 | 163 | 142 | 146 | 150 | 151 | 154 | 157 | 58 |
+| UDR | 53 | 186 | 168 | 164 | 170 | 174 | 178 | 181 | 184 | 53 |
+| JBR | 55 | 165 | 147 | 55 | 81 | 105 | 124 | 142 | 160 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -197,12 +197,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 670 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 471 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 187 | 167 | 164 | 168 | 172 | 176 | 176 | 179 | 53 |
-| JBR | 58 | 182 | 162 | 142 | 146 | 150 | 154 | 154 | 157 | 58 |
+| UDR | 53 | 187 | 167 | 164 | 169 | 173 | 177 | 181 | 184 | 53 |
+| JBR | 50 | 164 | 145 | 50 | 75 | 99 | 123 | 142 | 160 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -221,12 +221,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 628 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 450 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 187 | 167 | 164 | 168 | 172 | 176 | 176 | 179 | 53 |
-| JBR | 58 | 182 | 162 | 143 | 147 | 151 | 155 | 155 | 158 | 58 |
+| UDR | 53 | 187 | 167 | 164 | 169 | 173 | 177 | 181 | 184 | 53 |
+| JBR | 51 | 165 | 145 | 51 | 75 | 99 | 123 | 142 | 160 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -245,12 +245,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 658 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 465 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 187 | 167 | 164 | 168 | 172 | 176 | 176 | 179 | 53 |
-| JBR | 58 | 182 | 162 | 143 | 147 | 151 | 155 | 155 | 158 | 58 |
+| UDR | 53 | 187 | 167 | 164 | 169 | 173 | 177 | 181 | 184 | 53 |
+| JBR | 51 | 165 | 145 | 51 | 75 | 99 | 123 | 142 | 160 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -269,12 +269,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 852 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 560 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 186 | 168 | 163 | 167 | 171 | 172 | 175 | 178 | 53 |
-| JBR | 58 | 181 | 163 | 142 | 146 | 150 | 151 | 154 | 157 | 58 |
+| UDR | 53 | 186 | 168 | 164 | 170 | 174 | 178 | 181 | 184 | 53 |
+| JBR | 55 | 164 | 147 | 55 | 81 | 105 | 124 | 142 | 160 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -293,12 +293,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 814 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 543 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 186 | 167 | 163 | 167 | 171 | 175 | 175 | 178 | 53 |
-| JBR | 58 | 181 | 162 | 141 | 145 | 149 | 153 | 153 | 156 | 58 |
+| UDR | 53 | 186 | 167 | 163 | 169 | 173 | 177 | 181 | 184 | 53 |
+| JBR | 49 | 163 | 145 | 49 | 75 | 99 | 123 | 142 | 160 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -317,12 +317,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 628 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 450 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 187 | 167 | 164 | 168 | 172 | 176 | 176 | 179 | 53 |
-| JBR | 58 | 182 | 162 | 143 | 147 | 151 | 155 | 155 | 158 | 58 |
+| UDR | 53 | 187 | 167 | 164 | 169 | 173 | 177 | 181 | 184 | 53 |
+| JBR | 51 | 165 | 145 | 51 | 75 | 99 | 123 | 142 | 160 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -341,12 +341,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 760 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 516 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 186 | 167 | 163 | 167 | 171 | 175 | 175 | 178 | 53 |
-| JBR | 58 | 181 | 162 | 142 | 146 | 150 | 154 | 154 | 157 | 58 |
+| UDR | 53 | 186 | 167 | 163 | 169 | 173 | 177 | 181 | 184 | 53 |
+| JBR | 50 | 164 | 145 | 50 | 75 | 99 | 123 | 142 | 160 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -365,12 +365,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 878 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 543 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 185 | 169 | 164 | 168 | 172 | 176 | 180 | 53 |
-| JBR | 58 | 180 | 164 | 143 | 147 | 151 | 155 | 159 | 58 |
+| UDR | 53 | 185 | 169 | 164 | 171 | 175 | 179 | 183 | 53 |
+| JBR | 61 | 165 | 149 | 61 | 87 | 111 | 135 | 159 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — |
 
 
@@ -389,12 +389,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 3068 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1638 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 186 | 169 | 162 | 166 | 170 | 174 | 178 | 53 |
-| JBR | 58 | 181 | 164 | 140 | 144 | 148 | 152 | 156 | 58 |
+| UDR | 53 | 186 | 169 | 162 | 171 | 175 | 179 | 183 | 53 |
+| JBR | 58 | 165 | 149 | 58 | 87 | 111 | 135 | 159 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — |
 
 
@@ -413,12 +413,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 3680 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1944 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 186 | 169 | 161 | 165 | 169 | 173 | 177 | 53 |
-| JBR | 58 | 181 | 164 | 140 | 144 | 148 | 152 | 156 | 58 |
+| UDR | 53 | 186 | 169 | 161 | 171 | 175 | 179 | 183 | 53 |
+| JBR | 58 | 165 | 149 | 58 | 87 | 111 | 135 | 159 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — |
 
 
@@ -437,12 +437,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 2058 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1163 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 185 | 168 | 161 | 165 | 169 | 170 | 173 | 176 | 53 |
-| JBR | 58 | 180 | 163 | 140 | 144 | 148 | 149 | 152 | 155 | 58 |
+| UDR | 53 | 185 | 168 | 161 | 170 | 174 | 178 | 181 | 184 | 53 |
+| JBR | 53 | 164 | 147 | 53 | 81 | 105 | 124 | 142 | 160 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 
@@ -461,12 +461,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 7942 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 4067 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 185 | 171 | 162 | 166 | 170 | 171 | 174 | 53 |
-| JBR | 58 | 180 | 166 | 141 | 145 | 149 | 150 | 153 | 58 |
+| UDR | 53 | 185 | 171 | 162 | 173 | 177 | 181 | 184 | 53 |
+| JBR | 63 | 166 | 153 | 69 | 99 | 123 | 142 | 160 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — |
 
 
@@ -485,12 +485,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 992 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 600 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 185 | 169 | 164 | 168 | 172 | 176 | 180 | 53 |
-| JBR | 58 | 180 | 164 | 143 | 147 | 151 | 155 | 159 | 58 |
+| UDR | 53 | 185 | 169 | 164 | 171 | 175 | 179 | 183 | 53 |
+| JBR | 61 | 165 | 149 | 61 | 87 | 111 | 135 | 159 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — |
 
 
@@ -509,12 +509,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 1298 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 753 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 184 | 169 | 163 | 167 | 171 | 175 | 179 | 53 |
-| JBR | 58 | 179 | 164 | 142 | 146 | 150 | 154 | 158 | 58 |
+| UDR | 53 | 184 | 169 | 163 | 171 | 175 | 179 | 183 | 53 |
+| JBR | 60 | 164 | 149 | 60 | 87 | 111 | 135 | 159 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — |
 
 
@@ -533,12 +533,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 1508 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 858 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 184 | 169 | 163 | 167 | 171 | 175 | 179 | 53 |
-| JBR | 58 | 179 | 164 | 142 | 146 | 150 | 154 | 158 | 58 |
+| UDR | 53 | 184 | 169 | 163 | 171 | 175 | 179 | 183 | 53 |
+| JBR | 60 | 164 | 149 | 60 | 87 | 111 | 135 | 159 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — |
 
 
@@ -557,12 +557,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 691 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 394 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 43 | 185 | 171 | 164 | 168 | 172 | 176 | 176 | 43 |
-| JBR | 61 | 179 | 165 | 141 | 145 | 149 | 153 | 153 | 61 |
+| UDR | 43 | 185 | 171 | 164 | 172 | 176 | 180 | 184 | 43 |
+| JBR | 63 | 165 | 151 | 67 | 94 | 118 | 142 | 161 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — |
 
 
@@ -581,12 +581,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 691 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 394 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 43 | 185 | 171 | 164 | 168 | 172 | 176 | 176 | 43 |
-| JBR | 61 | 179 | 165 | 141 | 145 | 149 | 153 | 153 | 61 |
+| UDR | 43 | 185 | 171 | 164 | 172 | 176 | 180 | 184 | 43 |
+| JBR | 63 | 165 | 151 | 67 | 94 | 118 | 142 | 161 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — |
 
 
@@ -605,12 +605,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 691 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 394 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 43 | 185 | 171 | 164 | 168 | 172 | 176 | 176 | 43 |
-| JBR | 61 | 179 | 165 | 141 | 145 | 149 | 153 | 153 | 61 |
+| UDR | 43 | 185 | 171 | 164 | 172 | 176 | 180 | 184 | 43 |
+| JBR | 63 | 165 | 151 | 67 | 94 | 118 | 142 | 161 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — |
 
 
@@ -629,12 +629,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 721 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 412 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 43 | 185 | 170 | 163 | 167 | 171 | 175 | 179 | 43 |
-| JBR | 61 | 179 | 164 | 140 | 144 | 148 | 152 | 156 | 61 |
+| UDR | 43 | 185 | 170 | 163 | 171 | 175 | 179 | 183 | 43 |
+| JBR | 61 | 164 | 149 | 61 | 88 | 112 | 136 | 160 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — |
 
 
@@ -653,12 +653,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 691 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 394 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 43 | 185 | 171 | 164 | 168 | 172 | 176 | 176 | 43 |
-| JBR | 61 | 179 | 165 | 141 | 145 | 149 | 153 | 153 | 61 |
+| UDR | 43 | 185 | 171 | 164 | 172 | 176 | 180 | 184 | 43 |
+| JBR | 63 | 165 | 151 | 67 | 94 | 118 | 142 | 161 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — |
 
 
@@ -677,12 +677,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 691 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 394 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 43 | 185 | 171 | 164 | 168 | 172 | 176 | 176 | 43 |
-| JBR | 61 | 179 | 165 | 141 | 145 | 149 | 153 | 153 | 61 |
+| UDR | 43 | 185 | 171 | 164 | 172 | 176 | 180 | 184 | 43 |
+| JBR | 63 | 165 | 151 | 67 | 94 | 118 | 142 | 161 | 63 |
 | best attack | 128 | — | — | — | — | — | — | — | — |
 
 
@@ -701,12 +701,12 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 409 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 237 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 35 | 185 | 171 | 164 | 168 | 172 | 176 | 176 | 35 |
-| JBR | 62 | 178 | 164 | 140 | 144 | 148 | 152 | 152 | 62 |
+| UDR | 35 | 185 | 171 | 164 | 172 | 176 | 180 | 184 | 35 |
+| JBR | 64 | 164 | 151 | 68 | 95 | 119 | 143 | 162 | 64 |
 | best attack | 129 | — | — | — | — | — | — | — | — |
 
 
@@ -725,11 +725,11 @@ How to read this report:
 - FRI early stop degree: 1024
 - Batching: Powers
 
-**Proof Size Estimate:** 289 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 160 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 29 | 185 | 172 | 164 | 169 | 174 | 29 |
-| JBR | 62 | 177 | 164 | 138 | 143 | 148 | 62 |
+| UDR | 29 | 185 | 172 | 164 | 172 | 177 | 29 |
+| JBR | 63 | 164 | 151 | 69 | 101 | 131 | 63 |
 | best attack | 128 | — | — | — | — | — | — |
 
