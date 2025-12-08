@@ -263,7 +263,9 @@ class WHIRBasedVMConfig:
     # ### Impact on Soundness
     #
     # This directly reduces the error term $ϵ^{fold}_{i,s}$ defined in
-    # Theorem 5.2 (round-by-round soundness).
+    # Theorem 5.2 (round-by-round soundness), where:
+    # - $0 ≤ i < M$
+    # - $1 ≤ s ≤ k$
     grinding_bits_folding: list[list[int]]
 
     # The number of verification queries performed per iteration.
