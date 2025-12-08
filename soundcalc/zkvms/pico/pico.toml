@@ -32,8 +32,8 @@ opening_points = 2
 power_batching = true
 # Reference: https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L78-L82
 num_queries = 84
-fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
-fri_early_stop_degree = 1
+fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+fri_early_stop_degree = 2
 grinding_query_phase = 16
 
 
@@ -54,8 +54,8 @@ opening_points = 2
 power_batching = true
 # Reference: https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L78-L82
 num_queries = 84
-fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
-fri_early_stop_degree = 1
+fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+fri_early_stop_degree = 2
 grinding_query_phase = 16
 
 
@@ -76,8 +76,8 @@ opening_points = 2
 power_batching = true
 # Reference: https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L78-L82
 num_queries = 84
-fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
-fri_early_stop_degree = 1
+fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+fri_early_stop_degree = 2
 grinding_query_phase = 16
 
 
@@ -98,8 +98,8 @@ opening_points = 2
 power_batching = true
 # Reference: https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L78-L82
 num_queries = 21
-fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
-fri_early_stop_degree = 1
+fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+fri_early_stop_degree = 16
 grinding_query_phase = 16
 
 
@@ -120,6 +120,6 @@ opening_points = 2
 power_batching = true
 # Reference: https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L78-L82
 num_queries = 21
-fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
-fri_early_stop_degree = 1
+fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+fri_early_stop_degree = 16
 grinding_query_phase = 16

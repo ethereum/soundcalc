@@ -102,7 +102,7 @@ def get_FRI_proof_size_bits(
     i = 1
     n_rounds = len(folding_factors)
     while i < n_rounds:
-        assert(n // int(folding_factors[i] * field_extension_degree) >= int(early_stop_degree))
+        assert(n // int(folding_factors[i]) >= int(early_stop_degree))
 
         n //= int(folding_factors[i])
         tuple_size = folding_factors[i]
