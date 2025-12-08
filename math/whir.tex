@@ -5,17 +5,21 @@
 
 
 
-\subsection{Notation and parameters}
+\subsection{Notation and parameters}\label{sec:whir_notation}
 
 \begin{itemize}
   \item Number of iterations: \(M = \texttt{num\_iterations}\)
   \item Iteration index: \(i \in \{0,\dots,M-1\}\)
-  \item Folding round index: \(s \in \{0,\dots,k\}\)
-  \item Field size: \(|\mathbb{F}| = F\)
+  \item Folding round index: \(s \in \{0,\dots,k-1\}\)
+  \item Field size: \(|\mathbb{F}| = q\)
   \item Constraint degree: \(d = \texttt{constraint\_degree}\)
   \item Folding factor: \(k = \texttt{folding\_factor}\)
   \item Log-degree in iteration \(i\): \(m_i = \texttt{log\_degrees}[i]\), and we set $m_i = m_0-k\cdot i$
   \item Log-inverted rate in iteration \(i\): \(\mu_i = \texttt{log\_inv\_rates}[i]\) , and we set $\mu_i = \log_2 \frac{1}{\rho}+(k-1)\cdot i$
+  \item Iteration-round-specific RS codes:
+  $$
+  \CC_{i,s}=(\CC_{i,s}[\rho],\CC_{i,s}[N])_{i,s}=(2^{-\mu_i},2^{m_i-s})
+  $$
   \item Number of OOD samples in iteration \(i\): \(w_i = \texttt{num\_ood\_samples}[i]\)
   \item Number of queries in iteration \(i\): \(t_i = \texttt{num\_queries}[i]\)
   \item Grinding bits:
@@ -27,147 +31,11 @@
     \]
 \end{itemize}
 
-\begin{comment}
-\subsection{Code Parameters \(C_{RS}^{i,s}\)}
-
-\[
-n_{i,s} = 2^{m_i - s}, \qquad
-R_i = 2^{-\texttt{log\_inv\_rates}[i]}.
-\]
-
-\subsection{Delta for Iteration \(i\)}
-
-\[
-  \delta_i = \min_{1 \le s \le k} \delta_{i,s},
-\qquad
-  \delta_{i,s}
-    = \texttt{regime.get\_max\_delta}(R_i, n_{i,s}, \mathbb{F}).
-\]
-
-\subsection{List Size \(\ell_{i,s}\)}
-
-\[
-  \ell_{i,s}
-  = \texttt{regime.get\_max\_list\_size}(R_i, n_{i,s}, \mathbb{F}, \delta_i).
-\]
-\end{comment}
-\subsection{Batching Error \(\epsilon_{\mathrm{batch}}\)}
-
-\verb|get_batching_error()|
-
-In the Johnson Bound Regime (JBR) we proceed as follows:
-\begin{itemize}
-    \item Find $\eta$:
-    $$
-    \eta = \frac{\sqrt{\rho}}{32}
-    $$
-    \item Compute linear error:
-    $$
-    \ebatchlinJ = \frac{2^{m_0}}{q(2\min(\eta,\sqrt{\rho}/20))^5}
-    $$
-    \item Compute powers error:
-    $$
-    \ebatchpowJ = \ebatchlinJ\cdot(B-1)
-    $$
-\end{itemize}
 
 
-Base error:
-\[
-\varepsilon_{\mathrm{batch}, JBR}^{\text{base}} =
-\begin{cases}
-   \ebatchpowJ & \text{(power batching)}, \\[4pt]
-  \ebatchlinJ& \text{(linear batching)}.
-\end{cases}
-\]
-
-After grinding:
-\[
-  \epsilon_{\mathrm{batch}}
-  = \varepsilon_{\mathrm{batch}}^{\text{base}}
-    \cdot 2^{-g_{\mathrm{batch}}}.
-\]
-\subsection{Folding Error in JBR}
-
-\verb|epsilon_fold()|
-
-For iteration \(i\in[M]\) and folding round \(s\in\{1,2,\ldots,k\}\):
-\begin{itemize}
-    \item Get list size
-    $$
-    \ell_{i,s-1} = \texttt{regime.get\_max\_list\_size}(i, s-1,JBR).
-    $$
-\item Get rate and dimension:
-$$
-(\rho,m) = \verb|get_code_for_iteration_and_round(i,s)|
-$$
-    \item
-Base error (two terms):
-\[
-  \varepsilon^{\mathrm{fold,base}}_{i,s}
-    = d \cdot \frac{\ell_{i,s-1}}{q}
-      + \ebatchpowJ(\rho,m,q,2).
-\]
-    \item
-After grinding:
-\[
-  \epsilon^{\mathrm{fold}}_{i,s}
-    = \varepsilon^{\mathrm{fold,base}}_{i,s}
-      \cdot 2^{-g^{\mathrm{fold}}_{i,s}}.
-\]
-\end{itemize}
-
-
-\begin{comment}
-
-\subsection{OOD Error \(\epsilon^{\mathrm{out}}_i\)}
-
-Base error:
-\[
-  \varepsilon^{\mathrm{out,base}}_i
-  = \ell_{i,0}^2
-    \left(\frac{2^{m_i}}{2F}\right)^{w_i}.
-\]
-
-After grinding:
-\[
-  \epsilon^{\mathrm{out}}_i
-  = \varepsilon^{\mathrm{out,base}}_i
-    \cdot 2^{-g^{\mathrm{ood}}_i}.
-\]
-
-\subsection{Shift Error \(\epsilon^{\mathrm{shift}}_i\)}
-
-Base error (two terms):
-\[
-  \varepsilon^{\mathrm{shift,base}}_i
-    = (1 - \delta_{i-1})^{t_{i-1}}
-      + \ell_{i,0} \cdot \frac{t_{i-1} + 1}{F}.
-\]
-
-After grinding:
-\[
-  \epsilon^{\mathrm{shift}}_i
-    = \varepsilon^{\mathrm{shift,base}}_i
-      \cdot 2^{-g^{\mathrm{qry}}_{i-1}}.
-\]
-
-\subsection{Final Round Error \(\epsilon^{\mathrm{fin}}\)}
-
-Base error:
-\[
-  \varepsilon^{\mathrm{fin,base}}
-    = (1 - \delta_{M-1})^{t_{M-1}}.
-\]
-
-After grinding:
-\[
-  \epsilon^{\mathrm{fin}}
-  = (1 - \delta_{M-1})^{t_{M-1}}
-    \cdot 2^{-g^{\mathrm{qry}}_{M-1}}.
-\]
-\end{comment}
 \subsection{Bits of Security in UDR and JBR}
+
+In order to compute the bits of security in UDR and JBR regimes, we compute the following error terms using the parameters from \cref{sec:whir_notation}.
 
 Computed in \verb|get_security_levels_for_regime()|.
 
@@ -189,6 +57,139 @@ Overall security:
     \}.
 \]
 
+\subsection{Batching Error \(\epsilon_{\mathrm{batch}}\)}
+
+This computes the batching error with parameters from \cref{sec:whir_notation}.
+\verb|get_batching_error()|
+
+In the Johnson Bound Regime (JBR) we proceed as follows:
+\begin{itemize}
+    \item Set code parameters $$
+    (\rho,m)= \left(\mu_0, m_0\right)
+    $$
+    \item Find $\eta$ as a function of $\rho$:
+    $$
+    \eta(\rho) = \frac{\sqrt{\rho}}{32}
+    $$
+    \item Compute linear error:
+    $$
+    \ebatchlinJ(\rho,N,q) = \frac{N}{q(2\min(\eta(\rho),\sqrt{\rho}/20))^5}
+    $$
+    \item Compute powers error:
+    $$
+    \ebatchpowJ(\rho,N,q,B) = \ebatchlinJ( \rho,N,q)\cdot(B-1)
+    $$
+\end{itemize}
+Whereas in the UDR we do as follows:
+\begin{itemize}
+    \item Compute linear error:
+    $$
+    \ebatchlinU(\rho,N,q) = \frac{N}{q(2\min(\eta(\rho),\sqrt{\rho}/20))^5}
+    $$
+    \item Compute powers error:
+    $$
+    \ebatchpowU(\rho,N,q,B) = \ebatchlinJ( \rho,N,q)\cdot(B-1)
+    $$
+\end{itemize}
+
+
+After grinding:
+\[
+  \epsilon_{\mathrm{batch}}
+  = \varepsilon_{\mathrm{batch}}^{\text{base}}
+    \cdot 2^{-g_{\mathrm{batch}}}.
+\]
+\subsection{Folding Error in JBR}
+
+\verb|epsilon_fold()|
+
+For iteration \(i\in[M]\) and folding round \(s\in[k]\):
+\begin{itemize}
+    \item  \verb|get_list_size_for_iteration_and_round()|
+    \begin{itemize}
+    \item  Get list size
+    $$
+    \ell_{i,s} =\ell(\CC_{i,s}[\rho])
+    $$
+    \end{itemize}
+    \item
+Base error (two terms):
+\[
+  \varepsilon^{\mathrm{fold,base}}_{i,s}
+    = d \cdot \frac{\ell_{i,s}}{q}
+      + \ebatchpowJ(\CC_{i,s+1}[\rho],\CC_{i,s+1}[N],q,B=2).
+\]
+    \item
+After grinding:
+\[
+  \epsilon^{\mathrm{fold}}_{i,s}
+    = \varepsilon^{\mathrm{fold,base}}_{i,s}
+      \cdot 2^{-g^{\mathrm{fold}}_{i,s}}.
+\]
+\end{itemize}
+
+\subsection{OOD error in JBR}
+
+\verb|epsilon_out()|
+
+For iteration \(i\in\{1,2,\ldots,M-1\}\)
+\begin{itemize}
+    \item
+Base error:
+\[
+  \varepsilon^{\mathrm{out,base}}_i
+  = \ell_{i,0}^2
+    \left(\frac{2^{m_i}}{2q}\right)^{w_{i-1}}.
+\]
+
+\item After grinding:
+\[
+  \epsilon^{\mathrm{out}}_i
+  = \varepsilon^{\mathrm{out,base}}_i
+    \cdot 2^{-g^{\mathrm{ood}}_i}.
+\]
+
+\end{itemize}
+\subsection{Shift Error  in JBR}
+
+\verb|epsilon_shift()|
+
+For iteration \(i\in\{1,2,\ldots,M-1\}\)
+\begin{itemize}
+    \item   Get $\delta$ for the iteration using \eqref{eq:delta_jbr}:
+    $$
+    \delta_i =\min_{s\in[k]}\delta_J(\CC_{i-1,s}[\rho])
+    $$
+\item Base error (two terms):
+\[
+  \varepsilon^{\mathrm{shift,base}}_i
+    = (1 - \delta_i )^{t_{i-1}}
+      + \ell_{i,0} \cdot \frac{t_{i-1} + 1}{F}.
+\]
+
+\item After grinding:
+\[
+  \epsilon^{\mathrm{shift}}_i
+    = \varepsilon^{\mathrm{shift,base}}_i
+      \cdot 2^{-g^{\mathrm{qry}}_{i-1}}.
+\]
+
+\end{itemize}
+
+\subsection{Final Round Error in JBR}
+\verb|epsilon_final()|
+Base error:
+\[
+  \varepsilon^{\mathrm{fin,base}}
+    = (1 - \delta_{M-1})^{t_{M-1}}.
+\]
+
+After grinding:
+\[
+  \epsilon^{\mathrm{fin}}
+  = (1 - \delta_{M-1})^{t_{M-1}}
+    \cdot 2^{-g^{\mathrm{qry}}_{M-1}}.
+\]
 \section{Proof Size Calculations}
 
 This section summarizes the proof-size formula computed in \verb|get_proof_size_bits()|.

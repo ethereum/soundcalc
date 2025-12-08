@@ -69,14 +69,23 @@ $$
 \begin{verbatim}unique_decoding.py/get_max_delta()\end{verbatim}
 
 \subsubsection{Optimal distance in JBR}\label{sec:fri_optimal_distance_jbr}
-
+This uses the $\eta = \frac{\sqrt{\rho}}{32}$ as per \verb|johnson_bound.py/get_eta()|
 
 \begin{verbatim}johnson_bound.py/get_max_delta()\end{verbatim}
+
+\begin{equation}\label{eq:delta_jbr}
+    \delta_J(\rho) =1-\sqrt{ \rho}  -\eta = 1-\sqrt{ \rho}  -\frac{\sqrt{\rho}}{32}
+\end{equation}
+
 
 \subsubsection{List sizes} \label{sec:fri_list_sizes}
 \begin{verbatim}unique_decoding.py/get_max_list_size()\end{verbatim}
 
 \begin{verbatim}johnson_bound.py/get_max_list_size()\end{verbatim}
+Using \cref{sec:fri_optimal_distance_jbr} we have
+$$
+\ell(\rho ) = \frac{1}{2\eta\sqrt{\rho}} = \frac{16}{\rho}.
+$$
 
 \subsubsection{DEEP-ALI errors}\label{sec:fri-deep-ali}
 \begin{verbatim}fri_based_vm.py/get_DEEP_ALI_errors()\end{verbatim}
