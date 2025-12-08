@@ -50,9 +50,9 @@ Overall security:
   \lambda_{\mathrm{total}}
     = \min\{
       \lambda_{\mathrm{batch}},
-      \lambda^{\mathrm{fold}}_{i,s},
-      \lambda^{\mathrm{out}}_i,
-      \lambda^{\mathrm{shift}}_i,
+      \{\lambda^{\mathrm{fold}}_{i,s}\}_{i\in [M],s\in[k]},
+      \{\lambda^{\mathrm{out}}_i\}_{i\in \{1,\ldots,M-1\}},
+      \{\lambda^{\mathrm{shift}}_i\}_{i\in \{1,\ldots,M-1\}},
       \lambda^{\mathrm{fin}}
     \}.
 \]
@@ -67,15 +67,15 @@ In the Johnson Bound Regime (JBR) we proceed as follows:
     \item Set code parameters $$
     (\rho,N)= \left(2^{-\mu_0}, 2^{m_0}\right)
     $$
-    \item Compute proximity parameter $\xi$ as in \eqref{eq:pp_jbr}:
+    \item Compute proximity parameter $\delta$ as in \eqref{eq:pp_jbr}:
 
     \item Compute $m$ as in \verb|get_m()|:
     $$
-    m =0.5+\max\left(\left\lceil\frac{\sqrt{\rho}}{1-\sqrt{\rho}-\xi} \right\rceil,3\right)
+    m =0.5+\max\left(\left\lceil\frac{\sqrt{\rho}}{1-\sqrt{\rho}-\delta} \right\rceil,3\right)
     $$
     \item Compute linear error\footnote{Code refers to Theorem 4.2 from BCHKS25}:
     $$
-    \ebatchlinJ(\rho,N,q) = \frac{N\left(2m^5+3m\xi\rho\right)+3m\rho}{3\rho^{1.5}q}
+    \ebatchlinJ(\rho,N,q) = \frac{N\left(2m^5+3m\delta\rho\right)+3m\rho}{3\rho^{1.5}q}
     $$
     \item Compute powers error:
     $$
@@ -118,14 +118,15 @@ In both regimes we do as follows after grinding:
 \]
 \subsection{Folding Error}
 
-\verb|epsilon_fold()|
+This section computes the error of a folding round as in \verb|whir_based_vm.py/epsilon_fold()|, referring to Theorem 5.2 of the WHIR paper.
 
-For iteration \(i\in[M]\) and folding round \(s\in[k]\) in JBR we do:
+For iteration \(i\in[M]\) and folding round \(s\in[k]\) in JBR we do\footnote{The function \texttt{epsilon\_fold()}
+counts folding rounds from \(1\) to \(k\), whereas here we count from \(0\) to \(k-1\).    }:
 \begin{itemize}
     \item % \verb|get_list_size_for_iteration_and_round()|
  %   \begin{itemize}
    % \item
-    Get list size
+    Get list size as in \cref{sec:fri_list_sizes}
     $$
     \ell_{i,s} =\ell(\CC_{i,s}[\rho])
     $$
@@ -154,12 +155,12 @@ After grinding:
 
 \subsection{OOD error }
 
-\verb|epsilon_out()|
+This computes the Out-of-Domain error  as in \verb|whir_based_vm.py/epsilon_out()|.
 
 For iteration \(i\in\{1,2,\ldots,M-1\}\)
 \begin{itemize}
     \item
-Base error in JBR:
+Base error in JBR (cf. \cref{sec:fri_list_sizes}):
 \[
   \varepsilon^{\mathrm{out,base,J}}_i
   = \ell_{i,0}^2
@@ -174,7 +175,7 @@ Base error in JBR:
 \[
   \epsilon^{\mathrm{out}}_i
   = \varepsilon^{\mathrm{out,base}}_i
-    \cdot 2^{-g^{\mathrm{ood}}_i}.
+    \cdot 2^{-g^{\mathrm{ood}}_{i-1}}.
 \]
 
 \end{itemize}
@@ -184,9 +185,9 @@ Base error in JBR:
 
 For iteration \(i\in\{1,2,\ldots,M-1\}\) in JBR
 \begin{itemize}
-    \item   Get $\delta$ for the iteration using \eqref{eq:delta_jbr}:
+    \item   Get $\delta$ for the iteration using \eqref{eq:pp_jbr}:
     $$
-    \delta_i =\min_{s\in[k]}\delta_J(\CC_{i-1,s}[\rho])
+    \delta_i =\min_{s\in[k+1]}\delta_J(\CC_{i-1,s}[\rho],\CC_{i-1,s}[N],q)
     $$
 \item Base error (two terms):
 \[
@@ -199,9 +200,9 @@ For iteration \(i\in\{1,2,\ldots,M-1\}\) in JBR
 
 Same procedure in UDR:
 \begin{itemize}
-    \item   Get $\delta$ for the iteration using \eqref{eq:delta_jbr}:
+    \item   Get $\delta$ for the iteration using \eqref{eq:pp_udr}:
     $$
-    \delta_i =\min_{s\in[k]}\delta_U(\CC_{i-1,s}[\rho])
+    \delta_i =\min_{s\in[k+1]}\delta_U(\CC_{i-1,s}[\rho])
     $$
 \item Base error  :
 \[
@@ -225,16 +226,16 @@ Same procedure in UDR:
 
 JBR:
 \begin{itemize}
-    \item  Get $\delta$ for the iteration using \eqref{eq:delta_jbr}:
+    \item  Get $\delta$ for the iteration using \eqref{eq:pp_jbr}:
     $$
-    \delta_{M-1} =\min_{s\in[k]}\delta_J(\CC_{M-1,s}[\rho])
+    \delta_{M-1} =\min_{s\in[k+1]}\delta_J(\CC_{M-1,s}[\rho])
     $$
 \end{itemize}
 UDR:
  \begin{itemize}
-    \item  Get $\delta$ for the iteration using \eqref{eq:delta_udr}:
+    \item  Get $\delta$ for the iteration using \eqref{eq:pp_udr}:
     $$
-    \delta_{M-1} =\min_{s\in[k]}\delta_U(\CC_{M-1,s}[\rho])
+    \delta_{M-1} =\min_{s\in[k+1]}\delta_U(\CC_{M-1,s}[\rho])
     $$
 \end{itemize}
 Then

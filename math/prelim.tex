@@ -14,17 +14,17 @@ Fields of size $q$ are denoted as $\FFF_q$ or simply $\FFF$.
 \begin{verbatim}unique_decoding.py/get_proximity_parameter()\end{verbatim}
 
 In UDR
-\begin{equation}\label{eq:xi_udr}
-    \xi_U(\rho) =(1-\rho)/2
+\begin{equation}\label{eq:pp_udr}
+    \delta_U(\rho) =(1-\rho)/2
 \end{equation}
 
 
-In JBR we compute the $\xi$ differently.
+In JBR we compute the $\delta$ differently.
 
 \begin{verbatim}johnson_bound.py/get_proximity_parameter()\end{verbatim}
 
 \begin{equation}\label{eq:pp_jbr}
-    \xi_J(\rho,N,q) =\begin{cases}
+    \delta_J(\rho,N,q) =\begin{cases}
     1-\sqrt{\rho}-\frac{1}{N}&\quad \text{ if }q>2^{150}\\
     1-\sqrt{\rho}-\frac{\rho}{20}&\quad \text{ otherwise}
     \end{cases}
@@ -40,7 +40,7 @@ $$
 \begin{verbatim}johnson_bound.py/get_max_list_size()\end{verbatim}
 We compute
 $$
-\ell(\rho,N) = \frac{1}{2(1-\rho-\xi)\sqrt{\rho}}.
+\ell(\rho,N) = \frac{1}{2(1-\rho-\delta)\sqrt{\rho}}.
 $$
 
 
