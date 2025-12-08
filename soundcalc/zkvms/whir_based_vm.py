@@ -101,7 +101,7 @@ class WHIRBasedVMConfig:
 
     # The logarithmic reduction factor for each WHIR iteration.
     #
-    # In the paper, this is denoted as $k$ (or $k_i$ generally).
+    # In the paper, this corresponds to the sequence $k_0, ..., k_{M-1}$
     #
     # This parameter dictates how aggressively the polynomial is compressed in every iteration.
     #
