@@ -67,40 +67,18 @@ In the Johnson Bound Regime (JBR) we proceed as follows:
     \item Set code parameters $$
     (\rho,N)= \left(2^{-\mu_0}, 2^{m_0}\right)
     $$
-    \item Compute proximity parameter $\delta$ as in \eqref{eq:pp_jbr}:
-
-    \item Compute $m$ as in \verb|get_m()|:
-    $$
-    m =0.5+\max\left(\left\lceil\frac{\sqrt{\rho}}{1-\sqrt{\rho}-\delta} \right\rceil,3\right)
-    $$
-    \item Compute linear error\footnote{Code refers to Theorem 4.2 from BCHKS25}:
-    $$
-    \ebatchlinJ(\rho,N,q) = \frac{N\left(2m^5+3m\delta\rho\right)+3m\rho}{3\rho^{1.5}q}
-    $$
-    \item Compute powers error:
-    $$
-    \ebatchpowJ(\rho,N,q,B) = \ebatchlinJ( \rho,N,q)\cdot(B-1)
-    $$
-    \item Compute base error:
+    \item Compute base error (cf. \cref{sec:batch}):
 \[
 \varepsilon_{\mathrm{batch}, JBR}^{\text{base}} =
 \begin{cases}
-   \ebatchpowJ & \text{(power batching)}, \\[4pt]
-  \ebatchlinJ& \text{(linear batching)}.
+   \ebatchpowJ(\rho,N,q,B) & \text{(power batching)}, \\[4pt]
+  \ebatchlinJ(\rho,N,q)& \text{(linear batching)}.
 \end{cases}
 \]
 \end{itemize}
 Whereas in the UDR we do as follows:
 \begin{itemize}
-    \item Compute linear error:
-    $$
-    \ebatchlinU(\rho,N,q) = \frac{N}{q\rho}
-    $$
-    \item Compute powers error:
-    $$
-    \ebatchpowU(\rho,N,q,B) = \ebatchlinJ( \rho,N,q)\cdot B
-    $$
-    \item Compute base error:
+    \item Compute base error (cf. \cref{sec:batch}):
 \[
 \varepsilon_{\mathrm{batch}, UDR}^{\text{base}} =
 \begin{cases}
@@ -250,7 +228,7 @@ After grinding:
   = (1 - \delta_{M-1})^{t_{M-1}}
     \cdot 2^{-g^{\mathrm{qry}}_{M-1}}.
 \]
-\section{Proof Size Calculations}
+\section{WHIR Proof Size Calculations}
 
 This section summarizes the proof-size formula computed in \verb|get_proof_size_bits()|.
 
@@ -264,18 +242,18 @@ This section summarizes the proof-size formula computed in \verb|get_proof_size_
 
 Thus the folding proof size per round is
 \[
-  S_{\mathrm{sumcheck}} = kd\log_2 |\FFF|.
+  S_{\mathrm{sumcheck}} = k(d-1)q.
 \]
 
 \subsection{OOD Proof Size for Iteration \(i\)}
 
 \[
   S_{\mathrm{ood},i}
-    = \bhash+w_i\cdot\log_2|\FFF|+kd\log_2|\FFF|
+    = \bhash+w_iq+k(d-1)q
 \]
 
 $$
-S_{\mathrm{ood},M}=+2^{m_M}\log_2|\FFF|
+S_{\mathrm{ood},M}=2^{m_M}q
 $$
 
 \subsection{Query Proof Size for Iteration \(i\)}
@@ -284,8 +262,10 @@ $$
 Thus
 \[
   S_{\mathrm{qry},i}
-    = t_i \cdot MP(2^{m_i+\mu_i-k},2^k,\log_2 q,\bhash) .
-\]
+    =\begin{cases} t_i \cdot MP(2^{m_i+\mu_i-k},2^k,\log_2 q,\bhash).\quad i>0\\
+    t_i \cdot MP(2^{m_0+\mu_0-k},2^k,\log_2 p,\bhash).\quad M=1
+    \end{cases}
+\]where $p$ is characteristic of the field $\FFF_q$.
 
 
 \subsection{Total Proof Size}
@@ -305,7 +285,7 @@ S_{\mathrm{total}}
 \]
 
 
-Expanding,$$
-\swhirtotal=\bhash + kd\log_2 |\FFF|+2^{m_M}\log_2|\FFF|+\sum_{i\in[M-1]}\left(\bhash+w_i\cdot\log_2|\FFF|+kd\log_2|\FFF| \right)
-+\sum_{i\in[M]}\left(t_i \cdot MP(2^{m_i+\mu_i-k},2^k,\log_2 q,\bhash)   \right)
-$$
+%Expanding,$$
+%\swhirtotal=\bhash + k(d-1)q+2^{m_M}q+\sum_{i\in[M-1]}\left(\bhash+w_i\cdot q +k(d-1)q  \right)
+%+\sum_{i\in[M]}\left(t_i \cdot MP(2^{m_i+\mu_i-k},2^k,\log_2 q,\bhash)   \right)
+%$$

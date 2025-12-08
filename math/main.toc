@@ -1,0 +1,28 @@
+\contentsline {section}{\numberline {1} Preliminaries}{1}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Fields}{1}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Regime-specific bounds}{2}{subsection.1.2}%
+\contentsline {subsubsection}{\numberline {1.2.1}Proximity parameter }{2}{subsubsection.1.2.1}%
+\contentsline {subsubsection}{\numberline {1.2.2}List sizes}{2}{subsubsection.1.2.2}%
+\contentsline {subsubsection}{\numberline {1.2.3}Batching errors}{2}{subsubsection.1.2.3}%
+\contentsline {section}{\numberline {2}WHIR-based VM security level calculation}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Notation and parameters}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Bits of Security in UDR and JBR}{3}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Batching Error \(\epsilon _{\mathrm {batch}}\)}{3}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Folding Error}{4}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}OOD error }{4}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Shift Error in JBR}{4}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.7}Final Round Error }{5}{subsection.2.7}%
+\contentsline {section}{\numberline {3}WHIR Proof Size Calculations}{5}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Initial Function Size}{5}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Initial Sumcheck Size}{5}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}OOD Proof Size for Iteration \(i\)}{5}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Query Proof Size for Iteration \(i\)}{5}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Total Proof Size}{5}{subsection.3.5}%
+\contentsline {section}{\numberline {4}FRI-based VM security level calculation}{6}{section.4}%
+\contentsline {subsection}{\numberline {4.1}FRI parameters}{6}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Security level for a FRI-based VM}{6}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}DEEP-ALI errors}{6}{subsubsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.3}Batching Error }{7}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Folding errors}{7}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Query error}{7}{subsection.4.5}%
+\contentsline {section}{\numberline {5}FRI proof size}{7}{section.5}%

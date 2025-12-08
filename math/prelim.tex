@@ -44,3 +44,39 @@ $$
 $$
 
 
+\subsubsection{Batching errors}\label{sec:batch}
+We define batching error functions
+$$
+\ebatchpowJ(\rho,N,q,B), \quad \ebatchpowU(\rho,N,q,B),\quad \ebatchlinU(\rho,N,q),\quad \ebatchpowU(\rho,N,q,B)
+$$
+For JBR :
+\begin{itemize}
+    \item Compute proximity parameter $\delta$ as in \eqref{eq:pp_jbr}:
+
+    \item Compute $m$ as in \verb|get_m()|:
+    $$
+    m =0.5+\max\left(\left\lceil\frac{\sqrt{\rho}}{1-\sqrt{\rho}-\delta} \right\rceil,3\right)
+    $$
+    \item Compute linear error\footnote{Code refers to Theorem 4.2 from BCHKS25}:
+    $$
+    \ebatchlinJ(\rho,N,q) = \frac{N\left(2m^5+3m\delta\rho\right)+3m\rho}{3\rho^{1.5}q}
+    $$
+    \item Compute powers error:
+    $$
+    \ebatchpowJ(\rho,N,q,B) = \ebatchlinJ( \rho,N,q)\cdot(B-1)
+    $$
+\end{itemize}
+
+
+For UDR :
+\begin{itemize}
+    \item Compute linear error:
+    $$
+    \ebatchlinU(\rho,N,q) = \frac{N}{q\rho}
+    $$
+    \item Compute powers error:
+    $$
+    \ebatchpowU(\rho,N,q,B) = \ebatchlinJ( \rho,N,q)\cdot B
+    $$
+
+\end{itemize}

@@ -1,3 +1,4 @@
+\newpage
 \section{FRI-based VM security level calculation}
 
 This section calculates the security level for a FRI-based VM in \cref{sec:fri_security_level}.
@@ -6,15 +7,14 @@ This section calculates the security level for a FRI-based VM in \cref{sec:fri_s
 
 Global parameters used in the FRI analysis:
 \begin{itemize}
-    \item $m_J$ --- Johnson parameter.
+ %   \item $m_J$ --- Johnson parameter.
     \item $r_{FRI}$ --- number of FRI rounds.
     \item Folding factors $\folds=[k_0,k_1,\ldots,k_{r_{FRI}-1}]$;
     \item $t$ --- number of queries.
-    \item $\theta$.
-    \item $\delta$.
+    \item $\delta$ --- proximity parameter.
     \item $\rho$ --- rate of the Reed-Solomon code.
     \item $N$ --- trace length.
-    \item $L$ --- list size.
+    \item $\ell$ --- list size.
     \item $\bgriq$ --- grinding parameter for the query phase.
     \item $n$ --- witness size.
     \item $\bhash$ --- number of bits in the hash function output.
@@ -22,32 +22,25 @@ Global parameters used in the FRI analysis:
     \item $\sbtch$ --- batch size.
 \end{itemize}
 
-Notation specific to the Johnson bound:
-\begin{itemize}
-    \item
-\end{itemize}
 
 
-\subsection{Fixed constants}
-
-We fix the following constants for the soundness calculator:
-\begin{itemize}
-    \item $m_{\mathrm{J}}=16$. Set in \begin{verbatim}fri.py/get_johnson_parameter_m()\end{verbatim}
-    \end{itemize}
 
 \subsection{Security level for a FRI-based VM}\label{sec:fri_security_level}
 
 The security level is calculated in \begin{verbatim}zkvms/fri_based_vm.py/get_security_levels()\end{verbatim}.
 
-It is done separately for two different regimes: UDR and JBR --- using the same procedure:
+It is done separately for two different regimes: UDR and JBR --- using the same procedure \verb|fri_based_vm.py/get_security_levels_for_regime()|:
 \begin{enumerate}
-    \item Calculate the FRI round-by-round soundness errors $\efrirbrU,\efrirbrJ$ using the formula from \cref{sec:fri-rbr-udr} and \cref{sec:fri-rbr-jbr}.
-    \item Obtain optimal $\delta_U,\delta_J$ parameters using the formula from \cref{sec:fri_optimal_distance_udr} and \cref{sec:fri_optimal_distance_jbr}.
-    \item Obtain the list sizes $L_U,L_J$ for the respective  $\delta_U,\delta_J$.
-    \item Obtain the DEEP-ALI soundness errors $\edeepU,\edeepJ$ using the formulas from Section \ref{sec:deep_ali_soundness}.
-    \item Compute the total soundness errors as
+    \item Calculate the FRI round-by-round soundness errors $\efrirbr $:
+    $$
+    \efrirbr =\max(\ebatch,  \{\epsilon_{i}^{\mathrm{fold}}\}_{i\in[r_{FRI}]}, \equery)
      $$
-    \epsilon_U = \min(\efrirbrU, \edeepU),\quad \epsilon_J = \min(\efrirbrJ, \edeepJ).
+    \item Obtain optimal $\delta $ proximity parameter as by   \cref{sec:fri_optimal_distance_udr}.
+    \item Obtain the list size $\ell$ for the respective  $\delta $ as  by \cref{sec:fri_list_sizes}.
+    \item Obtain the DEEP-ALI soundness error $\edeep$ as by \cref{sec:fri-deep-ali}.
+    \item Compute the total soundness error as
+     $$
+    \epsilon  = \max(\efrirbr, \edeep) .
     $$
 \end{enumerate}
 Then the  full security level in bits is the maximum of the two regimes:
@@ -55,85 +48,64 @@ $$
 \text{Security level} = \max(-\log_2 \epsilon_U, -\log_2 \epsilon_J).
 $$
 
-\subsubsection{RBR soundness in UDR}\label{sec:fri-rbr-udr}
-
-\begin{verbatim}fri_based_vm.py/get_security_levels_for_regime()\end{verbatim}
-
-\subsubsection{RBR soundness in JBR}\label{sec:fri-rbr-jbr}
-
-\begin{verbatim}fri_based_vm.py/get_security_levels_for_regime()\end{verbatim}
-
 \subsubsection{DEEP-ALI errors}\label{sec:fri-deep-ali}
 \begin{verbatim}fri_based_vm.py/get_DEEP_ALI_errors()\end{verbatim}
 
+The DEEP-ALI soundness error is computed as follows:
+\begin{equation}
+    \edeep = \max\left(\frac{L^{+}\cdot C}{q}, \frac{L^{+}(d(N+m_c-1)+(N-1))}{q-N-D}\right)
+\end{equation}
 
 
-
-\subsection{Batching Error \(\epsilon_{\mathrm{batch}}\)}
+\subsection{Batching Error }
 
 This computes the batching error with parameters from \cref{sec:whir_notation}.
 \verb|get_batching_error()|
 
-In the Johnson Bound Regime (JBR) we proceed as follows:
-\begin{itemize}
-    \item Find $\eta$ as a function of $\rho$:
-    $$
-    \eta(\rho) = \frac{\sqrt{\rho}}{32}
-    $$
-    \item Compute linear error:
-    $$
-    \ebatchlinJ = \frac{N}{q(2\min(\eta(\rho),\sqrt{\rho}/20))^5}
-    $$
-    \item Compute powers error:
-    $$
-    \ebatchpowJ(B) = \ebatchlinJ \cdot(B-1)
-    $$
-    \item Compute base error:
+In the Johnson Bound Regime (JBR) we compute base error as:
 \[
-\varepsilon_{\mathrm{batch}, JBR}^{\text{base}} =
+\ebatch^{\text{base,JBR}} =
 \begin{cases}
-   \ebatchpowJ & \text{(power batching)}, \\[4pt]
-  \ebatchlinJ& \text{(linear batching)}.
+   \ebatchpowJ(\rho,N,q,B) & \text{(power batching)}, \\[4pt]
+  \ebatchlinJ(\rho,N,q)& \text{(linear batching)}.
 \end{cases}
 \]
-\end{itemize}
-Whereas in the UDR we do as follows:
-\begin{itemize}
-    \item Compute linear error:
-    $$
-    \ebatchlinU = \frac{N}{q\rho}
-    $$
-    \item Compute powers error:
-    $$
-    \ebatchpowU( B) = \ebatchlinJ \cdot B
-    $$
-    \item Compute base error:
+Whereas in the UDR we compute base error:
 \[
-\varepsilon_{\mathrm{batch}, UDR}^{\text{base}} =
+\ebatch^{\text{base,UDR}}=
 \begin{cases}
-   \ebatchpowU & \text{(power batching)}, \\[4pt]
-  \ebatchlinU& \text{(linear batching)}.
+   \ebatchpowU(\rho,N,q,B) & \text{(power batching)}, \\[4pt]
+  \ebatchlinU(\rho,N,q)& \text{(linear batching)}.
 \end{cases}
 \]
-\end{itemize}
 
-\subsection{Commit phase error}
-For round $i$
-we set $$
-N_i = \frac{N}{k_i^{i}}
+\subsection{Folding errors}
+
+This is calculated in \verb|fri_based_vm.py/get_commit_phase_error()|.
+
+For round $i\in[r_{FRI}]$ we compute the dimension $N_i$ as
 $$
+N_i = \frac{N}{\prod_{j\in[i]}k_j}
+$$
+Then the folding error in round $i$ is computed as
+\begin{equation}
+    \epsilon_{i}^{\mathrm{fold}} =
+\begin{cases}
+   \ebatchpowJ(\rho,N_i,q,k_i ),\quad \text{JBR}, \\
+   \ebatchpowU(\rho,N_i,q,k_i ),\quad \text{UDR}
+\end{cases}
+\end{equation}
 
-\subsection{Soundness formula}
+\subsection{Query error}
 
-This is calculated in \begin{verbatim}fri.py/get_FRI_query_phase_error()\end{verbatim}.
+This is calculated in \verb|fri_based_vm.py/get_query_phase_error()|.
 
 Query phase error:
 \begin{equation}
     \epsilon_{\mathrm{query}} = (1-\theta)^{t}\cdot 2^{-\bgriq}
 \end{equation}
-The query phase error without grinding is computed as per \cite{}\footnote{Code refers to (7) and Th2 of [Hab22]}
 
-\subsection{Proof size}
+\section{FRI proof size}
 
 This calculation is performed in \begin{verbatim}fri.py/get_FRI_proof_size_bits()\end{verbatim}.
 The FRI proof contains two parts: Merkle roots, and one "openings" per query,
