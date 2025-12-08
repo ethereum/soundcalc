@@ -91,7 +91,7 @@ class WHIRBasedVMConfig:
     #    In each inner round, exactly one variable is eliminated.
     #
     # 2. Sampling phase:
-    #    The Verifier requests an Out-of-Domain (OOD) evaluation.
+    #    The Verifier requests one or multiple Out-of-Domain (OOD) evaluations.
     #
     # 3. Folding phase:
     #    The Prover computes and sends the new, smaller function.
