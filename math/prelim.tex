@@ -8,23 +8,26 @@ Fields of size $q$ are denoted as $\FFF_q$ or simply $\FFF$.
 
 
 
-\subsubsection{Optimal distance }\label{sec:fri_optimal_distance_udr}\label{sec:fri_optimal_distance_jbr}
+\subsubsection{Proximity parameter }\label{sec:fri_optimal_distance_udr}\label{sec:fri_optimal_distance_jbr}
 
 
-\begin{verbatim}unique_decoding.py/get_max_delta()\end{verbatim}
+\begin{verbatim}unique_decoding.py/get_proximity_parameter()\end{verbatim}
 
 In UDR
-\begin{equation}\label{eq:delta_udr}
-    \delta_U(\rho) =(1-\rho)/2
+\begin{equation}\label{eq:xi_udr}
+    \xi_U(\rho) =(1-\rho)/2
 \end{equation}
 
 
-In JBR we use the $\eta = \frac{\sqrt{\rho}}{32}$ as per \verb|johnson_bound.py/get_eta()|
+In JBR we compute the $\xi$ differently.
 
-\begin{verbatim}johnson_bound.py/get_max_delta()\end{verbatim}
+\begin{verbatim}johnson_bound.py/get_proximity_parameter()\end{verbatim}
 
-\begin{equation}\label{eq:delta_jbr}
-    \delta_J(\rho) =1-\sqrt{ \rho}  -\eta = 1-\sqrt{ \rho}  -\frac{\sqrt{\rho}}{32}
+\begin{equation}\label{eq:pp_jbr}
+    \xi_J(\rho,N,q) =\begin{cases}
+    1-\sqrt{\rho}-\frac{1}{N}&\quad \text{ if }q>2^{150}\\
+    1-\sqrt{\rho}-\frac{\rho}{20}&\quad \text{ otherwise}
+    \end{cases}
 \end{equation}
 
 
@@ -35,9 +38,9 @@ $$
 $$
 
 \begin{verbatim}johnson_bound.py/get_max_list_size()\end{verbatim}
-Using \cref{sec:fri_optimal_distance_jbr} we have
+We compute
 $$
-\ell(\rho ) = \frac{1}{2\eta\sqrt{\rho}} = \frac{16}{\rho}.
+\ell(\rho,N) = \frac{1}{2(1-\rho-\xi)\sqrt{\rho}}.
 $$
 
 
