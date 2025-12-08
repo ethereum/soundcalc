@@ -610,7 +610,7 @@ class WHIRBasedCircuit(Circuit):
         assert len(self.num_queries) == self.num_iterations
         for i in range(self.num_iterations):
             domain_size = 2 ** (self.log_degrees[i] + self.log_inv_rates[i])
-            block_size = 2 ** self.folding_factor
+            block_size = 2**self.folding_factor
             num_leafs = domain_size / block_size
 
             # The element size depends on the iteration:
