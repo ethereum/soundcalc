@@ -27,8 +27,7 @@ num_columns = 1278
 batch_size = 1435
 # Pico chips only use the local row and the next row in any constraint.
 opening_points = 2
-# according to https://dev.risczero.com/proof-system-in-detail.pdf Sections C.6 and 3.4
-# Risc0 uses batching with coefficients r^0, r^1, r^2, ...
+# according to Plonky3 https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L192
 power_batching = true
 # Reference: https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L78-L82
 num_queries = 84
@@ -49,8 +48,7 @@ num_columns = 467
 batch_size = 485
 # Pico chips only use the local row and the next row in any constraint.
 opening_points = 2
-# according to https://dev.risczero.com/proof-system-in-detail.pdf Sections C.6 and 3.4
-# Risc0 uses batching with coefficients r^0, r^1, r^2, ...
+# according to Plonky3 https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L192
 power_batching = true
 # Reference: https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L78-L82
 num_queries = 84
@@ -71,8 +69,7 @@ num_columns = 467
 batch_size = 485
 # Pico chips only use the local row and the next row in any constraint.
 opening_points = 2
-# according to https://dev.risczero.com/proof-system-in-detail.pdf Sections C.6 and 3.4
-# Risc0 uses batching with coefficients r^0, r^1, r^2, ...
+# according to Plonky3 https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L192
 power_batching = true
 # Reference: https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L78-L82
 num_queries = 84
@@ -85,7 +82,7 @@ grinding_query_phase = 16
 name = "compress"
 # blowup_factor = 16
 rho = 0.0625
-trace_length = 262144 # 1 << 18 is the compress size from reth-171
+trace_length = 131072 # 1 << 17 is the compress size
 # INFO soundness_stats: chunk 0  | num_pre_cols=153 num_main_cols=267 num_perm_cols=47 num_columns=467 num_quotient_polys=18 num_polys=485 AIR_max_degree_upper_bound=3
 air_max_degree = 3
 num_columns = 467
@@ -93,12 +90,11 @@ num_columns = 467
 batch_size = 485
 # Pico chips only use the local row and the next row in any constraint.
 opening_points = 2
-# according to https://dev.risczero.com/proof-system-in-detail.pdf Sections C.6 and 3.4
-# Risc0 uses batching with coefficients r^0, r^1, r^2, ...
+# according to Plonky3 https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L192
 power_batching = true
 # Reference: https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L78-L82
 num_queries = 21
-fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 fri_early_stop_degree = 16
 grinding_query_phase = 16
 
@@ -107,7 +103,7 @@ grinding_query_phase = 16
 name = "embed"
 # blowup_factor = 16
 rho = 0.0625
-trace_length = 16384 # 1 << 14 is the embed size from reth-171
+trace_length = 32768 # 1 << 15 is the embed size
 # INFO soundness_stats: chunk 0  | num_pre_cols=153 num_main_cols=267 num_perm_cols=47 num_columns=467 num_quotient_polys=18 num_polys=485 AIR_max_degree_upper_bound=3
 air_max_degree = 3
 num_columns = 467
@@ -115,11 +111,10 @@ num_columns = 467
 batch_size = 485
 # Pico chips only use the local row and the next row in any constraint.
 opening_points = 2
-# according to https://dev.risczero.com/proof-system-in-detail.pdf Sections C.6 and 3.4
-# Risc0 uses batching with coefficients r^0, r^1, r^2, ...
+# according to Plonky3 https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L192
 power_batching = true
 # Reference: https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L78-L82
 num_queries = 21
-fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 fri_early_stop_degree = 16
 grinding_query_phase = 16
