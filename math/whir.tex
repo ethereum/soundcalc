@@ -67,13 +67,15 @@ In the Johnson Bound Regime (JBR) we proceed as follows:
     \item Set code parameters $$
     (\rho,N)= \left(2^{-\mu_0}, 2^{m_0}\right)
     $$
-    \item Find $\eta$ as a function of $\rho$:
+    \item Compute proximity parameter $\xi$ as in \eqref{eq:pp_jbr}:
+
+    \item Compute $m$ as in \verb|get_m()|:
     $$
-    \eta(\rho) = \frac{\sqrt{\rho}}{32}
+    m =0.5+\max\left(\left\lceil\frac{\sqrt{\rho}}{1-\sqrt{\rho}-\xi} \right\rceil,3\right)
     $$
-    \item Compute linear error:
+    \item Compute linear error\footnote{Code refers to Theorem 4.2 from BCHKS25}:
     $$
-    \ebatchlinJ(\rho,N,q) = \frac{N}{q(2\min(\eta(\rho),\sqrt{\rho}/20))^5}
+    \ebatchlinJ(\rho,N,q) = \frac{N\left(2m^5+3m\xi\rho\right)+3m\rho}{3\rho^{1.5}q}
     $$
     \item Compute powers error:
     $$
