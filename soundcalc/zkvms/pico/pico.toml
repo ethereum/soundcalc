@@ -5,6 +5,7 @@ name = "Pico"
 protocol_family = "FRI_STARK"
 field = "KoalaBear^4"
 hash_size_bits = 248  # 31 x 8
+base_field_merkle = true
 
 [[circuits]]
 name = "riscv"

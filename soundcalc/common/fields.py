@@ -72,6 +72,11 @@ KOALABEAR_4 = FieldParams(
     F=_F(KOALABEAR_P, 4),
 )
 
+def field_base_element_size_bits(field: FieldParams) -> int:
+    """
+    Returns the size of a base field element in bits.
+    """
+    return math.ceil(math.log2(field.p))
 
 def field_element_size_bits(field: FieldParams) -> int:
     """

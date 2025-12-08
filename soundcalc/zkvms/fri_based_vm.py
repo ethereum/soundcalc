@@ -12,7 +12,7 @@ from soundcalc.proxgaps.johnson_bound import JohnsonBoundRegime
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
 from soundcalc.proxgaps.unique_decoding import UniqueDecodingRegime
 from soundcalc.zkvms.zkvm import Circuit, zkVM
-from ..common.fields import FieldParams, field_element_size_bits, parse_field
+from ..common.fields import FieldParams, field_base_element_size_bits, field_element_size_bits, parse_field
 from ..common.fri import get_FRI_proof_size_bits, get_num_FRI_folding_rounds
 
 
@@ -114,6 +114,9 @@ class FRIBasedCircuitConfig:
     # Proof of Work grinding compute during FRI query phase (expressed in bits of security)
     grinding_query_phase: int
 
+    # Whether or not merkle proofs should use the entire extension field
+    base_field_merkle: bool
+
 
 class FRIBasedCircuit(Circuit):
     """
@@ -137,6 +140,7 @@ class FRIBasedCircuit(Circuit):
         self.FRI_early_stop_degree = config.FRI_early_stop_degree
         self.grinding_query_phase = config.grinding_query_phase
         self.AIR_max_degree = config.AIR_max_degree
+        self.base_field_merkle = config.base_field_merkle
 
         # Number of columns should be less or equal to the final number of polynomials in batched-FRI
         assert self.num_columns <= self.batch_size
@@ -225,10 +229,11 @@ class FRIBasedCircuit(Circuit):
         # XXX (BW): note that it is not clear that this is the
         # proof size for every zkEVM we can think of
         # XXX (BW): we should probably also add something for the OOD samples and plookup, lookup etc.
+        field_size_bits = field_base_element_size_bits(self.field) if self.base_field_merkle else field_element_size_bits(self.field)
 
         return get_FRI_proof_size_bits(
             hash_size_bits=self.hash_size_bits,
-            field_size_bits=field_element_size_bits(self.field),
+            field_size_bits=field_size_bits,
             batch_size=self.batch_size,
             num_queries=self.num_queries,
             witness_size=int(self.D),
@@ -365,6 +370,11 @@ class FRIBasedVM(zkVM):
             config = toml.load(f)
 
         field = parse_field(config["zkevm"]["field"])
+        base_field_merkle = None
+        if "base_field_merkle" in config["zkevm"]:
+            base_field_merkle = config["zkevm"]["base_field_merkle"]
+        if base_field_merkle == None:
+            base_field_merkle = False
         circuits = []
 
         for section in config.get("circuits", []):
@@ -383,6 +393,7 @@ class FRIBasedVM(zkVM):
                 FRI_early_stop_degree=section.get("fri_early_stop_degree"),
                 max_combo=section["opening_points"],
                 grinding_query_phase=section.get("grinding_query_phase", 0),
+                base_field_merkle=base_field_merkle,
             )
             circuits.append(FRIBasedCircuit(cfg))
 
