@@ -114,7 +114,6 @@ class WHIRBasedVMConfig:
     #    \begin{equation}
     #       m_{new} = m_{old} - k
     #    \end{equation}
-    #    (The degree decreases by a factor of $2^k$).
     #
     # 2. Evaluation Domain Reduction:
     #    The domain size reduces by a factor of 2.
