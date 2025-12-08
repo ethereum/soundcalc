@@ -270,7 +270,8 @@ class WHIRBasedVMConfig:
 
     # The number of verification queries performed per iteration.
     #
-    # In the paper, this is denoted as $t_i$ in Construction 5.1.
+    # In the paper, this corresponds to the sequence $t_0, ..., t_{M-1}$
+    # defined in Construction 5.1.
     #
     # This list has length $M$ (one count for each iteration).
     #
