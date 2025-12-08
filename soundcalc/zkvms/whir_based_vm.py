@@ -68,17 +68,6 @@ class WHIRBasedVMConfig:
     # This parameter dictates how many reduction steps are performed to reduce
     # the polynomial from $m$ variables down to a constant size.
     #
-    # ### Mathematical Definition
-    #
-    # Let us consider:
-    # - The initial number of variables is $m$ (`log_degree`)
-    # - The folding factor is $k$ (`folding_factor`)
-    #
-    # Then, the total number of iterations is:
-    # \begin{equation}
-    #   M = \frac{m}{k}
-    # \end{equation}
-    #
     # **NOTE**: One WHIR iteration corresponds to multiple sumcheck rounds.
     #
     # A single WHIR iteration reduces the number of variable $m$ by $k$.
