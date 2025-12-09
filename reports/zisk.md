@@ -53,7 +53,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 579 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 699.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -77,7 +77,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 450 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 570.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -101,7 +101,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 483 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 603.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -125,7 +125,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 425 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 537.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -149,7 +149,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 449 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 561.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -173,7 +173,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 545 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 657.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -197,7 +197,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 471 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 591.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -221,7 +221,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 450 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 570.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -245,7 +245,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 465 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 585.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -269,7 +269,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 560 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 672.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -293,7 +293,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 543 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 663.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -317,7 +317,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 450 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 570.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -341,7 +341,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 516 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 636.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -365,7 +365,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 543 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 659.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -389,7 +389,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 1638 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1754.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -413,7 +413,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 1944 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 2060.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -437,7 +437,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 1163 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1275.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -461,7 +461,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 4067 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 4171.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -485,7 +485,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 600 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 716.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -509,7 +509,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 753 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 869.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -533,7 +533,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 858 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 974.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -557,7 +557,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 394 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 450.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -581,7 +581,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 394 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 450.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -605,7 +605,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 394 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 450.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -629,7 +629,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 412 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 470.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -653,7 +653,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 394 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 450.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -677,7 +677,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 394 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 450.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -701,7 +701,7 @@ How to read this report:
 - FRI early stop degree: 32
 - Batching: Powers
 
-**Proof Size Estimate:** 237 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 275.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -725,7 +725,7 @@ How to read this report:
 - FRI early stop degree: 1024
 - Batching: Powers
 
-**Proof Size Estimate:** 160 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 201.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- |

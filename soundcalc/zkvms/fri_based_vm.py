@@ -231,10 +231,9 @@ class FRIBasedCircuit(Circuit):
             field_size_bits=self.field.extension_field_element_size_bits(),
             batch_size=self.batch_size,
             num_queries=self.num_queries,
-            witness_size=int(self.D),
-            field_extension_degree=int(self.field_extension_degree),
-            early_stop_degree=int(self.FRI_early_stop_degree),
+            domain_size=int(self.D),
             folding_factors=self.FRI_folding_factors,
+            rate=self.rho
         )
 
     def get_security_levels(self) -> dict[str, dict[str, int]]:
