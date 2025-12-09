@@ -7,7 +7,7 @@ import toml
 from soundcalc.common.fields import FieldParams, parse_field
 from soundcalc.common.utils import (
     get_bits_of_security_from_error,
-    get_size_of_merkle_path_bits,
+    get_size_of_merkle_path_bits_whir,
 )
 from soundcalc.proxgaps.johnson_bound import JohnsonBoundRegime
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
@@ -607,7 +607,7 @@ class WHIRBasedCircuit(Circuit):
             # Compute the size of one query (path + leaf data)
             #
             # A leaf in WHIR contains an entire folding block (size 2^k).
-            merkle_path_size = get_size_of_merkle_path_bits(
+            merkle_path_size = get_size_of_merkle_path_bits_whir(
                 num_leafs=num_leafs,
                 tuple_size=block_size,
                 element_size_bits=current_element_bits,

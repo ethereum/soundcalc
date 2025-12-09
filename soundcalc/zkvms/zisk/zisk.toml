@@ -11,7 +11,7 @@ group = "basic"
 trace_length = 4194304
 rho = 0.5
 air_max_degree = 3
-num_columns = 51
+num_columns = [3, 38, 24, 6]
 opening_points = 3
 batch_size = 61
 power_batching = true
@@ -19,6 +19,8 @@ num_queries = 128
 fri_folding_factors = [16, 16, 16, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "Rom"
@@ -26,7 +28,7 @@ group = "basic"
 trace_length = 4194304
 rho = 0.5
 air_max_degree = 2
-num_columns = 5
+num_columns = [1, 1, 6, 3, 11]
 opening_points = 3
 batch_size = 18
 power_batching = true
@@ -34,6 +36,8 @@ num_queries = 128
 fri_folding_factors = [16, 16, 16, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "Mem"
@@ -41,7 +45,7 @@ group = "basic"
 trace_length = 4194304
 rho = 0.5
 air_max_degree = 3
-num_columns = 20
+num_columns = [2, 13, 9, 6]
 opening_points = 3
 batch_size = 29
 power_batching = true
@@ -49,6 +53,8 @@ num_queries = 128
 fri_folding_factors = [16, 16, 16, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "RomData"
@@ -56,7 +62,7 @@ group = "basic"
 trace_length = 2097152
 rho = 0.5
 air_max_degree = 3
-num_columns = 13
+num_columns = [2, 6, 9, 6]
 opening_points = 3
 batch_size = 19
 power_batching = true
@@ -64,6 +70,8 @@ num_queries = 128
 fri_folding_factors = [16, 16, 8, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "InputData"
@@ -71,7 +79,7 @@ group = "basic"
 trace_length = 2097152
 rho = 0.5
 air_max_degree = 3
-num_columns = 19
+num_columns = [2, 9, 14, 6]
 opening_points = 3
 batch_size = 27
 power_batching = true
@@ -79,6 +87,8 @@ num_queries = 128
 fri_folding_factors = [16, 16, 8, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "MemAlign"
@@ -86,7 +96,7 @@ group = "basic"
 trace_length = 2097152
 rho = 0.5
 air_max_degree = 3
-num_columns = 39
+num_columns = [2, 29, 18, 6]
 opening_points = 3
 batch_size = 59
 power_batching = true
@@ -94,6 +104,8 @@ num_queries = 128
 fri_folding_factors = [16, 16, 8, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "MemAlignByte"
@@ -101,7 +113,7 @@ group = "basic"
 trace_length = 4194304
 rho = 0.5
 air_max_degree = 3
-num_columns = 23
+num_columns = [1, 16, 12, 6]
 opening_points = 3
 batch_size = 25
 power_batching = true
@@ -109,6 +121,8 @@ num_queries = 128
 fri_folding_factors = [16, 16, 16, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "MemAlignReadByte"
@@ -116,7 +130,7 @@ group = "basic"
 trace_length = 4194304
 rho = 0.5
 air_max_degree = 3
-num_columns = 16
+num_columns = [1, 10, 9, 6]
 opening_points = 3
 batch_size = 18
 power_batching = true
@@ -124,6 +138,8 @@ num_queries = 128
 fri_folding_factors = [16, 16, 16, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "MemAlignWriteByte"
@@ -131,7 +147,7 @@ group = "basic"
 trace_length = 4194304
 rho = 0.5
 air_max_degree = 3
-num_columns = 21
+num_columns = [1, 14, 12, 6]
 opening_points = 3
 batch_size = 23
 power_batching = true
@@ -139,6 +155,8 @@ num_queries = 128
 fri_folding_factors = [16, 16, 16, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "Arith"
@@ -146,7 +164,7 @@ group = "basic"
 trace_length = 2097152
 rho = 0.5
 air_max_degree = 3
-num_columns = 62
+num_columns = [1, 44, 45, 6]
 opening_points = 3
 batch_size = 64
 power_batching = true
@@ -154,6 +172,8 @@ num_queries = 128
 fri_folding_factors = [16, 16, 8, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "Binary"
@@ -161,7 +181,7 @@ group = "basic"
 trace_length = 4194304
 rho = 0.5
 air_max_degree = 3
-num_columns = 47
+num_columns = [1, 39, 15, 6]
 opening_points = 3
 batch_size = 49
 power_batching = true
@@ -169,6 +189,8 @@ num_queries = 128
 fri_folding_factors = [16, 16, 16, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "BinaryAdd"
@@ -176,7 +198,7 @@ group = "basic"
 trace_length = 4194304
 rho = 0.5
 air_max_degree = 3
-num_columns = 16
+num_columns = [1, 10, 9, 6]
 opening_points = 3
 batch_size = 18
 power_batching = true
@@ -184,6 +206,8 @@ num_queries = 128
 fri_folding_factors = [16, 16, 16, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "BinaryExtension"
@@ -191,7 +215,7 @@ group = "basic"
 trace_length = 4194304
 rho = 0.5
 air_max_degree = 3
-num_columns = 38
+num_columns = [1, 29, 18, 6]
 opening_points = 3
 batch_size = 40
 power_batching = true
@@ -199,6 +223,8 @@ num_queries = 128
 fri_folding_factors = [16, 16, 16, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "Add256"
@@ -206,7 +232,7 @@ group = "basic"
 trace_length = 1048576
 rho = 0.5
 air_max_degree = 3
-num_columns = 67
+num_columns = [1, 47, 51, 6]
 opening_points = 3
 batch_size = 69
 power_batching = true
@@ -214,6 +240,8 @@ num_queries = 128
 fri_folding_factors = [16, 16, 16, 16]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "ArithEq"
@@ -221,7 +249,7 @@ group = "basic"
 trace_length = 1048576
 rho = 0.5
 air_max_degree = 3
-num_columns = 57
+num_columns = [2, 39, 40, 6]
 opening_points = 36
 batch_size = 434
 power_batching = true
@@ -229,6 +257,8 @@ num_queries = 128
 fri_folding_factors = [16, 16, 16, 16]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "ArithEq384"
@@ -236,7 +266,7 @@ group = "basic"
 trace_length = 1048576
 rho = 0.5
 air_max_degree = 3
-num_columns = 51
+num_columns = [2, 33, 40, 6]
 opening_points = 54
 batch_size = 536
 power_batching = true
@@ -244,6 +274,8 @@ num_queries = 128
 fri_folding_factors = [16, 16, 16, 16]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "Keccakf"
@@ -251,7 +283,7 @@ group = "basic"
 trace_length = 2097152
 rho = 0.5
 air_max_degree = 3
-num_columns = 71
+num_columns = [11, 47, 33, 6]
 opening_points = 71
 batch_size = 265
 power_batching = true
@@ -259,6 +291,8 @@ num_queries = 128
 fri_folding_factors = [16, 16, 8, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "Sha256f"
@@ -266,7 +300,7 @@ group = "basic"
 trace_length = 262144
 rho = 0.5
 air_max_degree = 3
-num_columns = 113
+num_columns = [2, 102, 13, 6]
 opening_points = 87
 batch_size = 1265
 power_batching = true
@@ -274,6 +308,8 @@ num_queries = 128
 fri_folding_factors = [16, 16, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "SpecifiedRanges"
@@ -281,7 +317,7 @@ group = "basic"
 trace_length = 1048576
 rho = 0.5
 air_max_degree = 3
-num_columns = 86
+num_columns = [34, 33, 51, 6]
 opening_points = 3
 batch_size = 88
 power_batching = true
@@ -289,6 +325,8 @@ num_queries = 128
 fri_folding_factors = [16, 16, 16, 16]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "VirtualTable0"
@@ -296,7 +334,7 @@ group = "basic"
 trace_length = 1048576
 rho = 0.5
 air_max_degree = 3
-num_columns = 137
+num_columns = [109, 17, 27, 6]
 opening_points = 3
 batch_size = 139
 power_batching = true
@@ -304,6 +342,8 @@ num_queries = 128
 fri_folding_factors = [16, 16, 16, 16]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "VirtualTable1"
@@ -311,7 +351,7 @@ group = "basic"
 trace_length = 1048576
 rho = 0.5
 air_max_degree = 3
-num_columns = 172
+num_columns = [145, 16, 27, 6]
 opening_points = 3
 batch_size = 174
 power_batching = true
@@ -319,6 +359,8 @@ num_queries = 128
 fri_folding_factors = [16, 16, 16, 16]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "ArithEq-compressor"
@@ -326,7 +368,7 @@ group = "compression"
 trace_length = 262144
 rho = 0.25
 air_max_degree = 5
-num_columns = 119
+num_columns = [45, 36, 48, 12]
 opening_points = 4
 batch_size = 163
 power_batching = true
@@ -334,6 +376,8 @@ num_queries = 64
 fri_folding_factors = [16, 16, 16, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "ArithEq384-compressor"
@@ -341,7 +385,7 @@ group = "compression"
 trace_length = 262144
 rho = 0.25
 air_max_degree = 5
-num_columns = 119
+num_columns = [45, 36, 48, 12]
 opening_points = 4
 batch_size = 163
 power_batching = true
@@ -349,6 +393,8 @@ num_queries = 64
 fri_folding_factors = [16, 16, 16, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "Keccakf-compressor"
@@ -356,7 +402,7 @@ group = "compression"
 trace_length = 262144
 rho = 0.25
 air_max_degree = 5
-num_columns = 119
+num_columns = [45, 36, 48, 12]
 opening_points = 4
 batch_size = 163
 power_batching = true
@@ -364,6 +410,8 @@ num_queries = 64
 fri_folding_factors = [16, 16, 16, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "Sha256f-compressor"
@@ -371,7 +419,7 @@ group = "compression"
 trace_length = 524288
 rho = 0.25
 air_max_degree = 5
-num_columns = 119
+num_columns = [45, 36, 48, 12]
 opening_points = 4
 batch_size = 163
 power_batching = true
@@ -379,6 +427,8 @@ num_queries = 64
 fri_folding_factors = [16, 16, 16, 16]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "VirtualTable0-compressor"
@@ -386,7 +436,7 @@ group = "compression"
 trace_length = 262144
 rho = 0.25
 air_max_degree = 5
-num_columns = 119
+num_columns = [45, 36, 48, 12]
 opening_points = 4
 batch_size = 163
 power_batching = true
@@ -394,6 +444,8 @@ num_queries = 64
 fri_folding_factors = [16, 16, 16, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "VirtualTable1-compressor"
@@ -401,7 +453,7 @@ group = "compression"
 trace_length = 262144
 rho = 0.25
 air_max_degree = 5
-num_columns = 119
+num_columns = [45, 36, 48, 12]
 opening_points = 4
 batch_size = 163
 power_batching = true
@@ -409,6 +461,8 @@ num_queries = 64
 fri_folding_factors = [16, 16, 16, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "Recursive2"
@@ -416,7 +470,7 @@ group = "aggregation"
 trace_length = 131072
 rho = 0.125
 air_max_degree = 8
-num_columns = 92
+num_columns = [45, 36, 12, 21]
 opening_points = 4
 batch_size = 136
 power_batching = true
@@ -424,6 +478,8 @@ num_queries = 43
 fri_folding_factors = [16, 16, 16, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0
 
 [[circuits]]
 name = "Final"
@@ -431,7 +487,7 @@ group = "final"
 trace_length = 65536
 rho = 0.0625
 air_max_degree = 8
-num_columns = 98
+num_columns = [45, 42, 12, 21]
 opening_points = 4
 batch_size = 142
 power_batching = true
@@ -439,3 +495,5 @@ num_queries = 32
 fri_folding_factors = [32, 32]
 fri_early_stop_degree = 1024
 grinding_query_phase = 0
+merkle_tree_arity = 3
+last_level_verification = 0

@@ -19,7 +19,7 @@ trace_length = 2097152  # 1 << 21
 # They use 5 but in the DEEP-ALI error they use (d-1) so we put 4 here.
 air_max_degree = 4
 # num_control = 16, num_data = 223, num_accum = 40, C = 279
-num_columns = 279
+num_columns = [279]
 # max_combo = 9
 opening_points = 9
 # L = C + 4 = 283

@@ -7,7 +7,7 @@ from __future__ import annotations
 import math
 from typing import TYPE_CHECKING
 
-from soundcalc.common.utils import get_size_of_merkle_path_bits
+from soundcalc.common.utils import get_size_of_merkle_path_bits_fri
 
 if TYPE_CHECKING:
     from ..zkvms.zkvm import FRIBasedVM
@@ -61,12 +61,14 @@ def get_FRI_query_phase_error(theta: float, num_queries: int, grinding_bits: int
 
 def get_FRI_proof_size_bits(
         hash_size_bits: int,
-        field_size_bits: int,
-        batch_size: int,
+        base_field_size_bits: int,
+        extension_field_size_bits: int,
+        num_columns: list[int],
         num_queries: int,
         domain_size: int,
         folding_factors: list[int],
-        rate: int
+        merkle_tree_arity: int,
+        last_level_verification: int
 ) -> int:
 
     """
@@ -89,9 +91,9 @@ def get_FRI_proof_size_bits(
     # each leaf i for that root contains symbols i for all initial functions.
     n = int(domain_size)
     num_leafs = n
-    tuple_size = batch_size
-    size_bits += hash_size_bits + num_queries * get_size_of_merkle_path_bits(num_leafs, tuple_size, field_size_bits, hash_size_bits)
-
+    for c in num_columns:
+        size_bits += hash_size_bits + num_queries * get_size_of_merkle_path_bits_fri(num_leafs, c * base_field_size_bits, hash_size_bits, merkle_tree_arity, last_level_verification)
+    
     # Now we have folded these batch_size initial functions into one
     # Next, we start with the folding rounds.
 
@@ -103,10 +105,10 @@ def get_FRI_proof_size_bits(
 
         # in our current domain, we group together all siblings (sometimes denoted Block(z) in the literature)
         num_leafs = n // int(folding_factors[i])
-        tuple_size = folding_factors[i]
+        tuple_size = folding_factors[i] * extension_field_size_bits
 
         # one root and one path per query
-        size_bits += hash_size_bits + num_queries * get_size_of_merkle_path_bits(num_leafs, tuple_size, field_size_bits, hash_size_bits)
+        size_bits += hash_size_bits + num_queries * get_size_of_merkle_path_bits_fri(num_leafs, tuple_size, hash_size_bits, merkle_tree_arity, last_level_verification)
 
         # next domain size is given by applying folding
         n = n // int(folding_factors[i])
@@ -114,7 +116,7 @@ def get_FRI_proof_size_bits(
     # for the final round, we send the function in the clear.
     # note that we don't need to send the full function, but can just send
     # the polynomial that describes it
-    size_bits += rate * n * field_size_bits
+    size_bits += n * extension_field_size_bits
 
     return size_bits
 

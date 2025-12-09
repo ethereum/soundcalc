@@ -24,7 +24,7 @@ trace_length = 262144  # 1 << 18, note that this is smaller than for other VMs, 
 # They bound it as 1/rho+1  https://github.com/facebook/winterfell/blob/main/air/src/proof/security.rs#L164
 air_max_degree = 9
 # XXX need to check the numbers below by running the prover
-num_columns = 100
+num_columns = [100]
 # XXX ???  TODO: ask the main Miden channel
 opening_points = 2
 # XXX need to check the numbers below by running the prover

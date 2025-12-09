@@ -56,7 +56,7 @@ def get_DEEP_ALI_errors(L_plus: float, params: "FRIBasedCircuit"):
     # We might want to generalize this further for other zkEVMs.
     # For example, Miden also computes similar values for DEEP-ALI in:
     # https://github.com/facebook/winterfell/blob/2f78ee9bf667a561bdfcdfa68668d0f9b18b8315/air/src/proof/security.rs#L188-L210
-    e_ALI = L_plus * params.num_columns / params.field_size
+    e_ALI = L_plus * sum(params.num_columns) / params.field_size
     e_DEEP = (
         L_plus
         * (params.AIR_max_degree * (params.trace_length + params.max_combo - 1) + (params.trace_length - 1))
@@ -89,7 +89,7 @@ class FRIBasedCircuitConfig:
     # Preset field parameters (contains p, ext_size, F)
     field: FieldParams
     # Total columns of AIR table
-    num_columns: int
+    num_columns: list[int]
     # Number of functions appearing in the batched-FRI
     # This can be greater than `num_columns`: some zkEVMs have to use "segment polynomials" (aka "composition polynomials")
     batch_size: int
@@ -114,6 +114,10 @@ class FRIBasedCircuitConfig:
     # Proof of Work grinding compute during FRI query phase (expressed in bits of security)
     grinding_query_phase: int
 
+    merkle_tree_arity: int = 2  # default to binary Merkle trees
+
+    last_level_verification: int = 0  # default to no verification at last level
+
 
 class FRIBasedCircuit(Circuit):
     """
@@ -137,9 +141,10 @@ class FRIBasedCircuit(Circuit):
         self.FRI_early_stop_degree = config.FRI_early_stop_degree
         self.grinding_query_phase = config.grinding_query_phase
         self.AIR_max_degree = config.AIR_max_degree
+        self.merkle_tree_arity = config.merkle_tree_arity
+        self.last_level_verification = config.last_level_verification
 
         # Number of columns should be less or equal to the final number of polynomials in batched-FRI
-        assert self.num_columns <= self.batch_size
 
         # Now, also compute some auxiliary parameters
 
@@ -204,6 +209,8 @@ class FRIBasedCircuit(Circuit):
             "AIR_max_degree": self.AIR_max_degree,
             "field": self.field.to_string(),
             "field_extension_degree": self.field_extension_degree,
+            "merkle_tree_arity": self.merkle_tree_arity,
+            "last_level_verification": self.last_level_verification,
         }
 
         # Determine alignment width
@@ -228,12 +235,14 @@ class FRIBasedCircuit(Circuit):
 
         return get_FRI_proof_size_bits(
             hash_size_bits=self.hash_size_bits,
-            field_size_bits=self.field.extension_field_element_size_bits(),
-            batch_size=self.batch_size,
+            base_field_size_bits=self.field.base_field_element_size_bits(),
+            extension_field_size_bits=self.field.extension_field_element_size_bits(),
+            num_columns=self.num_columns,
             num_queries=self.num_queries,
             domain_size=int(self.D),
             folding_factors=self.FRI_folding_factors,
-            rate=self.rho
+            merkle_tree_arity=self.merkle_tree_arity,
+            last_level_verification=self.last_level_verification
         )
 
     def get_security_levels(self) -> dict[str, dict[str, int]]:
@@ -373,6 +382,8 @@ class FRIBasedVM(zkVM):
             cfg = FRIBasedCircuitConfig(
                 name=section["name"],
                 hash_size_bits=config["zkevm"]["hash_size_bits"],
+                merkle_tree_arity=section.get("merkle_tree_arity", 2),
+                last_level_verification=section.get("last_level_verification", 0),
                 rho=section["rho"],
                 trace_length=section["trace_length"],
                 field=field,
