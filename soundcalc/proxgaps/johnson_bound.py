@@ -11,16 +11,14 @@ class JohnsonBoundRegime(ProximityGapsRegime):
 
     def get_proximity_parameter(self, rate: float, dimension: int) -> float:
         # The proximity parameter defines how close we are to the Johnson Bound 1-sqrt(rate).
-        n = dimension / rate
         sqrt_rate = math.sqrt(rate)
 
-        # TODO: Let's use a heuristic to figure out the proximity parameter here.
-        # If we are working over a large field (|F| > 2^150), use a tiny gap from JB: 1/n
-        # Otherwise, use a more conservative rho/20.
+        # For large fields, use a tighter gap (closer to Johnson bound) for better
+        # query-phase security. For smaller fields, use a more conservative gap.
         if self.field.F > 2**150:
-            gap = 1 / n
+            gap = sqrt_rate / 100
         else:
-            gap = rate / 20
+            gap = max(rate / 20, sqrt_rate / 100)
 
         return 1 - sqrt_rate - gap
 
