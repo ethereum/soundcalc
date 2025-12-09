@@ -214,9 +214,18 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
-math/main.aux
-math/main.fdb_latexmk
-math/main.fls
-math/main.synctex.gz
-math/main.out
-math/main.toc
+# LaTeX (math companion)
+math_companion/*.aux
+math_companion/*.fdb_latexmk
+math_companion/*.fls
+math_companion/*.synctex.gz
+math_companion/*.out
+math_companion/*.toc
+math_companion/*.log
+math_companion/*.pdf
+math_companion/*.bbl
+math_companion/*.blg
+math_companion/*.nav
+math_companion/*.snm
+math_companion/*.vrb
+math_companion/auto/
