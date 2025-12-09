@@ -1,25 +1,27 @@
 # A dummy zkVM using WHIR for testing WHIR
+# This configuration targets 128-bit security using the Johnson Bound regime.
+# Generated from stir-whir-scripts with log_degree=20, batch_size=164, constraint_degree=8.
 
 [zkevm]
 name = "DummyWHIR"
 protocol_family = "WHIR"
-field = "Goldilocks^2"
+field = "Goldilocks^3"
 hash_size_bits = 256
 
 [[circuits]]
 name = "main"
-log_inv_rate = 2  # rate 1/4
+log_inv_rate = 4  # rate 1/16
 num_iterations = 5
 folding_factor = 4
-log_degree = 23
-batch_size = 100
+log_degree = 20
+batch_size = 164
 power_batching = true
-constraint_degree = 3
-num_queries = [119, 47, 29, 22, 18]
-num_ood_samples = [2, 2, 2, 2]
+constraint_degree = 8
+num_queries = [55, 31, 22, 17, 14]
+num_ood_samples = [1, 1, 1, 1]
 
-# grinding
-grinding_bits_batching = 10
-grinding_bits_folding = [[10, 10, 10, 10], [10, 10, 10, 10], [10, 10, 10, 10], [10, 10, 10, 10], [10, 10, 10, 10]]
-grinding_bits_queries = [15, 15, 15, 8, 8]
+# grinding bits (ceiling of computed values to ensure 128-bit security)
+grinding_bits_batching = 21
+grinding_bits_folding = [[16, 14, 12, 10], [14, 12, 10, 8], [17, 15, 13, 11], [19, 17, 15, 13], [22, 20, 18, 16]]
+grinding_bits_queries = [22, 22, 20, 19, 17]
 grinding_bits_ood = [0, 0, 0, 0]
