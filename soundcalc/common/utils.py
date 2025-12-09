@@ -18,7 +18,23 @@ def get_bits_of_security_from_error(error: float) -> int:
     return int(math.floor(-math.log2(error)))
 
 
-def get_size_of_merkle_path_bits(num_leafs: int, tuple_size: int, element_size_bits: int, hash_size_bits: int) -> int:
+def get_size_of_merkle_path_bits_fri(num_leafs: int, leaf_size_bits: int, hash_size_bits: int, arity: int, last_level_verification: int) -> int:
+    """
+    Compute the size of a Merkle path in bits.
+
+    We assume a Merkle tree that represents num_leafs tuples of elements
+    where each element has size element_size_bits and one tuple contains tuple_size
+    many elements. Each leaf of the tree contains one such tuple.
+
+    Note: the result counts both the leaf itself and the Merkle path.
+    """
+    assert num_leafs > 0
+    sibling = (arity - 1) * hash_size_bits
+    tree_depth = math.ceil(math.log(num_leafs, arity))
+    co_path = (tree_depth - last_level_verification) * hash_size_bits * (arity - 1)
+    return leaf_size_bits + sibling + co_path
+
+def get_size_of_merkle_path_bits_whir(num_leafs: int, tuple_size: int, element_size_bits: int, hash_size_bits: int) -> int:
     """
     Compute the size of a Merkle path in bits.
 
