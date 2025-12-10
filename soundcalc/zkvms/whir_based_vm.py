@@ -592,24 +592,26 @@ class WHIRBasedCircuit(Circuit):
         assert len(self.num_queries) == self.num_iterations
         for i in range(self.num_iterations):
             domain_size = 2 ** (self.log_degrees[i] + self.log_inv_rates[i])
-            block_size = 2**self.folding_factor
+            block_size = 2 ** self.folding_factor
             num_leafs = domain_size / block_size
 
             # The element size depends on the iteration:
-            # - Iteration 0: The witness f_0 is over the base field.
+            # - Iteration 0: The witness f_0, ... f_batch_size is over the base field.
             # - Iteration >0: The folded functions f_i contain alpha (extension challenge),
             #   so they are over the Extension Field.
             if i == 0:
                 current_element_bits = base_field_bits
+                current_tuple_size = self.batch_size * block_size
             else:
                 current_element_bits = ext_field_bits
+                current_tuple_size = block_size
 
             # Compute the size of one query (path + leaf data)
             #
             # A leaf in WHIR contains an entire folding block (size 2^k).
             merkle_path_size = get_size_of_merkle_path_bits(
                 num_leafs=num_leafs,
-                tuple_size=block_size,
+                tuple_size=current_tuple_size,
                 element_size_bits=current_element_bits,
                 hash_size_bits=self.hash_size_bits,
             )
