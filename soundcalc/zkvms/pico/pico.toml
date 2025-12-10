@@ -23,13 +23,12 @@ air_max_degree = 3
 # These numbers are from a common CPU chunk.
 # Other Pico chunks may have different trace widths and polynomial counts.
 num_columns = 1278
-# num_polys = batch_size
 batch_size = 1435
 # Pico chips only use the local row and the next row in any constraint.
 opening_points = 2
 # according to Plonky3 https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L192
 power_batching = true
-# Reference: https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L78-L82
+# Reference: https://github.com/brevis-network/pico/blob/main/vm/src/configs/stark_config/kb_poseidon2.rs#L60
 num_queries = 84
 fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 fri_early_stop_degree = 2
@@ -44,13 +43,12 @@ trace_length = 1048576 # 1 << 20 is the maximal allowed convert trace length (ba
 # INFO soundness_stats: chunk 21 | num_pre_cols=153 num_main_cols=267 num_perm_cols=47 num_columns=467 num_quotient_polys=18 num_polys=485 AIR_max_degree_upper_bound=3
 air_max_degree = 3
 num_columns = 467
-# num_polys = batch_size
 batch_size = 485
 # Pico chips only use the local row and the next row in any constraint.
 opening_points = 2
 # according to Plonky3 https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L192
 power_batching = true
-# Reference: https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L78-L82
+# Reference: https://github.com/brevis-network/pico/blob/main/vm/src/configs/stark_config/kb_poseidon2.rs#L60
 num_queries = 84
 fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 fri_early_stop_degree = 2
@@ -65,13 +63,12 @@ trace_length = 262144 # 1 << 18 is the longest combine trace
 # INFO soundness_stats: chunk 4  | num_pre_cols=153 num_main_cols=267 num_perm_cols=47 num_columns=467 num_quotient_polys=18 num_polys=485 AIR_max_degree_upper_bound=3
 air_max_degree = 3
 num_columns = 467
-# num_polys = batch_size
 batch_size = 485
 # Pico chips only use the local row and the next row in any constraint.
 opening_points = 2
 # according to Plonky3 https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L192
 power_batching = true
-# Reference: https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L78-L82
+# Reference: https://github.com/brevis-network/pico/blob/main/vm/src/configs/stark_config/kb_poseidon2.rs#L60
 num_queries = 84
 fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 fri_early_stop_degree = 2
@@ -86,13 +83,12 @@ trace_length = 131072 # 1 << 17 is the compress size
 # INFO soundness_stats: chunk 0  | num_pre_cols=153 num_main_cols=267 num_perm_cols=47 num_columns=467 num_quotient_polys=18 num_polys=485 AIR_max_degree_upper_bound=3
 air_max_degree = 3
 num_columns = 467
-# num_polys = batch_size
 batch_size = 485
 # Pico chips only use the local row and the next row in any constraint.
 opening_points = 2
 # according to Plonky3 https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L192
 power_batching = true
-# Reference: https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L78-L82
+# Reference: https://github.com/brevis-network/pico/blob/main/vm/src/configs/stark_config/kb_poseidon2.rs#L111
 num_queries = 21
 fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 fri_early_stop_degree = 16
@@ -107,13 +103,12 @@ trace_length = 32768 # 1 << 15 is the embed size
 # INFO soundness_stats: chunk 0  | num_pre_cols=153 num_main_cols=267 num_perm_cols=47 num_columns=467 num_quotient_polys=18 num_polys=485 AIR_max_degree_upper_bound=3
 air_max_degree = 3
 num_columns = 467
-# num_polys = batch_size
 batch_size = 485
 # Pico chips only use the local row and the next row in any constraint.
 opening_points = 2
 # according to Plonky3 https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L192
 power_batching = true
-# Reference: https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L78-L82
+# Reference: https://github.com/brevis-network/pico/blob/main/vm/src/configs/stark_config/kb_bn254_poseidon2.rs#L84
 num_queries = 21
 fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 fri_early_stop_degree = 16
