@@ -607,9 +607,17 @@ class WHIRBasedCircuit(Circuit):
             # Compute the size of one query (path + leaf data)
             #
             # A leaf in WHIR contains an entire folding block (size 2^k).
+            #
+            # For iteration 0, the leaf also contains evaluations for all batch_size polynomials, so the tuple size is
+            # block_size * batch_size.
+            if i == 0:
+                tuple_size = block_size * self.batch_size
+            else:
+                tuple_size = block_size
+
             merkle_path_size = get_size_of_merkle_path_bits(
                 num_leafs=num_leafs,
-                tuple_size=block_size,
+                tuple_size=tuple_size,
                 element_size_bits=current_element_bits,
                 hash_size_bits=self.hash_size_bits,
             )
