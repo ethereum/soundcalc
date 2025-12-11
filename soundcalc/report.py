@@ -34,6 +34,8 @@ def _fri_parameter_lines(circuit: FRIBasedCircuit) -> list[str]:
         f"- FRI rounds: {circuit.FRI_rounds_n}",
         f"- FRI folding factors: {circuit.FRI_folding_factors}",
         f"- FRI early stop degree: {circuit.FRI_early_stop_degree}",
+        f"- Number of columns: {circuit.num_columns}",
+        f"- Batch size: {circuit.batch_size}",
         f"- Batching: {batching}",
     ]
 

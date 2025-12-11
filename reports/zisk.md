@@ -51,6 +51,8 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [16, 16, 16, 8, 8]
 - FRI early stop degree: 32
+- Number of columns: 51
+- Batch size: 61
 - Batching: Powers
 
 **Proof Size Estimate:** 699.0 KiB, where 1 KiB = 1024 bytes
@@ -75,6 +77,8 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [16, 16, 16, 8, 8]
 - FRI early stop degree: 32
+- Number of columns: 5
+- Batch size: 18
 - Batching: Powers
 
 **Proof Size Estimate:** 570.0 KiB, where 1 KiB = 1024 bytes
@@ -99,6 +103,8 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [16, 16, 16, 8, 8]
 - FRI early stop degree: 32
+- Number of columns: 20
+- Batch size: 29
 - Batching: Powers
 
 **Proof Size Estimate:** 603.0 KiB, where 1 KiB = 1024 bytes
@@ -123,6 +129,8 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [16, 16, 8, 8, 8]
 - FRI early stop degree: 32
+- Number of columns: 13
+- Batch size: 19
 - Batching: Powers
 
 **Proof Size Estimate:** 537.0 KiB, where 1 KiB = 1024 bytes
@@ -147,6 +155,8 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [16, 16, 8, 8, 8]
 - FRI early stop degree: 32
+- Number of columns: 19
+- Batch size: 27
 - Batching: Powers
 
 **Proof Size Estimate:** 561.0 KiB, where 1 KiB = 1024 bytes
@@ -171,6 +181,8 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [16, 16, 8, 8, 8]
 - FRI early stop degree: 32
+- Number of columns: 39
+- Batch size: 59
 - Batching: Powers
 
 **Proof Size Estimate:** 657.0 KiB, where 1 KiB = 1024 bytes
@@ -195,6 +207,8 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [16, 16, 16, 8, 8]
 - FRI early stop degree: 32
+- Number of columns: 23
+- Batch size: 25
 - Batching: Powers
 
 **Proof Size Estimate:** 591.0 KiB, where 1 KiB = 1024 bytes
@@ -219,6 +233,8 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [16, 16, 16, 8, 8]
 - FRI early stop degree: 32
+- Number of columns: 16
+- Batch size: 18
 - Batching: Powers
 
 **Proof Size Estimate:** 570.0 KiB, where 1 KiB = 1024 bytes
@@ -243,6 +259,8 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [16, 16, 16, 8, 8]
 - FRI early stop degree: 32
+- Number of columns: 21
+- Batch size: 23
 - Batching: Powers
 
 **Proof Size Estimate:** 585.0 KiB, where 1 KiB = 1024 bytes
@@ -267,6 +285,8 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [16, 16, 8, 8, 8]
 - FRI early stop degree: 32
+- Number of columns: 62
+- Batch size: 64
 - Batching: Powers
 
 **Proof Size Estimate:** 672.0 KiB, where 1 KiB = 1024 bytes
@@ -291,6 +311,8 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [16, 16, 16, 8, 8]
 - FRI early stop degree: 32
+- Number of columns: 47
+- Batch size: 49
 - Batching: Powers
 
 **Proof Size Estimate:** 663.0 KiB, where 1 KiB = 1024 bytes
@@ -315,6 +337,8 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [16, 16, 16, 8, 8]
 - FRI early stop degree: 32
+- Number of columns: 16
+- Batch size: 18
 - Batching: Powers
 
 **Proof Size Estimate:** 570.0 KiB, where 1 KiB = 1024 bytes
@@ -339,6 +363,8 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [16, 16, 16, 8, 8]
 - FRI early stop degree: 32
+- Number of columns: 38
+- Batch size: 40
 - Batching: Powers
 
 **Proof Size Estimate:** 636.0 KiB, where 1 KiB = 1024 bytes
@@ -363,6 +389,8 @@ How to read this report:
 - FRI rounds: 4
 - FRI folding factors: [16, 16, 16, 16]
 - FRI early stop degree: 32
+- Number of columns: 67
+- Batch size: 69
 - Batching: Powers
 
 **Proof Size Estimate:** 659.0 KiB, where 1 KiB = 1024 bytes
@@ -387,6 +415,8 @@ How to read this report:
 - FRI rounds: 4
 - FRI folding factors: [16, 16, 16, 16]
 - FRI early stop degree: 32
+- Number of columns: 57
+- Batch size: 434
 - Batching: Powers
 
 **Proof Size Estimate:** 1754.0 KiB, where 1 KiB = 1024 bytes
@@ -411,6 +441,8 @@ How to read this report:
 - FRI rounds: 4
 - FRI folding factors: [16, 16, 16, 16]
 - FRI early stop degree: 32
+- Number of columns: 51
+- Batch size: 536
 - Batching: Powers
 
 **Proof Size Estimate:** 2060.0 KiB, where 1 KiB = 1024 bytes
@@ -435,6 +467,8 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [16, 16, 8, 8, 8]
 - FRI early stop degree: 32
+- Number of columns: 71
+- Batch size: 265
 - Batching: Powers
 
 **Proof Size Estimate:** 1275.0 KiB, where 1 KiB = 1024 bytes
@@ -459,6 +493,8 @@ How to read this report:
 - FRI rounds: 4
 - FRI folding factors: [16, 16, 8, 8]
 - FRI early stop degree: 32
+- Number of columns: 113
+- Batch size: 1265
 - Batching: Powers
 
 **Proof Size Estimate:** 4171.0 KiB, where 1 KiB = 1024 bytes
@@ -483,6 +519,8 @@ How to read this report:
 - FRI rounds: 4
 - FRI folding factors: [16, 16, 16, 16]
 - FRI early stop degree: 32
+- Number of columns: 86
+- Batch size: 88
 - Batching: Powers
 
 **Proof Size Estimate:** 716.0 KiB, where 1 KiB = 1024 bytes
@@ -507,6 +545,8 @@ How to read this report:
 - FRI rounds: 4
 - FRI folding factors: [16, 16, 16, 16]
 - FRI early stop degree: 32
+- Number of columns: 137
+- Batch size: 139
 - Batching: Powers
 
 **Proof Size Estimate:** 869.0 KiB, where 1 KiB = 1024 bytes
@@ -531,6 +571,8 @@ How to read this report:
 - FRI rounds: 4
 - FRI folding factors: [16, 16, 16, 16]
 - FRI early stop degree: 32
+- Number of columns: 172
+- Batch size: 174
 - Batching: Powers
 
 **Proof Size Estimate:** 974.0 KiB, where 1 KiB = 1024 bytes
@@ -555,6 +597,8 @@ How to read this report:
 - FRI rounds: 4
 - FRI folding factors: [16, 16, 16, 8]
 - FRI early stop degree: 32
+- Number of columns: 119
+- Batch size: 163
 - Batching: Powers
 
 **Proof Size Estimate:** 450.0 KiB, where 1 KiB = 1024 bytes
@@ -579,6 +623,8 @@ How to read this report:
 - FRI rounds: 4
 - FRI folding factors: [16, 16, 16, 8]
 - FRI early stop degree: 32
+- Number of columns: 119
+- Batch size: 163
 - Batching: Powers
 
 **Proof Size Estimate:** 450.0 KiB, where 1 KiB = 1024 bytes
@@ -603,6 +649,8 @@ How to read this report:
 - FRI rounds: 4
 - FRI folding factors: [16, 16, 16, 8]
 - FRI early stop degree: 32
+- Number of columns: 119
+- Batch size: 163
 - Batching: Powers
 
 **Proof Size Estimate:** 450.0 KiB, where 1 KiB = 1024 bytes
@@ -627,6 +675,8 @@ How to read this report:
 - FRI rounds: 4
 - FRI folding factors: [16, 16, 16, 16]
 - FRI early stop degree: 32
+- Number of columns: 119
+- Batch size: 163
 - Batching: Powers
 
 **Proof Size Estimate:** 470.0 KiB, where 1 KiB = 1024 bytes
@@ -651,6 +701,8 @@ How to read this report:
 - FRI rounds: 4
 - FRI folding factors: [16, 16, 16, 8]
 - FRI early stop degree: 32
+- Number of columns: 119
+- Batch size: 163
 - Batching: Powers
 
 **Proof Size Estimate:** 450.0 KiB, where 1 KiB = 1024 bytes
@@ -675,6 +727,8 @@ How to read this report:
 - FRI rounds: 4
 - FRI folding factors: [16, 16, 16, 8]
 - FRI early stop degree: 32
+- Number of columns: 119
+- Batch size: 163
 - Batching: Powers
 
 **Proof Size Estimate:** 450.0 KiB, where 1 KiB = 1024 bytes
@@ -699,6 +753,8 @@ How to read this report:
 - FRI rounds: 4
 - FRI folding factors: [16, 16, 16, 8]
 - FRI early stop degree: 32
+- Number of columns: 92
+- Batch size: 136
 - Batching: Powers
 
 **Proof Size Estimate:** 275.0 KiB, where 1 KiB = 1024 bytes
@@ -723,6 +779,8 @@ How to read this report:
 - FRI rounds: 2
 - FRI folding factors: [32, 32]
 - FRI early stop degree: 1024
+- Number of columns: 98
+- Batch size: 142
 - Batching: Powers
 
 **Proof Size Estimate:** 201.0 KiB, where 1 KiB = 1024 bytes

@@ -17,6 +17,8 @@ How to read this report:
 - FRI rounds: 7
 - FRI folding factors: [4, 4, 4, 4, 4, 4, 4]
 - FRI early stop degree: 128
+- Number of columns: 100
+- Batch size: 100
 - Batching: Powers
 
 **Proof Size Estimate:** 149.0 KiB, where 1 KiB = 1024 bytes
