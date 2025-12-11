@@ -55,6 +55,9 @@ BABYBEAR_P = (1 << 31) - (1 << 27) + 1
 # BabyBear 2-adicity: 2^31 - 2^27 = 2^27 * (2^4 - 1). 27 is the max power of 2.
 BABYBEAR_TWO_ADICITY = 27
 
+KOALABEAR_P = (1 << 31) - (1 << 24) + 1
+# KoalaBear 2-adicity: 2^31 - 2^24 = 2^24 * (2^7 - 1). 24 is the max power of 2.
+KOALABEAR_TWO_ADICITY = 24
 
 # Preset extension fields
 GOLDILOCKS_2 = FieldParams(
@@ -89,6 +92,13 @@ BABYBEAR_5 = FieldParams(
     two_adicity=BABYBEAR_TWO_ADICITY,
 )
 
+KOALABEAR_4 = FieldParams(
+    name="KoalaBear⁴",
+    p=KOALABEAR_P,
+    field_extension_degree=4,
+    F=_F(KOALABEAR_P, 4),
+    two_adicity=KOALABEAR_TWO_ADICITY,
+)
 
 # Map field strings (as used in TOML configs) to FieldParams
 FIELD_MAP = {
@@ -96,6 +106,7 @@ FIELD_MAP = {
     "Goldilocks^3": GOLDILOCKS_3,
     "BabyBear^4": BABYBEAR_4,
     "BabyBear^5": BABYBEAR_5,
+    "KoalaBear^4": KOALABEAR_4,
 }
 
 

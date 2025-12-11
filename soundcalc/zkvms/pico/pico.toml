@@ -1,0 +1,133 @@
+# Pico VM Configuration
+
+# -----------------------------------------------------------------------------
+# RISCV → CONVERT → COMBINE → COMPRESS → EMBED
+#
+# - RISCV: Base STARK proof that emulates one RISC-V chunk and exposes the VM
+#   state (PC, chunk number etc.) as public values.
+# - CONVERT: A 1-to-1 recursion circuit that verifies a single RISCV proof.
+# - COMBINE: A 2-to-1 recursion circuit that verifies two CONVERT proofs and
+#   produces a new proof whose public values represent the combined execution
+#   interval of both chunks.
+# - COMPRESS: A 1-to-1 recursion circuit that verifies a single COMBINE proof
+#   and re-proves the same statement using a "tighter" FRI configuration
+#   (larger log_blowup, fewer queries) to compress the proof size.
+# - EMBED: A 1-to-1 recursion circuit that verifies a single COMPRESS proof and
+#   "embeds" it into the BN254 world: arithmetic stays over KoalaBear, while
+#   commitments and the Fiat–Shamir transcript are moved to BN254/Poseidon2 to
+#   make the proof Groth16-friendly.
+# -----------------------------------------------------------------------------
+
+[zkevm]
+name = "Pico"
+protocol_family = "FRI_STARK"
+field = "KoalaBear^4"
+hash_size_bits = 248  # 31 x 8
+
+[[circuits]]
+name = "riscv"
+# blowup_factor = 2
+rho = 0.5
+trace_length = 4194304 # 1 << 22
+#   Each chip exposes `log_quotient_degree`:
+#   At proof time we do:
+#       log_quotient_degrees = [chip.get_log_quotient_degree() for chip in chips]
+#       quotient_degrees     = [1 << d for d in log_quotient_degrees]
+#       max_q_deg            = max(quotient_degrees)
+#       air_max_degree_upper_bound = max_q_deg + 1    # upper bound on AIR constraint degree
+# Reference: https://github.com/brevis-network/pico/blob/f84173e7d7200201a582cf38ad9b7c4bff63fdf4/vm/src/machine/utils.rs#L357-L377
+air_max_degree = 3
+# Reference: https://github.com/brevis-network/pico/blob/98550581dc43e3eec286cb0a8f061e88fb970f2a/vm/src/machine/prover.rs#L461-L472
+# These numbers are from a common CPU chunk.
+# Other Pico chunks may have different trace widths and polynomial counts.
+num_columns = 1278
+batch_size = 1435
+# Pico chips only use the local row and the next row in any constraint.
+opening_points = 2
+# according to Plonky3 https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L192
+power_batching = true
+# Reference: https://github.com/brevis-network/pico/blob/main/vm/src/configs/stark_config/kb_poseidon2.rs#L60
+num_queries = 84
+fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+fri_early_stop_degree = 2
+grinding_query_phase = 16
+
+
+[[circuits]]
+name = "convert"
+# blowup_factor = 2
+rho = 0.5
+trace_length = 1048576 # 1 << 20 is the maximal allowed convert trace length (batch-fri)
+# INFO soundness_stats: chunk 21 | num_pre_cols=153 num_main_cols=267 num_perm_cols=47 num_columns=467 num_quotient_polys=18 num_polys=485 AIR_max_degree_upper_bound=3
+air_max_degree = 3
+num_columns = 467
+batch_size = 485
+# Pico chips only use the local row and the next row in any constraint.
+opening_points = 2
+# according to Plonky3 https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L192
+power_batching = true
+# Reference: https://github.com/brevis-network/pico/blob/main/vm/src/configs/stark_config/kb_poseidon2.rs#L60
+num_queries = 84
+fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+fri_early_stop_degree = 2
+grinding_query_phase = 16
+
+
+[[circuits]]
+name = "combine"
+# blowup_factor = 2
+rho = 0.5
+trace_length = 262144 # 1 << 18 is the longest combine trace
+# INFO soundness_stats: chunk 4  | num_pre_cols=153 num_main_cols=267 num_perm_cols=47 num_columns=467 num_quotient_polys=18 num_polys=485 AIR_max_degree_upper_bound=3
+air_max_degree = 3
+num_columns = 467
+batch_size = 485
+# Pico chips only use the local row and the next row in any constraint.
+opening_points = 2
+# according to Plonky3 https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L192
+power_batching = true
+# Reference: https://github.com/brevis-network/pico/blob/main/vm/src/configs/stark_config/kb_poseidon2.rs#L60
+num_queries = 84
+fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+fri_early_stop_degree = 2
+grinding_query_phase = 16
+
+
+[[circuits]]
+name = "compress"
+# blowup_factor = 16
+rho = 0.0625
+trace_length = 131072 # 1 << 17 is the compress size
+# INFO soundness_stats: chunk 0  | num_pre_cols=153 num_main_cols=267 num_perm_cols=47 num_columns=467 num_quotient_polys=18 num_polys=485 AIR_max_degree_upper_bound=3
+air_max_degree = 3
+num_columns = 467
+batch_size = 485
+# Pico chips only use the local row and the next row in any constraint.
+opening_points = 2
+# according to Plonky3 https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L192
+power_batching = true
+# Reference: https://github.com/brevis-network/pico/blob/main/vm/src/configs/stark_config/kb_poseidon2.rs#L111
+num_queries = 21
+fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+fri_early_stop_degree = 16
+grinding_query_phase = 16
+
+
+[[circuits]]
+name = "embed"
+# blowup_factor = 16
+rho = 0.0625
+trace_length = 32768 # 1 << 15 is the embed size
+# INFO soundness_stats: chunk 0  | num_pre_cols=153 num_main_cols=267 num_perm_cols=47 num_columns=467 num_quotient_polys=18 num_polys=485 AIR_max_degree_upper_bound=3
+air_max_degree = 3
+num_columns = 467
+batch_size = 485
+# Pico chips only use the local row and the next row in any constraint.
+opening_points = 2
+# according to Plonky3 https://github.com/brevis-network/Plonky3/blob/411a80deafb89335b5571f9925d584d7f51317e9/fri/src/two_adic_pcs.rs#L192
+power_batching = true
+# Reference: https://github.com/brevis-network/pico/blob/main/vm/src/configs/stark_config/kb_bn254_poseidon2.rs#L84
+num_queries = 21
+fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+fri_early_stop_degree = 16
+grinding_query_phase = 16

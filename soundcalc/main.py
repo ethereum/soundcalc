@@ -3,7 +3,7 @@ import json
 import os
 
 from soundcalc.common.utils import KIB
-from soundcalc.zkvms import risc0, miden, zisk, dummy_whir
+from soundcalc.zkvms import risc0, miden, zisk, dummy_whir, pico
 from soundcalc.report import build_zkvm_report
 from soundcalc.zkvms.zkvm import Circuit, zkVM
 
@@ -20,7 +20,7 @@ def generate_and_save_reports(zkvms: list[zkVM]) -> None:
     for zkvm in zkvms:
         zkvm_name = zkvm.get_name()
         # ZisK gets multi-circuit mode (all circuits inlined)
-        multi_circuit = zkvm_name == "ZisK"
+        multi_circuit = (zkvm_name == "ZisK" or zkvm_name == "Pico")
 
         md = build_zkvm_report(zkvm, multi_circuit=multi_circuit)
         filename = f"{zkvm_name.lower().replace(' ', '_')}.md"
@@ -86,6 +86,7 @@ def main(print_only: list[str] | None = None) -> None:
         miden.load(),
         risc0.load(),
         dummy_whir.load(),
+        pico.load(),
     ]
 
     if print_only:
