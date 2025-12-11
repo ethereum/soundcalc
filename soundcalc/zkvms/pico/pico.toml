@@ -1,5 +1,23 @@
 # Pico VM Configuration
 
+# -----------------------------------------------------------------------------
+# RISCV → CONVERT → COMBINE → COMPRESS → EMBED
+#
+# - RISCV: Base STARK proof that emulates one RISC-V chunk and exposes the VM
+#   state (PC, chunk number etc.) as public values.
+# - CONVERT: A 1-to-1 recursion circuit that verifies a single RISCV proof.
+# - COMBINE: A 2-to-1 recursion circuit that verifies two CONVERT proofs and
+#   produces a new proof whose public values represent the combined execution
+#   interval of both chunks.
+# - COMPRESS: A 1-to-1 recursion circuit that verifies a single COMBINE proof
+#   and re-proves the same statement using a "tighter" FRI configuration
+#   (larger log_blowup, fewer queries) to compress the proof size.
+# - EMBED: A 1-to-1 recursion circuit that verifies a single COMPRESS proof and
+#   "embeds" it into the BN254 world: arithmetic stays over KoalaBear, while
+#   commitments and the Fiat–Shamir transcript are moved to BN254/Poseidon2 to
+#   make the proof Groth16-friendly.
+# -----------------------------------------------------------------------------
+
 [zkevm]
 name = "Pico"
 protocol_family = "FRI_STARK"
