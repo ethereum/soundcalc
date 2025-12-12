@@ -4,6 +4,7 @@ from pathlib import Path
 
 import toml
 
+from typing import Optional
 from soundcalc.common.fields import FieldParams, parse_field
 from soundcalc.common.utils import (
     get_bits_of_security_from_error,
@@ -308,6 +309,11 @@ class WHIRBasedVMConfig:
     # agree on the sampled OOD point.
     grinding_bits_ood: list[int]
 
+    # Optional override for the Johnson-bound *gap* used by JohnsonBoundRegime.
+    # If set, the proximity parameter becomes: 1 - sqrt(rate) - proximity_gap.
+    #
+    # This is useful to pin fixed proximity parameters (similar to FRI configs).
+    proximity_gap: Optional[float] = None
 
 class WHIRBasedCircuit(Circuit):
     """
@@ -334,6 +340,9 @@ class WHIRBasedCircuit(Circuit):
         self.grinding_bits_queries = config.grinding_bits_queries
         self.num_ood_samples = config.num_ood_samples
         self.grinding_bits_ood = config.grinding_bits_ood
+
+        # Optional Johnson-bound proximity-gap override (see JohnsonBoundRegime)
+        self.proximity_gap = config.proximity_gap
 
         # Parameter validity checks
 
@@ -626,7 +635,11 @@ class WHIRBasedCircuit(Circuit):
         return proof_size
 
     def get_security_levels(self) -> dict[str, dict[str, int]]:
-        regimes = [UniqueDecodingRegime(self.field), JohnsonBoundRegime(self.field)]
+        
+        regimes = [
+            UniqueDecodingRegime(self.field),
+            JohnsonBoundRegime(self.field, proximity_gap=self.proximity_gap),
+        ]
 
         result: dict[str, dict[str, int]] = {}
         for regime in regimes:
@@ -967,6 +980,10 @@ class WHIRBasedVM(zkVM):
                 grinding_bits_queries=section["grinding_bits_queries"],
                 num_ood_samples=section["num_ood_samples"],
                 grinding_bits_ood=section["grinding_bits_ood"],
+                # Allow either key for convenience/consistency across FRI + WHIR configs.
+                proximity_gap=section.get(
+                    "proximity_gap", section.get("fri_proximity_gap")
+                )
             )
             circuits.append(WHIRBasedCircuit(cfg))
 

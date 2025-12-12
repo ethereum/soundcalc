@@ -1,17 +1,31 @@
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
 
 import math
+from typing import Optional
 
 class JohnsonBoundRegime(ProximityGapsRegime):
     """
     Johnson Bound Regime (JBR).
     """
+
+    def __init__(self, field, proximity_gap: Optional[float] = None):
+        super().__init__(field)
+        # Optional override for the Johnson-bound gap. If set, the proximity
+        # parameter becomes: 1 - sqrt(rate) - proximity_gap.
+        self.proximity_gap = proximity_gap
+ 
+
     def identifier(self) -> str:
         return "JBR"
 
     def get_proximity_parameter(self, rate: float, dimension: int) -> float:
         # The proximity parameter defines how close we are to the Johnson Bound 1-sqrt(rate).
         sqrt_rate = math.sqrt(rate)
+
+        # Config override (primarily for FRI-based systems that want fixed params).
+        if self.proximity_gap is not None:
+            gap = self.proximity_gap
+            return 1 - sqrt_rate - gap
 
         # For large fields, use a tighter gap (closer to Johnson bound) for better
         # query-phase security. For smaller fields, use a more conservative gap.

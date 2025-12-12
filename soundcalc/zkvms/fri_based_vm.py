@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Protocol, Mapping, Any
+from typing import Protocol, Mapping, Any, Optional
 
 from math import log2
 import toml
@@ -114,6 +114,10 @@ class FRIBasedCircuitConfig:
     # Proof of Work grinding compute during FRI query phase (expressed in bits of security)
     grinding_query_phase: int
 
+    # Optional override for the Johnson-bound *gap* used by the JohnsonBoundRegime.
+    # If set, the proximity parameter becomes: 1 - sqrt(rho) - fri_proximity_gap.
+    # (This is useful to pin fixed parameters in TOML configs.)
+    fri_proximity_gap: Optional[float] = None
 
 class FRIBasedCircuit(Circuit):
     """
@@ -137,7 +141,9 @@ class FRIBasedCircuit(Circuit):
         self.FRI_early_stop_degree = config.FRI_early_stop_degree
         self.grinding_query_phase = config.grinding_query_phase
         self.AIR_max_degree = config.AIR_max_degree
-
+        # Optional override for the Johnson-bound proximity gap (see JohnsonBoundRegime).
+        self.fri_proximity_gap = config.fri_proximity_gap
+        
         # Number of columns should be less or equal to the final number of polynomials in batched-FRI
         assert self.num_columns <= self.batch_size
 
@@ -196,6 +202,7 @@ class FRIBasedCircuit(Circuit):
             "batch_size": self.batch_size,
             "power_batching": self.power_batching,
             "num_queries": self.num_queries,
+            "fri_proximity_gap": self.fri_proximity_gap,
             "max_combo": self.max_combo,
             "FRI_folding_factors": self.FRI_folding_factors,
             "FRI_early_stop_degree": self.FRI_early_stop_degree,
@@ -250,7 +257,10 @@ class FRIBasedCircuit(Circuit):
         """
 
         # we consider the following regimes, and for each regime do the analysis
-        regimes = [UniqueDecodingRegime(self.field), JohnsonBoundRegime(self.field)]
+        regimes = [
+            UniqueDecodingRegime(self.field),
+            JohnsonBoundRegime(self.field, proximity_gap=self.fri_proximity_gap),
+        ]
 
         result = {}
         for regime in regimes:
@@ -374,6 +384,7 @@ class FRIBasedVM(zkVM):
                 name=section["name"],
                 hash_size_bits=config["zkevm"]["hash_size_bits"],
                 rho=section["rho"],
+                fri_proximity_gap=section.get("fri_proximity_gap"),
                 trace_length=section["trace_length"],
                 field=field,
                 num_columns=section["num_columns"],
