@@ -3,16 +3,18 @@ from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
 import math
 from typing import Optional
 
-def __init__(self, field, proximity_gap: Optional[float] = None):
-    super().__init__(field)
-    # Optional override for the Johnson-bound gap. If set, the proximity
-    # parameter becomes: 1 - sqrt(rate) - proximity_gap.
-    self.proximity_gap = proximity_gap
-
 class JohnsonBoundRegime(ProximityGapsRegime):
     """
     Johnson Bound Regime (JBR).
     """
+
+    def __init__(self, field, proximity_gap: Optional[float] = None):
+        super().__init__(field)
+        # Optional override for the Johnson-bound gap. If set, the proximity
+        # parameter becomes: 1 - sqrt(rate) - proximity_gap.
+        self.proximity_gap = proximity_gap
+
+
     def identifier(self) -> str:
         return "JBR"
 
