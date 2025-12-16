@@ -5,7 +5,8 @@ import os
 from soundcalc.common.utils import KIB
 from soundcalc.zkvms import risc0, miden, zisk, dummy_whir, pico
 from soundcalc.report import build_zkvm_report
-from soundcalc.zkvms.zkvm import Circuit, zkVM
+from soundcalc.zkvms.circuit import Circuit
+from soundcalc.zkvms.zkvm import zkVM
 
 
 REPORTS_DIR = "reports"

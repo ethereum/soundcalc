@@ -1,5 +1,5 @@
 # tests/test_fri.py
-from soundcalc.common.fri import get_FRI_proof_size_bits
+from soundcalc.pcs.fri import get_FRI_proof_size_bits
 
 def test_get_FRI_proof_size_bits():
     hash_size_bits = 1

@@ -1,28 +1,20 @@
 import math
 from dataclasses import dataclass
-from pathlib import Path
 
-import toml
-
-from soundcalc.common.fields import FieldParams, parse_field
+from soundcalc.common.fields import FieldParams
 from soundcalc.common.utils import (
     get_bits_of_security_from_error,
     get_size_of_merkle_path_bits,
 )
-from soundcalc.proxgaps.johnson_bound import JohnsonBoundRegime
+from soundcalc.pcs.pcs import PCS
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
-from soundcalc.proxgaps.unique_decoding import UniqueDecodingRegime
-from soundcalc.zkvms.zkvm import Circuit, zkVM
 
 
 @dataclass(frozen=True)
-class WHIRBasedVMConfig:
+class WHIRConfig:
     """
-    A configuration of a WHIR-based zkVM
+    Configuration for WHIR PCS.
     """
-
-    # Name of the proof system
-    name: str
 
     # The output length of the hash function that is used in bits
     # Note: this concerns the hash function used for Merkle trees
@@ -309,17 +301,15 @@ class WHIRBasedVMConfig:
     grinding_bits_ood: list[int]
 
 
-class WHIRBasedCircuit(Circuit):
+class WHIR(PCS):
     """
-    Models a single circuit that is based on WHIR.
+    WHIR Polynomial Commitment Scheme.
     """
 
-    def __init__(self, config: WHIRBasedVMConfig):
+    def __init__(self, config: WHIRConfig):
         """
-        Given a config, compute all the parameters relevant for the zkVM.
+        Given a config, compute all the parameters relevant for the PCS.
         """
-        self.name = config.name
-
         # Inherit parameters from the given config
         self.hash_size_bits = config.hash_size_bits
         self.folding_factor = config.folding_factor
@@ -451,51 +441,295 @@ class WHIRBasedCircuit(Circuit):
             )
 
         # determine the total grinding overhead (sum of 2^grinding_bits)
-        self.log_grinding_overhead = self.get_log_grinding_overhead()
+        self.log_grinding_overhead = self._get_log_grinding_overhead()
 
-    def get_name(self) -> str:
-        return self.name
+    def get_pcs_security_levels(self, regime: ProximityGapsRegime) -> dict[str, int]:
+        """
+        Returns PCS-specific security levels for a given regime.
+        """
+        levels: dict[str, int] = {}
 
-    def get_parameter_summary(self) -> str:
-        lines: list[str] = []
-        lines.append("")
-        lines.append("```")
+        # add an error from the batching step
+        if self.batch_size > 1:
+            epsilon_batch = self._get_batching_error(regime)
+            levels["batching"] = get_bits_of_security_from_error(epsilon_batch)
 
-        # Collect scalar parameters
-        params = {
-            "name": self.name,
-            "hash_size_bits": self.hash_size_bits,
-            "folding_factor": self.folding_factor,
-            "batch_size": self.batch_size,
-            "power_batching": self.power_batching,
-            "grinding_bits_batching": self.grinding_bits_batching,
-            "num_iterations": self.num_iterations,
-            "constraint_degree": self.constraint_degree,
-            "field": self.field.to_string(),
-        }
+        # Initial Iteration (i=0)
+        #
+        # Construction 5.1: "1. Initial sumcheck... For l = 1...k0"
+        # This iteration only contains folding (sumcheck), no OOD/Shift.
+        for round_s in range(1, self.folding_factor + 1):
+            epsilon = self._epsilon_fold(iteration=0, round=round_s, regime=regime)
+            levels[f"fold(i=0,s={round_s})"] = get_bits_of_security_from_error(epsilon)
 
-        key_width = max(len(k) for k in params)
+        # Main Loop (i=1 to M-1)
+        #
+        # Construction 5.1: "2. Main loop: For i = 1...M-1"
+        # For each iteration i = 1, ... M - 1: OOD errors, shift errors, fold errors
+        for iteration in range(1, self.num_iterations):
+            # out of domain samples
+            epsilon_ood = self._epsilon_out(iteration, regime)
+            levels[f"OOD(i={iteration})"] = get_bits_of_security_from_error(epsilon_ood)
 
-        for k, v in params.items():
-            lines.append(f"  {k:<{key_width}} : {v}")
+            # shift queries
+            epsilon_shift = self._epsilon_shift(iteration, regime)
+            levels[f"Shift(i={iteration})"] = get_bits_of_security_from_error(
+                epsilon_shift
+            )
 
-        lines.append("")
-        lines.append("  Per-round parameters:")
-        lines.append(f"    log_degree            : {self.log_degree}")
-        lines.append(f"    log_degrees           : {self.log_degrees}")
-        lines.append(f"    log_inv_rates         : {self.log_inv_rates}")
-        lines.append(f"    num_queries           : {self.num_queries}")
-        lines.append(f"    grinding_bits_queries : {self.grinding_bits_queries}")
-        lines.append(f"    num_ood_samples       : {self.num_ood_samples}")
-        lines.append(f"    grinding_bits_ood     : {self.grinding_bits_ood}")
-        lines.append(f"    grinding_bits_folding : {self.grinding_bits_folding}")
-        lines.append("")
-        lines.append(
-            f"  Total grinding overhead (sum of 2^grinding_bits) = 2^({self.log_grinding_overhead})"
+            # sum check (one error for each round)
+            for round in range(1, self.folding_factor + 1):
+                epsilon = self._epsilon_fold(iteration, round, regime)
+                levels[f"fold(i={iteration},s={round})"] = (
+                    get_bits_of_security_from_error(epsilon)
+                )
+
+        # final error
+        # Construction 5.1: "3. Check final polynomial..."
+        epsilon_final = self._epsilon_final(regime)
+        levels["fin"] = get_bits_of_security_from_error(epsilon_final)
+
+        return levels
+
+    def _get_code_for_iteration_and_round(
+        self, iteration: int, round: int
+    ) -> tuple[float, int]:
+        """
+        Returns the code for the given iteration and round. That is, this returns a pair (rate, dimension)
+        of the code C_{RS}^{i,s} (in notation of Theorem 5.2 in WHIR paper).
+        Here, 0<= i <= M-1 is the iteration and 0 <= s <= k is the round.
+        """
+
+        # Bound checks
+        assert 0 <= iteration < self.num_iterations, (
+            f"Iteration {iteration} out of bounds"
+        )
+        assert 0 <= round <= self.folding_factor, f"Round {round} out of bounds"
+
+        # The code is C_{RS}^{i,s} = RS[F, L_i^{(2^s)}, m_i - s]
+        # So the dimension is 2^{m_i - s}
+        log_dimension = self.log_degrees[iteration] - round
+        assert log_dimension >= 0, "Log dimension cannot be negative"
+        dimension = 2**log_dimension
+
+        # We know what the rate of C_{RS}^{i,0} = RS[F, L_i, m_i] is.
+        # Namely, it is 2**(-self.log_inv_rates[i]).
+        # The rate of C_{RS}^{i,s} is:
+        # 2^{m_i-s} / |L_i^{(2^s)}| =(2^{m_i} / |L_i|) * (2^{-s}/2^{-s}) = 2^{m_i} / |L_i|.
+        # So this code has the same rate.
+        rate = 2 ** (-self.log_inv_rates[iteration])
+        return (rate, dimension)
+
+    def _get_delta_for_iteration(
+        self, iteration: int, regime: ProximityGapsRegime
+    ) -> float:
+        """
+        Returns delta_i, in the notation of the paper, where i = iteration.
+
+        This is determined so that it is small enough for the proximity gaps regime on
+        all codes C_{RS}^{i,s}, s <= k.
+        """
+
+        # we iterate over all codes, i.e., over all rounds s
+        # and for each code, we determine the max delta that is supported,
+        # and then take the smallest of them, so that the condition is satisfied.
+
+        assert 0 <= iteration < self.num_iterations, "Iteration out of bounds"
+
+        delta = 1.0
+
+        # The range must be 0 <= s <= k (inclusive).
+        for round in range(0, self.folding_factor + 1):
+            (rate, dimension) = self._get_code_for_iteration_and_round(iteration, round)
+            delta_round = regime.get_proximity_parameter(rate, dimension)
+            delta = min(delta, delta_round)
+
+        return delta
+
+    def _get_list_size_for_iteration_and_round(
+        self, iteration: int, round: int, regime: ProximityGapsRegime
+    ) -> float:
+        """
+        Returns ell_{i,s}, so that code C_{RS}^{i,s} is (ell_{i,s},delta_i)-list decodable.
+        This uses the proximity gaps regime to determine the list size.
+
+        Here, delta_i = get_delta_for_iteration(iteration,regime), i = iteration, s = round.
+        """
+
+        assert 0 <= iteration < self.num_iterations, "Iteration out of bounds"
+        assert 0 <= round <= self.folding_factor, "Round out of bounds"
+
+        # Get Code Parameters
+        #
+        # We need the Rate and Dimension of C_{RS}^{i,s}
+        (rate, dimension) = self._get_code_for_iteration_and_round(iteration, round)
+
+        # Determine List Size
+        #
+        # We ask the regime for the maximum list size possible for this specific code.
+        list_size = regime.get_max_list_size(rate, dimension)
+
+        return list_size
+
+    def _get_batching_error(self, regime: ProximityGapsRegime) -> float:
+        """
+        Returns the error due to the batching step. This depends on whether batching is done
+        with powers or with random coefficients.
+
+        This follows https://github.com/WizardOfMenlo/stir-whir-scripts/blob/main/src/whir.rs#L144
+        """
+
+        (rate, dimension) = self._get_code_for_iteration_and_round(0, 0)
+
+        # Calculate Base Error
+        #
+        # The error depends on how we combine the polynomials.
+        if self.power_batching:
+            # Power Batching: sum c^i * f_i
+            # Error is typically proportional to (batch_size - 1) * list_size / |F|
+            epsilon = regime.get_error_powers(rate, dimension, self.batch_size)
+        else:
+            # Linear Batching: sum r_i * f_i (where r_i are independent)
+            # Error is typically list_size / |F| (independent of batch_size)
+            epsilon = regime.get_error_linear(rate, dimension)
+
+        # Apply Grinding
+        #
+        # Reducing error by expending computational work (2^-bits).
+        epsilon *= 2 ** (-self.grinding_bits_batching)
+        return epsilon
+
+    def _epsilon_fold(
+        self, iteration: int, round: int, regime: ProximityGapsRegime
+    ) -> float:
+        """
+        Returns the error of a folding round. This is epsilon^fold_{i,s} in the notation
+        of the paper (Theorem 5.2 in WHIR paper), where i is the iteration and s <= k is the round.
+        """
+
+        # Explicitly check that s is within the valid range [1, k].
+        assert 1 <= round <= self.folding_factor, (
+            f"Folding round {round} out of bounds (must be 1..{self.folding_factor})"
         )
 
-        lines.append("```")
-        return "\n".join(lines)
+        # the error has two terms
+        epsilon = 0
+
+        # first term is d * ell_{i,s-1} / F
+        list_size = self._get_list_size_for_iteration_and_round(
+            iteration, round - 1, regime
+        )
+        epsilon += self.constraint_degree * list_size / self.field.F
+
+        # second term is the proximity gaps error err(C_{RS}^{i,s}, 2, delta_i)
+        # the WHIR theorem assumes that powers is a prox generator,
+        # so we use the error for powers here.
+        num_functions = 2
+        (rate, dimension) = self._get_code_for_iteration_and_round(iteration, round)
+        epsilon += regime.get_error_powers(rate, dimension, num_functions)
+
+        # Apply Grinding
+        # Reducing error by expending computational work.
+        #
+        # Note: round is 1-based, but the grinding array is 0-based.
+        epsilon *= 2 ** (-self.grinding_bits_folding[iteration][round - 1])
+
+        return epsilon
+
+    def _epsilon_out(self, iteration: int, regime: ProximityGapsRegime) -> float:
+        """
+        Returns the error epsilon^out_i from the paper (Theorem 5.2 in WHIR paper), where i is the iteration.
+
+        Follows https://github.com/WizardOfMenlo/stir-whir-scripts/blob/main/src/errors.rs#L146, as WHIR paper
+        does not cover the case of having more than one OOD sample.
+        """
+
+        # OOD samples occur in iterations 1 to M-1.
+        assert 1 <= iteration < self.num_iterations, (
+            f"OOD Error applies to iterations 1..{self.num_iterations - 1}, got {iteration}"
+        )
+
+        # term is ell_{i,0}^2 * 2^{m_i} / (2F) for one OOD sample.
+        # for w many OOD samples, the 2^{m_i} / (2F) part is raised to the power w
+        list_size = self._get_list_size_for_iteration_and_round(iteration, 0, regime)
+        mi = self.log_degrees[iteration]
+        w = self.num_ood_samples[iteration - 1]
+        epsilon = list_size * list_size * ((2**mi) / (2 * self.field.F)) ** w
+
+        # grinding
+        epsilon *= 2 ** (-self.grinding_bits_ood[iteration - 1])
+
+        return epsilon
+
+    def _epsilon_shift(self, iteration: int, regime: ProximityGapsRegime) -> float:
+        """
+        Returns the error epsilon^shift_i from the paper (Theorem 5.2 in WHIR paper), where i is the iteration.
+        """
+
+        # Bound check
+        assert 1 <= iteration < self.num_iterations, "Shift Error applies to Main Loop"
+
+        # the error has two terms, both depend on number of queries t_{M-1}
+        epsilon = 0
+        t = self.num_queries[iteration - 1]
+
+        # first term is (1-delta_{M-1})^{t_{M-1}}
+        delta = self._get_delta_for_iteration(iteration - 1, regime)
+        epsilon += (1.0 - delta) ** t
+
+        # second term is ell_{i,0} * (t_{i-1}+1)/F
+        list_size = self._get_list_size_for_iteration_and_round(iteration, 0, regime)
+        epsilon += list_size * (t + 1) / self.field.F
+
+        # grinding
+        epsilon *= 2 ** (-self.grinding_bits_queries[iteration - 1])
+
+        return epsilon
+
+    def _epsilon_final(self, regime: ProximityGapsRegime) -> float:
+        """
+        Returns the error epsilon^fin from the paper (Theorem 5.2 in WHIR paper).
+        """
+
+        t_final = self.num_queries[-1]
+        grinding_bits = self.grinding_bits_queries[-1]
+
+        # the error is (1-delta_{M-1})^{t_{M-1}}
+        delta = self._get_delta_for_iteration(self.num_iterations - 1, regime)
+
+        # Sanity Check: If delta is 1.0, the code has no redundancy, and security is 0.
+        # (Technically error=0, but this implies a broken config).
+        assert 0 < delta < 1.0, f"Invalid delta {delta} for final round"
+
+        epsilon = (1.0 - delta) ** t_final
+
+        # grinding
+        epsilon *= 2 ** (-grinding_bits)
+        return epsilon
+
+    def _get_log_grinding_overhead(self) -> float:
+        """
+        Determine the total grinding overhead to the prover time, which is the sum of all individual grinding
+        overheads. The grinding overhead for c bits of grinding is 2^c.
+        """
+        grinding_sum = 0
+
+        # grinding for batching, queries, OOD
+        grinding_sum += 2**self.grinding_bits_batching
+        grinding_sum += sum([2**g for g in self.grinding_bits_queries])
+        grinding_sum += sum([2**g for g in self.grinding_bits_ood])
+
+        # grinding for folding
+        for iteration_g in self.grinding_bits_folding:
+            grinding_sum += sum([2**g for g in iteration_g])
+
+        # Calculate the effective bits of security added to the Prover time.
+        #
+        # Sanity check:
+        # - Since we have at least 1 iteration and batching, grinding_sum >= 2.0, so log2 is safe.
+        assert grinding_sum > 0, "Impossible: Total work cannot be zero"
+
+        return round(math.log2(grinding_sum), 2)
 
     def get_proof_size_bits(self) -> int:
         # We estimate the proof size by looking at the WHIR paper, counting sizes of prover messages.
@@ -625,355 +859,54 @@ class WHIRBasedCircuit(Circuit):
 
         return proof_size
 
-    def get_security_levels(self) -> dict[str, dict[str, int]]:
-        regimes = [UniqueDecodingRegime(self.field), JohnsonBoundRegime(self.field)]
-
-        result: dict[str, dict[str, int]] = {}
-        for regime in regimes:
-            id = regime.identifier()
-            result[id] = self.get_security_levels_for_regime(regime)
-
-        return result
-
-    def get_security_levels_for_regime(
-        self, regime: ProximityGapsRegime
-    ) -> dict[str, int]:
+    def get_best_attack_security(self) -> int | None:
         """
-        Same as get_security_levels, but for a specific regime.
+        Returns security level based on the best known attack, or None if not applicable.
         """
-        levels: dict[str, int] = {}
+        return None
 
-        # add an error from the batching step
-        if self.batch_size > 1:
-            epsilon_batch = self.get_batching_error(regime)
-            levels["batching"] = get_bits_of_security_from_error(epsilon_batch)
+    def get_rate(self) -> float:
+        return 2 ** (-self.log_inv_rates[0])
 
-        # Initial Iteration (i=0)
-        #
-        # Construction 5.1: "1. Initial sumcheck... For l = 1...k0"
-        # This iteration only contains folding (sumcheck), no OOD/Shift.
-        for round_s in range(1, self.folding_factor + 1):
-            epsilon = self.epsilon_fold(iteration=0, round=round_s, regime=regime)
-            levels[f"fold(i=0,s={round_s})"] = get_bits_of_security_from_error(epsilon)
+    def get_dimension(self) -> int:
+        return 2 ** self.log_degrees[0]
 
-        # Main Loop (i=1 to M-1)
-        #
-        # Construction 5.1: "2. Main loop: For i = 1...M-1"
-        # For each iteration i = 1, ... M - 1: OOD errors, shift errors, fold errors
-        for iteration in range(1, self.num_iterations):
-            # out of domain samples
-            epsilon_ood = self.epsilon_out(iteration, regime)
-            levels[f"OOD(i={iteration})"] = get_bits_of_security_from_error(epsilon_ood)
+    def get_parameter_summary(self) -> str:
+        lines: list[str] = []
+        lines.append("")
+        lines.append("```")
 
-            # shift queries
-            epsilon_shift = self.epsilon_shift(iteration, regime)
-            levels[f"Shift(i={iteration})"] = get_bits_of_security_from_error(
-                epsilon_shift
-            )
+        # Collect scalar parameters
+        params = {
+            "hash_size_bits": self.hash_size_bits,
+            "folding_factor": self.folding_factor,
+            "batch_size": self.batch_size,
+            "power_batching": self.power_batching,
+            "grinding_bits_batching": self.grinding_bits_batching,
+            "num_iterations": self.num_iterations,
+            "constraint_degree": self.constraint_degree,
+            "field": self.field.to_string(),
+        }
 
-            # sum check (one error for each round)
-            for round in range(1, self.folding_factor + 1):
-                epsilon = self.epsilon_fold(iteration, round, regime)
-                levels[f"fold(i={iteration},s={round})"] = (
-                    get_bits_of_security_from_error(epsilon)
-                )
+        key_width = max(len(k) for k in params)
 
-        # final error
-        # Construction 5.1: "3. Check final polynomial..."
-        epsilon_final = self.epsilon_final(regime)
-        levels["fin"] = get_bits_of_security_from_error(epsilon_final)
+        for k, v in params.items():
+            lines.append(f"  {k:<{key_width}} : {v}")
 
-        # add a "total" level
-        levels["total"] = min(list(levels.values()))
-
-        return levels
-
-    def get_code_for_iteration_and_round(
-        self, iteration: int, round: int
-    ) -> tuple[float, int]:
-        """
-        Returns the code for the given iteration and round. That is, this returns a pair (rate, dimension)
-        of the code C_{RS}^{i,s} (in notation of Theorem 5.2 in WHIR paper).
-        Here, 0<= i <= M-1 is the iteration and 0 <= s <= k is the round.
-        """
-
-        # Bound checks
-        assert 0 <= iteration < self.num_iterations, (
-            f"Iteration {iteration} out of bounds"
-        )
-        assert 0 <= round <= self.folding_factor, f"Round {round} out of bounds"
-
-        # The code is C_{RS}^{i,s} = RS[F, L_i^{(2^s)}, m_i - s]
-        # So the dimension is 2^{m_i - s}
-        log_dimension = self.log_degrees[iteration] - round
-        assert log_dimension >= 0, "Log dimension cannot be negative"
-        dimension = 2**log_dimension
-
-        # We know what the rate of C_{RS}^{i,0} = RS[F, L_i, m_i] is.
-        # Namely, it is 2**(-self.log_inv_rates[i]).
-        # The rate of C_{RS}^{i,s} is:
-        # 2^{m_i-s} / |L_i^{(2^s)}| =(2^{m_i} / |L_i|) * (2^{-s}/2^{-s}) = 2^{m_i} / |L_i|.
-        # So this code has the same rate.
-        rate = 2 ** (-self.log_inv_rates[iteration])
-        return (rate, dimension)
-
-    def get_delta_for_iteration(
-        self, iteration: int, regime: ProximityGapsRegime
-    ) -> float:
-        """
-        Returns delta_i, in the notation of the paper, where i = iteration.
-
-        This is determined so that it is small enough for the proximity gaps regime on
-        all codes C_{RS}^{i,s}, s <= k.
-        """
-
-        # we iterate over all codes, i.e., over all rounds s
-        # and for each code, we determine the max delta that is supported,
-        # and then take the smallest of them, so that the condition is satisfied.
-
-        assert 0 <= iteration < self.num_iterations, "Iteration out of bounds"
-
-        delta = 1.0
-
-        # The range must be 0 <= s <= k (inclusive).
-        for round in range(0, self.folding_factor + 1):
-            (rate, dimension) = self.get_code_for_iteration_and_round(iteration, round)
-            delta_round = regime.get_proximity_parameter(rate, dimension)
-            delta = min(delta, delta_round)
-
-        return delta
-
-    def get_list_size_for_iteration_and_round(
-        self, iteration: int, round: int, regime: ProximityGapsRegime
-    ) -> float:
-        """
-        Returns ell_{i,s}, so that code C_{RS}^{i,s} is (ell_{i,s},delta_i)-list decodable.
-        This uses the proximity gaps regime to determine the list size.
-
-        Here, delta_i = get_delta_for_iteration(iteration,regime), i = iteration, s = round.
-        """
-
-        assert 0 <= iteration < self.num_iterations, "Iteration out of bounds"
-        assert 0 <= round <= self.folding_factor, "Round out of bounds"
-
-        # Get Code Parameters
-        #
-        # We need the Rate and Dimension of C_{RS}^{i,s}
-        (rate, dimension) = self.get_code_for_iteration_and_round(iteration, round)
-
-        # Determine List Size
-        #
-        # We ask the regime for the maximum list size possible for this specific code.
-        list_size = regime.get_max_list_size(rate, dimension)
-
-        return list_size
-
-    def get_batching_error(self, regime: ProximityGapsRegime) -> float:
-        """
-        Returns the error due to the batching step. This depends on whether batching is done
-        with powers or with random coefficients.
-
-        This follows https://github.com/WizardOfMenlo/stir-whir-scripts/blob/main/src/whir.rs#L144
-        """
-
-        (rate, dimension) = self.get_code_for_iteration_and_round(0, 0)
-
-        # Calculate Base Error
-        #
-        # The error depends on how we combine the polynomials.
-        if self.power_batching:
-            # Power Batching: sum c^i * f_i
-            # Error is typically proportional to (batch_size - 1) * list_size / |F|
-            epsilon = regime.get_error_powers(rate, dimension, self.batch_size)
-        else:
-            # Linear Batching: sum r_i * f_i (where r_i are independent)
-            # Error is typically list_size / |F| (independent of batch_size)
-            epsilon = regime.get_error_linear(rate, dimension)
-
-        # Apply Grinding
-        #
-        # Reducing error by expending computational work (2^-bits).
-        epsilon *= 2 ** (-self.grinding_bits_batching)
-        return epsilon
-
-    def epsilon_fold(
-        self, iteration: int, round: int, regime: ProximityGapsRegime
-    ) -> float:
-        """
-        Returns the error of a folding round. This is epsilon^fold_{i,s} in the notation
-        of the paper (Theorem 5.2 in WHIR paper), where i is the iteration and s <= k is the round.
-        """
-
-        # Explicitly check that s is within the valid range [1, k].
-        assert 1 <= round <= self.folding_factor, (
-            f"Folding round {round} out of bounds (must be 1..{self.folding_factor})"
+        lines.append("")
+        lines.append("  Per-round parameters:")
+        lines.append(f"    log_degree            : {self.log_degree}")
+        lines.append(f"    log_degrees           : {self.log_degrees}")
+        lines.append(f"    log_inv_rates         : {self.log_inv_rates}")
+        lines.append(f"    num_queries           : {self.num_queries}")
+        lines.append(f"    grinding_bits_queries : {self.grinding_bits_queries}")
+        lines.append(f"    num_ood_samples       : {self.num_ood_samples}")
+        lines.append(f"    grinding_bits_ood     : {self.grinding_bits_ood}")
+        lines.append(f"    grinding_bits_folding : {self.grinding_bits_folding}")
+        lines.append("")
+        lines.append(
+            f"  Total grinding overhead (sum of 2^grinding_bits) = 2^({self.log_grinding_overhead})"
         )
 
-        # the error has two terms
-        epsilon = 0
-
-        # first term is d * ell_{i,s-1} / F
-        list_size = self.get_list_size_for_iteration_and_round(
-            iteration, round - 1, regime
-        )
-        epsilon += self.constraint_degree * list_size / self.field.F
-
-        # second term is the proximity gaps error err(C_{RS}^{i,s}, 2, delta_i)
-        # the WHIR theorem assumes that powers is a prox generator,
-        # so we use the error for powers here.
-        num_functions = 2
-        (rate, dimension) = self.get_code_for_iteration_and_round(iteration, round)
-        epsilon += regime.get_error_powers(rate, dimension, num_functions)
-
-        # Apply Grinding
-        # Reducing error by expending computational work.
-        #
-        # Note: round is 1-based, but the grinding array is 0-based.
-        epsilon *= 2 ** (-self.grinding_bits_folding[iteration][round - 1])
-
-        return epsilon
-
-    def epsilon_out(self, iteration: int, regime: ProximityGapsRegime) -> float:
-        """
-        Returns the error epsilon^out_i from the paper (Theorem 5.2 in WHIR paper), where i is the iteration.
-
-        Follows https://github.com/WizardOfMenlo/stir-whir-scripts/blob/main/src/errors.rs#L146, as WHIR paper
-        does not cover the case of having more than one OOD sample.
-        """
-
-        # OOD samples occur in iterations 1 to M-1.
-        assert 1 <= iteration < self.num_iterations, (
-            f"OOD Error applies to iterations 1..{self.num_iterations - 1}, got {iteration}"
-        )
-
-        # term is ell_{i,0}^2 * 2^{m_i} / (2F) for one OOD sample.
-        # for w many OOD samples, the 2^{m_i} / (2F) part is raised to the power w
-        list_size = self.get_list_size_for_iteration_and_round(iteration, 0, regime)
-        mi = self.log_degrees[iteration]
-        w = self.num_ood_samples[iteration - 1]
-        epsilon = list_size * list_size * ((2**mi) / (2 * self.field.F)) ** w
-
-        # grinding
-        epsilon *= 2 ** (-self.grinding_bits_ood[iteration - 1])
-
-        return epsilon
-
-    def epsilon_shift(self, iteration: int, regime: ProximityGapsRegime) -> float:
-        """
-        Returns the error epsilon^shift_i from the paper (Theorem 5.2 in WHIR paper), where i is the iteration.
-        """
-
-        # Bound check
-        assert 1 <= iteration < self.num_iterations, "Shift Error applies to Main Loop"
-
-        # the error has two terms, both depend on number of queries t_{M-1}
-        epsilon = 0
-        t = self.num_queries[iteration - 1]
-
-        # first term is (1-delta_{M-1})^{t_{M-1}}
-        delta = self.get_delta_for_iteration(iteration - 1, regime)
-        epsilon += (1.0 - delta) ** t
-
-        # second term is ell_{i,0} * (t_{i-1}+1)/F
-        list_size = self.get_list_size_for_iteration_and_round(iteration, 0, regime)
-        epsilon += list_size * (t + 1) / self.field.F
-
-        # grinding
-        epsilon *= 2 ** (-self.grinding_bits_queries[iteration - 1])
-
-        return epsilon
-
-    def epsilon_final(self, regime: ProximityGapsRegime) -> float:
-        """
-        Returns the error epsilon^fin from the paper (Theorem 5.2 in WHIR paper).
-        """
-
-        t_final = self.num_queries[-1]
-        grinding_bits = self.grinding_bits_queries[-1]
-
-        # the error is (1-delta_{M-1})^{t_{M-1}}
-        delta = self.get_delta_for_iteration(self.num_iterations - 1, regime)
-
-        # Sanity Check: If delta is 1.0, the code has no redundancy, and security is 0.
-        # (Technically error=0, but this implies a broken config).
-        assert 0 < delta < 1.0, f"Invalid delta {delta} for final round"
-
-        epsilon = (1.0 - delta) ** t_final
-
-        # grinding
-        epsilon *= 2 ** (-grinding_bits)
-        return epsilon
-
-    def get_log_grinding_overhead(self) -> float:
-        """
-        Determine the total grinding overhead to the prover time, which is the sum of all individual grinding
-        overheads. The grinding overhead for c bits of grinding is 2^c.
-        """
-        grinding_sum = 0
-
-        # grinding for batching, queries, OOD
-        grinding_sum += 2**self.grinding_bits_batching
-        grinding_sum += sum([2**g for g in self.grinding_bits_queries])
-        grinding_sum += sum([2**g for g in self.grinding_bits_ood])
-
-        # grinding for folding
-        for iteration_g in self.grinding_bits_folding:
-            grinding_sum += sum([2**g for g in iteration_g])
-
-        # Calculate the effective bits of security added to the Prover time.
-        #
-        # Sanity check:
-        # - Since we have at least 1 iteration and batching, grinding_sum >= 2.0, so log2 is safe.
-        assert grinding_sum > 0, "Impossible: Total work cannot be zero"
-
-        return round(math.log2(grinding_sum), 2)
-
-
-class WHIRBasedVM(zkVM):
-    """
-    A zkVM that contains one or more WHIR-based circuits.
-    """
-
-    def __init__(self, name: str, circuits: list[WHIRBasedCircuit]):
-        self._name = name
-        self._circuits = circuits
-
-    @classmethod
-    def load_from_toml(cls, toml_path: Path) -> "WHIRBasedVM":
-        """
-        Load a WHIR-based VM from a TOML configuration file.
-        """
-        with open(toml_path, "r") as f:
-            config = toml.load(f)
-
-        field = parse_field(config["zkevm"]["field"])
-        circuits = []
-
-        for section in config.get("circuits", []):
-            cfg = WHIRBasedVMConfig(
-                name=section["name"],
-                hash_size_bits=config["zkevm"]["hash_size_bits"],
-                log_inv_rate=section["log_inv_rate"],
-                num_iterations=section["num_iterations"],
-                folding_factor=section["folding_factor"],
-                field=field,
-                log_degree=section["log_degree"],
-                batch_size=section["batch_size"],
-                power_batching=section["power_batching"],
-                grinding_bits_batching=section["grinding_bits_batching"],
-                constraint_degree=section["constraint_degree"],
-                grinding_bits_folding=section["grinding_bits_folding"],
-                num_queries=section["num_queries"],
-                grinding_bits_queries=section["grinding_bits_queries"],
-                num_ood_samples=section["num_ood_samples"],
-                grinding_bits_ood=section["grinding_bits_ood"],
-            )
-            circuits.append(WHIRBasedCircuit(cfg))
-
-        return cls(config["zkevm"]["name"], circuits=circuits)
-
-    def get_name(self) -> str:
-        return self._name
-
-    def get_circuits(self) -> list[WHIRBasedCircuit]:
-        return self._circuits
+        lines.append("```")
+        return "\n".join(lines)

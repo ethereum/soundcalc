@@ -10,9 +10,10 @@ import math
 from typing import Dict, Any, List, Tuple
 
 from soundcalc.common.utils import KIB
-from soundcalc.zkvms.fri_based_vm import FRIBasedCircuit, FRIBasedVM
-from soundcalc.zkvms.whir_based_vm import WHIRBasedCircuit, WHIRBasedVM
-from soundcalc.zkvms.zkvm import Circuit, zkVM
+from soundcalc.pcs.fri import FRI
+from soundcalc.pcs.whir import WHIR
+from soundcalc.zkvms.circuit import Circuit
+from soundcalc.zkvms.zkvm import zkVM
 
 
 def _field_label(field) -> str:
@@ -21,57 +22,60 @@ def _field_label(field) -> str:
     return "Unknown"
 
 
-def _fri_parameter_lines(circuit: FRIBasedCircuit) -> list[str]:
-    batching = "Powers" if circuit.power_batching else "Affine"
+def _fri_parameter_lines(circuit: Circuit) -> list[str]:
+    pcs = circuit.pcs
+    batching = "Powers" if pcs.power_batching else "Affine"
     return [
         f"- Polynomial commitment scheme: FRI",
-        f"- Hash size (bits): {circuit.hash_size_bits}",
-        f"- Number of queries: {circuit.num_queries}",
-        f"- Grinding (bits): {circuit.grinding_query_phase}",
-        f"- Field: {_field_label(circuit.field)}",
-        f"- Rate (ρ): {circuit.rho}",
-        f"- Trace length (H): $2^{{{circuit.h}}}$",
-        f"- FRI rounds: {circuit.FRI_rounds_n}",
-        f"- FRI folding factors: {circuit.FRI_folding_factors}",
-        f"- FRI early stop degree: {circuit.FRI_early_stop_degree}",
+        f"- Hash size (bits): {pcs.hash_size_bits}",
+        f"- Number of queries: {pcs.num_queries}",
+        f"- Grinding (bits): {pcs.grinding_query_phase}",
+        f"- Field: {_field_label(pcs.field)}",
+        f"- Rate (ρ): {pcs.rho}",
+        f"- Trace length (H): $2^{{{pcs.h}}}$",
+        f"- FRI rounds: {pcs.FRI_rounds_n}",
+        f"- FRI folding factors: {pcs.FRI_folding_factors}",
+        f"- FRI early stop degree: {pcs.FRI_early_stop_degree}",
         f"- Number of columns: {circuit.num_columns}",
-        f"- Batch size: {circuit.batch_size}",
+        f"- Batch size: {pcs.batch_size}",
         f"- Batching: {batching}",
     ]
 
 
-def _whir_parameter_lines(circuit: WHIRBasedCircuit) -> list[str]:
-    batching = "Powers" if circuit.power_batching else "Affine"
+def _whir_parameter_lines(circuit: Circuit) -> list[str]:
+    pcs = circuit.pcs
+    batching = "Powers" if pcs.power_batching else "Affine"
     return [
         f"- Polynomial commitment scheme: WHIR",
-        f"- Hash size (bits): {circuit.hash_size_bits}",
-        f"- Field: {_field_label(circuit.field)}",
-        f"- Iterations (M): {circuit.num_iterations}",
-        f"- Folding factor (k): {circuit.folding_factor}",
-        f"- Constraint degree: {circuit.constraint_degree}",
-        f"- Batch size: {circuit.batch_size}",
+        f"- Hash size (bits): {pcs.hash_size_bits}",
+        f"- Field: {_field_label(pcs.field)}",
+        f"- Iterations (M): {pcs.num_iterations}",
+        f"- Folding factor (k): {pcs.folding_factor}",
+        f"- Constraint degree: {pcs.constraint_degree}",
+        f"- Batch size: {pcs.batch_size}",
         f"- Batching: {batching}",
-        f"- Queries per iteration: {circuit.num_queries}",
-        f"- OOD samples per iteration: {circuit.num_ood_samples}",
-        f"- Total grinding overhead log2: {circuit.log_grinding_overhead}",
+        f"- Queries per iteration: {pcs.num_queries}",
+        f"- OOD samples per iteration: {pcs.num_ood_samples}",
+        f"- Total grinding overhead log2: {pcs.log_grinding_overhead}",
     ]
 
 
-def _generic_parameter_lines(circuit) -> list[str]:
+def _generic_parameter_lines(circuit: Circuit) -> list[str]:
     lines: list[str] = []
     lines.append(f"- Polynomial commitment scheme: Unknown")
-    if hasattr(circuit, "hash_size_bits"):
-        lines.append(f"- Hash size (bits): {circuit.hash_size_bits}")
-    if hasattr(circuit, "field"):
-        lines.append(f"- Field: {_field_label(circuit.field)}")
+    pcs = circuit.pcs
+    if hasattr(pcs, "hash_size_bits"):
+        lines.append(f"- Hash size (bits): {pcs.hash_size_bits}")
+    if hasattr(pcs, "field"):
+        lines.append(f"- Field: {_field_label(pcs.field)}")
     return lines
 
 
 def _get_parameter_lines(circuit: Circuit) -> list[str]:
     """Get parameter lines for a circuit."""
-    if isinstance(circuit, FRIBasedCircuit):
+    if isinstance(circuit.pcs, FRI):
         return _fri_parameter_lines(circuit)
-    if isinstance(circuit, WHIRBasedCircuit):
+    if isinstance(circuit.pcs, WHIR):
         return _whir_parameter_lines(circuit)
     return _generic_parameter_lines(circuit)
 

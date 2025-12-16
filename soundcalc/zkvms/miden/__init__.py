@@ -1,5 +1,5 @@
-from soundcalc.zkvms.fri_based_vm import FRIBasedVM
+from soundcalc.zkvms.zkvm import zkVM
 from pathlib import Path
 
 def load():
-    return FRIBasedVM.load_from_toml(Path(__file__).parent / "miden.toml")
+    return zkVM.load_from_toml(Path(__file__).parent / "miden.toml")
