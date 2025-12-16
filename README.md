@@ -59,16 +59,15 @@ In soundcalc we have incorporated:
 ## Project Layout
 
 - `soundcalc/main.py`: Entry point
-- `soundcalc/zkevms/`: One file per supported zkEVM
-- `soundcalc/regimes/`: One file per regime (unique decoding, johnson bound, ...)
+- `soundcalc/zkvms/`: One directory per supported zkVM
+- `soundcalc/proxgaps/`: Proximity gaps related functionality
+- `soundcalc/pcs/`: Polynomial commitment schemes functionality
 - `soundcalc/common/`: Common utilities used by the entire codebase
-- `soundcalc/report.py`: Markdown report generator
+- `soundcalc/report.py`: Markdown report generator (ugly!)
 
 ## Related work
 
-The codebase is heavily based on [RISC0's Python soundness calculator](https://github.com/risc0/risc0/blob/main/risc0/zkp/src/docs/soundness.ipynb).
-
-More inspiration:
+Inspiration:
 - [RISC0 Rust calculator](https://github.com/risc0/risc0/blob/release-2.0/risc0/zkp/src/prove/soundness.rs)
 - [`stir-whir-scripts`](https://github.com/WizardOfMenlo/stir-whir-scripts/)
 - [Winterfell calculator](https://github.com/facebook/winterfell/blob/main/air/src/proof/security.rs)
