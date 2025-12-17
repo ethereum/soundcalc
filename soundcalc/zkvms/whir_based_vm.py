@@ -982,7 +982,7 @@ class WHIRBasedVM(zkVM):
                 grinding_bits_ood=section["grinding_bits_ood"],
                 # Allow either key for convenience/consistency across FRI + WHIR configs.
                 proximity_gap=section.get(
-                    "proximity_gap", section.get("fri_proximity_gap")
+                    "proximity_gap", section.get("proximity_gap")
                 )
             )
             circuits.append(WHIRBasedCircuit(cfg))
