@@ -15,7 +15,6 @@ hash_size_bits = 256  # TODO: check if that is actually true
 [[circuits]]
 name = "main"
 rho = 0.25
-proximity_gap= 0.1
 trace_length = 2097152  # 1 << 21
 # They use 5 but in the DEEP-ALI error they use (d-1) so we put 4 here.
 air_max_degree = 4
