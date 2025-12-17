@@ -105,7 +105,7 @@ class FRIConfig:
 
     # Optional override for the bound *gap*.
     # (This is useful to pin fixed parameters in TOML configs.)
-    proximity_gap: Optional[float] = None
+    gap_to_radius: Optional[float] = None
  
 class FRI(PCS):
     """
@@ -122,7 +122,7 @@ class FRI(PCS):
         self.FRI_folding_factors = config.FRI_folding_factors
         self.FRI_early_stop_degree = config.FRI_early_stop_degree
         self.grinding_query_phase = config.grinding_query_phase
-        self.proximity_gap = config.proximity_gap
+        self.gap_to_radius = config.gap_to_radius
 
         # Negative log of rate
         self.k = int(round(-log2(self.rho)))
@@ -290,7 +290,7 @@ class FRI(PCS):
             "batch_size": self.batch_size,
             "power_batching": self.power_batching,
             "num_queries": self.num_queries,
-            "proximity_gap": self.proximity_gap,
+            "gap_to_radius": self.gap_to_radius,
             "FRI_folding_factors": self.FRI_folding_factors,
             "FRI_early_stop_degree": self.FRI_early_stop_degree,
             "FRI_rounds_n": self.FRI_rounds_n,

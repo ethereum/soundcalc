@@ -15,7 +15,7 @@ class CircuitConfig:
     name: str
     pcs: PCS
     field: FieldParams
-    proximity_gap: float | None = None
+    gap_to_radius: float | None = None
     # Total columns of AIR table (used in DEEP-ALI soundness)
     num_columns: int | None = None
     # Maximum constraint degree
@@ -34,7 +34,7 @@ class Circuit:
         self.name = config.name
         self.pcs = config.pcs
         self.field = config.field
-        self.proximity_gap = config.proximity_gap
+        self.gap_to_radius = config.gap_to_radius
         # Store optional DEEP-ALI params
         self.num_columns = config.num_columns
         self.AIR_max_degree = config.AIR_max_degree
@@ -81,7 +81,7 @@ class Circuit:
         """
         regimes = [
             UniqueDecodingRegime(self.field),
-            JohnsonBoundRegime(self.field, proximity_gap=self.proximity_gap),
+            JohnsonBoundRegime(self.field, gap_to_radius=self.gap_to_radius),
         ]
         
         result = {}

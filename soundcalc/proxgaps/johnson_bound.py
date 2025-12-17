@@ -11,19 +11,19 @@ class JohnsonBoundRegime(ProximityGapsRegime):
         return "JBR"
 
 
-    def __init__(self, field, proximity_gap: Optional[float] = None):
+    def __init__(self, field, gap_to_radius: Optional[float] = None):
         super().__init__(field)
         # Optional override for the Johnson-bound gap. If set, the proximity
-        # parameter becomes: 1 - sqrt(rate) - proximity_gap.
-        self.proximity_gap = proximity_gap
+        # parameter becomes: 1 - sqrt(rate) - gap_to_radius.
+        self.gap_to_radius = gap_to_radius
 
     def get_proximity_parameter(self, rate: float, dimension: int) -> float:
         # The proximity parameter defines how close we are to the Johnson Bound 1-sqrt(rate).
         sqrt_rate = math.sqrt(rate)
 
         # Config override (primarily for FRI-based systems that want fixed params).
-        if self.proximity_gap is not None:
-            gap = self.proximity_gap
+        if self.gap_to_radius is not None:
+            gap = self.gap_to_radius
             return 1 - sqrt_rate - gap
 
         # For large fields, use a tighter gap (closer to Johnson bound) for better
