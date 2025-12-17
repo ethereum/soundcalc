@@ -56,6 +56,7 @@ class zkVM:
             pcs = FRI(FRIConfig(
                 hash_size_bits=config["zkevm"]["hash_size_bits"],
                 rho=section["rho"],
+                gap_to_radius=section.get("gap_to_radius"),
                 trace_length=section["trace_length"],
                 field=field,
                 batch_size=section["batch_size"],
@@ -69,6 +70,7 @@ class zkVM:
                 name=section["name"],
                 pcs=pcs,
                 field=field,
+                gap_to_radius=section.get("gap_to_radius"),
                 num_columns=section["num_columns"],
                 AIR_max_degree=section["air_max_degree"],
                 max_combo=section["opening_points"],
@@ -92,6 +94,7 @@ class zkVM:
                 num_iterations=section["num_iterations"],
                 folding_factor=section["folding_factor"],
                 field=field,
+                gap_to_radius=section.get("gap_to_radius"),
                 log_degree=section["log_degree"],
                 batch_size=section["batch_size"],
                 power_batching=section["power_batching"],
@@ -107,6 +110,7 @@ class zkVM:
                 name=section["name"],
                 pcs=pcs,
                 field=field,
+                gap_to_radius=section.get("gap_to_radius")
             ))
             circuits.append(circuit)
 

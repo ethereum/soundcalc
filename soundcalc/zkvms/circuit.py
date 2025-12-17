@@ -15,6 +15,7 @@ class CircuitConfig:
     name: str
     pcs: PCS
     field: FieldParams
+    gap_to_radius: float | None = None
     # Total columns of AIR table (used in DEEP-ALI soundness)
     num_columns: int | None = None
     # Maximum constraint degree
@@ -33,6 +34,7 @@ class Circuit:
         self.name = config.name
         self.pcs = config.pcs
         self.field = config.field
+        self.gap_to_radius = config.gap_to_radius
         # Store optional DEEP-ALI params
         self.num_columns = config.num_columns
         self.AIR_max_degree = config.AIR_max_degree
@@ -77,8 +79,11 @@ class Circuit:
         If this integer is, say, k, then it means the error for this round is at
         most 2^{-k}.
         """
-        regimes = [UniqueDecodingRegime(self.field), JohnsonBoundRegime(self.field)]
-
+        regimes = [
+            UniqueDecodingRegime(self.field),
+            JohnsonBoundRegime(self.field, gap_to_radius=self.gap_to_radius),
+        ]
+        
         result = {}
         for regime in regimes:
             id = regime.identifier()

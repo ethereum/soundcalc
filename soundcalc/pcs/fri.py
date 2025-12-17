@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from math import log2
-
+from typing import Optional
 from soundcalc.common.fields import FieldParams
 from soundcalc.common.utils import get_bits_of_security_from_error, get_size_of_merkle_path_bits
 from soundcalc.pcs.pcs import PCS
@@ -103,7 +103,10 @@ class FRIConfig:
     # Proof of Work grinding compute during FRI query phase (expressed in bits of security)
     grinding_query_phase: int
 
-
+    # Optional override for the bound *gap*.
+    # (This is useful to pin fixed parameters in TOML configs.)
+    gap_to_radius: Optional[float] = None
+ 
 class FRI(PCS):
     """
     FRI Polynomial Commitment Scheme.
@@ -119,6 +122,7 @@ class FRI(PCS):
         self.FRI_folding_factors = config.FRI_folding_factors
         self.FRI_early_stop_degree = config.FRI_early_stop_degree
         self.grinding_query_phase = config.grinding_query_phase
+        self.gap_to_radius = config.gap_to_radius
 
         # Negative log of rate
         self.k = int(round(-log2(self.rho)))
@@ -286,6 +290,7 @@ class FRI(PCS):
             "batch_size": self.batch_size,
             "power_batching": self.power_batching,
             "num_queries": self.num_queries,
+            "gap_to_radius": self.gap_to_radius,
             "FRI_folding_factors": self.FRI_folding_factors,
             "FRI_early_stop_degree": self.FRI_early_stop_degree,
             "FRI_rounds_n": self.FRI_rounds_n,
