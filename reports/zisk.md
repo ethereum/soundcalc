@@ -10,8 +10,8 @@ How to read this report:
 
 | Metric | Value |
 | --- | --- |
-| Final proof size | **201.0 KiB** (circuit: Final) |
-| Final bits of security | **62** (JBR, circuit: Main) |
+| Final proof size | **282.0 KiB** (circuit: Final) |
+| Final bits of security | **128** (JBR, circuit: Main) |
 
 ## Circuits
 
@@ -40,8 +40,6 @@ How to read this report:
 - [ArithEq384-compressor](#aritheq384-compressor)
 - [Keccakf-compressor](#keccakf-compressor)
 - [Sha256f-compressor](#sha256f-compressor)
-- [VirtualTable0-compressor](#virtualtable0-compressor)
-- [VirtualTable1-compressor](#virtualtable1-compressor)
 - [Recursive2](#recursive2)
 - [Final](#final)
 
@@ -50,24 +48,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 128
-- Grinding (bits): 0
+- Number of queries: 230
+- Grinding (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
-- FRI rounds: 5
-- FRI folding factors: [16, 16, 16, 8, 8]
+- FRI rounds: 6
+- FRI folding factors: [8, 8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of columns: 51
+- Number of columns: 146
 - Batch size: 61
 - Batching: Powers
 
-**Proof Size Estimate:** 699.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1292.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 186 | 167 | 163 | 169 | 173 | 177 | 181 | 184 | 53 |
-| JBR | 62 | 179 | 161 | 128 | 134 | 138 | 142 | 146 | 149 | 62 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 111 | 184 | 167 | 163 | 169 | 172 | 175 | 178 | 181 | 184 | 111 |
+| JBR | 128 | 178 | 161 | 128 | 134 | 137 | 140 | 143 | 146 | 149 | 128 |
 
 
 ## Rom
@@ -75,24 +73,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 128
-- Grinding (bits): 0
+- Number of queries: 229
+- Grinding (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
-- FRI rounds: 5
-- FRI folding factors: [16, 16, 16, 8, 8]
+- FRI rounds: 6
+- FRI folding factors: [8, 8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of columns: 5
+- Number of columns: 3
 - Batch size: 18
 - Batching: Powers
 
-**Proof Size Estimate:** 570.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1056.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 189 | 168 | 164 | 169 | 173 | 177 | 181 | 184 | 53 |
-| JBR | 62 | 183 | 161 | 130 | 134 | 138 | 142 | 146 | 149 | 62 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 111 | 190 | 168 | 164 | 169 | 172 | 175 | 178 | 181 | 184 | 111 |
+| JBR | 128 | 183 | 161 | 128 | 132 | 135 | 138 | 141 | 144 | 147 | 128 |
 
 
 ## Mem
@@ -100,24 +98,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 128
-- Grinding (bits): 0
+- Number of queries: 230
+- Grinding (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
-- FRI rounds: 5
-- FRI folding factors: [16, 16, 16, 8, 8]
+- FRI rounds: 6
+- FRI folding factors: [8, 8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of columns: 20
+- Number of columns: 34
 - Batch size: 29
 - Batching: Powers
 
-**Proof Size Estimate:** 603.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1120.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 187 | 167 | 164 | 169 | 173 | 177 | 181 | 184 | 53 |
-| JBR | 62 | 181 | 161 | 129 | 134 | 138 | 142 | 146 | 149 | 62 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 111 | 186 | 167 | 164 | 169 | 172 | 175 | 178 | 181 | 184 | 111 |
+| JBR | 128 | 179 | 161 | 128 | 133 | 136 | 139 | 142 | 145 | 148 | 128 |
 
 
 ## RomData
@@ -125,24 +123,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 128
-- Grinding (bits): 0
+- Number of queries: 229
+- Grinding (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{21}$
-- FRI rounds: 5
-- FRI folding factors: [16, 16, 8, 8, 8]
+- FRI rounds: 6
+- FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of columns: 13
+- Number of columns: 23
 - Batch size: 19
 - Batching: Powers
 
-**Proof Size Estimate:** 537.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 997.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 188 | 168 | 165 | 170 | 174 | 178 | 181 | 184 | 53 |
-| JBR | 62 | 181 | 162 | 131 | 135 | 139 | 143 | 146 | 149 | 62 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 111 | 187 | 168 | 165 | 170 | 173 | 176 | 179 | 182 | 185 | 111 |
+| JBR | 128 | 180 | 161 | 128 | 132 | 135 | 138 | 141 | 144 | 147 | 128 |
 
 
 ## InputData
@@ -150,24 +148,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 128
-- Grinding (bits): 0
+- Number of queries: 229
+- Grinding (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{21}$
-- FRI rounds: 5
-- FRI folding factors: [16, 16, 8, 8, 8]
+- FRI rounds: 6
+- FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of columns: 19
+- Number of columns: 26
 - Batch size: 27
 - Batching: Powers
 
-**Proof Size Estimate:** 561.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1040.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 187 | 168 | 165 | 170 | 174 | 178 | 181 | 184 | 53 |
-| JBR | 62 | 181 | 162 | 131 | 135 | 139 | 143 | 146 | 149 | 62 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 111 | 187 | 168 | 165 | 170 | 173 | 176 | 179 | 182 | 185 | 111 |
+| JBR | 128 | 180 | 161 | 128 | 133 | 136 | 139 | 142 | 145 | 148 | 128 |
 
 
 ## MemAlign
@@ -175,24 +173,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 128
-- Grinding (bits): 0
+- Number of queries: 230
+- Grinding (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{21}$
-- FRI rounds: 5
-- FRI folding factors: [16, 16, 8, 8, 8]
+- FRI rounds: 6
+- FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of columns: 39
+- Number of columns: 40
 - Batch size: 59
 - Batching: Powers
 
-**Proof Size Estimate:** 657.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1217.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 186 | 168 | 164 | 170 | 174 | 178 | 181 | 184 | 53 |
-| JBR | 62 | 180 | 162 | 129 | 135 | 139 | 143 | 146 | 149 | 62 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 111 | 186 | 168 | 164 | 170 | 173 | 176 | 179 | 182 | 185 | 111 |
+| JBR | 128 | 179 | 162 | 128 | 134 | 137 | 140 | 143 | 146 | 149 | 128 |
 
 
 ## MemAlignByte
@@ -200,24 +198,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 128
-- Grinding (bits): 0
+- Number of queries: 229
+- Grinding (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
-- FRI rounds: 5
-- FRI folding factors: [16, 16, 16, 8, 8]
+- FRI rounds: 6
+- FRI folding factors: [8, 8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of columns: 23
+- Number of columns: 16
 - Batch size: 25
 - Batching: Powers
 
-**Proof Size Estimate:** 591.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1093.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 187 | 167 | 164 | 169 | 173 | 177 | 181 | 184 | 53 |
-| JBR | 62 | 180 | 161 | 130 | 134 | 138 | 142 | 146 | 149 | 62 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 111 | 187 | 167 | 164 | 169 | 172 | 175 | 178 | 181 | 184 | 111 |
+| JBR | 128 | 180 | 160 | 128 | 132 | 135 | 138 | 141 | 144 | 147 | 128 |
 
 
 ## MemAlignReadByte
@@ -225,24 +223,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 128
-- Grinding (bits): 0
+- Number of queries: 229
+- Grinding (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
-- FRI rounds: 5
-- FRI folding factors: [16, 16, 16, 8, 8]
+- FRI rounds: 6
+- FRI folding factors: [8, 8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of columns: 16
+- Number of columns: 10
 - Batch size: 18
 - Batching: Powers
 
-**Proof Size Estimate:** 570.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1056.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 187 | 167 | 164 | 169 | 173 | 177 | 181 | 184 | 53 |
-| JBR | 62 | 181 | 161 | 130 | 134 | 138 | 142 | 146 | 149 | 62 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 111 | 188 | 167 | 164 | 169 | 172 | 175 | 178 | 181 | 184 | 111 |
+| JBR | 128 | 181 | 160 | 128 | 132 | 135 | 138 | 141 | 144 | 147 | 128 |
 
 
 ## MemAlignWriteByte
@@ -250,24 +248,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 128
-- Grinding (bits): 0
+- Number of queries: 229
+- Grinding (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
-- FRI rounds: 5
-- FRI folding factors: [16, 16, 16, 8, 8]
+- FRI rounds: 6
+- FRI folding factors: [8, 8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of columns: 21
+- Number of columns: 15
 - Batch size: 23
 - Batching: Powers
 
-**Proof Size Estimate:** 585.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1082.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 187 | 167 | 164 | 169 | 173 | 177 | 181 | 184 | 53 |
-| JBR | 62 | 180 | 161 | 130 | 134 | 138 | 142 | 146 | 149 | 62 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 111 | 188 | 167 | 164 | 169 | 172 | 175 | 178 | 181 | 184 | 111 |
+| JBR | 128 | 181 | 160 | 128 | 132 | 135 | 138 | 141 | 144 | 147 | 128 |
 
 
 ## Arith
@@ -275,24 +273,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 128
-- Grinding (bits): 0
+- Number of queries: 230
+- Grinding (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{21}$
-- FRI rounds: 5
-- FRI folding factors: [16, 16, 8, 8, 8]
+- FRI rounds: 6
+- FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of columns: 62
+- Number of columns: 65
 - Batch size: 64
 - Batching: Powers
 
-**Proof Size Estimate:** 672.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1244.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 186 | 168 | 164 | 170 | 174 | 178 | 181 | 184 | 53 |
-| JBR | 62 | 179 | 162 | 129 | 135 | 139 | 143 | 146 | 149 | 62 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 111 | 185 | 168 | 164 | 170 | 173 | 176 | 179 | 182 | 185 | 111 |
+| JBR | 128 | 179 | 162 | 128 | 134 | 137 | 140 | 143 | 146 | 149 | 128 |
 
 
 ## Binary
@@ -300,24 +298,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 128
-- Grinding (bits): 0
+- Number of queries: 230
+- Grinding (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
-- FRI rounds: 5
-- FRI folding factors: [16, 16, 16, 8, 8]
+- FRI rounds: 6
+- FRI folding factors: [8, 8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of columns: 47
+- Number of columns: 14
 - Batch size: 49
 - Batching: Powers
 
-**Proof Size Estimate:** 663.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1227.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 186 | 167 | 163 | 169 | 173 | 177 | 181 | 184 | 53 |
-| JBR | 62 | 179 | 161 | 129 | 134 | 138 | 142 | 146 | 149 | 62 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 111 | 188 | 167 | 163 | 169 | 172 | 175 | 178 | 181 | 184 | 111 |
+| JBR | 128 | 181 | 161 | 128 | 133 | 136 | 139 | 142 | 145 | 148 | 128 |
 
 
 ## BinaryAdd
@@ -325,24 +323,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 128
-- Grinding (bits): 0
+- Number of queries: 229
+- Grinding (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
-- FRI rounds: 5
-- FRI folding factors: [16, 16, 16, 8, 8]
+- FRI rounds: 6
+- FRI folding factors: [8, 8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of columns: 16
+- Number of columns: 9
 - Batch size: 18
 - Batching: Powers
 
-**Proof Size Estimate:** 570.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1056.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 187 | 167 | 164 | 169 | 173 | 177 | 181 | 184 | 53 |
-| JBR | 62 | 181 | 161 | 130 | 134 | 138 | 142 | 146 | 149 | 62 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 111 | 188 | 167 | 164 | 169 | 172 | 175 | 178 | 181 | 184 | 111 |
+| JBR | 128 | 181 | 160 | 128 | 132 | 135 | 138 | 141 | 144 | 147 | 128 |
 
 
 ## BinaryExtension
@@ -350,24 +348,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 128
-- Grinding (bits): 0
+- Number of queries: 230
+- Grinding (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
-- FRI rounds: 5
-- FRI folding factors: [16, 16, 16, 8, 8]
+- FRI rounds: 6
+- FRI folding factors: [8, 8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of columns: 38
+- Number of columns: 8
 - Batch size: 40
 - Batching: Powers
 
-**Proof Size Estimate:** 636.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1179.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 186 | 167 | 163 | 169 | 173 | 177 | 181 | 184 | 53 |
-| JBR | 62 | 180 | 161 | 129 | 134 | 138 | 142 | 146 | 149 | 62 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 111 | 188 | 167 | 163 | 169 | 172 | 175 | 178 | 181 | 184 | 111 |
+| JBR | 128 | 182 | 161 | 128 | 133 | 136 | 139 | 142 | 145 | 148 | 128 |
 
 
 ## Add256
@@ -375,24 +373,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 128
-- Grinding (bits): 0
+- Number of queries: 229
+- Grinding (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{20}$
-- FRI rounds: 4
-- FRI folding factors: [16, 16, 16, 16]
-- FRI early stop degree: 32
-- Number of columns: 67
+- FRI rounds: 5
+- FRI folding factors: [8, 8, 8, 8, 8]
+- FRI early stop degree: 64
+- Number of columns: 36
 - Batch size: 69
 - Batching: Powers
 
-**Proof Size Estimate:** 659.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1165.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 185 | 169 | 164 | 171 | 175 | 179 | 183 | 53 |
-| JBR | 62 | 179 | 163 | 130 | 136 | 140 | 144 | 148 | 62 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 111 | 186 | 169 | 164 | 171 | 174 | 177 | 180 | 183 | 111 |
+| JBR | 128 | 179 | 162 | 128 | 134 | 137 | 140 | 143 | 146 | 128 |
 
 
 ## ArithEq
@@ -400,24 +398,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 128
-- Grinding (bits): 0
+- Number of queries: 231
+- Grinding (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{20}$
-- FRI rounds: 4
-- FRI folding factors: [16, 16, 16, 16]
-- FRI early stop degree: 32
-- Number of columns: 57
+- FRI rounds: 5
+- FRI folding factors: [8, 8, 8, 8, 8]
+- FRI early stop degree: 64
+- Number of columns: 93
 - Batch size: 434
 - Batching: Powers
 
-**Proof Size Estimate:** 1754.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 3151.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 186 | 169 | 162 | 171 | 175 | 179 | 183 | 53 |
-| JBR | 62 | 179 | 163 | 128 | 136 | 140 | 144 | 148 | 62 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 111 | 185 | 169 | 162 | 171 | 174 | 177 | 180 | 183 | 111 |
+| JBR | 128 | 178 | 163 | 128 | 137 | 140 | 143 | 146 | 149 | 128 |
 
 
 ## ArithEq384
@@ -425,24 +423,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 128
-- Grinding (bits): 0
+- Number of queries: 232
+- Grinding (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{20}$
-- FRI rounds: 4
-- FRI folding factors: [16, 16, 16, 16]
-- FRI early stop degree: 32
-- Number of columns: 51
+- FRI rounds: 5
+- FRI folding factors: [8, 8, 8, 8, 8]
+- FRI early stop degree: 64
+- Number of columns: 76
 - Batch size: 536
 - Batching: Powers
 
-**Proof Size Estimate:** 2060.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 3720.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 186 | 169 | 161 | 171 | 175 | 179 | 183 | 53 |
-| JBR | 62 | 179 | 163 | 127 | 136 | 140 | 144 | 148 | 62 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 112 | 185 | 169 | 161 | 171 | 174 | 177 | 180 | 183 | 112 |
+| JBR | 128 | 179 | 163 | 128 | 137 | 140 | 143 | 146 | 149 | 128 |
 
 
 ## Keccakf
@@ -450,24 +448,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 128
-- Grinding (bits): 0
+- Number of queries: 217
+- Grinding (bits): 23
 - Field: Goldilocks³
 - Rate (ρ): 0.5
-- Trace length (H): $2^{21}$
-- FRI rounds: 5
-- FRI folding factors: [16, 16, 8, 8, 8]
-- FRI early stop degree: 32
-- Number of columns: 71
-- Batch size: 265
+- Trace length (H): $2^{17}$
+- FRI rounds: 4
+- FRI folding factors: [8, 8, 8, 8]
+- FRI early stop degree: 64
+- Number of columns: 2432
+- Batch size: 4065
 - Batching: Powers
 
-**Proof Size Estimate:** 1275.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 21244.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 185 | 168 | 161 | 170 | 174 | 178 | 181 | 184 | 53 |
-| JBR | 62 | 179 | 162 | 127 | 135 | 139 | 143 | 146 | 149 | 62 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 113 | 180 | 172 | 162 | 174 | 177 | 180 | 183 | 113 |
+| JBR | 128 | 174 | 166 | 128 | 140 | 143 | 146 | 149 | 128 |
 
 
 ## Sha256f
@@ -475,24 +473,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 128
-- Grinding (bits): 0
+- Number of queries: 231
+- Grinding (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{18}$
-- FRI rounds: 4
-- FRI folding factors: [16, 16, 8, 8]
+- FRI rounds: 5
+- FRI folding factors: [8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of columns: 113
+- Number of columns: 115
 - Batch size: 1265
 - Batching: Powers
 
-**Proof Size Estimate:** 4171.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 7549.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 185 | 171 | 162 | 173 | 177 | 181 | 184 | 53 |
-| JBR | 62 | 178 | 165 | 128 | 138 | 142 | 146 | 149 | 62 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 111 | 185 | 171 | 162 | 173 | 176 | 179 | 182 | 185 | 111 |
+| JBR | 128 | 178 | 165 | 128 | 138 | 141 | 144 | 147 | 150 | 128 |
 
 
 ## SpecifiedRanges
@@ -500,24 +498,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 128
-- Grinding (bits): 0
+- Number of queries: 229
+- Grinding (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{20}$
-- FRI rounds: 4
-- FRI folding factors: [16, 16, 16, 16]
-- FRI early stop degree: 32
-- Number of columns: 86
+- FRI rounds: 5
+- FRI folding factors: [8, 8, 8, 8, 8]
+- FRI early stop degree: 64
+- Number of columns: 18
 - Batch size: 88
 - Batching: Powers
 
-**Proof Size Estimate:** 716.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1267.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 185 | 169 | 164 | 171 | 175 | 179 | 183 | 53 |
-| JBR | 62 | 178 | 163 | 130 | 136 | 140 | 144 | 148 | 62 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 111 | 187 | 169 | 164 | 171 | 174 | 177 | 180 | 183 | 111 |
+| JBR | 128 | 180 | 162 | 128 | 134 | 137 | 140 | 143 | 146 | 128 |
 
 
 ## VirtualTable0
@@ -525,24 +523,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 128
-- Grinding (bits): 0
+- Number of queries: 230
+- Grinding (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
-- Trace length (H): $2^{20}$
-- FRI rounds: 4
-- FRI folding factors: [16, 16, 16, 16]
+- Trace length (H): $2^{21}$
+- FRI rounds: 6
+- FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of columns: 137
-- Batch size: 139
+- Number of columns: 6
+- Batch size: 69
 - Batching: Powers
 
-**Proof Size Estimate:** 869.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1270.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 184 | 169 | 163 | 171 | 175 | 179 | 183 | 53 |
-| JBR | 62 | 178 | 163 | 129 | 136 | 140 | 144 | 148 | 62 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 111 | 189 | 168 | 163 | 170 | 173 | 176 | 179 | 182 | 185 | 111 |
+| JBR | 128 | 182 | 162 | 128 | 134 | 137 | 140 | 143 | 146 | 149 | 128 |
 
 
 ## VirtualTable1
@@ -550,24 +548,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 128
-- Grinding (bits): 0
+- Number of queries: 230
+- Grinding (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
-- Trace length (H): $2^{20}$
-- FRI rounds: 4
-- FRI folding factors: [16, 16, 16, 16]
+- Trace length (H): $2^{21}$
+- FRI rounds: 6
+- FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of columns: 172
-- Batch size: 174
+- Number of columns: 6
+- Batch size: 90
 - Batching: Powers
 
-**Proof Size Estimate:** 974.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 1384.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 53 | 184 | 169 | 163 | 171 | 175 | 179 | 183 | 53 |
-| JBR | 62 | 177 | 163 | 129 | 136 | 140 | 144 | 148 | 62 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 111 | 189 | 168 | 163 | 170 | 173 | 176 | 179 | 182 | 185 | 111 |
+| JBR | 128 | 182 | 162 | 128 | 134 | 137 | 140 | 143 | 146 | 150 | 128 |
 
 
 ## ArithEq-compressor
@@ -575,24 +573,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 64
-- Grinding (bits): 0
+- Number of queries: 110
+- Grinding (bits): 20
 - Field: Goldilocks³
 - Rate (ρ): 0.25
 - Trace length (H): $2^{18}$
-- FRI rounds: 4
-- FRI folding factors: [16, 16, 16, 8]
+- FRI rounds: 5
+- FRI folding factors: [8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of columns: 119
-- Batch size: 163
+- Number of columns: 179
+- Batch size: 198
 - Batching: Powers
 
-**Proof Size Estimate:** 450.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 871.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 43 | 185 | 171 | 164 | 172 | 176 | 180 | 184 | 43 |
-| JBR | 63 | 177 | 163 | 128 | 136 | 140 | 144 | 148 | 63 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 94 | 184 | 171 | 164 | 172 | 175 | 178 | 181 | 184 | 94 |
+| JBR | 128 | 176 | 163 | 128 | 135 | 138 | 141 | 144 | 147 | 128 |
 
 
 ## ArithEq384-compressor
@@ -600,24 +598,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 64
-- Grinding (bits): 0
+- Number of queries: 110
+- Grinding (bits): 20
 - Field: Goldilocks³
 - Rate (ρ): 0.25
 - Trace length (H): $2^{18}$
-- FRI rounds: 4
-- FRI folding factors: [16, 16, 16, 8]
+- FRI rounds: 5
+- FRI folding factors: [8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of columns: 119
-- Batch size: 163
+- Number of columns: 179
+- Batch size: 198
 - Batching: Powers
 
-**Proof Size Estimate:** 450.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 871.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 43 | 185 | 171 | 164 | 172 | 176 | 180 | 184 | 43 |
-| JBR | 63 | 177 | 163 | 128 | 136 | 140 | 144 | 148 | 63 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 94 | 184 | 171 | 164 | 172 | 175 | 178 | 181 | 184 | 94 |
+| JBR | 128 | 176 | 163 | 128 | 135 | 138 | 141 | 144 | 147 | 128 |
 
 
 ## Keccakf-compressor
@@ -625,24 +623,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 64
-- Grinding (bits): 0
+- Number of queries: 110
+- Grinding (bits): 20
 - Field: Goldilocks³
 - Rate (ρ): 0.25
-- Trace length (H): $2^{18}$
-- FRI rounds: 4
-- FRI folding factors: [16, 16, 16, 8]
+- Trace length (H): $2^{20}$
+- FRI rounds: 6
+- FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of columns: 119
-- Batch size: 163
+- Number of columns: 179
+- Batch size: 198
 - Batching: Powers
 
-**Proof Size Estimate:** 450.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 940.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 43 | 185 | 171 | 164 | 172 | 176 | 180 | 184 | 43 |
-| JBR | 63 | 177 | 163 | 128 | 136 | 140 | 144 | 148 | 63 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 94 | 184 | 169 | 162 | 170 | 173 | 176 | 179 | 182 | 185 | 94 |
+| JBR | 128 | 177 | 162 | 128 | 136 | 139 | 142 | 145 | 148 | 151 | 128 |
 
 
 ## Sha256f-compressor
@@ -650,74 +648,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 64
-- Grinding (bits): 0
+- Number of queries: 110
+- Grinding (bits): 20
 - Field: Goldilocks³
 - Rate (ρ): 0.25
 - Trace length (H): $2^{19}$
-- FRI rounds: 4
-- FRI folding factors: [16, 16, 16, 16]
-- FRI early stop degree: 32
-- Number of columns: 119
-- Batch size: 163
+- FRI rounds: 5
+- FRI folding factors: [8, 8, 8, 8, 8]
+- FRI early stop degree: 64
+- Number of columns: 179
+- Batch size: 198
 - Batching: Powers
 
-**Proof Size Estimate:** 470.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 892.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 43 | 185 | 170 | 163 | 171 | 175 | 179 | 183 | 43 |
-| JBR | 63 | 177 | 162 | 127 | 135 | 139 | 143 | 147 | 63 |
-
-
-## VirtualTable0-compressor
-
-**Parameters:**
-- Polynomial commitment scheme: FRI
-- Hash size (bits): 256
-- Number of queries: 64
-- Grinding (bits): 0
-- Field: Goldilocks³
-- Rate (ρ): 0.25
-- Trace length (H): $2^{18}$
-- FRI rounds: 4
-- FRI folding factors: [16, 16, 16, 8]
-- FRI early stop degree: 32
-- Number of columns: 119
-- Batch size: 163
-- Batching: Powers
-
-**Proof Size Estimate:** 450.0 KiB, where 1 KiB = 1024 bytes
-
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 43 | 185 | 171 | 164 | 172 | 176 | 180 | 184 | 43 |
-| JBR | 63 | 177 | 163 | 128 | 136 | 140 | 144 | 148 | 63 |
-
-
-## VirtualTable1-compressor
-
-**Parameters:**
-- Polynomial commitment scheme: FRI
-- Hash size (bits): 256
-- Number of queries: 64
-- Grinding (bits): 0
-- Field: Goldilocks³
-- Rate (ρ): 0.25
-- Trace length (H): $2^{18}$
-- FRI rounds: 4
-- FRI folding factors: [16, 16, 16, 8]
-- FRI early stop degree: 32
-- Number of columns: 119
-- Batch size: 163
-- Batching: Powers
-
-**Proof Size Estimate:** 450.0 KiB, where 1 KiB = 1024 bytes
-
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 43 | 185 | 171 | 164 | 172 | 176 | 180 | 184 | 43 |
-| JBR | 63 | 177 | 163 | 128 | 136 | 140 | 144 | 148 | 63 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 94 | 184 | 170 | 163 | 171 | 174 | 177 | 180 | 183 | 94 |
+| JBR | 128 | 176 | 162 | 128 | 135 | 138 | 141 | 144 | 147 | 128 |
 
 
 ## Recursive2
@@ -725,24 +673,24 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 43
-- Grinding (bits): 0
+- Number of queries: 73
+- Grinding (bits): 20
 - Field: Goldilocks³
 - Rate (ρ): 0.125
 - Trace length (H): $2^{17}$
-- FRI rounds: 4
-- FRI folding factors: [16, 16, 16, 8]
+- FRI rounds: 5
+- FRI folding factors: [8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of columns: 92
-- Batch size: 136
+- Number of columns: 158
+- Batch size: 145
 - Batching: Powers
 
-**Proof Size Estimate:** 275.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 487.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 35 | 185 | 171 | 164 | 172 | 176 | 180 | 184 | 35 |
-| JBR | 63 | 176 | 163 | 127 | 134 | 138 | 142 | 147 | 63 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 80 | 184 | 171 | 164 | 172 | 175 | 178 | 181 | 184 | 80 |
+| JBR | 128 | 176 | 163 | 128 | 135 | 138 | 141 | 144 | 147 | 128 |
 
 
 ## Final
@@ -750,22 +698,22 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 32
-- Grinding (bits): 0
+- Number of queries: 43
+- Grinding (bits): 22
 - Field: Goldilocks³
-- Rate (ρ): 0.0625
+- Rate (ρ): 0.03125
 - Trace length (H): $2^{16}$
-- FRI rounds: 2
-- FRI folding factors: [32, 32]
-- FRI early stop degree: 1024
-- Number of columns: 98
-- Batch size: 142
+- FRI rounds: 3
+- FRI folding factors: [16, 16, 16]
+- FRI early stop degree: 512
+- Number of columns: 160
+- Batch size: 152
 - Batching: Powers
 
-**Proof Size Estimate:** 201.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 282.0 KiB, where 1 KiB = 1024 bytes
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 29 | 185 | 172 | 164 | 172 | 177 | 29 |
-| JBR | 63 | 175 | 163 | 126 | 133 | 138 | 63 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 63 | 184 | 172 | 163 | 171 | 175 | 179 | 63 |
+| JBR | 128 | 174 | 163 | 128 | 135 | 139 | 143 | 128 |
 
