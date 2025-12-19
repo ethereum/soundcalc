@@ -21,7 +21,7 @@ How to read this report:
 - Batch size: 100
 - Batching: Powers
 
-**Proof Size Estimate:** 149.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 112.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
