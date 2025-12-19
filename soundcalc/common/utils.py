@@ -34,3 +34,22 @@ def get_size_of_merkle_path_bits(num_leafs: int, tuple_size: int, element_size_b
     tree_depth = math.ceil(math.log2(num_leafs))
     co_path = (tree_depth - 1) * hash_size_bits
     return leaf_size + sibling + co_path
+
+def get_size_of_merkle_proof_bits(num_leafs: int, num_openings: int, hash_size_bits: int) -> int:
+    """
+    Compute the expected size of a Merkle multi-proof in bits.
+
+    We assume a Merkle tree that represents num_leafs leaves.
+
+    Note: the result only counts the Merkle proof itself, not the opened leaves.
+
+    For derivation see: https://xn--2-umb.com/25/merkle-multi-proof/#expected-value-1
+    """
+    assert num_leafs > 0
+    tree_depth = math.ceil(math.log2(num_leafs))
+
+    num_hashes = 0
+    for d in range(1, tree_depth +1):
+        prob_sibling_in_proof = ((1 - 2**(-d))**num_openings - (1 - 2**(1-d))**num_openings)
+        num_hashes += math.ceil(2**d * prob_sibling_in_proof)
+    return num_hashes * hash_size_bits

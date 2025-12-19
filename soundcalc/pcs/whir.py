@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from soundcalc.common.fields import FieldParams
 from soundcalc.common.utils import (
     get_bits_of_security_from_error,
-    get_size_of_merkle_path_bits,
+    get_size_of_merkle_proof_bits,
 )
 from soundcalc.pcs.pcs import PCS
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
@@ -855,13 +855,13 @@ class WHIR(PCS):
             else:
                 tuple_size = block_size
 
-            merkle_path_size = get_size_of_merkle_path_bits(
+            opening_size = self.num_queries[i] * tuple_size * current_element_bits
+            merkle_proof_size = get_size_of_merkle_proof_bits(
                 num_leafs=num_leafs,
-                tuple_size=tuple_size,
-                element_size_bits=current_element_bits,
+                num_openings=self.num_queries[i],
                 hash_size_bits=self.hash_size_bits,
             )
-            proof_size += self.num_queries[i] * merkle_path_size
+            proof_size += opening_size + merkle_proof_size
 
         return proof_size
 
