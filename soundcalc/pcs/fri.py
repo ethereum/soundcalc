@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from math import log2
 from typing import Optional
 from soundcalc.common.fields import FieldParams
-from soundcalc.common.utils import get_bits_of_security_from_error, get_size_of_merkle_path_bits
+from soundcalc.common.utils import get_bits_of_security_from_error, get_size_of_merkle_proof_bits
 from soundcalc.pcs.pcs import PCS
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
 
@@ -33,13 +33,15 @@ def get_FRI_proof_size_bits(
 
     size_bits = 0
 
-    # Initial Round: one root and one path per query
+    # Initial Round: one root and opening the queries
     # We assume that for the initial functions, there is only one Merkle root, and
     # each leaf i for that root contains symbols i for all initial functions.
     n = int(domain_size)
     num_leafs = n
     tuple_size = batch_size
-    size_bits += hash_size_bits + num_queries * get_size_of_merkle_path_bits(num_leafs, tuple_size, field_size_bits, hash_size_bits)
+    size_bits += hash_size_bits # root
+    size_bits += num_queries * tuple_size * field_size_bits # opened leaves
+    size_bits += get_size_of_merkle_proof_bits(num_leafs, num_queries, hash_size_bits)
 
     # Now we have folded these batch_size initial functions into one
     # Next, we start with the folding rounds.
@@ -55,7 +57,9 @@ def get_FRI_proof_size_bits(
         tuple_size = folding_factors[i]
 
         # one root and one path per query
-        size_bits += hash_size_bits + num_queries * get_size_of_merkle_path_bits(num_leafs, tuple_size, field_size_bits, hash_size_bits)
+        size_bits += hash_size_bits # root
+        size_bits += num_queries * tuple_size *  field_size_bits # opened leaves
+        size_bits += get_size_of_merkle_proof_bits(num_leafs, num_queries, hash_size_bits)
 
         # next domain size is given by applying folding
         n = n // int(folding_factors[i])
@@ -106,7 +110,7 @@ class FRIConfig:
     # Optional override for the bound *gap*.
     # (This is useful to pin fixed parameters in TOML configs.)
     gap_to_radius: Optional[float] = None
- 
+
 class FRI(PCS):
     """
     FRI Polynomial Commitment Scheme.
