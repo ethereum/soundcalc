@@ -26,11 +26,6 @@ class PCS(ABC):
         ...
 
     @abstractmethod
-    def get_best_attack_security(self) -> int | None:
-        """Returns security level based on the best known attack, or None if not applicable."""
-        ...
-
-    @abstractmethod
     def get_rate(self) -> float:
         """Returns the code rate (rho)."""
         ...

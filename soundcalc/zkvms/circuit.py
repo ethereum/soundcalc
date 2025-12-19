@@ -102,10 +102,6 @@ class Circuit:
             all_levels["total"] = min(all_levels.values())
             result[id] = all_levels
 
-        best_attack = self.pcs.get_best_attack_security()
-        if best_attack is not None:
-            result["best attack"] = best_attack
-
         return result
 
     def _has_deep_ali_params(self) -> bool:

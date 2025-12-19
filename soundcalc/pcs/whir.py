@@ -865,12 +865,6 @@ class WHIR(PCS):
 
         return proof_size
 
-    def get_best_attack_security(self) -> int | None:
-        """
-        Returns security level based on the best known attack, or None if not applicable.
-        """
-        return None
-
     def get_rate(self) -> float:
         return 2 ** (-self.log_inv_rates[0])
 

@@ -39,10 +39,6 @@ def _compute_overview_stats(circuits: list[Circuit]) -> dict[str, Any]:
     for circuit in circuits:
         security_levels = circuit.get_security_levels()
         for regime_name, levels in security_levels.items():
-            # Only consider UDR and JBR, skip "best attack"
-            if regime_name.lower() == "best attack":
-                continue
-
             if isinstance(levels, dict) and "total" in levels:
                 total_bits = levels["total"]
                 if regime_name not in regime_mins or total_bits < regime_mins[regime_name][0]:
