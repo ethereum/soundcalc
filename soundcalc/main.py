@@ -3,7 +3,7 @@ import json
 import os
 
 from soundcalc.common.utils import KIB
-from soundcalc.zkvms import risc0, miden, zisk, dummy_whir, pico
+from soundcalc.zkvms import risc0, miden, zisk, dummy_whir, pico, openvm
 from soundcalc.report import build_zkvm_report
 from soundcalc.zkvms.circuit import Circuit
 from soundcalc.zkvms.zkvm import zkVM
@@ -88,6 +88,7 @@ def main(print_only: list[str] | None = None) -> None:
         risc0.load(),
         dummy_whir.load(),
         pico.load(),
+        openvm.load(),
     ]
 
     if print_only:
