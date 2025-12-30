@@ -228,3 +228,8 @@ math_companion/*.nav
 math_companion/*.snm
 math_companion/*.vrb
 math_companion/auto/
+
+# Ignore everything in zisk/
+soundcalc/zkvms/zisk/*
+# Except these two files
+!soundcalc/zkvms/zisk/regenerate_zisk_config.sh
