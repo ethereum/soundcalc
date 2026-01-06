@@ -29,6 +29,7 @@ def test_get_FRI_proof_size_bits():
         domain_size,
         folding_factors,
         rate,
+        False
     )
 
     assert result == expected
