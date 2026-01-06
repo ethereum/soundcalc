@@ -239,12 +239,12 @@ def build_zkvm_report(zkvm: zkVM, multi_circuit: bool = False) -> str:
         overview = _compute_overview_stats(circuits)
 
         if overview:
-            lines.append("## zkEVM Overview")
+            lines.append("## zkVM Overview")
             lines.append("")
-            lines.append(f"| Metric | Value |")
-            lines.append(f"| --- | --- |")
-            lines.append(f"| Final proof size | **{overview['final_proof_size_kib']:.1f} KiB** (circuit: {overview['final_circuit_name']}) |")
-            lines.append(f"| Final bits of security | **{overview['min_security_bits']}** ({overview['best_regime']}, circuit: {overview['offending_circuit']}) |")
+            lines.append(f"| Metric | Value | Notes |")
+            lines.append(f"| --- | --- | --- |")
+            lines.append(f"| Final proof size (worst case) | **{int(overview['final_proof_size_kib'])} KiB** | circuit: {overview['final_circuit_name']} |")
+            lines.append(f"| Final bits of security | **{overview['min_security_bits']} bits** | {overview['best_regime']}, circuit: {overview['offending_circuit']} |")
             lines.append("")
 
         lines.append("## Circuits")

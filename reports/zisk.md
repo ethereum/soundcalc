@@ -6,12 +6,12 @@ How to read this report:
 - Cells show bits of security per component
 - Proof size estimates are indicative (1 KiB = 1024 bytes)
 
-## zkEVM Overview
+## zkVM Overview
 
-| Metric | Value |
-| --- | --- |
-| Final proof size | **282.0 KiB** (circuit: Final) |
-| Final bits of security | **128** (JBR, circuit: Main) |
+| Metric | Value | Notes |
+| --- | --- | --- |
+| Final proof size (worst case) | **282 KiB** | circuit: Final |
+| Final bits of security | **128 bits** | JBR, circuit: Main |
 
 ## Circuits
 
