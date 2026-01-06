@@ -4,7 +4,7 @@ How to read this report:
 - Table rows correspond to security regimes
 - Table columns correspond to proof system components
 - Cells show bits of security per component
-- Proof size estimate is only indicative
+- Proof size estimates are indicative (1 KiB = 1024 bytes)
 
 **Parameters:**
 - Polynomial commitment scheme: FRI
@@ -21,9 +21,7 @@ How to read this report:
 - Batch size: 100
 - Batching: Powers
 
-**Proof Size Estimate (Worst Case):** 149.0 KiB, where 1 KiB = 1024 bytes
-
-**Proof Size Estimate (Expected):** 112.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size:** 112 KiB (expected) / 149 KiB (worst case)
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |

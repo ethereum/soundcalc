@@ -229,7 +229,7 @@ def build_zkvm_report(zkvm: zkVM, multi_circuit: bool = False) -> str:
     lines.append("- Table rows correspond to security regimes")
     lines.append("- Table columns correspond to proof system components")
     lines.append("- Cells show bits of security per component")
-    lines.append("- Proof size estimate is only indicative")
+    lines.append("- Proof size estimates are indicative (1 KiB = 1024 bytes)")
     lines.append("")
 
     circuits = zkvm.get_circuits()
@@ -263,11 +263,9 @@ def build_zkvm_report(zkvm: zkVM, multi_circuit: bool = False) -> str:
             lines.append("")
 
             # Proof size
-            proof_size_kib = circuit.get_proof_size_bits() // KIB
-            lines.append(f"**Proof Size Estimate (Worst Case):** {proof_size_kib} KiB, where 1 KiB = 1024 bytes")
-            lines.append("")
-            proof_size_expected_kib = circuit.get_expected_proof_size_bits() // KIB
-            lines.append(f"**Proof Size Estimate (Expected):** {proof_size_expected_kib} KiB, where 1 KiB = 1024 bytes")
+            expected_kib = int(circuit.get_expected_proof_size_bits() // KIB)
+            worst_kib = int(circuit.get_proof_size_bits() // KIB)
+            lines.append(f"**Proof Size:** {expected_kib} KiB (expected) / {worst_kib} KiB (worst case)")
             lines.append("")
 
             # Security table
@@ -284,11 +282,9 @@ def build_zkvm_report(zkvm: zkVM, multi_circuit: bool = False) -> str:
             lines.append("")
 
             # Proof size
-            proof_size_kib = circuit.get_proof_size_bits() // KIB
-            lines.append(f"**Proof Size Estimate (Worst Case):** {proof_size_kib} KiB, where 1 KiB = 1024 bytes")
-            lines.append("")
-            proof_size_expected_kib = circuit.get_expected_proof_size_bits() // KIB
-            lines.append(f"**Proof Size Estimate (Expected):** {proof_size_expected_kib} KiB, where 1 KiB = 1024 bytes")
+            expected_kib = int(circuit.get_expected_proof_size_bits() // KIB)
+            worst_kib = int(circuit.get_proof_size_bits() // KIB)
+            lines.append(f"**Proof Size:** {expected_kib} KiB (expected) / {worst_kib} KiB (worst case)")
             lines.append("")
 
             # Security table
