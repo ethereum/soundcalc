@@ -46,6 +46,16 @@ Depending on the value of `θ`, the analysis falls into different regimes:
 Crucially, `θ` is not an input to the prover or verifier code—it is only used in the *soundness analysis*.
 All regimes therefore apply to the *same zkEVM instance* without any change.
 
+## Background on Proof Size Estimates
+
+The soundcalc proof size estimate is based on counting Merkle proofs and their sizes. It is only an estimate and should be treated as such. To get the actual proof size you need to run the actual prover.
+
+Reports show two estimates:
+
+- **Expected:** Accounts for Merkle path sharing when random queries overlap in the tree (path pruning optimization)
+- **Worst case:** Assumes no overlap: each query contributes a full independent path.
+
+In practice, actual proof sizes tend to be closer to the expected estimate.
 
 ## Incorporation of recent work
 
