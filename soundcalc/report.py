@@ -264,7 +264,10 @@ def build_zkvm_report(zkvm: zkVM, multi_circuit: bool = False) -> str:
 
             # Proof size
             proof_size_kib = circuit.get_proof_size_bits() // KIB
-            lines.append(f"**Proof Size Estimate:** {proof_size_kib} KiB, where 1 KiB = 1024 bytes")
+            lines.append(f"**Proof Size Estimate (Worst Case):** {proof_size_kib} KiB, where 1 KiB = 1024 bytes")
+            lines.append("")
+            proof_size_expected_kib = circuit.get_expected_proof_size_bits() // KIB
+            lines.append(f"**Proof Size Estimate (Expected):** {proof_size_expected_kib} KiB, where 1 KiB = 1024 bytes")
             lines.append("")
 
             # Security table

@@ -26,6 +26,11 @@ class PCS(ABC):
         ...
 
     @abstractmethod
+    def get_expected_proof_size_bits(self) -> int:
+        """Returns estimated *expected* proof size in bits."""
+        ...
+
+    @abstractmethod
     def get_rate(self) -> float:
         """Returns the code rate (rho)."""
         ...

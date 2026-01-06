@@ -38,7 +38,10 @@ def print_summary_for_circuit(circuit: Circuit) -> None:
     Print a summary of security results for a single circuit.
     """
     proof_size_kib = circuit.get_proof_size_bits() // KIB
-    print(f"proof size estimate: {proof_size_kib} KiB, where 1 KiB = 1024 bytes")
+    print(f"proof size estimate (worst case): {proof_size_kib} KiB, where 1 KiB = 1024 bytes")
+    print("")
+    proof_size_expected_kib = circuit.get_expected_proof_size_bits() // KIB
+    print(f"proof size estimate (expected): {proof_size_expected_kib} KiB, where 1 KiB = 1024 bytes")
     print("")
     print(f"parameters: \n {circuit.get_parameter_summary()}")
     print("")

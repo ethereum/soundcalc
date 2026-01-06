@@ -64,8 +64,16 @@ class Circuit:
         return pcs_summary
 
     def get_proof_size_bits(self) -> int:
-        """Returns an estimate for the proof size, given in bits."""
+        """
+        Returns an estimate for the proof size, given in bits.
+        """
         return self.pcs.get_proof_size_bits()
+
+    def get_expected_proof_size_bits(self) -> int:
+        """
+        Returns an estimate for the *expected* proof size, given in bits.
+        """
+        return self.pcs.get_expected_proof_size_bits()
 
     def get_security_levels(self) -> dict[str, dict[str, int]]:
         """
@@ -83,7 +91,7 @@ class Circuit:
             UniqueDecodingRegime(self.field),
             JohnsonBoundRegime(self.field, gap_to_radius=self.gap_to_radius),
         ]
-        
+
         result = {}
         for regime in regimes:
             id = regime.identifier()

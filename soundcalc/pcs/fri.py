@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from math import log2
 from typing import Optional
 from soundcalc.common.fields import FieldParams
-from soundcalc.common.utils import get_bits_of_security_from_error, get_size_of_merkle_proof_bits
+from soundcalc.common.utils import get_bits_of_security_from_error, get_size_of_merkle_multi_proof_bits, get_size_of_merkle_proof_bits
 from soundcalc.pcs.pcs import PCS
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
 
@@ -16,10 +16,11 @@ def get_FRI_proof_size_bits(
         num_queries: int,
         domain_size: int,
         folding_factors: list[int],
-        rate: int
+        rate: int,
+        expected: bool
 ) -> int:
     """
-    Compute the proof size of a (BCS-transformed) FRI interaction in bits.
+    Compute the proof size or expected proof size of a (BCS-transformed) FRI interaction in bits.
     """
 
     # TODO: the following things are not yet considered.
@@ -40,8 +41,7 @@ def get_FRI_proof_size_bits(
     num_leafs = n
     tuple_size = batch_size
     size_bits += hash_size_bits # root
-    size_bits += num_queries * tuple_size * field_size_bits # opened leaves
-    size_bits += get_size_of_merkle_proof_bits(num_leafs, num_queries, hash_size_bits)
+    size_bits += get_size_of_merkle_multi_proof_bits(num_leafs, num_queries, tuple_size, field_size_bits, hash_size_bits, expected) # queries
 
     # Now we have folded these batch_size initial functions into one
     # Next, we start with the folding rounds.
@@ -58,8 +58,7 @@ def get_FRI_proof_size_bits(
 
         # one root and one path per query
         size_bits += hash_size_bits # root
-        size_bits += num_queries * tuple_size *  field_size_bits # opened leaves
-        size_bits += get_size_of_merkle_proof_bits(num_leafs, num_queries, hash_size_bits)
+        size_bits += get_size_of_merkle_multi_proof_bits(num_leafs, num_queries, tuple_size, field_size_bits, hash_size_bits, expected) # queries
 
         # next domain size is given by applying folding
         n = n // int(folding_factors[i])
@@ -244,7 +243,24 @@ class FRI(PCS):
             num_queries=self.num_queries,
             domain_size=int(self.D),
             folding_factors=self.FRI_folding_factors,
-            rate=self.rho
+            rate=self.rho,
+            expected=False
+        )
+
+    def get_expected_proof_size_bits(self) -> int:
+        """Returns estimated *expected* proof size in bits."""
+        # XXX (BW): note that it is not clear that this is the
+        # proof size for every zkEVM we can think of
+        # XXX (BW): we should probably also add something for the OOD samples and plookup, lookup etc.
+        return get_FRI_proof_size_bits(
+            hash_size_bits=self.hash_size_bits,
+            field_size_bits=self.field.extension_field_element_size_bits(),
+            batch_size=self.batch_size,
+            num_queries=self.num_queries,
+            domain_size=int(self.D),
+            folding_factors=self.FRI_folding_factors,
+            rate=self.rho,
+            expected=True
         )
 
     def get_rate(self) -> float:

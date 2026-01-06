@@ -10,7 +10,7 @@ How to read this report:
 
 | Metric | Value |
 | --- | --- |
-| Final proof size | **232.0 KiB** (circuit: embed) |
+| Final proof size | **281.0 KiB** (circuit: embed) |
 | Final bits of security | **53** (JBR, circuit: riscv) |
 
 ## Circuits
@@ -38,7 +38,9 @@ How to read this report:
 - Batch size: 1435
 - Batching: Powers
 
-**Proof Size Estimate:** 2225.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate (Worst Case):** 2583.0 KiB, where 1 KiB = 1024 bytes
+
+**Proof Size Estimate (Expected):** 2225.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 18 | commit round 19 | commit round 2 | commit round 20 | commit round 21 | commit round 22 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -63,7 +65,9 @@ How to read this report:
 - Batch size: 485
 - Batching: Powers
 
-**Proof Size Estimate:** 934.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate (Worst Case):** 1255.0 KiB, where 1 KiB = 1024 bytes
+
+**Proof Size Estimate (Expected):** 934.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 18 | commit round 19 | commit round 2 | commit round 20 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -88,7 +92,9 @@ How to read this report:
 - Batch size: 485
 - Batching: Powers
 
-**Proof Size Estimate:** 861.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate (Worst Case):** 1146.0 KiB, where 1 KiB = 1024 bytes
+
+**Proof Size Estimate (Expected):** 861.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 18 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -113,7 +119,9 @@ How to read this report:
 - Batch size: 485
 - Batching: Powers
 
-**Proof Size Estimate:** 253.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate (Worst Case):** 308.0 KiB, where 1 KiB = 1024 bytes
+
+**Proof Size Estimate (Expected):** 253.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -138,7 +146,9 @@ How to read this report:
 - Batch size: 485
 - Batching: Powers
 
-**Proof Size Estimate:** 232.0 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate (Worst Case):** 281.0 KiB, where 1 KiB = 1024 bytes
+
+**Proof Size Estimate (Expected):** 232.0 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
