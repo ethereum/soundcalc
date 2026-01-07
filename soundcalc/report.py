@@ -378,7 +378,6 @@ def build_summary_report(zkvms: list[zkVM]) -> str:
         "How to read this report:",
         "- Click on zkVM names to view detailed individual reports",
         "- UDR/JBR columns show bits of security under different regimes",
-        "- Lower security bits indicate the weakest link in the proof system",
         "",
         "## Overview",
         "",

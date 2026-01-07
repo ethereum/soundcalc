@@ -22,6 +22,7 @@ Tests can be run with `pytest`.
 We currently support the following zkEVMs:
 - [ZisK](reports/zisk.md)
 - [Pico](reports/pico.md)
+- [OpenVM](reports/openvm.md)
 - [RISC0](reports/risc0.md)
 - [Miden](reports/miden.md)
 
