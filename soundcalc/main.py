@@ -4,7 +4,7 @@ import os
 
 from soundcalc.common.utils import KIB
 from soundcalc.zkvms import risc0, miden, zisk, dummy_whir, pico
-from soundcalc.report import build_zkvm_report
+from soundcalc.report import build_zkvm_report, build_summary_report
 from soundcalc.zkvms.circuit import Circuit
 from soundcalc.zkvms.zkvm import zkVM
 
@@ -31,6 +31,13 @@ def generate_and_save_reports(zkvms: list[zkVM]) -> None:
             f.write(md)
 
         print(f"wrote :: {md_path}")
+
+    # Generate unified summary report
+    summary_md = build_summary_report(zkvms)
+    summary_path = os.path.join(REPORTS_DIR, "report.md")
+    with open(summary_path, "w", encoding="utf-8") as f:
+        f.write(summary_md)
+    print(f"wrote :: {summary_path}")
 
 
 def print_summary_for_circuit(circuit: Circuit) -> None:
