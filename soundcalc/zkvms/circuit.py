@@ -18,6 +18,8 @@ class CircuitConfig:
     gap_to_radius: float | None = None
     # Total columns of AIR table (used in DEEP-ALI soundness)
     num_columns: int | None = None
+    # Total constraints of AIR table (used in DEEP-ALI soundness)
+    num_constraints: int | None = None
     # Maximum constraint degree
     AIR_max_degree: int | None = None
     # Maximum number of entries from a single column referenced in a single constraint
@@ -37,6 +39,7 @@ class Circuit:
         self.gap_to_radius = config.gap_to_radius
         # Store optional DEEP-ALI params
         self.num_columns = config.num_columns
+        self.num_constraints = config.num_constraints
         self.AIR_max_degree = config.AIR_max_degree
         self.max_combo = config.max_combo
 
@@ -55,6 +58,7 @@ class Circuit:
                 if line.strip() == "```" and i > 0:
                     deep_ali_lines = [
                         f"  num_columns                        : {self.num_columns}",
+                        f"  num_constraints                    : {self.num_constraints}",
                         f"  AIR_max_degree                     : {self.AIR_max_degree}",
                         f"  max_combo                          : {self.max_combo}",
                     ]
@@ -115,7 +119,7 @@ class Circuit:
     def _has_deep_ali_params(self) -> bool:
         """Should we report DEEP-ALI soundness?"""
         # A dirty heuristic for now
-        return self.num_columns is not None
+        return self.num_constraints is not None
 
     def _get_DEEP_ALI_errors(self, L_plus: float) -> dict[str, int]:
         """
@@ -124,18 +128,21 @@ class Circuit:
 
         Returns a dictionary containing levels for ALI and DEEP
         """
-        # TODO Check that it holds for all regimes
 
-        # XXX These proof system errors are actually quite RISC0 specific.
-        # See Section 3.4 from the RISC0 technical report.
-        # We might want to generalize this further for other zkEVMs.
-        # For example, Miden also computes similar values for DEEP-ALI in:
-        # https://github.com/facebook/winterfell/blob/2f78ee9bf667a561bdfcdfa68668d0f9b18b8315/air/src/proof/security.rs#L188-L210
+        # Theorem 8 of https://eprint.iacr.org/2022/1216.pdf
+        # Note: These bounds are regime independent
+        # TODO: If linear batching is used, the num_constraints term in e_ALI should be removed
+        # TODO: L_plus computation depends on how the FRI batching is performed.
+        #       For instance, if I want to prove the evaluation of f(X) at both z and g·z, then I can
+        #       either run a LDT over functions g1(X) = (f(X) - f(z)) / (X - z) and g2(X) = (f(X) - f(g·z)) / (X - g·z)
+        #       or I can run a LDT over a single function h(X) = (f(X) - U(X)) / ((X - z)(X - g·z)) 
+        #       where U(X) is the unique degree < 2 interpolant through points (z, f(z)) and (g·z, f(g·z)).
+        #       Here it is assumed that the second approach is used.
         field_size = self.field.F
         trace_length = self.pcs.get_dimension()
         D = trace_length / self.pcs.get_rate()
 
-        e_ALI = L_plus * self.num_columns / field_size
+        e_ALI = L_plus * self.num_constraints / field_size
         e_DEEP = (
             L_plus
             * (self.AIR_max_degree * (trace_length + self.max_combo - 1) + (trace_length - 1))

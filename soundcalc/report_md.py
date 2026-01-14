@@ -151,6 +151,7 @@ def _fri_parameter_lines(circuit: Circuit) -> list[str]:
         f"- FRI folding factors: {pcs.FRI_folding_factors}",
         f"- FRI early stop degree: {pcs.FRI_early_stop_degree}",
         f"- Number of columns: {circuit.num_columns}",
+        f"- Number of constraints: {circuit.num_constraints}",
         f"- Batch size: {pcs.batch_size}",
         f"- Batching: {batching}",
     ]
