@@ -6,7 +6,7 @@ Loads zkVMs and produces soundness reports
 
 from __future__ import annotations
 
-from soundcalc.zkvms import risc0, miden, zisk, dummy_whir, pico, openvm
+from soundcalc.zkvms import risc0, miden, zisk, dummy_whir, pico, openvm, airbender
 from soundcalc import report_cli, report_md
 
 
@@ -24,6 +24,7 @@ def main(print_only: list[str] | None = None) -> None:
         dummy_whir.load(),
         pico.load(),
         openvm.load(),
+        airbender.load(),
     ]
 
     if print_only:
