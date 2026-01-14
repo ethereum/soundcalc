@@ -105,3 +105,13 @@ The DEEP-ALI soundness error is computed as follows:
 \begin{equation}
     \edeep = \max\left(\frac{\ell\cdot C}{2^{\bfield}}, \frac{\ell(d(N+m_c-1)+(N-1))}{2^{\bfield}-N-N/\rho}\right)
 \end{equation}
+
+\paragraph{Sanity check (Eq.~11 in \cite{habock2022summary}).}
+We enforce the multi-point query bound
+\begin{equation}\label{eq:eq11_bound}
+    m_c \le \frac{N}{2},
+\end{equation}
+i.e., the maximum number of entries from a single column referenced in a single constraint
+(\verb|max_combo|, denoted here by $m_c$) must be at most half the trace length $N$.
+This is checked in code via an assertion in \verb|circuit.py/_get_DEEP_ALI_errors()|.
+
