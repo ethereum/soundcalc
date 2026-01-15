@@ -9,7 +9,7 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 63
+- Number of queries: 87
 - Grinding (bits): 28
 - Field: M31⁴
 - Rate (ρ): 0.5
@@ -18,12 +18,12 @@ How to read this report:
 - FRI folding factors: [16, 16, 16, 8, 8]
 - FRI early stop degree: 128
 - Number of columns: 1224
-- Batch size: 1238
+- Batch size: 1225
 - Batching: Powers
 
-**Proof Size:** 1347 KiB (expected) / 1425 KiB (worst case)
+**Proof Size:** 1836 KiB (expected) / 1951 KiB (worst case)
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 54 | 113 | 98 | 88 | 99 | 103 | 107 | 111 | 114 | 54 |
-| JBR | 56 | 108 | 93 | 63 | 73 | 77 | 81 | 85 | 88 | 56 |
+| UDR | 64 | 113 | 98 | 88 | 99 | 103 | 107 | 111 | 114 | 64 |
+| JBR | 63 | 108 | 93 | 63 | 73 | 77 | 81 | 85 | 88 | 67 |

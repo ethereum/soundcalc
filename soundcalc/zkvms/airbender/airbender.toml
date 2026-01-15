@@ -39,16 +39,16 @@ max_combo = 2
 # https://github.com/matter-labs/zksync-airbender/blob/dev/verifier/src/concrete/size_constants.rs#L168-L171
 num_columns = 1224
 
-# Batch size can be computed as NUM_OPENINGS_AT_Z + NUM_OPENINGS_AT_Z_OMEGA
-# https://github.com/matter-labs/zksync-airbender/blob/dev/verifier/src/concrete/size_constants.rs#L178-L179
-batch_size = 1238
+# Batch size can be computed as NUM_OPENINGS_AT_Z
+# https://github.com/matter-labs/zksync-airbender/blob/dev/verifier/src/concrete/size_constants.rs#L178
+batch_size = 1225
 
 # We have two openings: at random point (z) and at the next one (z*omega)
 opening_points = 2
 power_batching = true
 
 # We compute number of queries form grinding bits: https://github.com/matter-labs/zksync-airbender/blob/dev/verifier_common/src/lib.rs#L21
-num_queries = 63
+num_queries = 87
 
 # Folding parameters for different trace_length: https://github.com/matter-labs/zksync-airbender/blob/dev/prover/src/definitions/optimal_folding.rs
 fri_folding_factors = [16, 16, 16, 8, 8]
