@@ -137,7 +137,7 @@ class Circuit:
 
 
         # Enforce Eq. (11) from https://eprint.iacr.org/2022/1216.pdf:
-        # m_max <= k/2, with k = trace_length and m_max = self.max_combo. :contentReference[oaicite:1]{index=1}
+        # m_max <= k/2, with k = trace_length and m_max = self.max_combo.
         assert self.max_combo <= trace_length / 2, (
             "Violates Eq. (11): max_combo must be <= trace_length/2. "
             f"Got max_combo={self.max_combo}, trace_length={trace_length}."
