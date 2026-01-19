@@ -102,7 +102,7 @@ class Circuit:
                 rate = self.pcs.get_rate()
                 dimension = self.pcs.get_dimension()
                 list_size = regime.get_max_list_size(rate, dimension)
-                deep_ali_levels = self._get_DEEP_ALI_errors(list_size)
+                deep_ali_levels = self._get_DEEP_ALI_errors(list_size,regime)
                 all_levels = pcs_levels | deep_ali_levels
             else:
                 all_levels = pcs_levels
@@ -117,7 +117,7 @@ class Circuit:
         # A dirty heuristic for now
         return self.num_columns is not None
 
-    def _get_DEEP_ALI_errors(self, L_plus: float) -> dict[str, int]:
+    def _get_DEEP_ALI_errors(self, L_plus: float, regime: ProximityGapsRegime) -> dict[str, int]:
         """
         Compute common proof system error components that are shared across regimes.
         Some of them depend on the list size L_plus
@@ -133,14 +133,19 @@ class Circuit:
         # https://github.com/facebook/winterfell/blob/2f78ee9bf667a561bdfcdfa68668d0f9b18b8315/air/src/proof/security.rs#L188-L210
         field_size = self.field.F
         trace_length = self.pcs.get_dimension()
-        D = trace_length / self.pcs.get_rate()
-
-
-        # Enforce Eq. (11) from https://eprint.iacr.org/2022/1216.pdf:
-        # m_max <= k/2, with k = trace_length and m_max = self.max_combo.
-        assert self.max_combo <= trace_length / 2, (
-            "Violates Eq. (11): max_combo must be <= trace_length/2. "
-            f"Got max_combo={self.max_combo}, trace_length={trace_length}."
+        rate = self.pcs.get_rate()
+        D = trace_length / rate 
+        theta = regime.get_proximity_parameter(rate, trace_length)
+        # Multi-point quotients (a.k.a. combo batching) are only sound when the evaluation domain
+        # has enough “slack” relative to the proximity window:
+        #   k + m_max < (1 - θ) · n
+        # We enforce this here because our DEEP-ALI bound uses multi-point quotients with parameter
+        # m_max; the paper states/derives this condition in its FRI multi-point-queries analysis
+        # (it’s a domain-sizing requirement, not an ALI-vs-DEEP distinction).
+         # Ref: https://eprint.iacr.org/archive/2022/1216/20250220:085409, Section 4.1.3 (multi-point queries).
+        assert trace_length + self.max_combo < (1.0 - theta) * D, (
+            "Violates multi-point condition: k + m_max < (1-θ)·n. "
+            f"k={trace_length}, m_max={self.max_combo}, θ={theta}, n={D}, (1-θ)·n={(1.0 - theta) * D}."
         )
 
         e_ALI = L_plus * self.num_columns / field_size
