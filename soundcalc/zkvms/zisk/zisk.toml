@@ -1,7 +1,7 @@
 [zkevm]
 name = "ZisK"
 protocol_family = "FRI_STARK"
-version = "0.15.0"
+version = "0.16.0"
 field = "Goldilocks^3"
 hash_size_bits = 256
 
@@ -11,7 +11,10 @@ group = "basic"
 trace_length = 4194304
 rho = 0.5
 air_max_degree = 3
-num_columns = 146
+num_columns_fixed = 3
+num_columns_witness = 62
+total_columns = 65
+num_constraints = 146
 opening_points = 3
 batch_size = 61
 power_batching = true
@@ -20,6 +23,7 @@ fri_folding_factors = [8, 8, 8, 8, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 16
 gap_to_radius = 0.006333333333333333
+proof_size = "1.80 MB"
 
 [[circuits]]
 name = "Rom"
@@ -27,7 +31,10 @@ group = "basic"
 trace_length = 4194304
 rho = 0.5
 air_max_degree = 2
-num_columns = 3
+num_columns_fixed = 1
+num_columns_witness = 18
+total_columns = 19
+num_constraints = 3
 opening_points = 3
 batch_size = 18
 power_batching = true
@@ -36,6 +43,7 @@ fri_folding_factors = [8, 8, 8, 8, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 16
 gap_to_radius = 0.005
+proof_size = "1.91 MB"
 
 [[circuits]]
 name = "Mem"
@@ -43,7 +51,10 @@ group = "basic"
 trace_length = 4194304
 rho = 0.5
 air_max_degree = 3
-num_columns = 34
+num_columns_fixed = 2
+num_columns_witness = 22
+total_columns = 24
+num_constraints = 34
 opening_points = 3
 batch_size = 29
 power_batching = true
@@ -52,6 +63,7 @@ fri_folding_factors = [8, 8, 8, 8, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 16
 gap_to_radius = 0.005666666666666667
+proof_size = "1.72 MB"
 
 [[circuits]]
 name = "RomData"
@@ -59,7 +71,10 @@ group = "basic"
 trace_length = 2097152
 rho = 0.5
 air_max_degree = 3
-num_columns = 23
+num_columns_fixed = 2
+num_columns_witness = 15
+total_columns = 17
+num_constraints = 23
 opening_points = 3
 batch_size = 19
 power_batching = true
@@ -68,6 +83,7 @@ fri_folding_factors = [8, 8, 8, 8, 8, 4]
 fri_early_stop_degree = 32
 grinding_query_phase = 16
 gap_to_radius = 0.004333333333333333
+proof_size = "1.56 MB"
 
 [[circuits]]
 name = "InputData"
@@ -75,7 +91,10 @@ group = "basic"
 trace_length = 2097152
 rho = 0.5
 air_max_degree = 3
-num_columns = 26
+num_columns_fixed = 2
+num_columns_witness = 23
+total_columns = 25
+num_constraints = 26
 opening_points = 3
 batch_size = 27
 power_batching = true
@@ -84,6 +103,7 @@ fri_folding_factors = [8, 8, 8, 8, 8, 4]
 fri_early_stop_degree = 32
 grinding_query_phase = 16
 gap_to_radius = 0.004666666666666667
+proof_size = "1.57 MB"
 
 [[circuits]]
 name = "MemAlign"
@@ -91,7 +111,10 @@ group = "basic"
 trace_length = 2097152
 rho = 0.5
 air_max_degree = 3
-num_columns = 40
+num_columns_fixed = 2
+num_columns_witness = 47
+total_columns = 49
+num_constraints = 40
 opening_points = 3
 batch_size = 59
 power_batching = true
@@ -100,6 +123,7 @@ fri_folding_factors = [8, 8, 8, 8, 8, 4]
 fri_early_stop_degree = 32
 grinding_query_phase = 16
 gap_to_radius = 0.005666666666666667
+proof_size = "1.62 MB"
 
 [[circuits]]
 name = "MemAlignByte"
@@ -107,7 +131,10 @@ group = "basic"
 trace_length = 4194304
 rho = 0.5
 air_max_degree = 3
-num_columns = 16
+num_columns_fixed = 1
+num_columns_witness = 28
+total_columns = 29
+num_constraints = 16
 opening_points = 3
 batch_size = 25
 power_batching = true
@@ -116,6 +143,7 @@ fri_folding_factors = [8, 8, 8, 8, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 16
 gap_to_radius = 0.005333333333333333
+proof_size = "1.72 MB"
 
 [[circuits]]
 name = "MemAlignReadByte"
@@ -123,7 +151,10 @@ group = "basic"
 trace_length = 4194304
 rho = 0.5
 air_max_degree = 3
-num_columns = 10
+num_columns_fixed = 1
+num_columns_witness = 19
+total_columns = 20
+num_constraints = 10
 opening_points = 3
 batch_size = 18
 power_batching = true
@@ -132,6 +163,7 @@ fri_folding_factors = [8, 8, 8, 8, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 16
 gap_to_radius = 0.005
+proof_size = "1.71 MB"
 
 [[circuits]]
 name = "MemAlignWriteByte"
@@ -139,7 +171,10 @@ group = "basic"
 trace_length = 4194304
 rho = 0.5
 air_max_degree = 3
-num_columns = 15
+num_columns_fixed = 1
+num_columns_witness = 26
+total_columns = 27
+num_constraints = 15
 opening_points = 3
 batch_size = 23
 power_batching = true
@@ -148,6 +183,7 @@ fri_folding_factors = [8, 8, 8, 8, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 16
 gap_to_radius = 0.005333333333333333
+proof_size = "1.72 MB"
 
 [[circuits]]
 name = "Arith"
@@ -155,7 +191,10 @@ group = "basic"
 trace_length = 2097152
 rho = 0.5
 air_max_degree = 3
-num_columns = 65
+num_columns_fixed = 1
+num_columns_witness = 89
+total_columns = 90
+num_constraints = 65
 opening_points = 3
 batch_size = 64
 power_batching = true
@@ -164,6 +203,7 @@ fri_folding_factors = [8, 8, 8, 8, 8, 4]
 fri_early_stop_degree = 32
 grinding_query_phase = 16
 gap_to_radius = 0.005666666666666667
+proof_size = "1.69 MB"
 
 [[circuits]]
 name = "Binary"
@@ -171,7 +211,10 @@ group = "basic"
 trace_length = 4194304
 rho = 0.5
 air_max_degree = 3
-num_columns = 14
+num_columns_fixed = 1
+num_columns_witness = 54
+total_columns = 55
+num_constraints = 14
 opening_points = 3
 batch_size = 49
 power_batching = true
@@ -180,6 +223,7 @@ fri_folding_factors = [8, 8, 8, 8, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 16
 gap_to_radius = 0.005999999999999999
+proof_size = "1.78 MB"
 
 [[circuits]]
 name = "BinaryAdd"
@@ -187,7 +231,10 @@ group = "basic"
 trace_length = 4194304
 rho = 0.5
 air_max_degree = 3
-num_columns = 9
+num_columns_fixed = 1
+num_columns_witness = 19
+total_columns = 20
+num_constraints = 9
 opening_points = 3
 batch_size = 18
 power_batching = true
@@ -196,6 +243,7 @@ fri_folding_factors = [8, 8, 8, 8, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 16
 gap_to_radius = 0.005
+proof_size = "1.71 MB"
 
 [[circuits]]
 name = "BinaryExtension"
@@ -203,7 +251,10 @@ group = "basic"
 trace_length = 4194304
 rho = 0.5
 air_max_degree = 3
-num_columns = 8
+num_columns_fixed = 1
+num_columns_witness = 47
+total_columns = 48
+num_constraints = 8
 opening_points = 3
 batch_size = 40
 power_batching = true
@@ -212,6 +263,7 @@ fri_folding_factors = [8, 8, 8, 8, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 16
 gap_to_radius = 0.005999999999999999
+proof_size = "1.77 MB"
 
 [[circuits]]
 name = "Add256"
@@ -219,7 +271,10 @@ group = "basic"
 trace_length = 1048576
 rho = 0.5
 air_max_degree = 3
-num_columns = 36
+num_columns_fixed = 1
+num_columns_witness = 98
+total_columns = 99
+num_constraints = 36
 opening_points = 3
 batch_size = 69
 power_batching = true
@@ -228,6 +283,7 @@ fri_folding_factors = [8, 8, 8, 8, 8]
 fri_early_stop_degree = 64
 grinding_query_phase = 16
 gap_to_radius = 0.005
+proof_size = "1.60 MB"
 
 [[circuits]]
 name = "ArithEq"
@@ -235,7 +291,10 @@ group = "basic"
 trace_length = 1048576
 rho = 0.5
 air_max_degree = 3
-num_columns = 93
+num_columns_fixed = 2
+num_columns_witness = 79
+total_columns = 81
+num_constraints = 93
 opening_points = 36
 batch_size = 434
 power_batching = true
@@ -244,6 +303,7 @@ fri_folding_factors = [8, 8, 8, 8, 8]
 fri_early_stop_degree = 64
 grinding_query_phase = 16
 gap_to_radius = 0.007333333333333333
+proof_size = "1.59 MB"
 
 [[circuits]]
 name = "ArithEq384"
@@ -251,7 +311,10 @@ group = "basic"
 trace_length = 1048576
 rho = 0.5
 air_max_degree = 3
-num_columns = 76
+num_columns_fixed = 2
+num_columns_witness = 73
+total_columns = 75
+num_constraints = 76
 opening_points = 54
 batch_size = 536
 power_batching = true
@@ -260,6 +323,7 @@ fri_folding_factors = [8, 8, 8, 8, 8]
 fri_early_stop_degree = 64
 grinding_query_phase = 16
 gap_to_radius = 0.007666666666666666
+proof_size = "1.58 MB"
 
 [[circuits]]
 name = "Keccakf"
@@ -267,7 +331,10 @@ group = "basic"
 trace_length = 131072
 rho = 0.5
 air_max_degree = 3
-num_columns = 2432
+num_columns_fixed = 2
+num_columns_witness = 3016
+total_columns = 3018
+num_constraints = 2432
 opening_points = 26
 batch_size = 4065
 power_batching = true
@@ -276,6 +343,7 @@ fri_folding_factors = [8, 8, 8, 8]
 fri_early_stop_degree = 64
 grinding_query_phase = 23
 gap_to_radius = 0.007333333333333333
+proof_size = "6.25 MB"
 
 [[circuits]]
 name = "Sha256f"
@@ -283,7 +351,10 @@ group = "basic"
 trace_length = 262144
 rho = 0.5
 air_max_degree = 3
-num_columns = 115
+num_columns_fixed = 2
+num_columns_witness = 115
+total_columns = 117
+num_constraints = 115
 opening_points = 87
 batch_size = 1265
 power_batching = true
@@ -292,6 +363,27 @@ fri_folding_factors = [8, 8, 8, 8, 4]
 fri_early_stop_degree = 32
 grinding_query_phase = 16
 gap_to_radius = 0.006666666666666666
+proof_size = "1.48 MB"
+
+[[circuits]]
+name = "Poseidon2"
+group = "basic"
+trace_length = 131072
+rho = 0.25
+air_max_degree = 4
+num_columns_fixed = 2
+num_columns_witness = 66
+total_columns = 68
+num_constraints = 85
+opening_points = 17
+batch_size = 182
+power_batching = true
+num_queries = 114
+fri_folding_factors = [8, 8, 8, 8, 4]
+fri_early_stop_degree = 32
+grinding_query_phase = 16
+gap_to_radius = 0.004
+proof_size = "698.25 KB"
 
 [[circuits]]
 name = "SpecifiedRanges"
@@ -299,15 +391,19 @@ group = "basic"
 trace_length = 1048576
 rho = 0.5
 air_max_degree = 3
-num_columns = 18
+num_columns_fixed = 59
+num_columns_witness = 74
+total_columns = 133
+num_constraints = 16
 opening_points = 3
-batch_size = 88
+batch_size = 107
 power_batching = true
 num_queries = 229
 fri_folding_factors = [8, 8, 8, 8, 8]
 fri_early_stop_degree = 64
 grinding_query_phase = 16
 gap_to_radius = 0.005333333333333333
+proof_size = "1.66 MB"
 
 [[circuits]]
 name = "VirtualTable0"
@@ -315,7 +411,10 @@ group = "basic"
 trace_length = 2097152
 rho = 0.5
 air_max_degree = 3
-num_columns = 6
+num_columns_fixed = 52
+num_columns_witness = 23
+total_columns = 75
+num_constraints = 6
 opening_points = 3
 batch_size = 69
 power_batching = true
@@ -324,6 +423,7 @@ fri_folding_factors = [8, 8, 8, 8, 8, 4]
 fri_early_stop_degree = 32
 grinding_query_phase = 16
 gap_to_radius = 0.005666666666666667
+proof_size = "1.87 MB"
 
 [[circuits]]
 name = "VirtualTable1"
@@ -331,7 +431,10 @@ group = "basic"
 trace_length = 2097152
 rho = 0.5
 air_max_degree = 3
-num_columns = 6
+num_columns_fixed = 73
+num_columns_witness = 23
+total_columns = 96
+num_constraints = 6
 opening_points = 3
 batch_size = 90
 power_batching = true
@@ -340,6 +443,7 @@ fri_folding_factors = [8, 8, 8, 8, 8, 4]
 fri_early_stop_degree = 32
 grinding_query_phase = 16
 gap_to_radius = 0.005999999999999999
+proof_size = "1.91 MB"
 
 [[circuits]]
 name = "ArithEq-compressor"
@@ -347,7 +451,10 @@ group = "compression"
 trace_length = 262144
 rho = 0.25
 air_max_degree = 5
-num_columns = 179
+num_columns_fixed = 58
+num_columns_witness = 107
+total_columns = 165
+num_constraints = 179
 opening_points = 6
 batch_size = 198
 power_batching = true
@@ -356,6 +463,7 @@ fri_folding_factors = [8, 8, 8, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 20
 gap_to_radius = 0.004666666666666667
+proof_size = "791.32 KB"
 
 [[circuits]]
 name = "ArithEq384-compressor"
@@ -363,7 +471,10 @@ group = "compression"
 trace_length = 262144
 rho = 0.25
 air_max_degree = 5
-num_columns = 179
+num_columns_fixed = 58
+num_columns_witness = 107
+total_columns = 165
+num_constraints = 179
 opening_points = 6
 batch_size = 198
 power_batching = true
@@ -372,6 +483,7 @@ fri_folding_factors = [8, 8, 8, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 20
 gap_to_radius = 0.004666666666666667
+proof_size = "791.32 KB"
 
 [[circuits]]
 name = "Keccakf-compressor"
@@ -379,7 +491,10 @@ group = "compression"
 trace_length = 1048576
 rho = 0.25
 air_max_degree = 5
-num_columns = 179
+num_columns_fixed = 58
+num_columns_witness = 107
+total_columns = 165
+num_constraints = 179
 opening_points = 6
 batch_size = 198
 power_batching = true
@@ -388,6 +503,7 @@ fri_folding_factors = [8, 8, 8, 8, 8, 4]
 fri_early_stop_degree = 32
 grinding_query_phase = 20
 gap_to_radius = 0.006333333333333333
+proof_size = "905.29 KB"
 
 [[circuits]]
 name = "Sha256f-compressor"
@@ -395,7 +511,10 @@ group = "compression"
 trace_length = 524288
 rho = 0.25
 air_max_degree = 5
-num_columns = 179
+num_columns_fixed = 58
+num_columns_witness = 107
+total_columns = 165
+num_constraints = 179
 opening_points = 6
 batch_size = 198
 power_batching = true
@@ -404,6 +523,27 @@ fri_folding_factors = [8, 8, 8, 8, 8]
 fri_early_stop_degree = 64
 grinding_query_phase = 20
 gap_to_radius = 0.005333333333333333
+proof_size = "853.95 KB"
+
+[[circuits]]
+name = "SpecifiedRanges-compressor"
+group = "compression"
+trace_length = 262144
+rho = 0.25
+air_max_degree = 5
+num_columns_fixed = 58
+num_columns_witness = 107
+total_columns = 165
+num_constraints = 179
+opening_points = 6
+batch_size = 198
+power_batching = true
+num_queries = 110
+fri_folding_factors = [8, 8, 8, 8, 8]
+fri_early_stop_degree = 32
+grinding_query_phase = 20
+gap_to_radius = 0.004666666666666667
+proof_size = "791.32 KB"
 
 [[circuits]]
 name = "Recursive2"
@@ -411,7 +551,10 @@ group = "aggregation"
 trace_length = 131072
 rho = 0.125
 air_max_degree = 8
-num_columns = 158
+num_columns_fixed = 49
+num_columns_witness = 71
+total_columns = 120
+num_constraints = 158
 opening_points = 4
 batch_size = 145
 power_batching = true
@@ -420,6 +563,7 @@ fri_folding_factors = [8, 8, 8, 8, 8]
 fri_early_stop_degree = 32
 grinding_query_phase = 20
 gap_to_radius = 0.004
+proof_size = "565.01 KB"
 
 [[circuits]]
 name = "Final"
@@ -427,12 +571,36 @@ group = "final"
 trace_length = 65536
 rho = 0.03125
 air_max_degree = 8
-num_columns = 160
+num_columns_fixed = 52
+num_columns_witness = 77
+total_columns = 129
+num_constraints = 160
 opening_points = 4
 batch_size = 152
 power_batching = true
 num_queries = 43
-fri_folding_factors = [16, 16, 16]
-fri_early_stop_degree = 512
+fri_folding_factors = [16, 16, 16, 16]
+fri_early_stop_degree = 32
 grinding_query_phase = 22
 gap_to_radius = 0.003333333333333333
+proof_size = "333.05 KB"
+
+[[circuits]]
+name = "Final_Compressed"
+group = "final_compressed"
+trace_length = 32768
+rho = 0.0625
+air_max_degree = 8
+num_columns_fixed = 49
+num_columns_witness = 71
+total_columns = 120
+num_constraints = 158
+opening_points = 4
+batch_size = 145
+power_batching = true
+num_queries = 54
+fri_folding_factors = [8, 8, 8]
+fri_early_stop_degree = 1024
+grinding_query_phase = 22
+gap_to_radius = 0.003333333333333333
+proof_size = "254.64 KB"
