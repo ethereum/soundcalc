@@ -141,7 +141,7 @@ class Circuit:
         #   k + m_max < (1 - θ) · n
         # We enforce this here because our DEEP-ALI bound uses multi-point quotients with parameter
         # m_max; the paper states/derives this condition in its FRI multi-point-queries analysis
-        # Ref: https://eprint.iacr.org/archive/2022/1216/20250220:085409, Section 4.1.3 (multi-point queries).
+        # Ref: https://eprint.iacr.org/archive/2022/1216/20241217:162441, Section 4.1.3 (multi-point queries).
         assert trace_length + self.max_combo < (1.0 - theta) * D, (
             "Violates multi-point condition: k + m_max < (1-θ)·n. "
             f"k={trace_length}, m_max={self.max_combo}, θ={theta}, n={D}, (1-θ)·n={(1.0 - theta) * D}."
