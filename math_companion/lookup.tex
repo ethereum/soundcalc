@@ -1,0 +1,24 @@
+
+\section{Lookup soundness calculation}
+
+
+\subsection{LogUP}
+
+We follow~\cite{habock2022logup} and calculate soundness for the logup argument as described there. We assume the AIR trace is extended with $\verb|num_arg_columns|$ new columns, and the extended AIR trace is then proven all together. 
+
+\paragraph{Parameters}
+
+\begin{itemize}
+	\item Extension field size: $|\mathbb{F}| = \bfield$
+	\item Trace length: $N$
+	\item Accumulation columns: \verb|num_arg_columns|
+	\item Prover time optimizing parameter: $\ell$
+\end{itemize}
+
+$\ell$ is a parameter the prover chooses so instead of performing \verb|num_arg_columns| independent lookups and then batching them, it prepares $K=\verb|num_arg_columns|/\ell$ batches of $\ell$ of them.
+
+The soundness error the logup permutation and lookup argument add to the full scheme is the one of a batch, computed as follows:
+
+$$\epsilon_{arg}=\frac{\ell(N-1)}{\bfield-N}$$
+
+To consider the $K$ batches, we do $\verb|num_columns|:=K+\verb|num_columns|$
