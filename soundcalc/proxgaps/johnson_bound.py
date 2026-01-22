@@ -1,12 +1,11 @@
 import math
-from typing import Callable, Optional, Sequence, Union
+from typing import Optional, Sequence, Union
 
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
 
 GapSchedule = Union[
     float,
     Sequence[float],
-    Callable[[float, int, int], float],  # (rate, dimension, iteration) -> gap
 ]
 
 
@@ -27,7 +26,7 @@ class JohnsonBoundRegime(ProximityGapsRegime):
     def __init__(self, field, gap_to_radius: Optional[GapSchedule] = None):
         super().__init__(field)
         # Optional override for the Johnson-bound gap. If set, the proximity
-        # parameter becomes: 1 - sqrt(rate) - gap_to_radius (or schedule output).
+        # parameter becomes: 1 - sqrt(rate) - gap_to_radius (or per-iteration entry).
         self.gap_to_radius = gap_to_radius
 
         # If set, this instance is bound to a specific WHIR iteration.
@@ -51,7 +50,6 @@ class JohnsonBoundRegime(ProximityGapsRegime):
           - None: default heuristic (existing behavior)
           - float/int: constant gap (existing behavior)
           - Sequence[float]: per-iteration gaps (requires bound iteration via for_iteration)
-          - Callable: schedule(rate, dimension, iteration) -> gap (requires bound iteration)
 
         IMPORTANT: preserve old semantics—do not coerce with float(...).
         """
@@ -83,19 +81,6 @@ class JohnsonBoundRegime(ProximityGapsRegime):
             if not _is_plain_number(gi):
                 raise TypeError(
                     f"gap_to_radius[{i}] must be a float/int (not bool), got {type(gi)}"
-                )
-            return gi
-
-        # Callable schedule
-        if callable(g):
-            if self._iteration is None:
-                raise ValueError(
-                    "gap_to_radius schedule needs iteration; bind via regime.for_iteration(i)"
-                )
-            gi = g(rate, dimension, self._iteration)
-            if not _is_plain_number(gi):
-                raise TypeError(
-                    f"gap schedule must return a float/int (not bool), got {type(gi)}"
                 )
             return gi
 
