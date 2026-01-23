@@ -1,6 +1,5 @@
-
 import math
-from typing import Optional
+from typing import Optional, Sequence, Union
 from dataclasses import dataclass
 
 from soundcalc.common.fields import FieldParams
@@ -11,6 +10,12 @@ from soundcalc.common.utils import (
 )
 from soundcalc.pcs.pcs import PCS
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
+
+
+GapSchedule = Union[
+    float,
+    Sequence[float],
+]
 
 
 @dataclass(frozen=True)
@@ -305,7 +310,8 @@ class WHIRConfig:
 
     # Optional override for the bound *gap*.
     # (This is useful to pin fixed parameters in TOML configs.)
-    gap_to_radius: Optional[float] = None
+    gap_to_radius: Optional[GapSchedule] = None
+
 
 class WHIR(PCS):
     """
@@ -331,6 +337,13 @@ class WHIR(PCS):
         self.num_ood_samples = config.num_ood_samples
         self.grinding_bits_ood = config.grinding_bits_ood
         self.gap_to_radius = config.gap_to_radius
+
+        # If gap_to_radius is per-iteration, it must cover all WHIR iterations (0..M-1).
+        if isinstance(self.gap_to_radius, (list, tuple)):
+            assert len(self.gap_to_radius) == self.num_iterations, (
+                "gap_to_radius must have length == num_iterations when provided as a list/tuple. "
+                f"Got len(gap_to_radius)={len(self.gap_to_radius)} and num_iterations={self.num_iterations}."
+            )
 
         # Parameter validity checks
 
@@ -450,6 +463,17 @@ class WHIR(PCS):
         # determine the total grinding overhead (sum of 2^grinding_bits)
         self.log_grinding_overhead = self._get_log_grinding_overhead()
 
+    def _regime_for_iteration(self, regime: ProximityGapsRegime, iteration: int) -> ProximityGapsRegime:
+        """
+        Prefer an iteration-bound regime instance if the regime supports it.
+        This keeps regime internals (get_m/get_error_linear/etc.) consistent without
+        changing method signatures or using mutable context.
+        """
+        for_iter = getattr(regime, "for_iteration", None)
+        if callable(for_iter):
+            return for_iter(iteration)
+        return regime
+
     def get_pcs_security_levels(self, regime: ProximityGapsRegime) -> dict[str, int]:
         """
         Returns PCS-specific security levels for a given regime.
@@ -544,11 +568,12 @@ class WHIR(PCS):
         assert 0 <= iteration < self.num_iterations, "Iteration out of bounds"
 
         delta = 1.0
+        reg_i = self._regime_for_iteration(regime, iteration)
 
         # The range must be 0 <= s <= k (inclusive).
         for round in range(0, self.folding_factor + 1):
             (rate, dimension) = self._get_code_for_iteration_and_round(iteration, round)
-            delta_round = regime.get_proximity_parameter(rate, dimension)
+            delta_round = reg_i.get_proximity_parameter(rate, dimension)
             delta = min(delta, delta_round)
 
         return delta
@@ -574,7 +599,8 @@ class WHIR(PCS):
         # Determine List Size
         #
         # We ask the regime for the maximum list size possible for this specific code.
-        list_size = regime.get_max_list_size(rate, dimension)
+        reg_i = self._regime_for_iteration(regime, iteration)
+        list_size = reg_i.get_max_list_size(rate, dimension)
 
         return list_size
 
@@ -587,6 +613,7 @@ class WHIR(PCS):
         """
 
         (rate, dimension) = self._get_code_for_iteration_and_round(0, 0)
+        reg0 = self._regime_for_iteration(regime, 0)
 
         # Calculate Base Error
         #
@@ -594,11 +621,11 @@ class WHIR(PCS):
         if self.power_batching:
             # Power Batching: sum c^i * f_i
             # Error is typically proportional to (batch_size - 1) * list_size / |F|
-            epsilon = regime.get_error_powers(rate, dimension, self.batch_size)
+            epsilon = reg0.get_error_powers(rate, dimension, self.batch_size)
         else:
             # Linear Batching: sum r_i * f_i (where r_i are independent)
             # Error is typically list_size / |F| (independent of batch_size)
-            epsilon = regime.get_error_linear(rate, dimension)
+            epsilon = reg0.get_error_linear(rate, dimension)
 
         # Apply Grinding
         #
@@ -619,6 +646,8 @@ class WHIR(PCS):
             f"Folding round {round} out of bounds (must be 1..{self.folding_factor})"
         )
 
+        reg_i = self._regime_for_iteration(regime, iteration)
+
         # the error has two terms
         epsilon = 0
 
@@ -633,7 +662,7 @@ class WHIR(PCS):
         # so we use the error for powers here.
         num_functions = 2
         (rate, dimension) = self._get_code_for_iteration_and_round(iteration, round)
-        epsilon += regime.get_error_powers(rate, dimension, num_functions)
+        epsilon += reg_i.get_error_powers(rate, dimension, num_functions)
 
         # Apply Grinding
         # Reducing error by expending computational work.
@@ -681,7 +710,10 @@ class WHIR(PCS):
         t = self.num_queries[iteration - 1]
 
         # first term is (1-delta_{M-1})^{t_{M-1}}
-        delta = self._get_delta_for_iteration(iteration - 1, regime)
+        # delta_{i-1} must use iteration (i-1) binding if supported
+        delta = self._get_delta_for_iteration(
+            iteration - 1, self._regime_for_iteration(regime, iteration - 1)
+        )
         epsilon += (1.0 - delta) ** t
 
         # second term is ell_{i,0} * (t_{i-1}+1)/F
@@ -702,7 +734,11 @@ class WHIR(PCS):
         grinding_bits = self.grinding_bits_queries[-1]
 
         # the error is (1-delta_{M-1})^{t_{M-1}}
-        delta = self._get_delta_for_iteration(self.num_iterations - 1, regime)
+        # final delta is delta_{M-1}, so bind to iteration (M-1) if supported
+        delta = self._get_delta_for_iteration(
+            self.num_iterations - 1,
+            self._regime_for_iteration(regime, self.num_iterations - 1),
+        )
 
         # Sanity Check: If delta is 1.0, the code has no redundancy, and security is 0.
         # (Technically error=0, but this implies a broken config).
@@ -856,7 +892,14 @@ class WHIR(PCS):
             else:
                 tuple_size = block_size
 
-            merkle_multi_proof_size = get_size_of_merkle_multi_proof_bits(num_leafs, self.num_queries[i], tuple_size, current_element_bits, self.hash_size_bits, expected)
+            merkle_multi_proof_size = get_size_of_merkle_multi_proof_bits(
+                num_leafs,
+                self.num_queries[i],
+                tuple_size,
+                current_element_bits,
+                self.hash_size_bits,
+                expected,
+            )
             proof_size += merkle_multi_proof_size
 
         return proof_size
