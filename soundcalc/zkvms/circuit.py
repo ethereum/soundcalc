@@ -16,8 +16,6 @@ class CircuitConfig:
     pcs: PCS
     field: FieldParams
     gap_to_radius: float | None = None
-    # Total columns of AIR table (used in DEEP-ALI soundness)
-    num_columns: int | None = None
     # Total constraints of AIR table (used in DEEP-ALI soundness)
     num_constraints: int | None = None
     # Maximum constraint degree
@@ -38,7 +36,6 @@ class Circuit:
         self.field = config.field
         self.gap_to_radius = config.gap_to_radius
         # Store optional DEEP-ALI params
-        self.num_columns = config.num_columns
         self.num_constraints = config.num_constraints
         self.AIR_max_degree = config.AIR_max_degree
         self.max_combo = config.max_combo
@@ -57,7 +54,6 @@ class Circuit:
             for i, line in enumerate(lines):
                 if line.strip() == "```" and i > 0:
                     deep_ali_lines = [
-                        f"  num_columns                        : {self.num_columns}",
                         f"  num_constraints                    : {self.num_constraints}",
                         f"  AIR_max_degree                     : {self.AIR_max_degree}",
                         f"  max_combo                          : {self.max_combo}",

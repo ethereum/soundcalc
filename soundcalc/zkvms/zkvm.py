@@ -71,7 +71,6 @@ class zkVM:
                 pcs=pcs,
                 field=field,
                 gap_to_radius=section.get("gap_to_radius"),
-                num_columns=section["num_columns"],
                 num_constraints=section["num_constraints"],
                 AIR_max_degree=section["air_max_degree"],
                 max_combo=section["opening_points"],

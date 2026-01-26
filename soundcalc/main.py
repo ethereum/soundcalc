@@ -9,6 +9,39 @@ from __future__ import annotations
 from soundcalc.zkvms import risc0, miden, zisk, dummy_whir, pico, openvm, airbender
 from soundcalc import report_cli, report_md
 
+# All zkVM loaders
+_LOADERS = [
+    ("ZisK", zisk.load),
+    ("Miden", miden.load),
+    ("RISC0", risc0.load),
+    ("DummyWHIR", dummy_whir.load),
+    ("Pico", pico.load),
+    ("OpenVM", openvm.load),
+    ("Airbender", airbender.load),
+]
+
+
+def _load_zkvms():
+    """
+    Load all zkVMs, gracefully skipping those with incomplete configuration.
+    """
+    zkvms = []
+    skipped = []
+
+    for name, loader in _LOADERS:
+        try:
+            zkvms.append(loader())
+        except KeyError as e:
+            skipped.append((name, e.args[0]))
+
+    if skipped:
+        print("Note: Some zkVMs were skipped (incomplete configuration):")
+        for name, key in skipped:
+            print(f"  - {name}: missing '{key}'")
+        print()
+
+    return zkvms
+
 
 def main(print_only: list[str] | None = None) -> None:
     """
@@ -17,15 +50,7 @@ def main(print_only: list[str] | None = None) -> None:
     Analyze multiple zkVMs across different security regimes,
     generate reports, and save results to disk.
     """
-    all_zkvms = [
-        zisk.load(),
-        miden.load(),
-        risc0.load(),
-        dummy_whir.load(),
-        pico.load(),
-        openvm.load(),
-        airbender.load(),
-    ]
+    all_zkvms = _load_zkvms()
 
     if print_only:
         filter_names = [p.lower() for p in print_only]
