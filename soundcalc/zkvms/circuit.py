@@ -6,6 +6,7 @@ from soundcalc.common.fields import FieldParams
 from soundcalc.common.utils import get_bits_of_security_from_error
 from soundcalc.pcs.pcs import PCS
 from soundcalc.proxgaps.johnson_bound import JohnsonBoundRegime
+from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
 from soundcalc.proxgaps.unique_decoding import UniqueDecodingRegime
 
 
@@ -102,7 +103,7 @@ class Circuit:
                 rate = self.pcs.get_rate()
                 dimension = self.pcs.get_dimension()
                 list_size = regime.get_max_list_size(rate, dimension)
-                deep_ali_levels = self._get_DEEP_ALI_errors(list_size)
+                deep_ali_levels = self._get_DEEP_ALI_errors(list_size,regime)
                 all_levels = pcs_levels | deep_ali_levels
             else:
                 all_levels = pcs_levels
@@ -117,7 +118,7 @@ class Circuit:
         # A dirty heuristic for now
         return self.num_constraints is not None
 
-    def _get_DEEP_ALI_errors(self, L_plus: float) -> dict[str, int]:
+    def _get_DEEP_ALI_errors(self, L_plus: float, regime: ProximityGapsRegime) -> dict[str, int]:
         """
         Compute common proof system error components that are shared across regimes.
         Some of them depend on the list size L_plus
@@ -136,7 +137,19 @@ class Circuit:
         #       Here it is assumed that the second approach is used.
         field_size = self.field.F
         trace_length = self.pcs.get_dimension()
-        D = trace_length / self.pcs.get_rate()
+        rate = self.pcs.get_rate()
+        D = trace_length / rate
+        theta = regime.get_proximity_parameter(rate, trace_length)
+        # Multi-point quotients (a.k.a. combo batching) are only sound when the evaluation domain
+        # has enough "slack" relative to the proximity window:
+        #   k + m_max < (1 - θ) · n
+        # We enforce this here because our DEEP-ALI bound uses multi-point quotients with parameter
+        # m_max; the paper states/derives this condition in its FRI multi-point-queries analysis
+        # Ref: https://eprint.iacr.org/archive/2022/1216/20241217:162441, Section 4.1.3 (multi-point queries).
+        assert trace_length + self.max_combo < (1.0 - theta) * D, (
+            "Violates multi-point condition: k + m_max < (1-θ)·n. "
+            f"k={trace_length}, m_max={self.max_combo}, θ={theta}, n={D}, (1-θ)·n={(1.0 - theta) * D}."
+        )
 
         e_ALI = L_plus * self.num_constraints / field_size
         e_DEEP = (

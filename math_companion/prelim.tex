@@ -105,3 +105,12 @@ The DEEP-ALI soundness error is computed as follows:
 \begin{equation}
     \edeep = \max\left(\frac{\ell\cdot C}{2^{\bfield}}, \frac{\ell(d(N+m_c-1)+(N-1))}{2^{\bfield}-N-N/\rho}\right)
 \end{equation}
+
+\paragraph{Sanity check (multi-point condition, \S4.1.3 in \cite{habock2022summary}).}
+Since our DEEP-ALI bound uses multi-point quotients (a.k.a.\ combo batching), we enforce the domain-sizing requirement
+\begin{equation}\label{eq:multipoint_condition}
+    N + m_c < (1-\theta)\cdot \frac{N}{\rho},
+\end{equation}
+where $\rho$ is the FRI rate and $\theta$ is the proximity parameter determined by the chosen regime.
+This condition is checked in code via an assertion in \verb|circuit.py/_get_DEEP_ALI_errors()|.
+
