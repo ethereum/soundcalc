@@ -424,7 +424,7 @@ def generate_and_save_reports(zkvms: list[zkVM]) -> None:
     for zkvm in zkvms:
         zkvm_name = zkvm.get_name()
         # ZisK gets multi-circuit mode (all circuits inlined)
-        multi_circuit = (zkvm_name == "ZisK" or zkvm_name == "Pico")
+        multi_circuit = len(zkvm.get_circuits()) > 1
 
         md = _build_zkvm_report(zkvm, multi_circuit=multi_circuit)
         filename = f"{zkvm_name.lower().replace(' ', '_')}.md"
