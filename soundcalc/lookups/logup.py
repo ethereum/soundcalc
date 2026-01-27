@@ -17,8 +17,8 @@ class LogUpConfig:
     # Trace length
     trace_length: int | None = None
      # Optimization parameter
-    ell: int = 1     
-    #Johnson Bound Regime 
+    ell: int = 1
+    #Johnson Bound Regime
     gap_to_radius: float | None = None
 
 
@@ -34,7 +34,7 @@ class LogUp:
         ]
 
         result = {}
-        
+
         # Pre-calculate common error: \ell(H-1)/(F-H)
        	field_size = self.config.field.F
        	M = self.config.num_arg_columns
