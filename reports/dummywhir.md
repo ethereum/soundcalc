@@ -55,11 +55,12 @@ How to read this report:
 - Queries per iteration: [55, 31, 22, 17]
 - OOD samples per iteration: [1, 1, 1]
 - Total grinding overhead log2: 23.64
+- Lookup (logup): dummy_lookup
 
 **Proof Size:** 951 KiB (expected) / 974 KiB (worst case)
 
-| regime | total | OOD(i=1) | OOD(i=2) | OOD(i=3) | Shift(i=1) | Shift(i=2) | Shift(i=3) | batching | fin | fold(i=0,s=1) | fold(i=0,s=2) | fold(i=0,s=3) | fold(i=0,s=4) | fold(i=1,s=1) | fold(i=1,s=2) | fold(i=1,s=3) | fold(i=1,s=4) | fold(i=2,s=1) | fold(i=2,s=2) | fold(i=2,s=3) | fold(i=2,s=4) | fold(i=3,s=1) | fold(i=3,s=2) | fold(i=3,s=3) | fold(i=3,s=4) |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 35 | 178 | 182 | 186 | 72 | 52 | 41 | 184 | 35 | 186 | 185 | 184 | 183 | 185 | 184 | 183 | 182 | 189 | 188 | 187 | 186 | 192 | 191 | 190 | 189 |
-| JBR | 129 | 153 | 151 | 149 | 131 | 130 | 129 | 145 | 129 | 148 | 147 | 146 | 145 | 142 | 141 | 140 | 139 | 142 | 141 | 140 | 139 | 140 | 139 | 138 | 137 |
+| regime | total | dummy_lookup | OOD(i=1) | OOD(i=2) | OOD(i=3) | Shift(i=1) | Shift(i=2) | Shift(i=3) | batching | fin | fold(i=0,s=1) | fold(i=0,s=2) | fold(i=0,s=3) | fold(i=0,s=4) | fold(i=1,s=1) | fold(i=1,s=2) | fold(i=1,s=3) | fold(i=1,s=4) | fold(i=2,s=1) | fold(i=2,s=2) | fold(i=2,s=3) | fold(i=2,s=4) | fold(i=3,s=1) | fold(i=3,s=2) | fold(i=3,s=3) | fold(i=3,s=4) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 35 | 174 | 178 | 182 | 186 | 72 | 52 | 41 | 184 | 35 | 186 | 185 | 184 | 183 | 185 | 184 | 183 | 182 | 189 | 188 | 187 | 186 | 192 | 191 | 190 | 189 |
+| JBR | 129 | 174 | 153 | 151 | 149 | 131 | 130 | 129 | 145 | 129 | 148 | 147 | 146 | 145 | 142 | 141 | 140 | 139 | 142 | 141 | 140 | 139 | 140 | 139 | 138 | 137 |
 

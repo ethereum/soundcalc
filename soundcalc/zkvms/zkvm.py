@@ -4,10 +4,29 @@ from pathlib import Path
 
 import toml
 
-from soundcalc.common.fields import parse_field
+from soundcalc.common.fields import FieldParams, parse_field
+from soundcalc.lookups.logup import LogUp, LogUpConfig
 from soundcalc.pcs.fri import FRI, FRIConfig
+from soundcalc.pcs.pcs import PCS
 from soundcalc.pcs.whir import WHIR, WHIRConfig
 from soundcalc.zkvms.circuit import Circuit, CircuitConfig
+
+
+def _parse_lookups_from_toml(section: dict, pcs: PCS, field: FieldParams) -> list[LogUp]:
+    """Parse lookups from a circuit section in the TOML config."""
+    lookups = []
+    for lookup_section in section.get("lookups", []):
+        lookup_config = LogUpConfig(
+            name=lookup_section["name"],
+            pcs=pcs,
+            field=field,
+            num_arg_columns=lookup_section["num_arg_columns"],
+            trace_length=lookup_section.get("trace_length", pcs.get_dimension()),
+            ell=lookup_section.get("ell", 1),
+            gap_to_radius=lookup_section.get("gap_to_radius", section.get("gap_to_radius")),
+        )
+        lookups.append(LogUp(lookup_config))
+    return lookups
 
 
 class zkVM:
@@ -66,6 +85,7 @@ class zkVM:
                 FRI_early_stop_degree=section.get("fri_early_stop_degree"),
                 grinding_query_phase=section.get("grinding_query_phase", 0),
             ))
+            lookups = _parse_lookups_from_toml(section, pcs, field)
             circuit = Circuit(CircuitConfig(
                 name=section["name"],
                 pcs=pcs,
@@ -74,6 +94,7 @@ class zkVM:
                 num_constraints=section["num_constraints"],
                 AIR_max_degree=section["air_max_degree"],
                 max_combo=section["opening_points"],
+                lookups=lookups if lookups else None,
             ))
             circuits.append(circuit)
 
@@ -106,11 +127,13 @@ class zkVM:
                 num_ood_samples=section["num_ood_samples"],
                 grinding_bits_ood=section["grinding_bits_ood"],
             ))
+            lookups = _parse_lookups_from_toml(section, pcs, field)
             circuit = Circuit(CircuitConfig(
                 name=section["name"],
                 pcs=pcs,
                 field=field,
-                gap_to_radius=section.get("gap_to_radius")
+                gap_to_radius=section.get("gap_to_radius"),
+                lookups=lookups if lookups else None,
             ))
             circuits.append(circuit)
 

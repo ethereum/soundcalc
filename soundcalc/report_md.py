@@ -185,21 +185,33 @@ def _generic_parameter_lines(circuit: Circuit) -> list[str]:
     return lines
 
 
+def _lookup_parameter_lines(circuit: Circuit) -> list[str]:
+    """Get parameter lines for lookups in a circuit."""
+    lines: list[str] = []
+    for lookup in circuit.get_lookups():
+        lines.append(f"- Lookup (logup): {lookup.get_name()}")
+    return lines
+
+
 def _get_parameter_lines(circuit: Circuit) -> list[str]:
     """Get parameter lines for a circuit."""
     if isinstance(circuit.pcs, FRI):
-        return _fri_parameter_lines(circuit)
-    if isinstance(circuit.pcs, WHIR):
-        return _whir_parameter_lines(circuit)
-    return _generic_parameter_lines(circuit)
+        lines = _fri_parameter_lines(circuit)
+    elif isinstance(circuit.pcs, WHIR):
+        lines = _whir_parameter_lines(circuit)
+    else:
+        lines = _generic_parameter_lines(circuit)
+    lines.extend(_lookup_parameter_lines(circuit))
+    return lines
 
 
-def _build_security_table(results: dict[str, Any]) -> str:
+def _build_security_table(results: dict[str, Any], lookup_names: list[str] | None = None) -> str:
     """Build a markdown security table from security results."""
     display_results: dict[str, Any] = {
         name: data.copy() if isinstance(data, dict) else data
         for name, data in results.items()
     }
+    lookup_names = lookup_names or []
 
     # --- Get all column headers ---
     columns = set()
@@ -207,10 +219,15 @@ def _build_security_table(results: dict[str, Any]) -> str:
         if isinstance(v, dict):
             columns.update(v.keys())
 
+    # Order: regime, total, lookups (in order), then rest sorted
     ordered_columns: list[str] = ["regime"]
     if "total" in columns:
         ordered_columns.append("total")
-    ordered_columns.extend(sorted(col for col in columns if col != "total"))
+    for name in lookup_names:
+        if name in columns:
+            ordered_columns.append(name)
+    excluded = {"total"} | set(lookup_names)
+    ordered_columns.extend(sorted(col for col in columns if col not in excluded))
     columns = ordered_columns
 
     fri_commit_columns = [
@@ -340,7 +357,8 @@ def _build_zkvm_report(zkvm: zkVM, multi_circuit: bool = False) -> str:
 
             # Security table
             security_levels = circuit.get_security_levels()
-            lines.append(_build_security_table(security_levels))
+            lookup_names = [lookup.get_name() for lookup in circuit.get_lookups()]
+            lines.append(_build_security_table(security_levels, lookup_names))
             lines.append("")
     else:
         # Single circuit mode
@@ -359,7 +377,8 @@ def _build_zkvm_report(zkvm: zkVM, multi_circuit: bool = False) -> str:
 
             # Security table
             security_levels = circuit.get_security_levels()
-            lines.append(_build_security_table(security_levels))
+            lookup_names = [lookup.get_name() for lookup in circuit.get_lookups()]
+            lines.append(_build_security_table(security_levels, lookup_names))
         else:
             lines.append("No circuits available.")
 

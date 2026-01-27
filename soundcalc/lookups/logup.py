@@ -2,7 +2,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from soundcalc.common.fields import FieldParams
 from soundcalc.common.utils import get_bits_of_security_from_error
+from soundcalc.pcs.pcs import PCS
 from soundcalc.proxgaps.johnson_bound import JohnsonBoundRegime
 from soundcalc.proxgaps.unique_decoding import UniqueDecodingRegime
 
