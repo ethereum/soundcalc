@@ -43,3 +43,9 @@ grinding_bits_batching = 21
 grinding_bits_folding = [[16, 14, 12, 10], [14, 12, 10, 8], [17, 15, 13, 11], [19, 17, 15, 13]]
 grinding_bits_queries = [22, 22, 20, 19]
 grinding_bits_ood = [0, 0, 0]
+
+[[circuits.lookups]]
+name = "dummy_lookup"
+num_arg_columns = 4
+# trace_length defaults to 2^18 from log_degree
+# ell defaults to 1

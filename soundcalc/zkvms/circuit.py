@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 from soundcalc.common.fields import FieldParams
 from soundcalc.common.utils import get_bits_of_security_from_error
+from soundcalc.lookups.logup import LogUp
 from soundcalc.pcs.pcs import PCS
 from soundcalc.proxgaps.johnson_bound import JohnsonBoundRegime
 from soundcalc.proxgaps.unique_decoding import UniqueDecodingRegime
@@ -22,6 +23,8 @@ class CircuitConfig:
     AIR_max_degree: int | None = None
     # Maximum number of entries from a single column referenced in a single constraint
     max_combo: int | None = None
+    # Optional list of LogUp instances for lookup soundness
+    lookups: list[LogUp] | None = None
 
 
 class Circuit:
@@ -39,29 +42,44 @@ class Circuit:
         self.num_columns = config.num_columns
         self.AIR_max_degree = config.AIR_max_degree
         self.max_combo = config.max_combo
+        # Store optional lookups
+        self._lookups = config.lookups or []
 
     def get_name(self) -> str:
         """Returns the name of the circuit."""
         return self.name
 
+    def get_lookups(self) -> list[LogUp]:
+        """Returns the list of lookups for this circuit."""
+        return self._lookups
+
     def get_parameter_summary(self) -> str:
         """Returns a description of the parameters of the circuit."""
         pcs_summary = self.pcs.get_parameter_summary()
-        if self._has_deep_ali_params():
-            # Insert DEEP-ALI params into the summary
-            lines = pcs_summary.split("\n")
-            # Find the closing ``` and insert before it
-            for i, line in enumerate(lines):
-                if line.strip() == "```" and i > 0:
-                    deep_ali_lines = [
+        lines = pcs_summary.split("\n")
+
+        # Find the closing ``` (last one) and insert params before it
+        for i in range(len(lines) - 1, -1, -1):
+            if lines[i].strip() == "```":
+                extra_lines = []
+
+                # Add DEEP-ALI params if present
+                if self._has_deep_ali_params():
+                    extra_lines.extend([
                         f"  num_columns                        : {self.num_columns}",
                         f"  AIR_max_degree                     : {self.AIR_max_degree}",
                         f"  max_combo                          : {self.max_combo}",
-                    ]
-                    lines = lines[:i] + deep_ali_lines + lines[i:]
-                    break
-            return "\n".join(lines)
-        return pcs_summary
+                    ])
+
+                # Add lookup params
+                for lookup in self._lookups:
+                    extra_lines.append(f"  lookup (logup)                     : {lookup.get_name()}")
+
+                if extra_lines:
+                    lines = lines[:i] + extra_lines + lines[i:]
+                break
+
+        return "\n".join(lines)
 
     def get_proof_size_bits(self) -> int:
         """
@@ -106,6 +124,11 @@ class Circuit:
                 all_levels = pcs_levels | deep_ali_levels
             else:
                 all_levels = pcs_levels
+
+            # Add lookup security levels
+            for lookup in self._lookups:
+                lookup_levels = lookup.get_security_levels()
+                all_levels[lookup.get_name()] = lookup_levels[id]["logup"]
 
             all_levels["total"] = min(all_levels.values())
             result[id] = all_levels
