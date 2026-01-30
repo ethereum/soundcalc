@@ -1,24 +1,116 @@
 
 \section{Lookup soundness calculation}
 
+We consider logUP, the lookup argument introduced in~\cite{habock2022logup}. 
 
-\subsection{LogUP}
+We have a table $\mathbf{T}\in\mathbb{F}^{T\times S}$ and tables $\mathbf{L}^1, \ldots, \mathbf{L}^K$ in $\mathbb{F}^{L\times S}$ that are lookups of it, that is, $\forall \ i\in[L] \ \exists \ j\in[T] \ s.t. \ \mathbf L_i=\mathbf T_j$.
 
-We follow~\cite{habock2022logup} and calculate soundness for the logup argument as described there. We assume the AIR trace is extended with $\verb|num_arg_columns|$ new columns, and the extended AIR trace is then proven all together. 
+For the sake of the integration and in order to be consistent with parameters, we consider the cases when the lookup argument is proven using a univariate or multivariate IOP separately. We also consider a differentiate case when $S=1$.
 
-\paragraph{Parameters}
+The logUP argument proves lookup relations by proving that given a vector $\vec m\in\mathbb{F}^{|\mathbf T|}$ whose elements are either $1$ or $0$, the lookup relation holds if and only if the following euqation is stisfied. 
 
+$$\sum_{\vec l\in\mathbf{L}} \frac{1}{X+  \vec l}=\sum_{\vec t \in \mathbf{T}} \frac{m_{\vec t}}{X- \vec t}$$
+
+
+We split the logUP protocol in two steps:
+
+\begin{enumerate}
+	\item Compute some polynomial expression of the equation above
+	\item Prove consistency with $\mathbf T$ and $\mathbf L$	
+\end{enumerate}
+
+
+
+\subsection{Univariate case}
+
+In this case, we always assume that proving the well formation of the sums is deferred to AIR constraints, and that the additional constraints this causes are already taken into account in the size of the AIR trace for the soundness of the proof of correct execution of it.
+
+We consider the following parameters:
 \begin{itemize}
-	\item Extension field size: $|\mathbb{F}| = \bfield$
-	\item Trace length: $N$
-	\item Accumulation columns: \verb|num_arg_columns|
-	\item Prover time optimizing parameter: $\ell$
+	\item $F$ = size of the extension field $\mathbb{F}$
+	\item $T$ = rows of $\mathbf{T}$
+	\item $L$ = rows of $\mathbf{L}$
+	\item $S$ = number of columns of $T$ and $L$
+	\item $M$ = number of lookups performed on $\mathbf{T}$
 \end{itemize}
 
-$\ell$ is a parameter the prover chooses so instead of performing \verb|num_arg_columns| independent lookups and then batching them, it prepares $K=\verb|num_arg_columns|/\ell$ batches of $\ell$ of them.
 
-The soundness error the logup permutation and lookup argument add to the full scheme is the one of a batch, computed as follows:
+The expression 
 
-$$\epsilon_{arg}=\frac{\ell(N-1)}{\bfield-N}$$
+$$\sum_{i=1}^L \frac{1}{X+ \sum_{s=1}^S \mathbf L_{is}Y^{s-1}}=\sum_{j=1}^T \frac{m_j}{X-\sum_{s=1}^S \mathbf T_{js}Y^{s-1}}$$
 
-To consider the $K$ batches, we do $\verb|num_columns|:=K+\verb|num_columns|$
+is replaced, upon receiving $\alpha, \beta$ uniformly sampled from $\mathbb{F}$, by the polynomial equality  
+
+$$\sum_{i=1}^L \frac{1}{\alpha+ \sum_{s=1}^S \mathbf L_{is}\beta^{s-1}}\lambda_i(X)=\sum_{j=1}^T \frac{m_j}{\alpha-\sum_{s=1}^S \mathbf T_{js}\beta^{s-1}}\mu_j(X)$$
+
+$\lambda_i(X), \mu_j(X)$ being the Lagrange interpolation polynomials of some domains of size $L$ and $T$, respectively.
+
+
+The probability that a prover gets a randomness that verifies without $\mathbf L$ being a lookup on $\mathbf{T}$ is bounded by $\epsilon_{\mathsf{sum}}$ as follows:
+
+
+\subsubsection{Multi-column:}
+
+
+A cheating prover can be lucky and obtain $\alpha, \beta$ such that the expression above is satisfied for a table $\mathbf {L}$ that is not a lookup on $\mathbf{T}$ with probability  $\epsilon_{\mathsf{sum}}\leq \frac{(L+T)S}{F}$.
+
+
+
+\subsubsection{Single column:}
+
+For the single column case, we simply set $S=1$ above and have that the soundness error is $\epsilon_{\mathsf{sum}}\leq \frac{(L+T)}{F}$.
+
+\subsubsection{Aggregation:}
+
+When performing $M$ lookups on $\mathbf T$, we have that the soundness error $\epsilon_{\mathsf{sum}}$ is bounded by $ M\frac{(L+T)S}{F}$.
+
+\subsubsection{Dummy Variables}
+
+If $\mathbf T, \mathbf L$ are smaller than the domain size and the tables are filled with dummy variables, those variables should be taken into account in the size of $L$ and $T$. 
+
+\subsection{Multivariate}
+
+We consider the following parameters:
+\begin{itemize}
+	\item $F$ = size of the extension field $\mathbb{F}$
+	\item $T$ = rows of $\mathbf{T}$
+	\item $L$ = rows of $\mathbf{L}$
+	\item $H$ = size of alphabet $\Sigma$
+	\item $S$ = number of columns of $T$ and $L$
+	\item $M$ = number of lookups performed on $\mathbf{T}$
+\end{itemize}
+
+We assume $\mathbf L$ and $\mathbf T$ are padded to have $T=L=H$.
+The expression 
+
+$$\sum_{i=1}^L \frac{1}{X+ \sum_{s=1}^S \mathbf L_{is}Y^{s-1}}=\sum_{j=1}^T \frac{m_j}{X-\sum_{s=1}^S \mathbf T_{js}Y^{s-1}}$$
+
+is replaced, upon receiving $\alpha$ uniformly sampled from $\mathbb{F}$, by the polynomial equality  
+
+$$\sum_{\vec x\in \Sigma} \frac{1}{\alpha+ L(\vec x)}=\sum_{\vec x\in \Sigma} \frac{m(\vec x)}{\alpha-T(\vec x)}$$
+
+where $\Sigma\in\mathbb{F}^\ell$ and $|\Sigma|=$max$\{TS, LS\}$.
+
+To convert the equation above into a polynomial one, both sides are multiplied by 
+
+$$\prod_{\vec x\in \Sigma}(\alpha + L(\vec x))\prod_{\vec x\in \Sigma}(\alpha + T(\vec x))$$
+
+To prove step number $2.$ of logUP, that is, that these expressions are consistent with $\mathbf L$ and $\mathbf T$, we consider two options: 
+$(i)$ The logUP argument is proven independently of the AIR trace, which adds an error $\epsilon_{\mathsf{logup-sound}}$
+$(ii)$ The polynomial identities that prove consistency are reduced to univariate identities, and included in the AIR constraints as in the univariate case, which adds an error $\epsilon_{\mathsf{reduction-univ}}$.
+
+\subsubsection{Single column:}
+
+By the same reasoning as above, we have that a cheating prover can get lucky with $\alpha$ with probability $\epsilon_{\mathsf{sum}}\leq \frac{2H}{F}$.
+
+
+\subsubsection{Multi column:}
+
+As the tables $\mathbf L, \mathbf T$ are already represented as tensors, considering more than one column consists on simply expanding $\mathbf L, \mathbf T$ and modifying $L, T, \Sigma$ accordingly.
+
+\subsubsection{Aggregation:}
+
+When performing $K$ lookups on one table, they can all be verified together, as looking up a matrix of size $L\times K$ on  $\mathbf T$.
+The soundness error is then bounded as $\epsilon_{\mathsf{sum}}\leq \frac{K2H}{F}$.
+
+
