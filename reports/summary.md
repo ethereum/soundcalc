@@ -11,6 +11,7 @@ How to read this report:
 | [Airbender](airbender.md) | M31⁴ | 1 | generalized_circuit | 64 | 63 | 1951 KiB |
 | [DummyWHIR](dummywhir.md) | Goldilocks³ | 1 | main | 30 | 128 | 1243 KiB |
 | [OpenVM](openvm.md) | BabyBear⁴ | 3 | internal | 45 | 58 | 1386 KiB |
+| [Pico](pico.md) | KoalaBear⁴ | 5 | riscv | 35 | 53 | 281 KiB |
 | [ZisK](zisk.md) | Goldilocks³ | 30 | Main | 63 | 128 | 313 KiB |
 
 ## Notes
