@@ -12,7 +12,7 @@ from soundcalc.pcs.whir import WHIR, WHIRConfig
 from soundcalc.zkvms.circuit import Circuit, CircuitConfig
 
 
-def _parse_lookups_from_toml(section: dict, pcs: PCS, field: FieldParams) -> list[LogUp]:
+def _parse_lookups_from_toml(section: dict, field: FieldParams) -> list[LogUp]:
     """Parse lookups from a circuit section in the TOML config."""
     lookups = []
     for lookup_section in section.get("lookups", []):
@@ -20,7 +20,6 @@ def _parse_lookups_from_toml(section: dict, pcs: PCS, field: FieldParams) -> lis
         logup_type = LogUpType(logup_type_str)
         lookup_config = LogUpConfig(
             name=lookup_section["name"],
-            pcs=pcs,
             field=field,
             logup_type=logup_type,
             rows_L=lookup_section["rows_L"],
@@ -29,7 +28,6 @@ def _parse_lookups_from_toml(section: dict, pcs: PCS, field: FieldParams) -> lis
             num_lookups_M=lookup_section.get("num_lookups_M", 1),
             alphabet_size_H=lookup_section.get("alphabet_size_H"),
             reduction_error=lookup_section.get("reduction_error", 0.0),
-            gap_to_radius=lookup_section.get("gap_to_radius", section.get("gap_to_radius")),
         )
         lookups.append(LogUp(lookup_config))
     return lookups
@@ -91,7 +89,7 @@ class zkVM:
                 FRI_early_stop_degree=section.get("fri_early_stop_degree"),
                 grinding_query_phase=section.get("grinding_query_phase", 0),
             ))
-            lookups = _parse_lookups_from_toml(section, pcs, field)
+            lookups = _parse_lookups_from_toml(section, field)
             circuit = Circuit(CircuitConfig(
                 name=section["name"],
                 pcs=pcs,
@@ -133,7 +131,7 @@ class zkVM:
                 num_ood_samples=section["num_ood_samples"],
                 grinding_bits_ood=section["grinding_bits_ood"],
             ))
-            lookups = _parse_lookups_from_toml(section, pcs, field)
+            lookups = _parse_lookups_from_toml(section, field)
             circuit = Circuit(CircuitConfig(
                 name=section["name"],
                 pcs=pcs,

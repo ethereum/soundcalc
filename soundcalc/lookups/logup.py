@@ -5,9 +5,6 @@ import math
 
 from soundcalc.common.fields import FieldParams
 from soundcalc.common.utils import get_bits_of_security_from_error
-from soundcalc.pcs.pcs import PCS
-from soundcalc.proxgaps.johnson_bound import JohnsonBoundRegime
-from soundcalc.proxgaps.unique_decoding import UniqueDecodingRegime
 
 class LogUpType(Enum):
     UNIVARIATE = "univariate"
@@ -15,88 +12,78 @@ class LogUpType(Enum):
 
 @dataclass
 class LogUpConfig:
-    """Configuration for LogUp based on Ethereum Foundation soundness specs."""
+    """
+    Configuration for LogUp
+
+    Please see the math companion for more information on how we work with lookup soundness.
+    """
     name: str
-    pcs: PCS
     field: FieldParams
     logup_type: LogUpType
 
-    # L: Rows of lookup table L (includes dummy padding)
-    rows_L: int
-    # T: Rows of fixed table T (includes dummy padding)
+    # T: Rows of "big" table T
     rows_T: int
-    # S: Number of columns (S=1 for single column case)
+    # L: Rows of "small" table L
+    # L is the table is looked-up inside T
+    rows_L: int
+    # S: Number of columns of T and L (S=1 for single column case)
     num_columns_S: int = 1
-    # M: Number of lookups performed (Aggregation factor)
+    # M: Number of lookups performed on T
     num_lookups_M: int = 1
     # H: Alphabet size
     alphabet_size_H: int | None = None
 
-    # Reduction error for Multivariate (case i or ii)
+    # Reduction error for the Multivariate case (case i or ii)
     reduction_error: float = 0.0
-    gap_to_radius: float | None = None
 
 class LogUp:
     def __init__(self, config: LogUpConfig):
         self.config = config
 
-    def _calculate_sum_error(self) -> float:
+    def _calculate_univariate_error(self, F: int, T: int, L: int, S: int, M: int) -> float:
         """
-        Calculates epsilon_sum based on the logic in the provided document.
+        Calculates univariate LogUp soundness error.
+
+        Single/Multi-column: (L + T) * S / F
+        Aggregation: M * (L + T) * S / F
+        """
+        return (M * (L + T) * S) / F
+
+    def _calculate_multivariate_error(self, F: int, T: int, L: int, S: int, M: int) -> float:
+        """
+        Calculates multivariate LogUp soundness error.
+
+        H is max{TS, LS} or padded height.
+        Single/Multi column (treated as tensors): 2H / F
+        Aggregation: M * 2H / F
+        """
+        H = self.config.alphabet_size_H or max(L * S, T * S)
+
+        epsilon_sum = (M * 2 * H) / F
+
+        # Add reduction error (from multivariate-to-univariate or logup-sound)
+        return epsilon_sum + self.config.reduction_error
+
+    def _calculate_soundness_error(self) -> float:
+        """
+        Calculates epsilon_sum as seen in math companion: "Lookup soundness calculation" section
         """
         F = self.config.field.F
-        L = self.config.rows_L
         T = self.config.rows_T
+        L = self.config.rows_L
         S = self.config.num_columns_S
         M = self.config.num_lookups_M
 
         if self.config.logup_type == LogUpType.UNIVARIATE:
-            # Univariate Soundness Error:
-            # Single/Multi-column: (L + T) * S / F
-            # Aggregation: M * (L + T) * S / F
-            epsilon_sum = (M * (L + T) * S) / F
-            return epsilon_sum
+            return self._calculate_univariate_error(F, T, L, S, M)
+        else:
+            assert self.config.logup_type == LogUpType.MULTIVARIATE
+            return self._calculate_multivariate_error(F, T, L, S, M)
 
-        elif self.config.logup_type == LogUpType.MULTIVARIATE:
-            # Multivariate Soundness Error:
-            # H is max{TS, LS} or padded height
-            H = self.config.alphabet_size_H or max(L * S, T * S)
-
-            # Single/Multi column (treated as tensors): 2H / F
-            # Aggregation: K * 2H / F (where K is num_lookups_M)
-            epsilon_sum = (M * 2 * H) / F
-
-            # Add reduction error (from multivariate-to-univariate or logup-sound)
-            return epsilon_sum + self.config.reduction_error
-
-        return 1.0 # Should not reach here
-
-    def get_security_levels(self) -> dict[str, dict[str, int]]:
-        """Calculates soundness for UDR and JBR regimes."""
-        regimes = [
-            UniqueDecodingRegime(self.config.field),
-            JohnsonBoundRegime(self.config.field, gap_to_radius=self.config.gap_to_radius),
-        ]
-
-        result = {}
-
-        # Calculate total error epsilon_sum
-        total_error = self._calculate_sum_error()
-        logup_bits = get_bits_of_security_from_error(total_error)
-
-        for regime in regimes:
-            rid = regime.identifier()
-            # Get PCS security (FRI/KZG/etc)
-            levels = self.config.pcs.get_pcs_security_levels(regime)
-
-            # logup soundness
-            levels["logup_sum"] = logup_bits
-
-            # Total security is limited by the weakest link
-            levels["total"] = min(levels.values())
-            result[rid] = levels
-
-        return result
+    def get_soundness_bits(self) -> int:
+        """Returns LogUp soundness in bits of security."""
+        total_error = self._calculate_soundness_error()
+        return get_bits_of_security_from_error(total_error)
 
     def get_name(self) -> str:
         return self.config.name

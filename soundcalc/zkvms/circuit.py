@@ -128,8 +128,7 @@ class Circuit:
 
             # Add lookup security levels
             for lookup in self._lookups:
-                lookup_levels = lookup.get_security_levels()
-                all_levels[lookup.get_name()] = lookup_levels[id]["logup_sum"]
+                all_levels[lookup.get_name()] = lookup.get_soundness_bits()
 
             all_levels["total"] = min(all_levels.values())
             result[id] = all_levels
