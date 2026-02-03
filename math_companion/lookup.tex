@@ -113,4 +113,9 @@ As the tables $\mathbf L, \mathbf T$ are already represented as tensors, conside
 When performing $K$ lookups on one table, they can all be verified together, as looking up a matrix of size $L\times K$ on  $\mathbf T$.
 The soundness error is then bounded as $\epsilon_{\mathsf{sum}}\leq \frac{K2H}{F}$.
 
+\subsection{Grinding}
+
+For both cases we capture the option to decrease the soundness error of the lookup round through grinding. We consider a parameter $\mathsf{grinding\_bits\_lookup}$ denoting the rounds of proof of work, and compute the soundess error as: $\epsilon=(\epsilon_{\mathsf{sum}}+\epsilon')2^{\mathsf{-grinding\_bits\_lookup}}$, where $\epsilon'$ can be $0$, $\epsilon_{\mathsf{logup-sound}}$, or $\epsilon_{\mathsf{reduction-univ}}.$
+
+
 
