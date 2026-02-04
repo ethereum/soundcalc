@@ -85,7 +85,7 @@ class LogUp:
     def get_soundness_bits(self) -> int:
         """Returns LogUp soundness in bits of security."""
         total_error = self._calculate_soundness_error()
-        #Add grinding
+        # Add grinding
         total_error *= 2 ** (-self.config.grinding_bits_lookup)
         return get_bits_of_security_from_error(total_error)
 

@@ -6,6 +6,7 @@ from soundcalc.pcs.pcs import PCS
 from soundcalc.zkvms.circuit import Circuit, CircuitConfig
 from soundcalc.proxgaps.johnson_bound import JohnsonBoundRegime
 from soundcalc.proxgaps.unique_decoding import UniqueDecodingRegime
+from soundcalc.lookups.logup import LogUp, LogUpConfig, LogUpType
 
 
 class DummyPCS(PCS):
@@ -101,3 +102,36 @@ def test_deep_ali_multipoint_allows_max_combo_at_bound(regime_cls):
     levels = circuit._get_DEEP_ALI_errors(L_plus=1.0, regime=regime)
     assert "ALI" in levels
     assert "DEEP" in levels
+
+
+def test_grinding_adds_security_bits_additively():
+    """Grinding should add bits of security additively."""
+    grinding_bits = 20
+
+    config_base = LogUpConfig(
+        name="test",
+        field=BABYBEAR_4,
+        logup_type=LogUpType.UNIVARIATE,
+        rows_L=1024,
+        rows_T=1024,
+        num_columns_S=1,
+        grinding_bits_lookup=0,
+    )
+    config_with_grinding = LogUpConfig(
+        name="test",
+        field=BABYBEAR_4,
+        logup_type=LogUpType.UNIVARIATE,
+        rows_L=1024,
+        rows_T=1024,
+        num_columns_S=1,
+        grinding_bits_lookup=grinding_bits,
+    )
+
+    base_bits = LogUp(config_base).get_soundness_bits()
+    ground_bits = LogUp(config_with_grinding).get_soundness_bits()
+
+    # Grinding should add exactly `grinding_bits` of security (±1 for floor rounding)
+    diff = ground_bits - base_bits
+    assert abs(diff - grinding_bits) <= 1, (
+        f"Expected grinding to add ~{grinding_bits} bits, but got {diff}"
+    )
