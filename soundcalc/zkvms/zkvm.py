@@ -27,6 +27,7 @@ def _parse_lookups_from_toml(section: dict, field: FieldParams) -> list[LogUp]:
             num_columns_S=lookup_section.get("num_columns_S", 1),
             num_lookups_M=lookup_section.get("num_lookups_M", 1),
             alphabet_size_H=lookup_section.get("alphabet_size_H"),
+            grinding_bits_lookup=lookup_section.get("grinding_bits_lookup", 0),
             reduction_error=lookup_section.get("reduction_error", 0.0),
         )
         lookups.append(LogUp(lookup_config))
