@@ -2,19 +2,22 @@
 
 How to read this report:
 - Click on zkVM names to view detailed individual reports
-- Security shows the best bits of security across regimes (UDR/JBR)
+- UDR/JBR columns show bits of security under different regimes
 
 ## Overview
 
-| zkVM | Security | Proof Size | PCS | Field | Circuits | Weakest Circuit |
-|------|----------|------------|-----|-------|----------|-----------------|
-| [Airbender](airbender.md) | **64** bits (UDR) | 1951 KiB | FRI | M31⁴ | 1 | generalized_circuit |
-| [OpenVM](openvm.md) | **58** bits (JBR) | 1386 KiB | FRI | BabyBear⁴ | 3 | internal |
-| [Pico](pico.md) | **53** bits (JBR) | 281 KiB | FRI | KoalaBear⁴ | 5 | riscv |
-| [ZisK](zisk.md) | **128** bits (JBR) | 313 KiB | FRI | Goldilocks³ | 30 | Main |
+| zkVM | Field | Circuits | Weakest Circuit | UDR (bits) | JBR (bits) | Proof Size |
+|------|-------|----------|-----------------|------------|------------|------------|
+| [Airbender](airbender.md) | M31⁴ | 1 | generalized_circuit | 64 | 63 | 1951 KiB |
+| [DummyWHIR](dummywhir.md) | Goldilocks³ | 2 | main | 30 | 128 | 974 KiB |
+| [OpenVM](openvm.md) | BabyBear⁴ | 3 | internal | 45 | 58 | 1386 KiB |
+| [Pico](pico.md) | KoalaBear⁴ | 5 | riscv | 35 | 53 | 281 KiB |
+| [SP1](sp1.md) | KoalaBear⁴ | 4 | core | 97 | 0 | 1001 KiB |
+| [ZisK](zisk.md) | Goldilocks³ | 30 | Main | 63 | 128 | 313 KiB |
 
 ## Notes
 
-- **Security**: Best bits of security across UDR (Unique Decoding) and JBR (Johnson Bound) regimes
-- **Weakest Circuit**: Circuit determining the overall security level
+- **UDR**: Unique Decoding Regime
+- **JBR**: Johnson Bound Regime
+- **Weakest Circuit**: Circuit with lowest JBR security level
 - **Proof Size**: Final proof size in KiB (1 KiB = 1024 bytes)

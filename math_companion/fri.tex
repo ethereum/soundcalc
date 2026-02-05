@@ -28,7 +28,7 @@ Global parameters used in the FRI analysis:
 
 \subsection{Security level for a FRI-based VM}\label{sec:fri_security_level}
 
-The security level is calculated in \begin{verbatim}zkvms/fri_based_vm.py/get_security_levels()\end{verbatim}.
+The security level is calculated in \verb|zkvms/fri_based_vm.py/get_security_levels()|.
 
 It is done separately for two different regimes: UDR and JBR --- using the same procedure \verb|fri_based_vm.py/get_security_levels_for_regime()|:
 \begin{enumerate}
@@ -67,7 +67,8 @@ Whereas in the UDR we compute base error:
 \ebatch^{\text{base,UDR}}=
 \begin{cases}
    \ebatchpowU(\rho,N,q,B) & \text{(power batching)}, \\[4pt]
-  \ebatchlinU(\rho,N,q)& \text{(linear batching)}.
+  \ebatchlinU(\rho,N,q)& \text{(linear batching)}, \\[4pt]
+  \ebatchmulU(\rho,N,q,B)& \text{(multilinear batching)}.
 \end{cases}
 \]
 
@@ -99,7 +100,7 @@ Query phase error:
 
 \section{FRI proof size}
 
-This calculation is performed in \begin{verbatim}fri.py/get_FRI_proof_size_bits()\end{verbatim}.
+This calculation is performed in \verb|fri.py/get_FRI_proof_size_bits()|.
 The FRI proof contains two parts: Merkle roots, and one "openings" per query,
   where an "opening" is a Merkle path for each folding layer.
      For each layer we count the size that
