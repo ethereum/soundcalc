@@ -52,6 +52,9 @@ class ProximityGapsRegime(ABC):
         Here, the error does not depend on batch_size (called l in BCIKS20), and we find
         the error in Theorem 1.6.
 
+        Case 3: we batch with randomness eq(r, 0), eq(r, 1), ..., eq(r, batch_size-1).
+        This is batching over multilinears, see Section 4.1 of BCHKS25.
+
         Then easiest way to see the difference is to compare Theorems 1.5 and 1.6.
         """
         ...
@@ -62,6 +65,16 @@ class ProximityGapsRegime(ABC):
         Returns an upper bound on the MCA error when applying a random linear combination.
         The coefficients are assumed to be independent here.
 
-        See the comment above about the difference between powers and linear.
+        See the comment above about the difference between powers, linear, and multilinear.
+        """
+        ...
+
+    @abstractmethod
+    def get_error_multilinear(self, rate: float, dimension: int, batch_size: int) -> float:
+        """
+        Returns an upper bound on the MCA error when applying a random linear combination.
+        The coefficients are assumed to be from the eq polynomial.
+
+        See the comment above about the difference between powers, linear, and multilinear.
         """
         ...

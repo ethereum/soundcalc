@@ -8,6 +8,7 @@ from soundcalc.common.fields import FieldParams, parse_field
 from soundcalc.lookups.logup import LogUp, LogUpConfig, LogUpType
 from soundcalc.pcs.fri import FRI, FRIConfig
 from soundcalc.pcs.pcs import PCS
+from soundcalc.pcs.jagged import JaggedPCS, JaggedConfig
 from soundcalc.pcs.whir import WHIR, WHIRConfig
 from soundcalc.zkvms.circuit import Circuit, CircuitConfig
 
@@ -65,6 +66,8 @@ class zkVM:
             return cls._load_fri_from_toml(config)
         elif protocol_family == "WHIR":
             return cls._load_whir_from_toml(config)
+        elif protocol_family == "JAGGED":
+            return cls._load_jagged_from_toml(config)
         else:
             raise ValueError(f"Unknown protocol_family: {protocol_family}")
 
@@ -85,6 +88,7 @@ class zkVM:
                 field=field,
                 batch_size=section["batch_size"],
                 power_batching=section["power_batching"],
+                multilinear_batching=section.get("multilinear_batching", 0),
                 num_queries=section["num_queries"],
                 FRI_folding_factors=section.get("fri_folding_factors"),
                 FRI_early_stop_degree=section.get("fri_early_stop_degree"),
@@ -102,6 +106,8 @@ class zkVM:
                 max_combo=section["opening_points"],
                 lookups=lookups if lookups else None,
                 grinding_deep=section.get("grinding_deep", 0),
+                multilinear_zerocheck = section.get("multilinear_zerocheck", False),
+                udr_only = section.get("udr_only", False),
             ))
             circuits.append(circuit)
 
@@ -140,6 +146,53 @@ class zkVM:
                 pcs=pcs,
                 field=field,
                 gap_to_radius=section.get("gap_to_radius"),
+                multilinear_zerocheck = section.get("multilinear_zerocheck", False),
+                udr_only = section.get("udr_only", False),
+                lookups=lookups if lookups else None,
+            ))
+            circuits.append(circuit)
+
+        return cls(config["zkevm"]["name"], circuits=circuits)
+    
+    @classmethod
+    def _load_jagged_from_toml(cls, config: dict) -> "zkVM":
+        """
+        Load a Jagged PCS-based VM from a parsed TOML config dict.
+        """
+        field = parse_field(config["zkevm"]["field"])
+        circuits = []
+
+        for section in config.get("circuits", []):
+            dense_pcs = FRI(FRIConfig(
+                hash_size_bits=config["zkevm"]["hash_size_bits"],
+                rho=section["rho"],
+                gap_to_radius=section.get("gap_to_radius"),
+                trace_length=section["dense_length"],
+                field=field,
+                batch_size=section["dense_batch"],
+                power_batching=section["power_batching"],
+                multilinear_batching=section.get("multilinear_batching", 0),
+                num_queries=section["num_queries"],
+                FRI_folding_factors=section.get("fri_folding_factors"),
+                FRI_early_stop_degree=section.get("fri_early_stop_degree"),
+                grinding_query_phase=section.get("grinding_query_phase", 0),
+            ))
+            pcs = JaggedPCS(JaggedConfig(
+                dense_pcs = dense_pcs,
+                trace_height = section["trace_length"], 
+                trace_width = section["trace_columns"],
+            ))
+            lookups = _parse_lookups_from_toml(section, field)
+            circuit = Circuit(CircuitConfig(
+                name=section["name"],
+                pcs=pcs,
+                field=field,
+                gap_to_radius=section.get("gap_to_radius"),
+                num_constraints=section["num_constraints"],
+                AIR_max_degree=section["air_max_degree"],
+                max_combo=section["opening_points"],
+                multilinear_zerocheck = section.get("multilinear_zerocheck", False),
+                udr_only = section.get("udr_only", False),
                 lookups=lookups if lookups else None,
             ))
             circuits.append(circuit)

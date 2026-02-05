@@ -93,8 +93,11 @@ class FRIConfig:
     batch_size: int
     # Boolean flag to indicate if batched-FRI is implemented using coefficients
     # r^0, r^1, ... r^{batch_size-1} (power_batching = True) or
-    # 1, r_1, r_2, ... r_{batch_size - 1} (power_batching = False)
     power_batching: bool
+    # Boolean flag to indicate if batched-FRI is implemented using coefficients
+    # eq(r, 0), ... eq(r, batch_size - 1) (multilinear_batching = True)
+    # 1, r_1, r_2, ... r_{batch_size - 1} (power_batching = multilinear_batching = False)
+    multilinear_batching: bool
     # Number of FRI queries
     num_queries: int
 
@@ -126,6 +129,7 @@ class FRI(PCS):
         self.trace_length = config.trace_length
         self.batch_size = config.batch_size
         self.power_batching = config.power_batching
+        self.multilinear_batching = config.multilinear_batching
         self.num_queries = config.num_queries
         self.FRI_folding_factors = config.FRI_folding_factors
         self.FRI_early_stop_degree = config.FRI_early_stop_degree
@@ -179,6 +183,8 @@ class FRI(PCS):
 
         if self.power_batching:
             epsilon = regime.get_error_powers(rate, dimension, self.batch_size)
+        elif self.multilinear_batching:
+            epsilon = regime.get_error_multilinear(rate, dimension, self.batch_size)
         else:
             epsilon = regime.get_error_linear(rate, dimension)
 
@@ -276,6 +282,9 @@ class FRI(PCS):
         return self.rho
 
     def get_dimension(self) -> int:
+        return self.trace_length
+    
+    def get_trace_height(self) -> int:
         return self.trace_length
 
     def get_parameter_summary(self) -> str:

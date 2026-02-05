@@ -1,0 +1,105 @@
+# SP1 Hypercube VM Configuration
+
+[zkevm]
+name = "SP1"
+protocol_family = "JAGGED"
+field = "KoalaBear^4"
+hash_size_bits = 248
+
+[[circuits]]
+name = "core"
+udr_only = true
+blowup_factor = 4
+rho = 0.25
+trace_length = 4194304 # 2^22
+trace_columns = 3728
+dense_length = 2097152 # 2^21
+dense_batch = 192 # 2^8 - 2^6
+num_constraints = 3412
+num_lookups_M = 1900
+num_lookups_S = 107
+air_max_degree = 3
+# SP1 has no "next row" constraints. 
+opening_points = 1
+# We batch using the random `eq` polynomials.
+power_batching = false
+multilinear_batching = true
+multilinear_zerocheck = true
+num_queries = 124
+fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+fri_early_stop_degree = 4
+grinding_query_phase = 16
+
+
+[[circuits]]
+name = "compress"
+udr_only = true
+blowup_factor = 4
+rho = 0.25
+trace_length = 2097152 # 2^21
+trace_columns = 326
+dense_length = 1048576 # 2^20
+dense_batch = 128 # 2^7
+num_constraints = 204
+num_lookups_M = 53
+num_lookups_S = 8
+air_max_degree = 3
+# SP1 has no "next row" constraints. 
+opening_points = 1
+# We batch using the random `eq` polynomials.
+power_batching = false
+multilinear_batching = true
+multilinear_zerocheck = true
+num_queries = 124
+fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+fri_early_stop_degree = 4
+grinding_query_phase = 16
+
+
+[[circuits]]
+name = "shrink"
+udr_only = true
+blowup_factor = 8
+rho = 0.125
+trace_length = 524288 # 2^19
+trace_columns = 326
+dense_length = 262144 # 2^18
+dense_batch = 128 # 2^7
+num_constraints = 204
+num_lookups_M = 53
+num_lookups_S = 8
+air_max_degree = 3
+# SP1 has no "next row" constraints. 
+opening_points = 1
+# We batch using the random `eq` polynomials.
+power_batching = false
+multilinear_batching = true
+multilinear_zerocheck = true
+num_queries = 94
+fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+fri_early_stop_degree = 8
+grinding_query_phase = 22
+
+[[circuits]]
+name = "wrap"
+udr_only = true
+blowup_factor = 8
+rho = 0.125
+trace_length = 2097152 # 2^21
+trace_columns = 120
+dense_length = 2097152 # 2^21
+dense_batch = 64 # 2^6
+num_constraints = 43
+num_lookups_M = 34
+num_lookups_S = 8
+air_max_degree = 3
+# SP1 has no "next row" constraints. 
+opening_points = 1
+# We batch using the random `eq` polynomials.
+power_batching = false
+multilinear_batching = true
+multilinear_zerocheck = true
+num_queries = 94
+fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+fri_early_stop_degree = 8
+grinding_query_phase = 22

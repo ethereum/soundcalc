@@ -1,5 +1,5 @@
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
-
+import math
 
 class UniqueDecodingRegime(ProximityGapsRegime):
     """
@@ -21,3 +21,6 @@ class UniqueDecodingRegime(ProximityGapsRegime):
         # Using Theorem 1.4 (which points to Theorem 1.2) from BCIKS20
         n = dimension / rate
         return n / self.field.F
+    
+    def get_error_multilinear(self, rate: float, dimension: int, num_functions: int) -> float:
+        return self.get_error_linear(rate, dimension) * math.ceil(math.log2(num_functions))
