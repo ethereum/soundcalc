@@ -18,6 +18,15 @@ def get_bits_of_security_from_error(error: float) -> int:
     return int(math.floor(-math.log2(error)))
 
 
+def apply_grinding(error: float, grinding_bits: int) -> float:
+    """
+    Take a soundness error as input, apply `grinding_bits` of grinding and return it.
+
+    Grinding is proof-of-work that the prover performs, reducing the soundness error by a factor of 2^grinding_bits.
+    """
+    return error * (2 ** (-grinding_bits))
+
+
 def get_size_of_merkle_proof_bits(num_leafs: int, tuple_size: int, element_size_bits: int, hash_size_bits: int) -> int:
     """
     Compute the size of a Merkle path in bits.

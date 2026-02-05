@@ -139,11 +139,17 @@ def _collect_zkvm_summary(zkvm: zkVM) -> zkVMSummary:
 def _fri_parameter_lines(circuit: Circuit) -> list[str]:
     pcs = circuit.pcs
     batching = "Powers" if pcs.power_batching else "Affine"
-    return [
+    lines = [
         f"- Polynomial commitment scheme: FRI",
         f"- Hash size (bits): {pcs.hash_size_bits}",
         f"- Number of queries: {pcs.num_queries}",
-        f"- Grinding (bits): {pcs.grinding_query_phase}",
+        f"- Grinding query phase (bits): {pcs.grinding_query_phase}",
+    ]
+    if pcs.grinding_commit_phase > 0:
+        lines.append(f"- Grinding commit phase (bits): {pcs.grinding_commit_phase}")
+    if circuit.grinding_deep > 0:
+        lines.append(f"- Grinding DEEP (bits): {circuit.grinding_deep}")
+    lines.extend([
         f"- Field: {_field_label(pcs.field)}",
         f"- Rate (ρ): {pcs.rho}",
         f"- Trace length (H): $2^{{{pcs.h}}}$",
@@ -153,7 +159,8 @@ def _fri_parameter_lines(circuit: Circuit) -> list[str]:
         f"- Number of constraints: {circuit.num_constraints}",
         f"- Batch size: {pcs.batch_size}",
         f"- Batching: {batching}",
-    ]
+    ])
+    return lines
 
 
 def _whir_parameter_lines(circuit: Circuit) -> list[str]:

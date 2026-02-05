@@ -5,7 +5,7 @@ from math import log2
 from typing import Optional
 
 from soundcalc.common.fields import FieldParams
-from soundcalc.common.utils import get_bits_of_security_from_error, get_size_of_merkle_multi_proof_bits, get_size_of_merkle_proof_bits
+from soundcalc.common.utils import apply_grinding, get_bits_of_security_from_error, get_size_of_merkle_multi_proof_bits, get_size_of_merkle_proof_bits
 from soundcalc.pcs.pcs import PCS
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
 
@@ -107,6 +107,10 @@ class FRIConfig:
     # Proof of Work grinding compute during FRI query phase (expressed in bits of security)
     grinding_query_phase: int
 
+    # Proof of Work grinding compute during FRI commit phase (expressed in bits of security)
+    # (Protocols apply this level of grinding to every round of the commit phase due to RBR security)
+    grinding_commit_phase: int = 0
+
     # Optional override for the bound *gap*.
     # (This is useful to pin fixed parameters in TOML configs.)
     gap_to_radius: Optional[float] = None
@@ -126,6 +130,7 @@ class FRI(PCS):
         self.FRI_folding_factors = config.FRI_folding_factors
         self.FRI_early_stop_degree = config.FRI_early_stop_degree
         self.grinding_query_phase = config.grinding_query_phase
+        self.grinding_commit_phase = config.grinding_commit_phase
         self.gap_to_radius = config.gap_to_radius
 
         # Negative log of rate
@@ -193,6 +198,9 @@ class FRI(PCS):
 
         epsilon = regime.get_error_powers(rate, dimension, self.FRI_folding_factors[round])
 
+        # add grinding for commit phase
+        epsilon = apply_grinding(epsilon, self.grinding_commit_phase)
+
         return epsilon
 
     def _get_query_phase_error(self, regime: ProximityGapsRegime) -> float:
@@ -207,7 +215,7 @@ class FRI(PCS):
         epsilon = (1 - pp) ** self.num_queries
 
         # add grinding
-        epsilon *= 2 ** (-self.grinding_query_phase)
+        epsilon = apply_grinding(epsilon, self.grinding_query_phase)
 
         return epsilon
 
@@ -293,6 +301,7 @@ class FRI(PCS):
             "FRI_early_stop_degree": self.FRI_early_stop_degree,
             "FRI_rounds_n": self.FRI_rounds_n,
             "grinding_query_phase": self.grinding_query_phase,
+            "grinding_commit_phase": self.grinding_commit_phase,
             "field": self.field.to_string(),
             "field_extension_degree": self.field_extension_degree,
         }

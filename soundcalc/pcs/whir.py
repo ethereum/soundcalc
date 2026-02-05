@@ -5,6 +5,7 @@ from dataclasses import dataclass
 
 from soundcalc.common.fields import FieldParams
 from soundcalc.common.utils import (
+    apply_grinding,
     get_bits_of_security_from_error,
     get_size_of_merkle_multi_proof_bits,
     get_size_of_merkle_proof_bits,
@@ -603,7 +604,7 @@ class WHIR(PCS):
         # Apply Grinding
         #
         # Reducing error by expending computational work (2^-bits).
-        epsilon *= 2 ** (-self.grinding_bits_batching)
+        epsilon = apply_grinding(epsilon, self.grinding_bits_batching)
         return epsilon
 
     def _epsilon_fold(
@@ -639,7 +640,7 @@ class WHIR(PCS):
         # Reducing error by expending computational work.
         #
         # Note: round is 1-based, but the grinding array is 0-based.
-        epsilon *= 2 ** (-self.grinding_bits_folding[iteration][round - 1])
+        epsilon = apply_grinding(epsilon, self.grinding_bits_folding[iteration][round - 1])
 
         return epsilon
 
@@ -664,7 +665,7 @@ class WHIR(PCS):
         epsilon = list_size * list_size * ((2**mi) / (2 * self.field.F)) ** w
 
         # grinding
-        epsilon *= 2 ** (-self.grinding_bits_ood[iteration - 1])
+        epsilon = apply_grinding(epsilon, self.grinding_bits_ood[iteration - 1])
 
         return epsilon
 
@@ -689,7 +690,7 @@ class WHIR(PCS):
         epsilon += list_size * (t + 1) / self.field.F
 
         # grinding
-        epsilon *= 2 ** (-self.grinding_bits_queries[iteration - 1])
+        epsilon = apply_grinding(epsilon, self.grinding_bits_queries[iteration - 1])
 
         return epsilon
 
@@ -711,7 +712,7 @@ class WHIR(PCS):
         epsilon = (1.0 - delta) ** t_final
 
         # grinding
-        epsilon *= 2 ** (-grinding_bits)
+        epsilon = apply_grinding(epsilon, grinding_bits)
         return epsilon
 
     def _get_log_grinding_overhead(self) -> float:

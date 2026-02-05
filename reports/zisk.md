@@ -52,7 +52,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 230
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
@@ -77,7 +77,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 229
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
@@ -102,7 +102,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 230
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
@@ -127,7 +127,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 229
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{21}$
@@ -152,7 +152,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 229
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{21}$
@@ -177,7 +177,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 230
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{21}$
@@ -202,7 +202,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 229
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
@@ -227,7 +227,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 229
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
@@ -252,7 +252,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 229
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
@@ -277,7 +277,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 230
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{21}$
@@ -302,7 +302,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 230
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
@@ -327,7 +327,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 229
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
@@ -352,7 +352,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 230
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
@@ -377,7 +377,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 229
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{20}$
@@ -402,7 +402,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 231
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{20}$
@@ -427,7 +427,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 232
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{20}$
@@ -452,7 +452,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 217
-- Grinding (bits): 23
+- Grinding query phase (bits): 23
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{17}$
@@ -477,7 +477,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 231
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{18}$
@@ -502,7 +502,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 114
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.25
 - Trace length (H): $2^{17}$
@@ -527,7 +527,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 229
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{20}$
@@ -552,7 +552,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 230
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{21}$
@@ -577,7 +577,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 230
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): $2^{21}$
@@ -602,7 +602,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 110
-- Grinding (bits): 20
+- Grinding query phase (bits): 20
 - Field: Goldilocks³
 - Rate (ρ): 0.25
 - Trace length (H): $2^{18}$
@@ -627,7 +627,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 110
-- Grinding (bits): 20
+- Grinding query phase (bits): 20
 - Field: Goldilocks³
 - Rate (ρ): 0.25
 - Trace length (H): $2^{18}$
@@ -652,7 +652,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 110
-- Grinding (bits): 20
+- Grinding query phase (bits): 20
 - Field: Goldilocks³
 - Rate (ρ): 0.25
 - Trace length (H): $2^{20}$
@@ -677,7 +677,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 110
-- Grinding (bits): 20
+- Grinding query phase (bits): 20
 - Field: Goldilocks³
 - Rate (ρ): 0.25
 - Trace length (H): $2^{19}$
@@ -702,7 +702,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 110
-- Grinding (bits): 20
+- Grinding query phase (bits): 20
 - Field: Goldilocks³
 - Rate (ρ): 0.25
 - Trace length (H): $2^{18}$
@@ -727,7 +727,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 73
-- Grinding (bits): 20
+- Grinding query phase (bits): 20
 - Field: Goldilocks³
 - Rate (ρ): 0.125
 - Trace length (H): $2^{17}$
@@ -752,7 +752,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 43
-- Grinding (bits): 22
+- Grinding query phase (bits): 22
 - Field: Goldilocks³
 - Rate (ρ): 0.03125
 - Trace length (H): $2^{16}$
@@ -777,7 +777,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 54
-- Grinding (bits): 22
+- Grinding query phase (bits): 22
 - Field: Goldilocks³
 - Rate (ρ): 0.0625
 - Trace length (H): $2^{15}$

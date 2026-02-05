@@ -89,6 +89,7 @@ class zkVM:
                 FRI_folding_factors=section.get("fri_folding_factors"),
                 FRI_early_stop_degree=section.get("fri_early_stop_degree"),
                 grinding_query_phase=section.get("grinding_query_phase", 0),
+                grinding_commit_phase=section.get("grinding_commit_phase", 0),
             ))
             lookups = _parse_lookups_from_toml(section, field)
             circuit = Circuit(CircuitConfig(
@@ -100,6 +101,7 @@ class zkVM:
                 AIR_max_degree=section["air_max_degree"],
                 max_combo=section["opening_points"],
                 lookups=lookups if lookups else None,
+                grinding_deep=section.get("grinding_deep", 0),
             ))
             circuits.append(circuit)
 

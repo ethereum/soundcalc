@@ -27,7 +27,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 248
 - Number of queries: 84
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: KoalaBear⁴
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
@@ -52,7 +52,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 248
 - Number of queries: 84
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: KoalaBear⁴
 - Rate (ρ): 0.5
 - Trace length (H): $2^{20}$
@@ -77,7 +77,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 248
 - Number of queries: 84
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: KoalaBear⁴
 - Rate (ρ): 0.5
 - Trace length (H): $2^{18}$
@@ -102,7 +102,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 248
 - Number of queries: 21
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: KoalaBear⁴
 - Rate (ρ): 0.0625
 - Trace length (H): $2^{17}$
@@ -127,7 +127,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 248
 - Number of queries: 21
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: KoalaBear⁴
 - Rate (ρ): 0.0625
 - Trace length (H): $2^{15}$

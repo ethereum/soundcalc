@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from soundcalc.common.fields import FieldParams
-from soundcalc.common.utils import get_bits_of_security_from_error
+from soundcalc.common.utils import apply_grinding, get_bits_of_security_from_error
 from soundcalc.lookups.logup import LogUp
 from soundcalc.pcs.pcs import PCS
 from soundcalc.proxgaps.johnson_bound import JohnsonBoundRegime
@@ -26,6 +26,8 @@ class CircuitConfig:
     max_combo: int | None = None
     # Optional list of LogUp instances for lookup soundness
     lookups: list[LogUp] | None = None
+    # Proof of Work grinding during DEEP (expressed in bits of security)
+    grinding_deep: int = 0
 
 
 class Circuit:
@@ -45,6 +47,7 @@ class Circuit:
         self.max_combo = config.max_combo
         # Store optional lookups
         self._lookups = config.lookups or []
+        self.grinding_deep = config.grinding_deep
 
     def get_name(self) -> str:
         """Returns the name of the circuit."""
@@ -75,6 +78,10 @@ class Circuit:
                 # Add lookup params
                 for lookup in self._lookups:
                     extra_lines.append(f"  lookup (logup)                     : {lookup.get_name()}")
+
+                # Add grinding_deep if non-zero
+                if self.grinding_deep > 0:
+                    extra_lines.append(f"  grinding_deep                  : {self.grinding_deep}")
 
                 if extra_lines:
                     lines = lines[:i] + extra_lines + lines[i:]
@@ -154,7 +161,7 @@ class Circuit:
         # TODO: L_plus computation depends on how the FRI batching is performed.
         #       For instance, if I want to prove the evaluation of f(X) at both z and g·z, then I can
         #       either run a LDT over functions g1(X) = (f(X) - f(z)) / (X - z) and g2(X) = (f(X) - f(g·z)) / (X - g·z)
-        #       or I can run a LDT over a single function h(X) = (f(X) - U(X)) / ((X - z)(X - g·z)) 
+        #       or I can run a LDT over a single function h(X) = (f(X) - U(X)) / ((X - z)(X - g·z))
         #       where U(X) is the unique degree < 2 interpolant through points (z, f(z)) and (g·z, f(g·z)).
         #       Here it is assumed that the second approach is used.
         field_size = self.field.F
@@ -179,6 +186,9 @@ class Circuit:
             * (self.AIR_max_degree * (trace_length + self.max_combo - 1) + (trace_length - 1))
             / (field_size - trace_length - D)
         )
+
+        # take into account any DEEP grinding
+        e_DEEP = apply_grinding(e_DEEP, self.grinding_deep)
 
         levels = {}
         levels["ALI"] = get_bits_of_security_from_error(e_ALI)

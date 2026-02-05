@@ -25,7 +25,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 100
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: BabyBear⁴
 - Rate (ρ): 0.5
 - Trace length (H): $2^{22}$
@@ -50,7 +50,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 100
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: BabyBear⁴
 - Rate (ρ): 0.5
 - Trace length (H): $2^{23}$
@@ -75,7 +75,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 44
-- Grinding (bits): 16
+- Grinding query phase (bits): 16
 - Field: BabyBear⁴
 - Rate (ρ): 0.25
 - Trace length (H): $2^{21}$

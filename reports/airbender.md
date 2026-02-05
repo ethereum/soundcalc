@@ -10,7 +10,7 @@ How to read this report:
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
 - Number of queries: 87
-- Grinding (bits): 28
+- Grinding query phase (bits): 28
 - Field: M31⁴
 - Rate (ρ): 0.5
 - Trace length (H): $2^{24}$
