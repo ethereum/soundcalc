@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-
+from math import ceil, log2
 from soundcalc.common.fields import FieldParams
 from soundcalc.common.utils import apply_grinding, get_bits_of_security_from_error
 from soundcalc.lookups.logup import LogUp
@@ -26,6 +26,10 @@ class CircuitConfig:
     max_combo: int | None = None
     # Optional list of LogUp instances for lookup soundness
     lookups: list[LogUp] | None = None
+    # Whether or not the zerocheck is done with a multilinear sumcheck
+    multilinear_zerocheck: bool = False
+    # Whether or not to only analyze unique decoding regime. 
+    udr_only: bool = False
     # Proof of Work grinding during DEEP (expressed in bits of security)
     grinding_deep: int = 0
 
@@ -45,6 +49,8 @@ class Circuit:
         self.num_constraints = config.num_constraints
         self.AIR_max_degree = config.AIR_max_degree
         self.max_combo = config.max_combo
+        self.multilinear_zerocheck = config.multilinear_zerocheck
+        self.udr_only = config.udr_only
         # Store optional lookups
         self._lookups = config.lookups or []
         self.grinding_deep = config.grinding_deep
@@ -115,9 +121,10 @@ class Circuit:
         """
         regimes = [
             UniqueDecodingRegime(self.field),
-            JohnsonBoundRegime(self.field, gap_to_radius=self.gap_to_radius),
         ]
-
+        if self.udr_only == False:
+            regimes.append(JohnsonBoundRegime(self.field, gap_to_radius=self.gap_to_radius))
+        
         result = {}
         for regime in regimes:
             id = regime.identifier()
@@ -130,6 +137,13 @@ class Circuit:
                 list_size = regime.get_max_list_size(rate, dimension)
                 deep_ali_levels = self._get_DEEP_ALI_errors(list_size,regime)
                 all_levels = pcs_levels | deep_ali_levels
+            # A dirty heuristic for now, add zerocheck error only for unique decoding regime.
+            elif self.multilinear_zerocheck and self.udr_only: 
+                zerocheck_levels = {}
+                log_height = ceil(log2(self.pcs.get_trace_height()))
+                zerocheck_error = (self.num_constraints + (self.AIR_max_degree + 2) * log_height) / self.field.F
+                zerocheck_levels["zerocheck"] = get_bits_of_security_from_error(zerocheck_error)
+                all_levels = pcs_levels | zerocheck_levels
             else:
                 all_levels = pcs_levels
 
@@ -145,7 +159,7 @@ class Circuit:
     def _has_deep_ali_params(self) -> bool:
         """Should we report DEEP-ALI soundness?"""
         # A dirty heuristic for now
-        return self.num_constraints is not None
+        return self.num_constraints is not None and self.multilinear_zerocheck == False
 
     def _get_DEEP_ALI_errors(self, L_plus: float, regime: ProximityGapsRegime) -> dict[str, int]:
         """

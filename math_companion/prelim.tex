@@ -53,7 +53,7 @@ $$
 \subsubsection{Batching errors}\label{sec:batch}
 We define batching error functions
 $$
-\ebatchpowJ(\rho,N,q,B), \quad \ebatchpowU(\rho,N,q,B),\quad \ebatchlinU(\rho,N,q),\quad \ebatchpowU(\rho,N,q,B)
+\ebatchpowJ(\rho,N,q,B), \quad \ebatchpowU(\rho,N,q,B),\quad \ebatchlinU(\rho,N,q),\quad \ebatchpowU(\rho,N,q,B), \quad \ebatchmulU(\rho, N, q, B)
 $$
 For JBR :
 \begin{itemize}
@@ -82,7 +82,11 @@ For UDR :
     $$
     \item Compute powers error:
     $$
-    \ebatchpowU(\rho,N,q,B) = \ebatchlinJ( \rho,N,q)\cdot B
+    \ebatchpowU(\rho,N,q,B) = \ebatchlinU( \rho,N,q)\cdot B
+    $$
+    \item Compute multilinear error:
+    $$
+    \ebatchmulU(\rho,N,q,B) = \ebatchlinU(\rho,N,q) \cdot \lceil \log_2 B \rceil
     $$
 
 \end{itemize}
