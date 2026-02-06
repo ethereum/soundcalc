@@ -25,7 +25,7 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: Unknown
 
-**Proof Size:** 916 KiB (expected) / 1477 KiB (worst case)
+**Proof Size:** 918 KiB (expected) / 1479 KiB (worst case)
 
 | regime | total | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 18 | commit round 19 | commit round 2 | commit round 20 | commit round 21 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase | reduce to dense PCS | zerocheck |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
