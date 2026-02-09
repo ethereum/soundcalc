@@ -12,7 +12,7 @@ How to read this report:
 | [DummyWHIR](dummywhir.md) | Goldilocks³ | 2 | main | 30 | 128 | 974 KiB |
 | [OpenVM](openvm.md) | BabyBear⁴ | 3 | internal | 45 | 58 | 1386 KiB |
 | [Pico](pico.md) | KoalaBear⁴ | 5 | riscv | 35 | 53 | 281 KiB |
-| [SP1](sp1.md) | KoalaBear⁴ | 4 | core | 97 | 0 | 1001 KiB |
+| [SP1](sp1.md) | KoalaBear⁴ | 4 | core | 98 | 0 | 1001 KiB |
 | [ZisK](zisk.md) | Goldilocks³ | 30 | Main | 63 | 128 | 313 KiB |
 
 ## Notes
