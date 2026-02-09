@@ -16,10 +16,8 @@ trace_columns = 3728
 dense_length = 2097152 # 2^21
 dense_batch = 193 # 2^8 - 2^6 + 1
 num_constraints = 3412
-num_lookups_M = 1900
-num_lookups_S = 107
 air_max_degree = 3
-# SP1 has no "next row" constraints. 
+# SP1 has no "next row" constraints.
 opening_points = 1
 # We batch using the random `eq` polynomials.
 power_batching = false
@@ -29,6 +27,17 @@ num_queries = 124
 fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 fri_early_stop_degree = 4
 grinding_query_phase = 16
+
+[[circuits.lookups]]
+name = "lookup"
+logup_type = "multivariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 107
+num_lookups_M = 1900
+grinding_bits_lookup = 12
+cross_table_lookup = true
+multilinear_fingerprint = true
 
 
 [[circuits]]
@@ -41,10 +50,8 @@ trace_columns = 326
 dense_length = 1048576 # 2^20
 dense_batch = 128 # can be changed to 86
 num_constraints = 204
-num_lookups_M = 53
-num_lookups_S = 6
 air_max_degree = 3
-# SP1 has no "next row" constraints. 
+# SP1 has no "next row" constraints.
 opening_points = 1
 # We batch using the random `eq` polynomials.
 power_batching = false
@@ -55,6 +62,16 @@ fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 
 fri_early_stop_degree = 4
 grinding_query_phase = 16
 
+[[circuits.lookups]]
+name = "lookup"
+logup_type = "multivariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 6
+num_lookups_M = 53
+grinding_bits_lookup = 12
+cross_table_lookup = true
+multilinear_fingerprint = true
 
 [[circuits]]
 name = "shrink"
@@ -66,10 +83,8 @@ trace_columns = 326
 dense_length = 262144 # 2^18
 dense_batch = 128 # can be changed to 82
 num_constraints = 204
-num_lookups_M = 53
-num_lookups_S = 6
 air_max_degree = 3
-# SP1 has no "next row" constraints. 
+# SP1 has no "next row" constraints.
 opening_points = 1
 # We batch using the random `eq` polynomials.
 power_batching = false
@@ -79,6 +94,17 @@ num_queries = 94
 fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 fri_early_stop_degree = 8
 grinding_query_phase = 22
+
+[[circuits.lookups]]
+name = "lookup"
+logup_type = "multivariate"
+rows_L = 524288
+rows_T = 524288
+num_columns_S = 6
+num_lookups_M = 53
+grinding_bits_lookup = 12
+cross_table_lookup = true
+multilinear_fingerprint = true
 
 [[circuits]]
 name = "wrap"
@@ -90,10 +116,8 @@ trace_columns = 120
 dense_length = 2097152 # 2^21
 dense_batch = 64 # can be changed to 39
 num_constraints = 43
-num_lookups_M = 34
-num_lookups_S = 6
 air_max_degree = 3
-# SP1 has no "next row" constraints. 
+# SP1 has no "next row" constraints.
 opening_points = 1
 # We batch using the random `eq` polynomials.
 power_batching = false
@@ -103,3 +127,14 @@ num_queries = 94
 fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 fri_early_stop_degree = 8
 grinding_query_phase = 22
+
+[[circuits.lookups]]
+name = "lookup"
+logup_type = "multivariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 6
+num_lookups_M = 34
+grinding_bits_lookup = 12
+cross_table_lookup = true
+multilinear_fingerprint = true

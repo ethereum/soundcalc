@@ -18,9 +18,10 @@ class UniqueDecodingRegime(ProximityGapsRegime):
         return self.get_error_linear(rate, dimension) * (num_functions - 1)
 
     def get_error_linear(self, rate: float, dimension: int) -> float:
-        # Using Theorem 1.4 (which points to Theorem 1.2) from BCIKS20
+        # Using Corollary 1.4 (which points to Theorem 1.3) from BCHKS25
+        gamma = (1 - rate) / 2
         n = dimension / rate
-        return n / self.field.F
+        return (gamma * n + 1) / self.field.F
     
     def get_error_multilinear(self, rate: float, dimension: int, num_functions: int) -> float:
         return self.get_error_linear(rate, dimension) * math.ceil(math.log2(num_functions))
