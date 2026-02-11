@@ -35,9 +35,6 @@ class LogUpConfig:
     alphabet_size_H: int | None = None
     # Proof of Work grinding (expressed in bits of security)
     grinding_bits_lookup: int = 0
-    # Cross-table lookup: if this is on, there's no separation of `L` and `T`.
-    # In this case, `num_lookups_M` should count the lookups from both `L` and `T`.
-    cross_table_lookup: bool = False
     # Multilinear fingerprinting
     multilinear_fingerprint: bool = False
     # Reduction error for the Multivariate case (case i or ii)
@@ -46,8 +43,6 @@ class LogUpConfig:
 class LogUp:
     def __init__(self, config: LogUpConfig):
         self.config = config
-        if self.config.cross_table_lookup:
-            assert self.config.rows_T == self.config.rows_L
 
     def _calculate_univariate_error(self, F: int, T: int, L: int, S: int, M: int) -> float:
         """
@@ -66,9 +61,12 @@ class LogUp:
         Single/Multi column (treated as tensors): 2 * alphabet_size / F
         Aggregation: M * 2 * alphabet_size / F
         """
-        alphabet_size = self.config.alphabet_size_H or max(L * S, T * S)
+        batch_multiple = max(math.ceil(math.log2(S)), 1) if self.config.multilinear_fingerprint else S
+        H = (L + T) * batch_multiple 
+        if self.config.alphabet_size_H is not None:
+            H = 2 * self.config.alphabet_size_H
+        multivariate_error = (M * H) / F + self.config.reduction_error
 
-        multivariate_error = (M * 2 * alphabet_size) / F + self.config.reduction_error
         epsilon_gkr = gkr.get_gkr_soundness_error(self.config.field, alphabet_size, M)
         return multivariate_error + epsilon_gkr
 
