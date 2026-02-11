@@ -34,9 +34,6 @@ class LogUpConfig:
     alphabet_size_H: int | None = None
     # Proof of Work grinding (expressed in bits of security)
     grinding_bits_lookup: int = 0
-    # Cross-table lookup: if this is on, there's no separation of `L` and `T`.
-    # In this case, `num_lookups_M` should count the lookups from both `L` and `T`.
-    cross_table_lookup: bool = False
     # Multilinear fingerprinting
     multilinear_fingerprint: bool = False
     # Reduction error for the Multivariate case (case i or ii)
@@ -45,8 +42,6 @@ class LogUpConfig:
 class LogUp:
     def __init__(self, config: LogUpConfig):
         self.config = config
-        if self.config.cross_table_lookup:
-            assert self.config.rows_T == self.config.rows_L
 
     def _calculate_univariate_error(self, F: int, T: int, L: int, S: int, M: int) -> float:
         """
@@ -66,14 +61,10 @@ class LogUp:
         Aggregation: M * 2H / F
         """
         batch_multiple = max(math.ceil(math.log2(S)), 1) if self.config.multilinear_fingerprint else S
-        H = max(L, T) * batch_multiple 
+        H = (L + T) * batch_multiple 
         if self.config.alphabet_size_H is not None:
             H = self.config.alphabet_size_H
-        
         epsilon_sum = (M * H) / F
-        if self.config.cross_table_lookup is False:
-            epsilon_sum *= 2
-
         # Add reduction error (from multivariate-to-univariate or logup-sound)
         return epsilon_sum + self.config.reduction_error
 

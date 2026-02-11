@@ -32,11 +32,10 @@ grinding_query_phase = 16
 name = "lookup"
 logup_type = "multivariate"
 rows_L = 4194304
-rows_T = 4194304
+rows_T = 0
 num_columns_S = 107
 num_lookups_M = 1900
 grinding_bits_lookup = 12
-cross_table_lookup = true
 multilinear_fingerprint = true
 
 
@@ -66,11 +65,10 @@ grinding_query_phase = 16
 name = "lookup"
 logup_type = "multivariate"
 rows_L = 2097152
-rows_T = 2097152
+rows_T = 0
 num_columns_S = 6
 num_lookups_M = 53
 grinding_bits_lookup = 12
-cross_table_lookup = true
 multilinear_fingerprint = true
 
 [[circuits]]
@@ -99,11 +97,10 @@ grinding_query_phase = 22
 name = "lookup"
 logup_type = "multivariate"
 rows_L = 524288
-rows_T = 524288
+rows_T = 0
 num_columns_S = 6
 num_lookups_M = 53
 grinding_bits_lookup = 12
-cross_table_lookup = true
 multilinear_fingerprint = true
 
 [[circuits]]
@@ -132,9 +129,8 @@ grinding_query_phase = 22
 name = "lookup"
 logup_type = "multivariate"
 rows_L = 2097152
-rows_T = 2097152
+rows_T = 0
 num_columns_S = 6
 num_lookups_M = 34
 grinding_bits_lookup = 12
-cross_table_lookup = true
 multilinear_fingerprint = true
