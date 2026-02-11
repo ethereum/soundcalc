@@ -5,6 +5,7 @@ import math
 
 from soundcalc.common.fields import FieldParams
 from soundcalc.common.utils import get_bits_of_security_from_error
+from soundcalc.lookups.gkr import GKR
 
 class LogUpType(Enum):
     UNIVARIATE = "univariate"
@@ -45,7 +46,7 @@ class LogUp:
     def _calculate_univariate_error(self, F: int, T: int, L: int, S: int, M: int) -> float:
         """
         Calculates univariate LogUp soundness error.
-
+        L, T may be equal to domain size if padded.
         Single/Multi-column: (L + T) * S / F
         Aggregation: M * (L + T) * S / F
         """
@@ -55,16 +56,18 @@ class LogUp:
         """
         Calculates multivariate LogUp soundness error.
 
-        H is max{TS, LS} or padded height.
-        Single/Multi column (treated as tensors): 2H / F
-        Aggregation: M * 2H / F
+        alphabet_size is max{TS, LS} or padded height.
+        Single/Multi column (treated as tensors): 2 * alphabet_size / F
+        Aggregation: M * 2 * alphabet_size / F
         """
-        H = self.config.alphabet_size_H or max(L * S, T * S)
+        alphabet_size = self.config.alphabet_size_H or max(L * S, T * S)
 
-        epsilon_sum = (M * 2 * H) / F
+        epsilon_sum = (M * 2 * alphabet_size) / F
 
         # Add reduction error (from multivariate-to-univariate or logup-sound)
-        return epsilon_sum + self.config.reduction_error
+        # Add epsilon' from GKR soundness (before grinding)
+        epsilon_gkr = GKR.soundness_error(self.config.field, alphabet_size, M)
+        return epsilon_sum + self.config.reduction_error + epsilon_gkr
 
     def _calculate_soundness_error(self) -> float:
         """
