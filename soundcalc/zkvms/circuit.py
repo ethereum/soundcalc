@@ -51,6 +51,9 @@ class Circuit:
         self.max_combo = config.max_combo
         self.multilinear_zerocheck = config.multilinear_zerocheck
         self.udr_only = config.udr_only
+        # TODO: add zerocheck error outside of unique decoding regime
+        if self.multilinear_zerocheck:
+            assert self.udr_only
         # Store optional lookups
         self._lookups = config.lookups or []
         self.grinding_deep = config.grinding_deep

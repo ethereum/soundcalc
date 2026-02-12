@@ -8,7 +8,7 @@ from soundcalc.common.fields import FieldParams
 from soundcalc.common.utils import get_bits_of_security_from_error, get_size_of_merkle_multi_proof_bits, get_size_of_merkle_proof_bits
 from soundcalc.pcs.pcs import PCS
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
-from soundcalc.pcs.fri import FRIConfig
+from soundcalc.pcs.fri import FRI
 
 
 def sumcheck_size_bits(
@@ -24,7 +24,7 @@ class JaggedConfig:
     Configuration for Jagged PCS with FRI (Basefold) as its inner dense PCS.
     """
     # The configuration for the dense PCS
-    dense_pcs: FRIConfig
+    dense_pcs: FRI
 
     # The maximum height of the trace.
     trace_height: int
