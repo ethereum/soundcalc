@@ -40,6 +40,11 @@ class PCS(ABC):
         """Returns the code dimension (trace_length for FRI)."""
         ...
 
+    @abstractmethod 
+    def get_trace_height(self) -> int:
+        """Returns the height of the trace."""
+        ... 
+    
     @abstractmethod
     def get_parameter_summary(self) -> str:
         """Returns a description of the parameters of the PCS."""

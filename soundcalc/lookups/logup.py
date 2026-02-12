@@ -34,7 +34,8 @@ class LogUpConfig:
     alphabet_size_H: int | None = None
     # Proof of Work grinding (expressed in bits of security)
     grinding_bits_lookup: int = 0
-
+    # Multilinear fingerprinting
+    multilinear_fingerprint: bool = False
     # Reduction error for the Multivariate case (case i or ii)
     reduction_error: float = 0.0
 
@@ -59,10 +60,11 @@ class LogUp:
         Single/Multi column (treated as tensors): 2H / F
         Aggregation: M * 2H / F
         """
-        H = self.config.alphabet_size_H or max(L * S, T * S)
-
-        epsilon_sum = (M * 2 * H) / F
-
+        batch_multiple = max(math.ceil(math.log2(S)), 1) if self.config.multilinear_fingerprint else S
+        H = (L + T) * batch_multiple 
+        if self.config.alphabet_size_H is not None:
+            H = self.config.alphabet_size_H
+        epsilon_sum = (M * H) / F
         # Add reduction error (from multivariate-to-univariate or logup-sound)
         return epsilon_sum + self.config.reduction_error
 
