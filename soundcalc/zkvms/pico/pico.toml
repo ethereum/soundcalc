@@ -53,19 +53,19 @@ fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 
 fri_early_stop_degree = 2
 grinding_query_phase = 16
 
-# --- Lookup entries for riscv (from worst-case chunk, per Regional LookupType) ---
+# --- Lookup entries for riscv (from worst-case shape, per Regional LookupType) ---
 [[circuits.lookups]]
 name = "alu"
 logup_type = "univariate"
-rows_L = 37789696
-rows_T = 15343616
+rows_L = 58720256
+rows_T = 33554432
 num_columns_S = 14
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
 name = "byte"
 logup_type = "univariate"
-rows_L = 126181376
+rows_L = 352321536
 rows_T = 589824
 num_columns_S = 6
 grinding_bits_lookup = 0
@@ -73,24 +73,24 @@ grinding_bits_lookup = 0
 [[circuits.lookups]]
 name = "global_type"
 logup_type = "univariate"
-rows_L = 4210688
-rows_T = 2097152
+rows_L = 9437184
+rows_T = 8388608
 num_columns_S = 11
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
 name = "memory"
 logup_type = "univariate"
-rows_L = 23068672
-rows_T = 23068672
+rows_L = 25165824
+rows_T = 25165824
 num_columns_S = 23
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
 name = "poseidon2"
 logup_type = "univariate"
-rows_L = 2097152
-rows_T = 2097152
+rows_L = 8388608
+rows_T = 8388608
 num_columns_S = 33
 grinding_bits_lookup = 0
 
@@ -98,7 +98,7 @@ grinding_bits_lookup = 0
 name = "program"
 logup_type = "univariate"
 rows_L = 4194304
-rows_T = 1048576
+rows_T = 4194304
 num_columns_S = 39
 grinding_bits_lookup = 0
 
@@ -106,7 +106,7 @@ grinding_bits_lookup = 0
 name = "syscall"
 logup_type = "univariate"
 rows_L = 4194304
-rows_T = 16384
+rows_T = 1048576
 num_columns_S = 5
 grinding_bits_lookup = 0
 
