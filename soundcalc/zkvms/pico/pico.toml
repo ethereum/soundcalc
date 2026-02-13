@@ -53,6 +53,63 @@ fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 
 fri_early_stop_degree = 2
 grinding_query_phase = 16
 
+# --- Lookup entries for riscv (from worst-case chunk, per Regional LookupType) ---
+[[circuits.lookups]]
+name = "alu"
+logup_type = "univariate"
+rows_L = 37789696
+rows_T = 15343616
+num_columns_S = 14
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "byte"
+logup_type = "univariate"
+rows_L = 126181376
+rows_T = 589824
+num_columns_S = 6
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "global_type"
+logup_type = "univariate"
+rows_L = 4210688
+rows_T = 2097152
+num_columns_S = 11
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "memory"
+logup_type = "univariate"
+rows_L = 23068672
+rows_T = 23068672
+num_columns_S = 23
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "poseidon2"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 33
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "program"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 1048576
+num_columns_S = 39
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "syscall"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 16384
+num_columns_S = 5
+grinding_bits_lookup = 0
+
 
 [[circuits]]
 name = "convert"
@@ -73,6 +130,15 @@ num_queries = 84
 fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 fri_early_stop_degree = 2
 grinding_query_phase = 16
+
+# --- Lookup entries for convert (recursion circuit, only Memory/Regional) ---
+[[circuits.lookups]]
+name = "memory"
+logup_type = "univariate"
+rows_L = 17825808
+rows_T = 11534336
+num_columns_S = 6
+grinding_bits_lookup = 0
 
 
 [[circuits]]
@@ -95,6 +161,15 @@ fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 fri_early_stop_degree = 2
 grinding_query_phase = 16
 
+# --- Lookup entries for combine (recursion circuit, only Memory/Regional) ---
+[[circuits.lookups]]
+name = "memory"
+logup_type = "univariate"
+rows_L = 5111824
+rows_T = 3407872
+num_columns_S = 6
+grinding_bits_lookup = 0
+
 
 [[circuits]]
 name = "compress"
@@ -116,6 +191,15 @@ fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 fri_early_stop_degree = 16
 grinding_query_phase = 16
 
+# --- Lookup entries for compress (recursion circuit, only Memory/Regional) ---
+[[circuits.lookups]]
+name = "memory"
+logup_type = "univariate"
+rows_L = 4063248
+rows_T = 1703936
+num_columns_S = 6
+grinding_bits_lookup = 0
+
 
 [[circuits]]
 name = "embed"
@@ -136,3 +220,12 @@ num_queries = 21
 fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 fri_early_stop_degree = 16
 grinding_query_phase = 16
+
+# --- Lookup entries for embed (recursion circuit, only Memory/Regional) ---
+[[circuits.lookups]]
+name = "memory"
+logup_type = "univariate"
+rows_L = 1048592
+rows_T = 491520
+num_columns_S = 6
+grinding_bits_lookup = 0
