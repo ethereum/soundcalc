@@ -196,7 +196,7 @@ grinding_query_phase = 16
 name = "memory"
 logup_type = "univariate"
 rows_L = 4063248
-rows_T = 360448
+rows_T = 1703936
 num_columns_S = 6
 grinding_bits_lookup = 0
 
@@ -226,6 +226,6 @@ grinding_query_phase = 16
 name = "memory"
 logup_type = "univariate"
 rows_L = 1048592
-rows_T = 98304
+rows_T = 491520
 num_columns_S = 6
 grinding_bits_lookup = 0
