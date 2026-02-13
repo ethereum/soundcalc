@@ -37,13 +37,20 @@ How to read this report:
 - Number of constraints: 4729
 - Batch size: 1435
 - Batching: Powers
+- Lookup (logup): alu
+- Lookup (logup): byte
+- Lookup (logup): global_type
+- Lookup (logup): memory
+- Lookup (logup): poseidon2
+- Lookup (logup): program
+- Lookup (logup): syscall
 
 **Proof Size:** 2225 KiB (expected) / 2583 KiB (worst case)
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 18 | commit round 19 | commit round 2 | commit round 20 | commit round 21 | commit round 22 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 50 | 111 | 99 | 90 | 101 | 110 | 111 | 112 | 113 | 114 | 115 | 116 | 117 | 118 | 119 | 102 | 120 | 121 | 122 | 103 | 104 | 105 | 106 | 107 | 108 | 109 | 50 |
-| JBR | 53 | 106 | 95 | 65 | 76 | 85 | 86 | 87 | 88 | 89 | 90 | 91 | 92 | 93 | 94 | 77 | 95 | 96 | 97 | 78 | 79 | 80 | 81 | 82 | 83 | 84 | 53 |
+| regime | total | alu | byte | global_type | memory | poseidon2 | program | syscall | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 18 | commit round 19 | commit round 2 | commit round 20 | commit round 21 | commit round 22 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 50 | 93 | 92 | 96 | 93 | 94 | 95 | 99 | 111 | 99 | 90 | 101 | 110 | 111 | 112 | 113 | 114 | 115 | 116 | 117 | 118 | 119 | 102 | 120 | 121 | 122 | 103 | 104 | 105 | 106 | 107 | 108 | 109 | 50 |
+| JBR | 53 | 93 | 92 | 96 | 93 | 94 | 95 | 99 | 106 | 95 | 65 | 76 | 85 | 86 | 87 | 88 | 89 | 90 | 91 | 92 | 93 | 94 | 77 | 95 | 96 | 97 | 78 | 79 | 80 | 81 | 82 | 83 | 84 | 53 |
 
 
 ## convert
@@ -62,13 +69,14 @@ How to read this report:
 - Number of constraints: 323
 - Batch size: 485
 - Batching: Powers
+- Lookup (logup): memory
 
 **Proof Size:** 934 KiB (expected) / 1255 KiB (worst case)
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 18 | commit round 19 | commit round 2 | commit round 20 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 50 | 115 | 101 | 94 | 103 | 112 | 113 | 114 | 115 | 116 | 117 | 118 | 119 | 120 | 121 | 104 | 122 | 105 | 106 | 107 | 108 | 109 | 110 | 111 | 50 |
-| JBR | 53 | 110 | 97 | 68 | 78 | 87 | 88 | 89 | 90 | 91 | 92 | 93 | 94 | 95 | 96 | 79 | 97 | 80 | 81 | 82 | 83 | 84 | 85 | 86 | 53 |
+| regime | total | memory | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 18 | commit round 19 | commit round 2 | commit round 20 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 50 | 96 | 115 | 101 | 94 | 103 | 112 | 113 | 114 | 115 | 116 | 117 | 118 | 119 | 120 | 121 | 104 | 122 | 105 | 106 | 107 | 108 | 109 | 110 | 111 | 50 |
+| JBR | 53 | 96 | 110 | 97 | 68 | 78 | 87 | 88 | 89 | 90 | 91 | 92 | 93 | 94 | 95 | 96 | 79 | 97 | 80 | 81 | 82 | 83 | 84 | 85 | 86 | 53 |
 
 
 ## combine
@@ -87,13 +95,14 @@ How to read this report:
 - Number of constraints: 323
 - Batch size: 485
 - Batching: Powers
+- Lookup (logup): memory
 
 **Proof Size:** 861 KiB (expected) / 1146 KiB (worst case)
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 18 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 50 | 115 | 103 | 96 | 105 | 114 | 115 | 116 | 117 | 118 | 119 | 120 | 121 | 122 | 106 | 107 | 108 | 109 | 110 | 111 | 112 | 113 | 50 |
-| JBR | 53 | 110 | 99 | 70 | 80 | 89 | 90 | 91 | 92 | 93 | 94 | 95 | 96 | 97 | 81 | 82 | 83 | 84 | 85 | 86 | 87 | 88 | 53 |
+| regime | total | memory | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 18 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 50 | 97 | 115 | 103 | 96 | 105 | 114 | 115 | 116 | 117 | 118 | 119 | 120 | 121 | 122 | 106 | 107 | 108 | 109 | 110 | 111 | 112 | 113 | 50 |
+| JBR | 53 | 97 | 110 | 99 | 70 | 80 | 89 | 90 | 91 | 92 | 93 | 94 | 95 | 96 | 97 | 81 | 82 | 83 | 84 | 85 | 86 | 87 | 88 | 53 |
 
 
 ## compress
@@ -112,13 +121,14 @@ How to read this report:
 - Number of constraints: 323
 - Batch size: 485
 - Batching: Powers
+- Lookup (logup): memory
 
 **Proof Size:** 253 KiB (expected) / 308 KiB (worst case)
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 35 | 115 | 104 | 94 | 103 | 112 | 113 | 114 | 115 | 116 | 117 | 118 | 119 | 104 | 105 | 106 | 107 | 108 | 109 | 110 | 111 | 35 |
-| JBR | 56 | 106 | 95 | 56 | 66 | 75 | 76 | 77 | 78 | 79 | 80 | 81 | 82 | 67 | 68 | 69 | 70 | 71 | 72 | 73 | 74 | 57 |
+| regime | total | memory | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 35 | 98 | 115 | 104 | 94 | 103 | 112 | 113 | 114 | 115 | 116 | 117 | 118 | 119 | 104 | 105 | 106 | 107 | 108 | 109 | 110 | 111 | 35 |
+| JBR | 56 | 98 | 106 | 95 | 56 | 66 | 75 | 76 | 77 | 78 | 79 | 80 | 81 | 82 | 67 | 68 | 69 | 70 | 71 | 72 | 73 | 74 | 57 |
 
 
 ## embed
@@ -137,11 +147,12 @@ How to read this report:
 - Number of constraints: 323
 - Batch size: 485
 - Batching: Powers
+- Lookup (logup): memory
 
 **Proof Size:** 232 KiB (expected) / 281 KiB (worst case)
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 35 | 115 | 106 | 96 | 105 | 114 | 115 | 116 | 117 | 118 | 119 | 106 | 107 | 108 | 109 | 110 | 111 | 112 | 113 | 35 |
-| JBR | 57 | 106 | 97 | 58 | 68 | 77 | 78 | 79 | 80 | 81 | 82 | 69 | 70 | 71 | 72 | 73 | 74 | 75 | 76 | 57 |
+| regime | total | memory | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 35 | 100 | 115 | 106 | 96 | 105 | 114 | 115 | 116 | 117 | 118 | 119 | 106 | 107 | 108 | 109 | 110 | 111 | 112 | 113 | 35 |
+| JBR | 57 | 100 | 106 | 97 | 58 | 68 | 77 | 78 | 79 | 80 | 81 | 82 | 69 | 70 | 71 | 72 | 73 | 74 | 75 | 76 | 57 |
 
