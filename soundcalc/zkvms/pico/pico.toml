@@ -165,7 +165,7 @@ grinding_query_phase = 16
 [[circuits.lookups]]
 name = "memory"
 logup_type = "univariate"
-rows_L = 5111824
+rows_L = 7733264
 rows_T = 3407872
 num_columns_S = 6
 grinding_bits_lookup = 0
@@ -196,7 +196,7 @@ grinding_query_phase = 16
 name = "memory"
 logup_type = "univariate"
 rows_L = 4063248
-rows_T = 1703936
+rows_T = 360448
 num_columns_S = 6
 grinding_bits_lookup = 0
 
@@ -226,6 +226,6 @@ grinding_query_phase = 16
 name = "memory"
 logup_type = "univariate"
 rows_L = 1048592
-rows_T = 491520
+rows_T = 98304
 num_columns_S = 6
 grinding_bits_lookup = 0
