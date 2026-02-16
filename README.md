@@ -34,6 +34,7 @@ We support the following security regimes (see below for explanation of regimes)
 
 We support the following lookup protocols:
 - LogUp
+- LogUp-GKR
 
 ## Background
 
