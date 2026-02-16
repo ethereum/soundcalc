@@ -46,8 +46,10 @@ grinding_bits_ood = [0, 0, 0]
 
 [[circuits.lookups]]
 name = "dummy_lookup"
-logup_type = "univariate"
+logup_type = "multivariate"
 rows_L = 262144  # 2^18 from log_degree
 rows_T = 262144  # same as rows_L for this dummy example
 num_columns_S = 4
-grinding_bits_lookup = 20
+num_lookups_M = 1
+alphabet_size_H = 1048576 # 2^20
+grinding_bits_lookup = 0
