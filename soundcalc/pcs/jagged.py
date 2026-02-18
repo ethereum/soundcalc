@@ -27,7 +27,7 @@ class JaggedConfig:
     dense_pcs: FRI
 
     # The maximum height of the trace.
-    trace_height: int
+    trace_length: int
 
     # The maximum width of the trace.
     trace_width: int
@@ -39,7 +39,7 @@ class JaggedPCS(PCS):
 
     def __init__(self, config: JaggedConfig):
         self.dense_pcs = config.dense_pcs
-        self.trace_height = config.trace_height
+        self.trace_length = config.trace_length
         self.trace_width = config.trace_width
 
     def get_pcs_security_levels(self, regime: ProximityGapsRegime) -> dict[str, int]:
@@ -101,8 +101,8 @@ class JaggedPCS(PCS):
     def get_dimension(self) -> int:
         return self.dense_pcs.get_dimension()
 
-    def get_trace_height(self) -> int:
-        return self.trace_height
+    def get_trace_length(self) -> int:
+        return self.trace_length
     
     def get_parameter_summary(self) -> str:
         """
@@ -117,7 +117,7 @@ class JaggedPCS(PCS):
             "rho": self.dense_pcs.rho,
             "k = -log2(rho)": self.dense_pcs.k,
             "dense_length": self.dense_pcs.trace_length,
-            "trace_height": self.trace_height,
+            "trace_length": self.trace_length,
             "h = log2(dense_length)": self.dense_pcs.h,
             "domain_size D = dense_length / rho": self.dense_pcs.D,
             "dense_batch_size": self.dense_pcs.batch_size,

@@ -143,7 +143,7 @@ class Circuit:
             # A dirty heuristic for now, add zerocheck error only for unique decoding regime.
             elif self.multilinear_zerocheck and self.udr_only: 
                 zerocheck_levels = {}
-                log_height = ceil(log2(self.pcs.get_trace_height()))
+                log_height = ceil(log2(self.pcs.get_trace_length()))
                 zerocheck_error = (self.num_constraints + (self.AIR_max_degree + 2) * log_height) / self.field.F
                 zerocheck_levels["zerocheck"] = get_bits_of_security_from_error(zerocheck_error)
                 all_levels = pcs_levels | zerocheck_levels
