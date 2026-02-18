@@ -41,8 +41,8 @@ class PCS(ABC):
         ...
 
     @abstractmethod 
-    def get_trace_height(self) -> int:
-        """Returns the height of the trace."""
+    def get_trace_length(self) -> int:
+        """Returns the length of the trace."""
         ... 
     
     @abstractmethod

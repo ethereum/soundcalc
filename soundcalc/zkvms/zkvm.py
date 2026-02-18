@@ -180,7 +180,7 @@ class zkVM:
             ))
             pcs = JaggedPCS(JaggedConfig(
                 dense_pcs = dense_pcs,
-                trace_height = section["trace_length"], 
+                trace_length = section["trace_length"], 
                 trace_width = section["trace_columns"],
             ))
             lookups = _parse_lookups_from_toml(section, field)

@@ -876,7 +876,7 @@ class WHIR(PCS):
     def get_dimension(self) -> int:
         return 2 ** self.log_degrees[0]
     
-    def get_trace_height(self) -> int:
+    def get_trace_length(self) -> int:
         return 2 ** self.log_degrees[0]
 
     def get_parameter_summary(self) -> str:
