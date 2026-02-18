@@ -35,7 +35,10 @@ class LogUpConfig:
     alphabet_size_H: int | None = None
     # Proof of Work grinding (expressed in bits of security)
     grinding_bits_lookup: int = 0
-    # Multilinear fingerprinting
+    # If multilinear_fingerprint = true, the lookup of a tuple (v0, v1, ... , v_{n-1}) is viewed as
+    # a lookup of a value v0 * eq(r, 0) + v1 * eq(r, 1) + ... + v_{n-1} * eq(r, n-1) with a random `r`.
+    # If multilinear_fingerprint = false, the lookup of a tuple (v0, v1, ... , v_{n-1}) is viewed as
+    # a lookup of a value v0 * r^0 + v1 * r^1 + ... + v_{n-1} * r^{n-1} with a random `r`.
     multilinear_fingerprint: bool = False
     # Reduction error for the Multivariate case (case i or ii)
     reduction_error: float = 0.0
