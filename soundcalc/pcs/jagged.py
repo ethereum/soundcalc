@@ -83,16 +83,10 @@ class JaggedPCS(PCS):
         """
         Returns an estimate for the proof size, given in bits.
         """
-        # XXX (BW): note that it is not clear that this is the
-        # proof size for every zkEVM we can think of
-        # XXX (BW): we should probably also add something for the OOD samples and plookup, lookup etc.
         return self.dense_pcs.get_proof_size_bits() + self._reduction_proof_size_bits()
 
     def get_expected_proof_size_bits(self) -> int:
         """Returns estimated *expected* proof size in bits."""
-        # XXX (BW): note that it is not clear that this is the
-        # proof size for every zkEVM we can think of
-        # XXX (BW): we should probably also add something for the OOD samples and plookup, lookup etc.
         return self.dense_pcs.get_expected_proof_size_bits() + self._reduction_proof_size_bits()
 
     def get_rate(self) -> float:
