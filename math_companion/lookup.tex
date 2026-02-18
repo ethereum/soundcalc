@@ -110,7 +110,8 @@ By the same reasoning as above, we have that a cheating prover can get lucky wit
 
 \subsubsection{Multi column:}
 
-As the tables $\mathbf L, \mathbf T$ are already represented as tensors, considering more than one column consists on simply expanding $\mathbf L, \mathbf T$ and modifying $L, T, \Sigma$ accordingly.
+As the tables $\mathbf L, \mathbf T$ are already represented as tensors, considering more than one column consists on simply expanding $\mathbf L, \mathbf T$ and modifying $L, T, \Sigma$ accordingly. 
+Note that by combining the columns of $L$ and $T$ with multilinear coefficients $\text{eq}(\vec{Y}, \cdot)$ instead of powers of $Y$, it is possible to achieve a multiplicative overhead of $\log_2 S$ instead of $S$.
 
 \subsubsection{Aggregation:}
 

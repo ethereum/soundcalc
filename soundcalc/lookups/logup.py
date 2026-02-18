@@ -35,7 +35,11 @@ class LogUpConfig:
     alphabet_size_H: int | None = None
     # Proof of Work grinding (expressed in bits of security)
     grinding_bits_lookup: int = 0
-
+    # If multilinear_fingerprint = true, the lookup of a tuple (v0, v1, ... , v_{n-1}) is viewed as
+    # a lookup of a value v0 * eq(r, 0) + v1 * eq(r, 1) + ... + v_{n-1} * eq(r, n-1) with a random `r`.
+    # If multilinear_fingerprint = false, the lookup of a tuple (v0, v1, ... , v_{n-1}) is viewed as
+    # a lookup of a value v0 * r^0 + v1 * r^1 + ... + v_{n-1} * r^{n-1} with a random `r`.
+    multilinear_fingerprint: bool = False
     # Reduction error for the Multivariate case (case i or ii)
     reduction_error: float = 0.0
 
@@ -60,10 +64,15 @@ class LogUp:
         Single/Multi column (treated as tensors): 2 * alphabet_size / F
         Aggregation: M * 2 * alphabet_size / F
         """
-        alphabet_size = self.config.alphabet_size_H or max(L * S, T * S)
+        batch_multiple = max(math.ceil(math.log2(S)), 1) if self.config.multilinear_fingerprint else S
+        alphabet_size = (L + T) * batch_multiple
+        alphabet_size_gkr_soundness = (L + T) * batch_multiple
+        if self.config.alphabet_size_H is not None:
+            alphabet_size = 2 * self.config.alphabet_size_H
+            alphabet_size_gkr_soundness = self.config.alphabet_size_H
+        multivariate_error = (M * alphabet_size) / F + self.config.reduction_error
 
-        multivariate_error = (M * 2 * alphabet_size) / F + self.config.reduction_error
-        epsilon_gkr = gkr.get_gkr_soundness_error(self.config.field, alphabet_size, M)
+        epsilon_gkr = gkr.get_gkr_soundness_error(self.config.field, alphabet_size_gkr_soundness, M)
         return multivariate_error + epsilon_gkr
 
     def _calculate_soundness_error(self) -> float:

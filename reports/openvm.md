@@ -40,7 +40,7 @@ How to read this report:
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 18 | commit round 19 | commit round 2 | commit round 20 | commit round 21 | commit round 22 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 57 | 110 | 99 | 86 | 101 | 110 | 111 | 112 | 113 | 114 | 115 | 116 | 117 | 118 | 119 | 102 | 120 | 121 | 122 | 103 | 104 | 105 | 106 | 107 | 108 | 109 | 57 |
+| UDR | 57 | 110 | 99 | 88 | 103 | 112 | 113 | 114 | 115 | 116 | 117 | 118 | 119 | 120 | 121 | 104 | 122 | 122 | 123 | 105 | 106 | 107 | 108 | 109 | 110 | 111 | 57 |
 | JBR | 60 | 105 | 94 | 61 | 76 | 85 | 86 | 87 | 88 | 89 | 90 | 91 | 92 | 93 | 94 | 77 | 95 | 96 | 97 | 78 | 79 | 80 | 81 | 82 | 83 | 84 | 60 |
 
 
@@ -65,7 +65,7 @@ How to read this report:
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 18 | commit round 19 | commit round 2 | commit round 20 | commit round 21 | commit round 22 | commit round 23 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 57 | 113 | 98 | 88 | 100 | 109 | 110 | 111 | 112 | 113 | 114 | 115 | 116 | 117 | 118 | 101 | 119 | 120 | 121 | 122 | 102 | 103 | 104 | 105 | 106 | 107 | 108 | 57 |
+| UDR | 57 | 113 | 98 | 90 | 102 | 111 | 112 | 113 | 114 | 115 | 116 | 117 | 118 | 119 | 120 | 103 | 121 | 122 | 122 | 123 | 104 | 105 | 106 | 107 | 108 | 109 | 110 | 57 |
 | JBR | 60 | 109 | 93 | 63 | 75 | 84 | 85 | 86 | 87 | 88 | 89 | 90 | 91 | 92 | 93 | 76 | 94 | 95 | 96 | 97 | 77 | 78 | 79 | 80 | 81 | 82 | 83 | 60 |
 
 
@@ -91,6 +91,6 @@ How to read this report:
 
 | regime | total | lookup | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 18 | commit round 19 | commit round 2 | commit round 20 | commit round 21 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 45 | 132 | 113 | 100 | 90 | 101 | 110 | 111 | 112 | 113 | 114 | 115 | 116 | 117 | 118 | 119 | 102 | 120 | 121 | 103 | 104 | 105 | 106 | 107 | 108 | 109 | 45 |
+| UDR | 45 | 132 | 113 | 100 | 91 | 103 | 112 | 113 | 114 | 115 | 116 | 117 | 118 | 118 | 119 | 120 | 104 | 121 | 122 | 105 | 106 | 107 | 108 | 109 | 110 | 111 | 45 |
 | JBR | 58 | 132 | 107 | 93 | 60 | 72 | 81 | 82 | 83 | 84 | 85 | 86 | 87 | 88 | 89 | 90 | 73 | 91 | 92 | 74 | 75 | 76 | 77 | 78 | 79 | 80 | 58 |
 
