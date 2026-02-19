@@ -17,6 +17,11 @@
 #   commitments and the Fiat–Shamir transcript are moved to BN254/Poseidon2 to
 #   make the proof Groth16-friendly.
 # -----------------------------------------------------------------------------
+#
+# Lookup details extracted using the `soundcalc` branch of pico:
+#   https://github.com/brevis-network/pico/tree/soundcalc
+#
+# -----------------------------------------------------------------------------
 
 [zkevm]
 name = "Pico"
@@ -53,6 +58,63 @@ fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 
 fri_early_stop_degree = 2
 grinding_query_phase = 16
 
+# --- Lookup entries for riscv (from worst-case shape, per Regional LookupType) ---
+[[circuits.lookups]]
+name = "alu"
+logup_type = "univariate"
+rows_L = 58720256
+rows_T = 33554432
+num_columns_S = 14
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "byte"
+logup_type = "univariate"
+rows_L = 352321536
+rows_T = 589824
+num_columns_S = 6
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "global_type"
+logup_type = "univariate"
+rows_L = 9437184
+rows_T = 8388608
+num_columns_S = 11
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "memory"
+logup_type = "univariate"
+rows_L = 25165824
+rows_T = 25165824
+num_columns_S = 23
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "poseidon2"
+logup_type = "univariate"
+rows_L = 8388608
+rows_T = 8388608
+num_columns_S = 33
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "program"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 39
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "syscall"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 1048576
+num_columns_S = 5
+grinding_bits_lookup = 0
+
 
 [[circuits]]
 name = "convert"
@@ -73,6 +135,15 @@ num_queries = 84
 fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 fri_early_stop_degree = 2
 grinding_query_phase = 16
+
+# --- Lookup entries for convert (recursion circuit, only Memory/Regional) ---
+[[circuits.lookups]]
+name = "memory"
+logup_type = "univariate"
+rows_L = 17825808
+rows_T = 11534336
+num_columns_S = 6
+grinding_bits_lookup = 0
 
 
 [[circuits]]
@@ -95,6 +166,15 @@ fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 fri_early_stop_degree = 2
 grinding_query_phase = 16
 
+# --- Lookup entries for combine (recursion circuit, only Memory/Regional) ---
+[[circuits.lookups]]
+name = "memory"
+logup_type = "univariate"
+rows_L = 7733264
+rows_T = 3407872
+num_columns_S = 6
+grinding_bits_lookup = 0
+
 
 [[circuits]]
 name = "compress"
@@ -116,6 +196,15 @@ fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 fri_early_stop_degree = 16
 grinding_query_phase = 16
 
+# --- Lookup entries for compress (recursion circuit, only Memory/Regional) ---
+[[circuits.lookups]]
+name = "memory"
+logup_type = "univariate"
+rows_L = 4063248
+rows_T = 1703936
+num_columns_S = 6
+grinding_bits_lookup = 0
+
 
 [[circuits]]
 name = "embed"
@@ -136,3 +225,12 @@ num_queries = 21
 fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 fri_early_stop_degree = 16
 grinding_query_phase = 16
+
+# --- Lookup entries for embed (recursion circuit, only Memory/Regional) ---
+[[circuits.lookups]]
+name = "memory"
+logup_type = "univariate"
+rows_L = 1048592
+rows_T = 491520
+num_columns_S = 6
+grinding_bits_lookup = 0
