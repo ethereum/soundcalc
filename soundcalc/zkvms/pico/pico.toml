@@ -17,6 +17,11 @@
 #   commitments and the Fiat–Shamir transcript are moved to BN254/Poseidon2 to
 #   make the proof Groth16-friendly.
 # -----------------------------------------------------------------------------
+#
+# Lookup details extracted using the `soundcalc` branch of pico:
+#   https://github.com/brevis-network/pico/tree/soundcalc
+#
+# -----------------------------------------------------------------------------
 
 [zkevm]
 name = "Pico"
