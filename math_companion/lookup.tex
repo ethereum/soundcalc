@@ -99,6 +99,10 @@ To prove step number $2.$ of logUP, that is, that these expressions are consiste
 $(i)$ The logUP argument is proven independently of the AIR trace, which adds an error $\epsilon_{\mathsf{logup-sound}}$
 $(ii)$ The polynomial identities that prove consistency are reduced to univariate identities, and included in the AIR constraints as in the univariate case, which adds an error $\epsilon_{\mathsf{reduction-univ}}$.
 
+We capture case $(i)$ when proven with GKR. Following Papini and Haböck~\cite{logup-GKR} we calculate:
+
+$$\epsilon_{\mathsf{logup-sound}}=\epsilon_{\mathsf{GKR}}(H_{\log(H)+\log(M)})\leq \frac{1}{2}\frac{(\log(H)+\log(M))(3(\log(H)+\log(M))+1)}{F}$$
+
 \subsubsection{Single column:}
 
 By the same reasoning as above, we have that a cheating prover can get lucky with $\alpha$ with probability $\epsilon_{\mathsf{sum}}\leq \frac{2H}{F}$.
@@ -115,7 +119,6 @@ The soundness error is then bounded as $\epsilon_{\mathsf{sum}}\leq \frac{K2H}{F
 
 \subsection{Grinding}
 
-For both cases we capture the option to decrease the soundness error of the lookup round through grinding. We consider a parameter $\mathsf{grinding\_bits\_lookup}$ denoting the rounds of proof of work, and compute the soundess error as: $\epsilon=(\epsilon_{\mathsf{sum}}+\epsilon')2^{\mathsf{-grinding\_bits\_lookup}}$, where $\epsilon'$ can be $0$, $\epsilon_{\mathsf{logup-sound}}$, or $\epsilon_{\mathsf{reduction-univ}}.$
-
+For both cases we capture the option to decrease the soundness error of the lookup round through grinding. We consider a parameter $\mathsf{grinding\_bits\_lookup}$ denoting the rounds of proof of work, and compute the soundess error as: $\epsilon=(\epsilon_{\mathsf{sum}}+\epsilon')2^{\mathsf{-grinding\_bits\_lookup}}$, where $\epsilon'$ can be $0$, $\epsilon_{\mathsf{logup-sound}}$, $\epsilon_{\mathsf{reduction-univ}}$, or the GKR soundness error $\epsilon_{\mathsf{gkr}}.$
 
 
