@@ -20,16 +20,20 @@ from soundcalc.zkvms.zkvm import zkVM
 REPORTS_DIR = "reports"
 SUMMARY_REPORT_NAME = "summary.md"
 
+# zkVMs excluded from the summary overview (test/dummy entries)
+_SUMMARY_EXCLUDE = {"DummyWHIR"}
+
 
 @dataclass
 class zkVMSummary:
     """Summary data for a single zkVM used in comparison reports."""
     name: str
     field: str
+    pcs: str
     num_circuits: int
     weakest_circuit_name: str
-    udr_total_bits: int
-    jbr_total_bits: int
+    security_bits: int
+    security_regime: str
     final_proof_size_kib: int
 
 
@@ -87,51 +91,69 @@ def _field_label(field) -> str:
     return "Unknown"
 
 
+def _pcs_label(circuit: Circuit) -> str:
+    """Get the PCS type label for a circuit."""
+    if isinstance(circuit.pcs, FRI):
+        return "FRI"
+    elif isinstance(circuit.pcs, WHIR):
+        return "WHIR"
+    return "Unknown"
+
+
 def _collect_zkvm_summary(zkvm: zkVM) -> zkVMSummary:
     """
     Collect summary metrics for a single zkVM.
 
     Returns a zkVMSummary containing aggregated security and proof size data.
-    The weakest circuit is determined by the lowest JBR security level.
+    Security is the best (highest) minimum across regimes, matching
+    the "Final bits of security" shown in individual zkVM reports.
     """
     circuits = zkvm.get_circuits()
     if not circuits:
         return zkVMSummary(
             name=zkvm.get_name(),
             field="Unknown",
+            pcs="Unknown",
             num_circuits=0,
             weakest_circuit_name="N/A",
-            udr_total_bits=0,
-            jbr_total_bits=0,
-            final_proof_size_kib=0.0,
+            security_bits=0,
+            security_regime="N/A",
+            final_proof_size_kib=0,
         )
 
     field = _field_label(circuits[0].field)
-    udr_min = float("inf")
-    jbr_min = float("inf")
-    weakest_name = circuits[0].get_name()
+    pcs = _pcs_label(circuits[0])
 
+    # Track minimum security per regime across all circuits
+    regime_mins: dict[str, tuple[int, str]] = {}  # regime -> (min_bits, circuit_name)
     for circuit in circuits:
         levels = circuit.get_security_levels()
-        if "UDR" in levels and isinstance(levels["UDR"], dict):
-            udr_total = levels["UDR"].get("total", float("inf"))
-            if udr_total < udr_min:
-                udr_min = udr_total
-        if "JBR" in levels and isinstance(levels["JBR"], dict):
-            jbr_total = levels["JBR"].get("total", float("inf"))
-            if jbr_total < jbr_min:
-                jbr_min = jbr_total
-                weakest_name = circuit.get_name()
+        for regime_name, regime_data in levels.items():
+            if isinstance(regime_data, dict) and "total" in regime_data:
+                total_bits = regime_data["total"]
+                if regime_name not in regime_mins or total_bits < regime_mins[regime_name][0]:
+                    regime_mins[regime_name] = (total_bits, circuit.get_name())
+
+    # Find the best regime (highest minimum security)
+    best_regime = "N/A"
+    best_bits = 0
+    weakest_name = circuits[0].get_name()
+    for regime_name, (min_bits, circuit_name) in regime_mins.items():
+        if min_bits > best_bits:
+            best_bits = min_bits
+            best_regime = regime_name
+            weakest_name = circuit_name
 
     final_proof_kib = circuits[-1].get_proof_size_bits() // KIB
 
     return zkVMSummary(
         name=zkvm.get_name(),
         field=field,
+        pcs=pcs,
         num_circuits=len(circuits),
         weakest_circuit_name=weakest_name,
-        udr_total_bits=int(udr_min) if udr_min != float("inf") else 0,
-        jbr_total_bits=int(jbr_min) if jbr_min != float("inf") else 0,
+        security_bits=best_bits,
+        security_regime=best_regime,
         final_proof_size_kib=int(final_proof_kib),
     )
 
@@ -407,33 +429,34 @@ def _build_summary_report(zkvms: list[zkVM]) -> str:
         "",
         "How to read this report:",
         "- Click on zkVM names to view detailed individual reports",
-        "- UDR/JBR columns show bits of security under different regimes",
+        "- Security shows the best bits of security across regimes (UDR/JBR)",
         "",
         "## Overview",
         "",
-        "| zkVM | Field | Circuits | Weakest Circuit | UDR (bits) | JBR (bits) | Proof Size |",
-        "|------|-------|----------|-----------------|------------|------------|------------|",
+        "| zkVM | Security | Proof Size | PCS | Field | Circuits | Weakest Circuit |",
+        "|------|----------|------------|-----|-------|----------|-----------------|",
     ]
 
     summaries = sorted(
-        [_collect_zkvm_summary(z) for z in zkvms],
+        [_collect_zkvm_summary(z) for z in zkvms if z.get_name() not in _SUMMARY_EXCLUDE],
         key=lambda s: s.name.lower(),
     )
 
     for s in summaries:
         report_filename = f"{s.name.lower().replace(' ', '_')}.md"
         lines.append(
-            f"| [{s.name}]({report_filename}) | {s.field} | {s.num_circuits} | {s.weakest_circuit_name} "
-            f"| {s.udr_total_bits} | {s.jbr_total_bits} | {s.final_proof_size_kib} KiB |"
+            f"| [{s.name}]({report_filename}) "
+            f"| **{s.security_bits}** bits ({s.security_regime}) "
+            f"| {s.final_proof_size_kib} KiB "
+            f"| {s.pcs} | {s.field} | {s.num_circuits} | {s.weakest_circuit_name} |"
         )
 
     lines.extend([
         "",
         "## Notes",
         "",
-        "- **UDR**: Unique Decoding Regime",
-        "- **JBR**: Johnson Bound Regime",
-        "- **Weakest Circuit**: Circuit with lowest JBR security level",
+        "- **Security**: Best bits of security across UDR (Unique Decoding) and JBR (Johnson Bound) regimes",
+        "- **Weakest Circuit**: Circuit determining the overall security level",
         "- **Proof Size**: Final proof size in KiB (1 KiB = 1024 bytes)",
         "",
     ])
