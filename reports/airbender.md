@@ -11,6 +11,8 @@ How to read this report:
 - Hash size (bits): 256
 - Number of queries: 87
 - Grinding query phase (bits): 28
+- Grinding commit phase (bits): 5
+- Grinding DEEP (bits): 12
 - Field: M31⁴
 - Rate (ρ): 0.5
 - Trace length (H): $2^{24}$
@@ -20,10 +22,14 @@ How to read this report:
 - Number of constraints: 928
 - Batch size: 1225
 - Batching: Powers
+- Lookup (logup): generic_lookup
+- Lookup (logup): range_check_16_lookup
+- Lookup (logup): range_check_19_lookup
+- Lookup (logup): decoder
 
 **Proof Size:** 1836 KiB (expected) / 1951 KiB (worst case)
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 64 | 114 | 98 | 90 | 101 | 105 | 109 | 113 | 116 | 64 |
-| JBR | 63 | 109 | 93 | 63 | 73 | 77 | 81 | 85 | 88 | 67 |
+| regime | total | generic_lookup | range_check_16_lookup | range_check_19_lookup | decoder | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 64 | 94 | 99 | 98 | 100 | 114 | 110 | 90 | 106 | 110 | 114 | 118 | 121 | 64 |
+| JBR | 63 | 94 | 99 | 98 | 100 | 109 | 105 | 63 | 78 | 82 | 86 | 90 | 93 | 67 |

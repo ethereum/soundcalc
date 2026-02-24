@@ -65,12 +65,12 @@ class LogUp:
         Aggregation: M * 2 * alphabet_size / F
         """
         batch_multiple = max(math.ceil(math.log2(S)), 1) if self.config.multilinear_fingerprint else S
-        alphabet_size = (L + T) * batch_multiple
-        alphabet_size_gkr_soundness = (L + T) * batch_multiple
+        alphabet_size = (L + T) / 2 * batch_multiple
+        alphabet_size_gkr_soundness = max(L, T) * batch_multiple
         if self.config.alphabet_size_H is not None:
-            alphabet_size = 2 * self.config.alphabet_size_H
+            alphabet_size = self.config.alphabet_size_H
             alphabet_size_gkr_soundness = self.config.alphabet_size_H
-        multivariate_error = (M * alphabet_size) / F + self.config.reduction_error
+        multivariate_error = (M * 2 * alphabet_size) / F + self.config.reduction_error
 
         epsilon_gkr = gkr.get_gkr_soundness_error(self.config.field, alphabet_size_gkr_soundness, M)
         return multivariate_error + epsilon_gkr
