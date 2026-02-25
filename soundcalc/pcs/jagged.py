@@ -13,7 +13,7 @@ from soundcalc.pcs.fri import FRI
 
 def sumcheck_size_bits(
     degree: int,
-    num_variables: int, 
+    num_variables: int,
     field_size_bits: int
 ) -> int:
     return (num_variables * (degree + 2) + 2) * field_size_bits
@@ -65,15 +65,15 @@ class JaggedPCS(PCS):
         field_bits = self.dense_pcs.field.extension_field_element_size_bits()
 
         jagged_sumcheck_size = sumcheck_size_bits(
-            degree = 2, 
-            num_variables = log_trace, 
+            degree = 2,
+            num_variables = log_trace,
             field_size_bits = field_bits
         )
 
         jagged_evaluation_sumcheck_size = sumcheck_size_bits(
             degree = 2,
             num_variables = 2 * log_trace + 2,
-            field_size_bits = field_bits        
+            field_size_bits = field_bits
         )
 
         return jagged_sumcheck_size + jagged_evaluation_sumcheck_size
@@ -97,7 +97,7 @@ class JaggedPCS(PCS):
 
     def get_trace_length(self) -> int:
         return self.trace_length
-    
+
     def get_parameter_summary(self) -> str:
         """
         Returns a description of the parameters of the PCS.

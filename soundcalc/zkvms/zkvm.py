@@ -154,7 +154,7 @@ class zkVM:
             circuits.append(circuit)
 
         return cls(config["zkevm"]["name"], circuits=circuits)
-    
+
     @classmethod
     def _load_jagged_from_toml(cls, config: dict) -> "zkVM":
         """
@@ -180,7 +180,7 @@ class zkVM:
             ))
             pcs = JaggedPCS(JaggedConfig(
                 dense_pcs = dense_pcs,
-                trace_length = section["trace_length"], 
+                trace_length = section["trace_length"],
                 trace_width = section["trace_columns"],
             ))
             lookups = _parse_lookups_from_toml(section, field)

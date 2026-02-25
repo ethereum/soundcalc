@@ -81,6 +81,6 @@ class JohnsonBoundRegime(ProximityGapsRegime):
         second_fraction = m_shifted / sqrt_rate
 
         return (first_fraction + second_fraction) / self.field.F
-    
+
     def get_error_multilinear(self, rate: float, dimension: int, num_functions: int) -> float:
         return self.get_error_linear(rate, dimension) * math.ceil(math.log2(num_functions))

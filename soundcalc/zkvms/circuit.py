@@ -28,7 +28,7 @@ class CircuitConfig:
     lookups: list[LogUp] | None = None
     # Whether or not the zerocheck is done with a multilinear sumcheck
     multilinear_zerocheck: bool = False
-    # Whether or not to only analyze unique decoding regime. 
+    # Whether or not to only analyze unique decoding regime.
     udr_only: bool = False
     # Proof of Work grinding during DEEP (expressed in bits of security)
     grinding_deep: int = 0
@@ -127,7 +127,7 @@ class Circuit:
         ]
         if self.udr_only == False:
             regimes.append(JohnsonBoundRegime(self.field, gap_to_radius=self.gap_to_radius))
-        
+
         result = {}
         for regime in regimes:
             id = regime.identifier()
@@ -141,7 +141,7 @@ class Circuit:
                 deep_ali_levels = self._get_DEEP_ALI_errors(list_size,regime)
                 all_levels = pcs_levels | deep_ali_levels
             # A dirty heuristic for now, add zerocheck error only for unique decoding regime.
-            elif self.multilinear_zerocheck and self.udr_only: 
+            elif self.multilinear_zerocheck and self.udr_only:
                 zerocheck_levels = {}
                 log_height = ceil(log2(self.pcs.get_trace_length()))
                 zerocheck_error = (self.num_constraints + (self.AIR_max_degree + 2) * log_height) / self.field.F

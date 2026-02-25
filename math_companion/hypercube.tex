@@ -25,33 +25,33 @@ Global parameters used in the analysis:
 \end{itemize}
 
 \subsection{Security level for a Jagged PCS-based VM}\label{sec:jagged_security_level}
-The security level is calculated only for the unique decoding regime. \\ 
+The security level is calculated only for the unique decoding regime. \\
 
-The soundness error from FRI outside of the DEEP-ALI error can be analyzed exactly as batched FRI, with trace length $\nstack$ and batch size $\bstack$. 
-One of the other soundness error comes from zerocheck, which checks 
+The soundness error from FRI outside of the DEEP-ALI error can be analyzed exactly as batched FRI, with trace length $\nstack$ and batch size $\bstack$.
+One of the other soundness error comes from zerocheck, which checks
 
 $$\sum_{x \in H} \left( \text{eq}(r, x) \cdot \sum_{i=1}^C \lambda^i \cdot C_i(t_1(x), t_2(x), \cdots, t_B(x)) \right) = 0$$
 
-where $H = \{0, 1\}^{\log \ntrace}$ is the boolean hypercube. \\ 
+where $H = \{0, 1\}^{\log \ntrace}$ is the boolean hypercube. \\
 
 This soundness error is calculated in \verb|zkvms/circuit.py/get_security_levels()|. \\
 
-Following the analysis in Appendix A.2 of \cite{cryptoeprint:2024/108}, the random linear combination from $\text{eq}(r, x)$ adds a $(\log \ntrace) / q$ soundness error. The random linear combination from $\lambda^i$ adds a $C / q$ soundness error. Finally, the sumcheck routine adds a $((d + 1) \log \ntrace) / q$ soundness error. 
-Combined, the overall soundness error from the zerocheck is at most 
+Following the analysis in Appendix A.2 of \cite{cryptoeprint:2024/108}, the random linear combination from $\text{eq}(r, x)$ adds a $(\log \ntrace) / q$ soundness error. The random linear combination from $\lambda^i$ adds a $C / q$ soundness error. Finally, the sumcheck routine adds a $((d + 1) \log \ntrace) / q$ soundness error.
+Combined, the overall soundness error from the zerocheck is at most
 
 $$\frac{C + (d + 2) \log \ntrace}{q}$$
 
 The remaining soundness error comes from reducing the evaluation claims for the zerocheck into a single evaluation claim for the dense representation. This soundness error is calculated in \verb|pcs/jagged.py/__get_reduction_error()|.\\
 
-First, the random linear combination using the $\text{eq}$ polynomial for the $\btrace$ evaluations add an at most 
+First, the random linear combination using the $\text{eq}$ polynomial for the $\btrace$ evaluations add an at most
 
-$$\frac{\log \btrace}{q}$$ 
+$$\frac{\log \btrace}{q}$$
 
-soundness error, and the jagged evaluation and jagged sumcheck combined adds an at most 
+soundness error, and the jagged evaluation and jagged sumcheck combined adds an at most
 
 $$\frac{6 \cdot (\log \nstack + \log \bstack) + 4}{q}$$
 
-soundness error, as it is a degree 2 sumcheck with $2 \cdot \log \text{trace} + 2$ variables and a degree 2 sumcheck with $\log \text{trace}$ variables. 
+soundness error, as it is a degree 2 sumcheck with $2 \cdot \log \text{trace} + 2$ variables and a degree 2 sumcheck with $\log \text{trace}$ variables.
 Here, $\log \text{trace} = \log (\nstack \cdot \bstack) = \log \nstack + \log \bstack$. \\
 
 These bounds are pessimistic, and the round-by-round soundness errors are lower.
@@ -69,12 +69,12 @@ Given a sumcheck of degree $d$ and number of variables $n$, the size of the sumc
     \item evaluation point and result: $n\bfield + \bfield = (n+1)\bfield$.
 \end{itemize}
 
-So the overall size is 
+So the overall size is
 $$\text{Sumcheck}(d, n) = (n(d+2)+2)\bfield$$
 
 \subsection{Jagged PCS Proof}
 
-The jagged sumcheck and jagged evaluation proofs lead to a sumcheck proofs of size 
+The jagged sumcheck and jagged evaluation proofs lead to a sumcheck proofs of size
 $$\text{Sumcheck}(2, \log \text{trace}) + \text{Sumcheck}(2, 2 \cdot \log \text{trace} + 2)$$
 
 where $\text{trace} = \nstack \cdot \bstack$ is the size of the trace.
@@ -83,4 +83,3 @@ where $\text{trace} = \nstack \cdot \bstack$ is the size of the trace.
 
 The zerocheck proof with AIR degree $d$, is a sumcheck of degree $d+1$ with $\log \ntrace$ variables, so it has size
 $$\text{Sumcheck}(d + 1, \log \ntrace)$$
-

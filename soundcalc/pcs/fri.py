@@ -283,7 +283,7 @@ class FRI(PCS):
 
     def get_dimension(self) -> int:
         return self.trace_length
-    
+
     def get_trace_length(self) -> int:
         return self.trace_length
 

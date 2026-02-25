@@ -22,6 +22,6 @@ class UniqueDecodingRegime(ProximityGapsRegime):
         gamma = (1 - rate) / 2
         n = dimension / rate
         return (gamma * n + 1) / self.field.F
-    
+
     def get_error_multilinear(self, rate: float, dimension: int, num_functions: int) -> float:
         return self.get_error_linear(rate, dimension) * math.ceil(math.log2(num_functions))
