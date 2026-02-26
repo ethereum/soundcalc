@@ -68,7 +68,7 @@ fi
 echo "=== 3. Download ZisK proving key ==="
 ZISK_SETUP="$SCRIPT_DIR/zisk-setup"
 mkdir -p "$ZISK_SETUP"
-wget https://storage.googleapis.com/zisk-setup/zisk-provingkey-pre-0.15.0.tar.gz -O "$ZISK_SETUP/zisk-provingkey.tar.gz"
+wget https://storage.googleapis.com/zisk-setup/zisk-provingkey-pre-0.16.0.tar.gz -O "$ZISK_SETUP/zisk-provingkey.tar.gz"
 tar -xvzf "$ZISK_SETUP/zisk-provingkey.tar.gz" -C "$ZISK_SETUP"
 
 echo "=== 4. Clone pil2-proofman ==="

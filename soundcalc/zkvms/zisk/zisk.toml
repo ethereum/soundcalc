@@ -6,6 +6,876 @@ field = "Goldilocks^3"
 hash_size_bits = 256
 
 [[circuits]]
+name = "Dma"
+group = "basic"
+trace_length = 2097152
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 55
+num_columns = 56
+num_constraints = 49
+opening_points = 3
+batch_size = 46
+power_batching = true
+num_queries = 229
+fri_folding_factors = [8, 8, 8, 8, 8, 4]
+fri_early_stop_degree = 32
+grinding_query_phase = 16
+gap_to_radius = 0.005333333333333333
+proof_size = "1.62 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[8001]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 7
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[8000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 11
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[77]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 2
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[102]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "DmaMemCpy"
+group = "basic"
+trace_length = 2097152
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 40
+num_columns = 41
+num_constraints = 22
+opening_points = 3
+batch_size = 33
+power_batching = true
+num_queries = 229
+fri_folding_factors = [8, 8, 8, 8, 8, 4]
+fri_early_stop_degree = 32
+grinding_query_phase = 16
+gap_to_radius = 0.005
+proof_size = "1.60 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[77]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 2
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[102]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[8001]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 7
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[8000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 11
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "DmaInputCpy"
+group = "basic"
+trace_length = 2097152
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 34
+num_columns = 35
+num_constraints = 20
+opening_points = 3
+batch_size = 27
+power_batching = true
+num_queries = 229
+fri_folding_factors = [8, 8, 8, 8, 8, 4]
+fri_early_stop_degree = 32
+grinding_query_phase = 16
+gap_to_radius = 0.004666666666666667
+proof_size = "1.59 MB"
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[105]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[102]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[8000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 11
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[8001]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 7
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Dma64Aligned"
+group = "basic"
+trace_length = 2097152
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 71
+num_columns = 72
+num_constraints = 88
+opening_points = 3
+batch_size = 62
+power_batching = true
+num_queries = 230
+fri_folding_factors = [8, 8, 8, 8, 8, 4]
+fri_early_stop_degree = 32
+grinding_query_phase = 16
+gap_to_radius = 0.005666666666666667
+proof_size = "1.66 MB"
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 9
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[88]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 2
+num_columns_M = 4
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Direct_gsum_[8200]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 10
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[102]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 8
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Dma64AlignedInputCpy"
+group = "basic"
+trace_length = 2097152
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 52
+num_columns = 53
+num_constraints = 52
+opening_points = 3
+batch_size = 44
+power_batching = true
+num_queries = 229
+fri_folding_factors = [8, 8, 8, 8, 8, 4]
+fri_early_stop_degree = 32
+grinding_query_phase = 16
+gap_to_radius = 0.005333333333333333
+proof_size = "1.62 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[88]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 2
+num_columns_M = 4
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 4
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Direct_gsum_[8200]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 10
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[102]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 8
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Dma64AlignedMemSet"
+group = "basic"
+trace_length = 2097152
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 29
+num_columns = 30
+num_constraints = 62
+opening_points = 3
+batch_size = 30
+power_batching = true
+num_queries = 229
+fri_folding_factors = [8, 8, 8, 8, 8, 4]
+fri_early_stop_degree = 32
+grinding_query_phase = 16
+gap_to_radius = 0.005
+proof_size = "1.58 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[8200]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 10
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 8
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Dma64AlignedMem"
+group = "basic"
+trace_length = 2097152
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 44
+num_columns = 45
+num_constraints = 81
+opening_points = 3
+batch_size = 46
+power_batching = true
+num_queries = 229
+fri_folding_factors = [8, 8, 8, 8, 8, 4]
+fri_early_stop_degree = 32
+grinding_query_phase = 16
+gap_to_radius = 0.005333333333333333
+proof_size = "1.61 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 9
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Direct_gsum_[8200]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 10
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Dma64AlignedMemCpy"
+group = "basic"
+trace_length = 2097152
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 61
+num_columns = 62
+num_constraints = 69
+opening_points = 3
+batch_size = 52
+power_batching = true
+num_queries = 229
+fri_folding_factors = [8, 8, 8, 8, 8, 4]
+fri_early_stop_degree = 32
+grinding_query_phase = 16
+gap_to_radius = 0.005333333333333333
+proof_size = "1.64 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 17
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Direct_gsum_[8200]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 10
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "DmaUnaligned"
+group = "basic"
+trace_length = 2097152
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 36
+num_columns = 37
+num_constraints = 75
+opening_points = 3
+batch_size = 52
+power_batching = true
+num_queries = 229
+fri_folding_factors = [8, 8, 8, 8, 8, 4]
+fri_early_stop_degree = 32
+grinding_query_phase = 16
+gap_to_radius = 0.005333333333333333
+proof_size = "1.59 MB"
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 6
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[88]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 2
+num_columns_M = 4
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Direct_gsum_[8201]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 18
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "DmaPrePost"
+group = "basic"
+trace_length = 2097152
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 98
+num_columns = 99
+num_constraints = 69
+opening_points = 3
+batch_size = 83
+power_batching = true
+num_queries = 230
+fri_folding_factors = [8, 8, 8, 8, 8, 4]
+fri_early_stop_degree = 32
+grinding_query_phase = 16
+gap_to_radius = 0.005999999999999999
+proof_size = "1.71 MB"
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 4
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[8000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[8002]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[88]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 2
+num_columns_M = 12
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[8003]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 3
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "DmaPrePostMemCpy"
+group = "basic"
+trace_length = 2097152
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 85
+num_columns = 86
+num_constraints = 38
+opening_points = 3
+batch_size = 70
+power_batching = true
+num_queries = 230
+fri_folding_factors = [8, 8, 8, 8, 8, 4]
+fri_early_stop_degree = 32
+grinding_query_phase = 16
+gap_to_radius = 0.005666666666666667
+proof_size = "1.69 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[88]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 2
+num_columns_M = 12
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[8002]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[8000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 4
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "DmaPrePostInputCpy"
+group = "basic"
+trace_length = 2097152
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 53
+num_columns = 54
+num_constraints = 20
+opening_points = 3
+batch_size = 44
+power_batching = true
+num_queries = 229
+fri_folding_factors = [8, 8, 8, 8, 8, 4]
+fri_early_stop_degree = 32
+grinding_query_phase = 16
+gap_to_radius = 0.005333333333333333
+proof_size = "1.62 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[8002]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[88]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 2
+num_columns_M = 8
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[8000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits]]
 name = "Main"
 group = "basic"
 trace_length = 4194304
@@ -13,8 +883,8 @@ rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 3
 num_columns_witness = 62
-total_columns = 65
-num_constraints = 146
+num_columns = 65
+num_constraints = 144
 opening_points = 3
 batch_size = 61
 power_batching = true
@@ -25,6 +895,60 @@ grinding_query_phase = 16
 gap_to_radius = 0.006333333333333333
 proof_size = "1.80 MB"
 
+[[circuits.lookups]]
+name = "Range Check_gsum_[102]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 34
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[106]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 6
+num_columns_M = 34
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Direct_gsum_[1000]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 5
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[7890]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "Rom"
 group = "basic"
@@ -33,17 +957,26 @@ rho = 0.5
 air_max_degree = 2
 num_columns_fixed = 1
 num_columns_witness = 18
-total_columns = 19
+num_columns = 19
 num_constraints = 3
 opening_points = 3
 batch_size = 18
 power_batching = true
-num_queries = 229
+num_queries = 221
 fri_folding_factors = [8, 8, 8, 8, 8, 8]
 fri_early_stop_degree = 32
-grinding_query_phase = 16
+grinding_query_phase = 20
 gap_to_radius = 0.005
-proof_size = "1.91 MB"
+proof_size = "1.84 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[7890]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
 
 [[circuits]]
 name = "Mem"
@@ -53,7 +986,7 @@ rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 2
 num_columns_witness = 22
-total_columns = 24
+num_columns = 24
 num_constraints = 34
 opening_points = 3
 batch_size = 29
@@ -65,6 +998,51 @@ grinding_query_phase = 16
 gap_to_radius = 0.005666666666666667
 proof_size = "1.72 MB"
 
+[[circuits.lookups]]
+name = "Direct_gsum_[11]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 6
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 5
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 6
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[102]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "RomData"
 group = "basic"
@@ -73,7 +1051,7 @@ rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 2
 num_columns_witness = 15
-total_columns = 17
+num_columns = 17
 num_constraints = 23
 opening_points = 3
 batch_size = 19
@@ -85,6 +1063,33 @@ grinding_query_phase = 16
 gap_to_radius = 0.004333333333333333
 proof_size = "1.56 MB"
 
+[[circuits.lookups]]
+name = "Range Check_gsum_[102]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 3
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Direct_gsum_[11]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 6
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 6
+num_columns_M = 1
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "InputData"
 group = "basic"
@@ -93,7 +1098,7 @@ rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 2
 num_columns_witness = 23
-total_columns = 25
+num_columns = 25
 num_constraints = 26
 opening_points = 3
 batch_size = 27
@@ -105,6 +1110,42 @@ grinding_query_phase = 16
 gap_to_radius = 0.004666666666666667
 proof_size = "1.57 MB"
 
+[[circuits.lookups]]
+name = "Direct_gsum_[11]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 6
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 6
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[102]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 3
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 4
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "MemAlign"
 group = "basic"
@@ -113,7 +1154,7 @@ rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 2
 num_columns_witness = 47
-total_columns = 49
+num_columns = 49
 num_constraints = 40
 opening_points = 3
 batch_size = 59
@@ -125,6 +1166,33 @@ grinding_query_phase = 16
 gap_to_radius = 0.005666666666666667
 proof_size = "1.62 MB"
 
+[[circuits.lookups]]
+name = "Lookup_gsum_[133]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[107]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 8
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "MemAlignByte"
 group = "basic"
@@ -133,7 +1201,7 @@ rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 1
 num_columns_witness = 28
-total_columns = 29
+num_columns = 29
 num_constraints = 16
 opening_points = 3
 batch_size = 25
@@ -145,6 +1213,51 @@ grinding_query_phase = 16
 gap_to_radius = 0.005333333333333333
 proof_size = "1.72 MB"
 
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Direct_gsum_[10]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 6
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[88]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 2
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 6
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[107]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "MemAlignReadByte"
 group = "basic"
@@ -153,7 +1266,7 @@ rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 1
 num_columns_witness = 19
-total_columns = 20
+num_columns = 20
 num_constraints = 10
 opening_points = 3
 batch_size = 18
@@ -165,6 +1278,42 @@ grinding_query_phase = 16
 gap_to_radius = 0.005
 proof_size = "1.71 MB"
 
+[[circuits.lookups]]
+name = "Lookup_gsum_[88]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 2
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Direct_gsum_[10]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 6
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 6
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "MemAlignWriteByte"
 group = "basic"
@@ -173,7 +1322,7 @@ rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 1
 num_columns_witness = 26
-total_columns = 27
+num_columns = 27
 num_constraints = 15
 opening_points = 3
 batch_size = 23
@@ -185,6 +1334,51 @@ grinding_query_phase = 16
 gap_to_radius = 0.005333333333333333
 proof_size = "1.72 MB"
 
+[[circuits.lookups]]
+name = "Range Check_gsum_[107]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[88]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 2
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Direct_gsum_[10]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 6
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 6
+num_columns_M = 2
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "Arith"
 group = "basic"
@@ -193,7 +1387,7 @@ rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 1
 num_columns_witness = 89
-total_columns = 90
+num_columns = 90
 num_constraints = 65
 opening_points = 3
 batch_size = 64
@@ -205,6 +1399,33 @@ grinding_query_phase = 16
 gap_to_radius = 0.005666666666666667
 proof_size = "1.69 MB"
 
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[330]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 2
+num_columns_M = 23
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[331]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 4
+num_columns_M = 1
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "Binary"
 group = "basic"
@@ -213,7 +1434,7 @@ rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 1
 num_columns_witness = 54
-total_columns = 55
+num_columns = 55
 num_constraints = 14
 opening_points = 3
 batch_size = 49
@@ -225,6 +1446,33 @@ grinding_query_phase = 16
 gap_to_radius = 0.005999999999999999
 proof_size = "1.78 MB"
 
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[125]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 7
+num_columns_M = 8
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "BinaryAdd"
 group = "basic"
@@ -233,7 +1481,7 @@ rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 1
 num_columns_witness = 19
-total_columns = 20
+num_columns = 20
 num_constraints = 9
 opening_points = 3
 batch_size = 18
@@ -245,6 +1493,33 @@ grinding_query_phase = 16
 gap_to_radius = 0.005
 proof_size = "1.71 MB"
 
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 4
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "BinaryExtension"
 group = "basic"
@@ -253,7 +1528,7 @@ rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 1
 num_columns_witness = 47
-total_columns = 48
+num_columns = 48
 num_constraints = 8
 opening_points = 3
 batch_size = 40
@@ -265,6 +1540,42 @@ grinding_query_phase = 16
 gap_to_radius = 0.005999999999999999
 proof_size = "1.77 MB"
 
+[[circuits.lookups]]
+name = "Lookup_gsum_[124]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 7
+num_columns_M = 8
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[102]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "Add256"
 group = "basic"
@@ -273,7 +1584,7 @@ rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 1
 num_columns_witness = 98
-total_columns = 99
+num_columns = 99
 num_constraints = 36
 opening_points = 3
 batch_size = 69
@@ -285,6 +1596,33 @@ grinding_query_phase = 16
 gap_to_radius = 0.005
 proof_size = "1.60 MB"
 
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 16
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 16
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "ArithEq"
 group = "basic"
@@ -292,11 +1630,11 @@ trace_length = 1048576
 rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 2
-num_columns_witness = 79
-total_columns = 81
-num_constraints = 93
+num_columns_witness = 83
+num_columns = 85
+num_constraints = 103
 opening_points = 36
-batch_size = 434
+batch_size = 470
 power_batching = true
 num_queries = 231
 fri_folding_factors = [8, 8, 8, 8, 8]
@@ -304,6 +1642,60 @@ fri_early_stop_degree = 64
 grinding_query_phase = 16
 gap_to_radius = 0.007333333333333333
 proof_size = "1.59 MB"
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103, 104]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 3
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5002]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 2
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 7
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[108]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 6
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
 
 [[circuits]]
 name = "ArithEq384"
@@ -313,7 +1705,7 @@ rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 2
 num_columns_witness = 73
-total_columns = 75
+num_columns = 75
 num_constraints = 76
 opening_points = 54
 batch_size = 536
@@ -325,6 +1717,60 @@ grinding_query_phase = 16
 gap_to_radius = 0.007666666666666666
 proof_size = "1.58 MB"
 
+[[circuits.lookups]]
+name = "Range Check_gsum_[103, 104]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 3
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[108]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 6
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 7
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5002]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 2
+num_columns_M = 2
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "Keccakf"
 group = "basic"
@@ -333,7 +1779,7 @@ rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 2
 num_columns_witness = 3016
-total_columns = 3018
+num_columns = 3018
 num_constraints = 2432
 opening_points = 26
 batch_size = 4065
@@ -345,6 +1791,33 @@ grinding_query_phase = 23
 gap_to_radius = 0.007333333333333333
 proof_size = "6.25 MB"
 
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 131072
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 25
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 131072
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[126]"
+logup_type = "univariate"
+rows_L = 131072
+rows_T = 0
+num_columns_S = 4
+num_columns_M = 534
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "Sha256f"
 group = "basic"
@@ -353,7 +1826,7 @@ rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 2
 num_columns_witness = 115
-total_columns = 117
+num_columns = 117
 num_constraints = 115
 opening_points = 87
 batch_size = 1265
@@ -365,6 +1838,33 @@ grinding_query_phase = 16
 gap_to_radius = 0.006666666666666666
 proof_size = "1.48 MB"
 
+[[circuits.lookups]]
+name = "Range Check_gsum_[109]"
+logup_type = "univariate"
+rows_L = 262144
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 262144
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 262144
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 1
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "Poseidon2"
 group = "basic"
@@ -373,7 +1873,7 @@ rho = 0.25
 air_max_degree = 4
 num_columns_fixed = 2
 num_columns_witness = 66
-total_columns = 68
+num_columns = 68
 num_constraints = 85
 opening_points = 17
 batch_size = 182
@@ -385,6 +1885,80 @@ grinding_query_phase = 16
 gap_to_radius = 0.004
 proof_size = "698.25 KB"
 
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 131072
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 131072
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 4
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Blake2br"
+group = "basic"
+trace_length = 262144
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 3
+num_columns_witness = 199
+num_columns = 202
+num_constraints = 189
+opening_points = 29
+batch_size = 651
+power_batching = true
+num_queries = 230
+fri_folding_factors = [8, 8, 8, 8, 4]
+fri_early_stop_degree = 32
+grinding_query_phase = 16
+gap_to_radius = 0.005999999999999999
+proof_size = "1.61 MB"
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 262144
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 4
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 262144
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[127]"
+logup_type = "univariate"
+rows_L = 262144
+rows_T = 262144
+num_columns_S = 3
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 262144
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 12
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "SpecifiedRanges"
 group = "basic"
@@ -393,7 +1967,7 @@ rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 59
 num_columns_witness = 74
-total_columns = 133
+num_columns = 133
 num_constraints = 16
 opening_points = 3
 batch_size = 107
@@ -403,7 +1977,61 @@ fri_folding_factors = [8, 8, 8, 8, 8]
 fri_early_stop_degree = 64
 grinding_query_phase = 16
 gap_to_radius = 0.005333333333333333
-proof_size = "1.66 MB"
+proof_size = "1.84 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[108]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[102]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[108, 109]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[104]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[103, 104]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[104, 105, 106, 107, 108]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
 
 [[circuits]]
 name = "VirtualTable0"
@@ -413,7 +2041,7 @@ rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 52
 num_columns_witness = 23
-total_columns = 75
+num_columns = 75
 num_constraints = 6
 opening_points = 3
 batch_size = 69
@@ -425,6 +2053,60 @@ grinding_query_phase = 16
 gap_to_radius = 0.005666666666666667
 proof_size = "1.87 MB"
 
+[[circuits.lookups]]
+name = "Lookup_gsum_[125]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 7
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[330]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 2
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[126, 331, 8002, 133, 125]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 7
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5002, 88, 77, 8003, 126]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 4
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[124, 8001]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 7
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[125, 124]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 7
+num_columns_M = 1
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "VirtualTable1"
 group = "basic"
@@ -433,7 +2115,7 @@ rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 73
 num_columns_witness = 23
-total_columns = 96
+num_columns = 96
 num_constraints = 6
 opening_points = 3
 batch_size = 90
@@ -445,15 +2127,24 @@ grinding_query_phase = 16
 gap_to_radius = 0.005999999999999999
 proof_size = "1.91 MB"
 
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 8
+num_columns_M = 1
+grinding_bits_lookup = 0
+
 [[circuits]]
-name = "ArithEq-compressor"
+name = "DmaPrePost-compressor"
 group = "compression"
 trace_length = 262144
 rho = 0.25
 air_max_degree = 5
 num_columns_fixed = 58
 num_columns_witness = 107
-total_columns = 165
+num_columns = 165
 num_constraints = 179
 opening_points = 6
 batch_size = 198
@@ -464,6 +2155,44 @@ fri_early_stop_degree = 32
 grinding_query_phase = 20
 gap_to_radius = 0.004666666666666667
 proof_size = "791.32 KB"
+
+[[circuits.lookups]]
+name = "Connection_gprod_[1]"
+logup_type = "univariate"
+rows_L = 262144
+rows_T = 262144
+num_columns_S = 2
+num_columns_M = 36
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "ArithEq-compressor"
+group = "compression"
+trace_length = 262144
+rho = 0.25
+air_max_degree = 5
+num_columns_fixed = 58
+num_columns_witness = 107
+num_columns = 165
+num_constraints = 179
+opening_points = 6
+batch_size = 198
+power_batching = true
+num_queries = 110
+fri_folding_factors = [8, 8, 8, 8, 8]
+fri_early_stop_degree = 32
+grinding_query_phase = 20
+gap_to_radius = 0.004666666666666667
+proof_size = "791.32 KB"
+
+[[circuits.lookups]]
+name = "Connection_gprod_[1]"
+logup_type = "univariate"
+rows_L = 262144
+rows_T = 262144
+num_columns_S = 2
+num_columns_M = 36
+grinding_bits_lookup = 0
 
 [[circuits]]
 name = "ArithEq384-compressor"
@@ -473,7 +2202,7 @@ rho = 0.25
 air_max_degree = 5
 num_columns_fixed = 58
 num_columns_witness = 107
-total_columns = 165
+num_columns = 165
 num_constraints = 179
 opening_points = 6
 batch_size = 198
@@ -485,6 +2214,15 @@ grinding_query_phase = 20
 gap_to_radius = 0.004666666666666667
 proof_size = "791.32 KB"
 
+[[circuits.lookups]]
+name = "Connection_gprod_[1]"
+logup_type = "univariate"
+rows_L = 262144
+rows_T = 262144
+num_columns_S = 2
+num_columns_M = 36
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "Keccakf-compressor"
 group = "compression"
@@ -493,7 +2231,7 @@ rho = 0.25
 air_max_degree = 5
 num_columns_fixed = 58
 num_columns_witness = 107
-total_columns = 165
+num_columns = 165
 num_constraints = 179
 opening_points = 6
 batch_size = 198
@@ -505,6 +2243,15 @@ grinding_query_phase = 20
 gap_to_radius = 0.006333333333333333
 proof_size = "905.29 KB"
 
+[[circuits.lookups]]
+name = "Connection_gprod_[1]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 1048576
+num_columns_S = 2
+num_columns_M = 36
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "Sha256f-compressor"
 group = "compression"
@@ -513,7 +2260,7 @@ rho = 0.25
 air_max_degree = 5
 num_columns_fixed = 58
 num_columns_witness = 107
-total_columns = 165
+num_columns = 165
 num_constraints = 179
 opening_points = 6
 batch_size = 198
@@ -525,15 +2272,24 @@ grinding_query_phase = 20
 gap_to_radius = 0.005333333333333333
 proof_size = "853.95 KB"
 
+[[circuits.lookups]]
+name = "Connection_gprod_[1]"
+logup_type = "univariate"
+rows_L = 524288
+rows_T = 524288
+num_columns_S = 2
+num_columns_M = 36
+grinding_bits_lookup = 0
+
 [[circuits]]
-name = "SpecifiedRanges-compressor"
+name = "Blake2br-compressor"
 group = "compression"
 trace_length = 262144
 rho = 0.25
 air_max_degree = 5
 num_columns_fixed = 58
 num_columns_witness = 107
-total_columns = 165
+num_columns = 165
 num_constraints = 179
 opening_points = 6
 batch_size = 198
@@ -545,6 +2301,15 @@ grinding_query_phase = 20
 gap_to_radius = 0.004666666666666667
 proof_size = "791.32 KB"
 
+[[circuits.lookups]]
+name = "Connection_gprod_[1]"
+logup_type = "univariate"
+rows_L = 262144
+rows_T = 262144
+num_columns_S = 2
+num_columns_M = 36
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "Recursive2"
 group = "aggregation"
@@ -553,7 +2318,7 @@ rho = 0.125
 air_max_degree = 8
 num_columns_fixed = 49
 num_columns_witness = 71
-total_columns = 120
+num_columns = 120
 num_constraints = 158
 opening_points = 4
 batch_size = 145
@@ -565,25 +2330,43 @@ grinding_query_phase = 20
 gap_to_radius = 0.004
 proof_size = "565.01 KB"
 
+[[circuits.lookups]]
+name = "Connection_gprod_[1]"
+logup_type = "univariate"
+rows_L = 131072
+rows_T = 131072
+num_columns_S = 2
+num_columns_M = 27
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "Final"
 group = "final"
 trace_length = 65536
 rho = 0.03125
 air_max_degree = 8
-num_columns_fixed = 52
-num_columns_witness = 77
-total_columns = 129
-num_constraints = 160
+num_columns_fixed = 55
+num_columns_witness = 80
+num_columns = 135
+num_constraints = 161
 opening_points = 4
-batch_size = 152
+batch_size = 158
 power_batching = true
 num_queries = 43
 fri_folding_factors = [16, 16, 16, 16]
 fri_early_stop_degree = 32
 grinding_query_phase = 22
-gap_to_radius = 0.003333333333333333
-proof_size = "333.05 KB"
+gap_to_radius = 0.0036666666666666666
+proof_size = "335.21 KB"
+
+[[circuits.lookups]]
+name = "Connection_gprod_[1]"
+logup_type = "univariate"
+rows_L = 65536
+rows_T = 65536
+num_columns_S = 2
+num_columns_M = 33
+grinding_bits_lookup = 0
 
 [[circuits]]
 name = "Final_Compressed"
@@ -593,7 +2376,7 @@ rho = 0.0625
 air_max_degree = 8
 num_columns_fixed = 49
 num_columns_witness = 71
-total_columns = 120
+num_columns = 120
 num_constraints = 158
 opening_points = 4
 batch_size = 145
@@ -604,3 +2387,12 @@ fri_early_stop_degree = 1024
 grinding_query_phase = 22
 gap_to_radius = 0.003333333333333333
 proof_size = "254.64 KB"
+
+[[circuits.lookups]]
+name = "Connection_gprod_[1]"
+logup_type = "univariate"
+rows_L = 32768
+rows_T = 32768
+num_columns_S = 2
+num_columns_M = 27
+grinding_bits_lookup = 0
