@@ -91,12 +91,25 @@ class FRIConfig:
     # Number of functions appearing in the batched-FRI
     # This can be greater than `num_columns`: some zkEVMs have to use "segment polynomials" (aka "composition polynomials")
     batch_size: int
-    # Boolean flag to indicate if batched-FRI is implemented using coefficients
-    # r^0, r^1, ... r^{batch_size-1} (power_batching = True) or
+    # Together, `power_batching` and `multilinear_batching` encode one of three
+    # batching strategies — i.e. how the coefficients c_i are chosen when
+    # combining batch_size polynomials f_i into f_batch = Σ c_i · f_i.
+    # Each batching strategy comes with its own soundness formula.
+    #
+    # The three strategies are:
+    #
+    #   Powers: power_batching=True,  multilinear_batching=False
+    #       c_i = γ^i  for a random challenge γ.
+    #
+    #   Multilinear: power_batching=False, multilinear_batching=True
+    #       c_i = eq(r, i)  where r is a random vector and eq is the
+    #       multilinear extension of the equality function.
+    #
+    #   Affine batching: power_batching=False, multilinear_batching=False
+    #       c_0 = 1, c_i = r_i  for independent random values r_i.
+    #
+    # Note: multilinear batching can only be used with multilinear PCSes (e.g. Jagged).
     power_batching: bool
-    # Boolean flag to indicate if batched-FRI is implemented using coefficients
-    # eq(r, 0), ... eq(r, batch_size - 1) (multilinear_batching = True)
-    # 1, r_1, r_2, ... r_{batch_size - 1} (power_batching = multilinear_batching = False)
     multilinear_batching: bool
     # Number of FRI queries
     num_queries: int
