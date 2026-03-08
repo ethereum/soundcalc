@@ -10,8 +10,8 @@ How to read this report:
 
 | Metric | Value | Relevant circuit | Notes |
 | --- | --- | --- | --- |
-| Final proof size (worst case) | **1386 KiB** | [internal](#internal) | |
-| Final bits of security | **58 bits** | [internal](#internal) | Regime: JBR |
+| Final proof size (worst case) | **8231 KiB** | [internal](#internal) | |
+| Final bits of security | **85 bits** | [app](#app) | Regime: UDR |
 
 ## Circuits
 
@@ -24,24 +24,26 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 100
-- Grinding query phase (bits): 16
+- Number of queries: 193
+- Grinding query phase (bits): 20
+- Grinding commit phase (bits): 20
+- Grinding DEEP (bits): 5
 - Field: BabyBear⁴
 - Rate (ρ): 0.5
-- Trace length (H): $2^{22}$
-- FRI rounds: 22
-- FRI folding factors: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+- Trace length (H): $2^{23}$
+- FRI rounds: 23
+- FRI folding factors: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 - FRI early stop degree: 2
-- Number of constraints: 11366
-- Batch size: 14162
+- Number of constraints: 15000
+- Batch size: 80000
 - Batching: Powers
 
-**Proof Size:** 21913 KiB (expected) / 22364 KiB (worst case)
+**Proof Size:** 234635 KiB (expected) / 235651 KiB (worst case)
 
-| regime | total | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 18 | commit round 19 | commit round 2 | commit round 20 | commit round 21 | commit round 22 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 57 | 110 | 99 | 88 | 103 | 112 | 113 | 114 | 115 | 116 | 117 | 118 | 119 | 120 | 121 | 104 | 122 | 122 | 123 | 105 | 106 | 107 | 108 | 109 | 110 | 111 | 57 |
-| JBR | 60 | 105 | 94 | 61 | 76 | 85 | 86 | 87 | 88 | 89 | 90 | 91 | 92 | 93 | 94 | 77 | 95 | 96 | 97 | 78 | 79 | 80 | 81 | 82 | 83 | 84 | 60 |
+| regime | total | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 18 | commit round 19 | commit round 2 | commit round 20 | commit round 21 | commit round 22 | commit round 23 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 85 | 109 | 103 | 85 | 122 | 131 | 132 | 133 | 134 | 135 | 136 | 137 | 138 | 139 | 140 | 123 | 141 | 142 | 142 | 143 | 124 | 125 | 126 | 127 | 128 | 129 | 130 | 100 |
+| JBR | 58 | 104 | 98 | 58 | 95 | 104 | 105 | 106 | 107 | 108 | 109 | 110 | 111 | 112 | 113 | 96 | 114 | 115 | 116 | 117 | 97 | 98 | 99 | 100 | 101 | 102 | 103 | 106 |
 
 
 ## leaf
@@ -49,24 +51,26 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 100
-- Grinding query phase (bits): 16
+- Number of queries: 193
+- Grinding query phase (bits): 20
+- Grinding commit phase (bits): 20
+- Grinding DEEP (bits): 5
 - Field: BabyBear⁴
 - Rate (ρ): 0.5
 - Trace length (H): $2^{23}$
 - FRI rounds: 23
 - FRI folding factors: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 - FRI early stop degree: 2
-- Number of constraints: 885
-- Batch size: 1798
+- Number of constraints: 15000
+- Batch size: 80000
 - Batching: Powers
 
-**Proof Size:** 3253 KiB (expected) / 3727 KiB (worst case)
+**Proof Size:** 234635 KiB (expected) / 235651 KiB (worst case)
 
 | regime | total | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 18 | commit round 19 | commit round 2 | commit round 20 | commit round 21 | commit round 22 | commit round 23 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 57 | 113 | 98 | 90 | 102 | 111 | 112 | 113 | 114 | 115 | 116 | 117 | 118 | 119 | 120 | 103 | 121 | 122 | 122 | 123 | 104 | 105 | 106 | 107 | 108 | 109 | 110 | 57 |
-| JBR | 60 | 109 | 93 | 63 | 75 | 84 | 85 | 86 | 87 | 88 | 89 | 90 | 91 | 92 | 93 | 76 | 94 | 95 | 96 | 97 | 77 | 78 | 79 | 80 | 81 | 82 | 83 | 60 |
+| UDR | 85 | 109 | 103 | 85 | 122 | 131 | 132 | 133 | 134 | 135 | 136 | 137 | 138 | 139 | 140 | 123 | 141 | 142 | 142 | 143 | 124 | 125 | 126 | 127 | 128 | 129 | 130 | 100 |
+| JBR | 58 | 104 | 98 | 58 | 95 | 104 | 105 | 106 | 107 | 108 | 109 | 110 | 111 | 112 | 113 | 96 | 114 | 115 | 116 | 117 | 97 | 98 | 99 | 100 | 101 | 102 | 103 | 106 |
 
 
 ## internal
@@ -74,23 +78,25 @@ How to read this report:
 **Parameters:**
 - Polynomial commitment scheme: FRI
 - Hash size (bits): 256
-- Number of queries: 44
-- Grinding query phase (bits): 16
+- Number of queries: 118
+- Grinding query phase (bits): 20
+- Grinding commit phase (bits): 16
+- Grinding DEEP (bits): 5
 - Field: BabyBear⁴
 - Rate (ρ): 0.25
 - Trace length (H): $2^{21}$
 - FRI rounds: 21
 - FRI folding factors: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 - FRI early stop degree: 4
-- Number of constraints: 801
-- Batch size: 1472
+- Number of constraints: 15000
+- Batch size: 4000
 - Batching: Powers
 - Lookup (logup): lookup
 
-**Proof Size:** 1218 KiB (expected) / 1386 KiB (worst case)
+**Proof Size:** 7687 KiB (expected) / 8231 KiB (worst case)
 
 | regime | total | lookup | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 18 | commit round 19 | commit round 2 | commit round 20 | commit round 21 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 45 | 132 | 113 | 100 | 91 | 103 | 112 | 113 | 114 | 115 | 116 | 117 | 118 | 118 | 119 | 120 | 104 | 121 | 122 | 105 | 106 | 107 | 108 | 109 | 110 | 111 | 45 |
-| JBR | 58 | 132 | 107 | 93 | 60 | 72 | 81 | 82 | 83 | 84 | 85 | 86 | 87 | 88 | 89 | 90 | 73 | 91 | 92 | 74 | 75 | 76 | 77 | 78 | 79 | 80 | 58 |
+| UDR | 90 | 134 | 109 | 105 | 90 | 119 | 128 | 129 | 130 | 131 | 132 | 133 | 134 | 134 | 135 | 136 | 120 | 137 | 138 | 121 | 122 | 123 | 124 | 125 | 126 | 127 | 100 |
+| JBR | 59 | 134 | 103 | 98 | 59 | 88 | 97 | 98 | 99 | 100 | 101 | 102 | 103 | 104 | 105 | 106 | 89 | 107 | 108 | 90 | 91 | 92 | 93 | 94 | 95 | 96 | 133 |
 
