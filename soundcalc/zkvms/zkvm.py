@@ -95,6 +95,7 @@ class zkVM:
                 FRI_early_stop_degree=section.get("fri_early_stop_degree"),
                 grinding_query_phase=section.get("grinding_query_phase", 0),
                 grinding_commit_phase=section.get("grinding_commit_phase", 0),
+                grinding_bits_batching=section.get("grinding_bits_batching", 0),
             ))
             lookups = _parse_lookups_from_toml(section, field)
             circuit = Circuit(CircuitConfig(

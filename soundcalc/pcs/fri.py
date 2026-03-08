@@ -127,6 +127,9 @@ class FRIConfig:
     # (Protocols apply this level of grinding to every round of the commit phase due to RBR security)
     grinding_commit_phase: int = 0
 
+    # The number of grinding (Proof-of-Work) bits applied to the batching step.
+    grinding_bits_batching: int = 0
+
     # Optional override for the bound *gap*.
     # (This is useful to pin fixed parameters in TOML configs.)
     gap_to_radius: Optional[float] = None
@@ -148,6 +151,7 @@ class FRI(PCS):
         self.FRI_early_stop_degree = config.FRI_early_stop_degree
         self.grinding_query_phase = config.grinding_query_phase
         self.grinding_commit_phase = config.grinding_commit_phase
+        self.grinding_bits_batching = config.grinding_bits_batching
         self.gap_to_radius = config.gap_to_radius
 
         # Negative log of rate
@@ -201,7 +205,7 @@ class FRI(PCS):
         else:
             epsilon = regime.get_error_linear(rate, dimension)
 
-        return epsilon
+        return apply_grinding(epsilon, self.grinding_bits_batching)
 
     def _get_commit_phase_error(self, round: int, regime: ProximityGapsRegime) -> float:
         """
