@@ -41,9 +41,10 @@ class zkVM:
     A class modeling a zkVM, which contains one or more circuits.
     """
 
-    def __init__(self, name: str, circuits: list[Circuit]):
+    def __init__(self, name: str, circuits: list[Circuit], version: str | None = None):
         self._name = name
         self._circuits = circuits
+        self.version = version
 
     def get_name(self) -> str:
         """Returns the name of the zkVM."""
@@ -113,7 +114,8 @@ class zkVM:
             ))
             circuits.append(circuit)
 
-        return cls(config["zkevm"]["name"], circuits=circuits)
+        return cls(config["zkevm"]["name"], circuits=circuits,
+                   version=config["zkevm"].get("version"))
 
     @classmethod
     def _load_whir_from_toml(cls, config: dict) -> "zkVM":
@@ -154,7 +156,8 @@ class zkVM:
             ))
             circuits.append(circuit)
 
-        return cls(config["zkevm"]["name"], circuits=circuits)
+        return cls(config["zkevm"]["name"], circuits=circuits,
+                   version=config["zkevm"].get("version"))
 
     @classmethod
     def _load_jagged_from_toml(cls, config: dict) -> "zkVM":
@@ -199,4 +202,5 @@ class zkVM:
             ))
             circuits.append(circuit)
 
-        return cls(config["zkevm"]["name"], circuits=circuits)
+        return cls(config["zkevm"]["name"], circuits=circuits,
+                   version=config["zkevm"].get("version"))

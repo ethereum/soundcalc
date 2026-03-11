@@ -1,4 +1,4 @@
-# 📊 OpenVM
+# 📊 OpenVM (v1.5.0)
 
 How to read this report:
 - Table rows correspond to security regimes

@@ -1,4 +1,4 @@
-# 📊 ZisK
+# 📊 ZisK (v0.16.0)
 
 How to read this report:
 - Table rows correspond to security regimes

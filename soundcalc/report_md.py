@@ -28,6 +28,7 @@ _SUMMARY_EXCLUDE = {"DummyWHIR"}
 class zkVMSummary:
     """Summary data for a single zkVM used in comparison reports."""
     name: str
+    version: str | None
     field: str
     pcs: str
     num_circuits: int
@@ -112,6 +113,7 @@ def _collect_zkvm_summary(zkvm: zkVM) -> zkVMSummary:
     if not circuits:
         return zkVMSummary(
             name=zkvm.get_name(),
+            version=zkvm.version,
             field="Unknown",
             pcs="Unknown",
             num_circuits=0,
@@ -148,6 +150,7 @@ def _collect_zkvm_summary(zkvm: zkVM) -> zkVMSummary:
 
     return zkVMSummary(
         name=zkvm.get_name(),
+        version=zkvm.version,
         field=field,
         pcs=pcs,
         num_circuits=len(circuits),
@@ -335,7 +338,8 @@ def _build_zkvm_report(zkvm: zkVM, multi_circuit: bool = False) -> str:
     lines: list[str] = []
     zkvm_name = zkvm.get_name()
 
-    lines.append(f"# 📊 {zkvm_name}")
+    version_suffix = f" (v{zkvm.version})" if zkvm.version else ""
+    lines.append(f"# 📊 {zkvm_name}{version_suffix}")
     lines.append("")
     lines.append("How to read this report:")
     lines.append("- Table rows correspond to security regimes")
@@ -433,8 +437,8 @@ def _build_summary_report(zkvms: list[zkVM]) -> str:
         "",
         "## Overview",
         "",
-        "| zkVM | Security | Proof Size | PCS | Field | Circuits | Weakest Circuit |",
-        "|------|----------|------------|-----|-------|----------|-----------------|",
+        "| zkVM | Version | Security | Proof Size | PCS | Field | Circuits | Weakest Circuit |",
+        "|------|---------|----------|------------|-----|-------|----------|-----------------|",
     ]
 
     summaries = sorted(
@@ -444,8 +448,10 @@ def _build_summary_report(zkvms: list[zkVM]) -> str:
 
     for s in summaries:
         report_filename = f"{s.name.lower().replace(' ', '_')}.md"
+        version_str = s.version if s.version else "—"
         lines.append(
             f"| [{s.name}]({report_filename}) "
+            f"| {version_str} "
             f"| **{s.security_bits}** bits ({s.security_regime}) "
             f"| {s.final_proof_size_kib} KiB "
             f"| {s.pcs} | {s.field} | {s.num_circuits} | {s.weakest_circuit_name} |"
