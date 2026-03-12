@@ -204,9 +204,6 @@ class FRI(PCS):
             epsilon = regime.get_error_multilinear(rate, dimension, self.batch_size)
         else:
             epsilon = regime.get_error_linear(rate, dimension)
-            
-        # add grinding for batching within the commit phase
-        epsilon = apply_grinding(epsilon, self.grinding_commit_phase)
 
         return apply_grinding(epsilon, self.grinding_bits_batching)
 
@@ -224,7 +221,7 @@ class FRI(PCS):
 
         epsilon = regime.get_error_powers(rate, dimension, self.FRI_folding_factors[round])
 
-        return epsilon
+        return apply_grinding(epsilon, self.grinding_commit_phase)
 
     def _get_query_phase_error(self, regime: ProximityGapsRegime) -> float:
         """
