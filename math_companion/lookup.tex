@@ -7,10 +7,12 @@ We have a table $\mathbf{T}\in\mathbb{F}^{T\times S}$ and tables $\mathbf{L}^1, 
 
 For the sake of the integration and in order to be consistent with parameters, we consider the cases when the lookup argument is proven using a univariate or multivariate IOP separately. We also consider a differentiate case when $S=1$.
 
-The logUP argument proves lookup relations by proving that given a vector $\vec m\in\mathbb{F}^{|\mathbf T|}$ whose elements are either $1$ or $0$, the lookup relation holds if and only if the following euqation is stisfied. 
+The logUP argument proves lookup relations by proving that given a vector $\vec m\in\mathbb{F}^{|\mathbf T|}$ such that $m_j\in\mathbb{Z}$, the lookup relation holds if and only if the following equation is satisfied. 
 
 $$\sum_{\vec l\in\mathbf{L}} \frac{1}{X-  \vec l}=\sum_{\vec t \in \mathbf{T}} \frac{m_{\vec t}}{X- \vec t}$$
 
+The expression above is equivalent to considering only one table $\mathbf L$ and having each element taken a positive or negative value depending on whether it is sent from the current trace or received from some previous computation. In that case, we just set $\mathbf{L}=\mathbf 0$ and have
+$$\sum_{\vec t \in \mathbf{T}} \frac{m_{\vec t}}{X- \vec t}=0$$
 
 We split the logUP protocol in two steps:
 
@@ -54,11 +56,15 @@ The probability that a prover gets a randomness that verifies without $\mathbf L
 
 A cheating prover can be lucky and obtain $\alpha, \beta$ such that the expression above is satisfied for a table $\mathbf {L}$ that is not a lookup on $\mathbf{T}$ with probability  $\epsilon_{\mathsf{sum}}\leq \frac{(L+T)S}{F}$.
 
+If the aggregation of the columns is done with a multivariate polynomial, the probability is then  $\epsilon_{\mathsf{sum}}\leq \frac{(L+T)\log(S)}{F}$.
+
 
 
 \subsubsection{Single column:}
 
 For the single column case, we simply set $S=1$ above and have that the soundness error is $\epsilon_{\mathsf{sum}}\leq \frac{(L+T)}{F}$.
+
+
 
 \subsubsection{Aggregation:}
 
@@ -75,7 +81,9 @@ We consider the following parameters:
 	\item $F$ = size of the extension field $\mathbb{F}$
 	\item $T$ = rows of $\mathbf{T}$
 	\item $L$ = rows of $\mathbf{L}$
-	\item $H$ = size of alphabet $\Sigma$
+	\item $H_L$ = size of alphabet used to interpolate $T$.
+	\item $H_T$ = size of alphabet used to interpolate $L$.
+	\item $H=H_L+H_T$
 	\item $S$ = number of columns of $T$ and $L$
 	\item $M$ = number of lookups performed on $\mathbf{T}$
 \end{itemize}
@@ -105,17 +113,18 @@ $$\epsilon_{\mathsf{logup-sound}}=\epsilon_{\mathsf{GKR}}(H_{\log(H)+\log(M)})\l
 
 \subsubsection{Single column:}
 
-By the same reasoning as above, we have that a cheating prover can get lucky with $\alpha$ with probability $\epsilon_{\mathsf{sum}}\leq \frac{2H}{F}$.
-
+By the same reasoning as above, we have that a cheating prover can get lucky with $\alpha$ with probability $\epsilon_{\mathsf{sum}}\leq \frac{H}{F}$. 
 
 \subsubsection{Multi column:}
 
-As the tables $\mathbf L, \mathbf T$ are already represented as tensors, considering more than one column consists on simply expanding $\mathbf L, \mathbf T$ and modifying $L, T, \Sigma$ accordingly.
+As the tables $\mathbf L, \mathbf T$ are already represented as tensors, considering $S$ columns consists on expanding $\mathbf L, \mathbf T$ with $\log (S)$ new variables. Still, to ensure all rows are lookup at together, those variables should be evaluated at random elements and the probability the prover gets lucky with those randomness is $\epsilon_{\mathsf{sum}}\leq \frac{\log(S) H}{F}$.
+
+
 
 \subsubsection{Aggregation:}
 
 When performing $K$ lookups on one table, they can all be verified together, as looking up a matrix of size $L\times K$ on  $\mathbf T$.
-The soundness error is then bounded as $\epsilon_{\mathsf{sum}}\leq \frac{K2H}{F}$.
+The soundness error is then bounded as $\epsilon_{\mathsf{sum}}\leq \frac{KH}{F}$.
 
 \subsection{Grinding}
 
