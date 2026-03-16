@@ -171,7 +171,9 @@ def _fri_parameter_lines(circuit: Circuit) -> list[str]:
         f"- Grinding query phase (bits): {pcs.grinding_query_phase}",
     ]
     if pcs.grinding_commit_phase > 0:
-        lines.append(f"- Grinding commit phase (bits): {pcs.grinding_commit_phase}")
+        lines.append(f"- Grinding commit phase, at every folding round (bits): {pcs.grinding_commit_phase}")
+    if pcs.grinding_batching_phase > 0:
+        lines.append(f"- Grinding batching phase (bits): {pcs.grinding_batching_phase}")
     if circuit.grinding_deep > 0:
         lines.append(f"- Grinding DEEP (bits): {circuit.grinding_deep}")
     lines.extend([

@@ -96,7 +96,7 @@ class zkVM:
                 FRI_early_stop_degree=section.get("fri_early_stop_degree"),
                 grinding_query_phase=section.get("grinding_query_phase", 0),
                 grinding_commit_phase=section.get("grinding_commit_phase", 0),
-                grinding_bits_batching=section.get("grinding_bits_batching", 0),
+                grinding_batching_phase=section.get("grinding_batching_phase", 0),
             ))
             lookups = _parse_lookups_from_toml(section, field)
             circuit = Circuit(CircuitConfig(
@@ -136,7 +136,7 @@ class zkVM:
                 log_degree=section["log_degree"],
                 batch_size=section["batch_size"],
                 power_batching=section["power_batching"],
-                grinding_bits_batching=section["grinding_bits_batching"],
+                grinding_batching_phase=section["grinding_batching_phase"],
                 constraint_degree=section["constraint_degree"],
                 grinding_bits_folding=section["grinding_bits_folding"],
                 num_queries=section["num_queries"],

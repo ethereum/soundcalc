@@ -123,12 +123,11 @@ class FRIConfig:
     # Proof of Work grinding compute during FRI query phase (expressed in bits of security)
     grinding_query_phase: int
 
-    # Proof of Work grinding compute during FRI commit phase (expressed in bits of security)
-    # (Protocols apply this level of grinding to every round of the commit phase due to RBR security)
-    grinding_commit_phase: int = 0
+    # PoW grinding for the batching step (combining batch_size polynomials)
+    grinding_batching_phase: int = 0
 
-    # The number of grinding (Proof-of-Work) bits applied to the batching step.
-    grinding_bits_batching: int = 0
+    # PoW grinding at every folding round of the commit phase
+    grinding_commit_phase: int = 0
 
     # Optional override for the bound *gap*.
     # (This is useful to pin fixed parameters in TOML configs.)
@@ -151,7 +150,7 @@ class FRI(PCS):
         self.FRI_early_stop_degree = config.FRI_early_stop_degree
         self.grinding_query_phase = config.grinding_query_phase
         self.grinding_commit_phase = config.grinding_commit_phase
-        self.grinding_bits_batching = config.grinding_bits_batching
+        self.grinding_batching_phase = config.grinding_batching_phase
         self.gap_to_radius = config.gap_to_radius
 
         # Negative log of rate
@@ -204,11 +203,8 @@ class FRI(PCS):
             epsilon = regime.get_error_multilinear(rate, dimension, self.batch_size)
         else:
             epsilon = regime.get_error_linear(rate, dimension)
-            
-        # add grinding for batching within the commit phase
-        epsilon = apply_grinding(epsilon, self.grinding_commit_phase)
 
-        return apply_grinding(epsilon, self.grinding_bits_batching)
+        return apply_grinding(epsilon, self.grinding_batching_phase)
 
     def _get_commit_phase_error(self, round: int, regime: ProximityGapsRegime) -> float:
         """
@@ -224,7 +220,7 @@ class FRI(PCS):
 
         epsilon = regime.get_error_powers(rate, dimension, self.FRI_folding_factors[round])
 
-        return epsilon
+        return apply_grinding(epsilon, self.grinding_commit_phase)
 
     def _get_query_phase_error(self, regime: ProximityGapsRegime) -> float:
         """

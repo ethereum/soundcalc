@@ -30,6 +30,9 @@ class DummyPCS(PCS):
     def get_dimension(self) -> int:
         return self._dimension
 
+    def get_trace_length(self) -> int:
+        return self._dimension
+
     def get_parameter_summary(self) -> str:
         return "dummy"
 

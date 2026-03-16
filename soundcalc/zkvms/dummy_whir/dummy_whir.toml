@@ -21,7 +21,7 @@ num_queries = [55, 31, 22, 17, 14]
 num_ood_samples = [1, 1, 1, 1]
 
 # grinding bits (ceiling of computed values to ensure 128-bit security)
-grinding_bits_batching = 21
+grinding_batching_phase = 21
 grinding_bits_folding = [[16, 14, 12, 10], [14, 12, 10, 8], [17, 15, 13, 11], [19, 17, 15, 13], [22, 20, 18, 16]]
 grinding_bits_queries = [22, 22, 20, 19, 17]
 grinding_bits_ood = [0, 0, 0, 0]
@@ -39,7 +39,7 @@ num_queries = [55, 31, 22, 17]
 num_ood_samples = [1, 1, 1]
 
 # grinding bits (ceiling of computed values to ensure 128-bit security)
-grinding_bits_batching = 21
+grinding_batching_phase = 21
 grinding_bits_folding = [[16, 14, 12, 10], [14, 12, 10, 8], [17, 15, 13, 11], [19, 17, 15, 13]]
 grinding_bits_queries = [22, 22, 20, 19]
 grinding_bits_ood = [0, 0, 0]

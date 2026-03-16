@@ -215,7 +215,7 @@ class WHIRConfig:
     # This reduces the soundness error probability by a factor of $2^{\text{bits}}$.
     #
     # This parameter reduces the specific error introduced by the batching linear combination.
-    grinding_bits_batching: int
+    grinding_batching_phase: int
 
     # The degree of the polynomial constraints being verified.
     #
@@ -324,7 +324,7 @@ class WHIR(PCS):
         self.field = config.field
         self.batch_size = config.batch_size
         self.power_batching = config.power_batching
-        self.grinding_bits_batching = config.grinding_bits_batching
+        self.grinding_batching_phase = config.grinding_batching_phase
         self.constraint_degree = config.constraint_degree
         self.grinding_bits_folding = config.grinding_bits_folding
         self.num_queries = config.num_queries
@@ -430,7 +430,7 @@ class WHIR(PCS):
         assert len(self.grinding_bits_queries) == self.num_iterations
         assert len(self.grinding_bits_folding) == self.num_iterations
 
-        assert self.grinding_bits_batching >= 0, "Batching grinding bits must be >= 0"
+        assert self.grinding_batching_phase >= 0, "Batching grinding bits must be >= 0"
         assert all(g >= 0 for g in self.grinding_bits_queries), (
             "Query grinding bits must be >= 0"
         )
@@ -604,7 +604,7 @@ class WHIR(PCS):
         # Apply Grinding
         #
         # Reducing error by expending computational work (2^-bits).
-        epsilon = apply_grinding(epsilon, self.grinding_bits_batching)
+        epsilon = apply_grinding(epsilon, self.grinding_batching_phase)
         return epsilon
 
     def _epsilon_fold(
@@ -723,7 +723,7 @@ class WHIR(PCS):
         grinding_sum = 0
 
         # grinding for batching, queries, OOD
-        grinding_sum += 2**self.grinding_bits_batching
+        grinding_sum += 2**self.grinding_batching_phase
         grinding_sum += sum([2**g for g in self.grinding_bits_queries])
         grinding_sum += sum([2**g for g in self.grinding_bits_ood])
 
@@ -891,7 +891,7 @@ class WHIR(PCS):
             "batch_size": self.batch_size,
             "gap_to_radius": self.gap_to_radius,
             "power_batching": self.power_batching,
-            "grinding_bits_batching": self.grinding_bits_batching,
+            "grinding_batching_phase": self.grinding_batching_phase,
             "num_iterations": self.num_iterations,
             "constraint_degree": self.constraint_degree,
             "field": self.field.to_string(),
