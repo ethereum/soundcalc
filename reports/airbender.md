@@ -11,7 +11,7 @@ How to read this report:
 - Hash size (bits): 256
 - Number of queries: 87
 - Grinding query phase (bits): 28
-- Grinding commit phase (bits): 5
+- Grinding commit phase, at every folding round (bits): 5
 - Grinding DEEP (bits): 12
 - Field: M31⁴
 - Rate (ρ): 0.5
@@ -31,5 +31,5 @@ How to read this report:
 
 | regime | total | generic_lookup | range_check_16_lookup | range_check_19_lookup | decoder | ALI | DEEP | batching | commit round 1 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 64 | 94 | 99 | 98 | 100 | 114 | 110 | 95 | 101 | 105 | 109 | 113 | 116 | 64 |
-| JBR | 67 | 94 | 99 | 98 | 100 | 109 | 105 | 68 | 73 | 77 | 81 | 85 | 88 | 67 |
+| UDR | 64 | 94 | 99 | 98 | 100 | 114 | 110 | 90 | 106 | 110 | 114 | 118 | 121 | 64 |
+| JBR | 63 | 94 | 99 | 98 | 100 | 109 | 105 | 63 | 78 | 82 | 86 | 90 | 93 | 67 |
