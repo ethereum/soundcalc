@@ -26,6 +26,24 @@ gap_to_radius = 0.005333333333333333
 proof_size = "1.62 MB"
 
 [[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[77]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 2
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
 name = "Lookup_gsum_[8001]"
 logup_type = "univariate"
 rows_L = 2097152
@@ -53,12 +71,12 @@ num_columns_M = 2
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[104]"
+name = "Range Check_gsum_[102]"
 logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
 num_columns_S = 1
-num_columns_M = 2
+num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
@@ -71,30 +89,12 @@ num_columns_M = 2
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Lookup_gsum_[77]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 2
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 2097152
-num_columns_S = 11
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[102]"
+name = "Range Check_gsum_[104]"
 logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
 num_columns_S = 1
-num_columns_M = 1
+num_columns_M = 2
 grinding_bits_lookup = 0
 
 [[circuits]]
@@ -118,29 +118,20 @@ gap_to_radius = 0.005
 proof_size = "1.60 MB"
 
 [[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
 name = "Lookup_gsum_[77]"
 logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
 num_columns_S = 2
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[104]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 1
-num_columns_M = 2
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[102]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 1
 num_columns_M = 1
 grinding_bits_lookup = 0
 
@@ -163,20 +154,29 @@ num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 2097152
-num_columns_S = 11
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
 name = "Permutation_gsum_[8000]"
 logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
 num_columns_S = 11
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[102]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
 num_columns_M = 2
 grinding_bits_lookup = 0
 
@@ -201,42 +201,6 @@ gap_to_radius = 0.004666666666666667
 proof_size = "1.59 MB"
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[104]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 1
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[105]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 1
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[102]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 1
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[8000]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 11
-num_columns_M = 2
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
 name = "Lookup_gsum_[5000]"
 logup_type = "univariate"
 rows_L = 2097152
@@ -263,6 +227,42 @@ num_columns_S = 6
 num_columns_M = 1
 grinding_bits_lookup = 0
 
+[[circuits.lookups]]
+name = "Permutation_gsum_[8000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 11
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[102]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[105]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "Dma64Aligned"
 group = "basic"
@@ -284,21 +284,21 @@ gap_to_radius = 0.005666666666666667
 proof_size = "1.66 MB"
 
 [[circuits.lookups]]
-name = "Permutation_gsum_[10]"
+name = "Direct_gsum_[5000]"
 logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
-num_columns_S = 6
-num_columns_M = 9
+num_columns_S = 11
+num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[103]"
+name = "Direct_gsum_[8200]"
 logup_type = "univariate"
 rows_L = 2097152
-rows_T = 0
-num_columns_S = 1
-num_columns_M = 2
+rows_T = 2097152
+num_columns_S = 10
+num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
@@ -320,21 +320,12 @@ num_columns_M = 4
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Direct_gsum_[5000]"
+name = "Permutation_gsum_[10]"
 logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
-num_columns_S = 11
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Direct_gsum_[8200]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 2097152
-num_columns_S = 10
-num_columns_M = 1
+num_columns_S = 6
+num_columns_M = 9
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
@@ -344,6 +335,15 @@ rows_L = 2097152
 rows_T = 0
 num_columns_S = 1
 num_columns_M = 8
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 2
 grinding_bits_lookup = 0
 
 [[circuits]]
@@ -367,6 +367,24 @@ gap_to_radius = 0.005333333333333333
 proof_size = "1.62 MB"
 
 [[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Direct_gsum_[8200]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 10
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
 name = "Lookup_gsum_[5000]"
 logup_type = "univariate"
 rows_L = 0
@@ -394,39 +412,21 @@ num_columns_M = 4
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[103]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 1
-num_columns_M = 2
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Direct_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 11
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Direct_gsum_[8200]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 2097152
-num_columns_S = 10
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
 name = "Range Check_gsum_[102]"
 logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
 num_columns_S = 1
 num_columns_M = 8
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 2
 grinding_bits_lookup = 0
 
 [[circuits]]
@@ -450,6 +450,15 @@ gap_to_radius = 0.005
 proof_size = "1.58 MB"
 
 [[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
 name = "Direct_gsum_[8200]"
 logup_type = "univariate"
 rows_L = 2097152
@@ -463,15 +472,6 @@ name = "Lookup_gsum_[5000]"
 logup_type = "univariate"
 rows_L = 0
 rows_T = 2097152
-num_columns_S = 11
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Direct_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
 num_columns_S = 11
 num_columns_M = 1
 grinding_bits_lookup = 0
@@ -524,15 +524,6 @@ num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 6
-num_columns_M = 9
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
 name = "Direct_gsum_[8200]"
 logup_type = "univariate"
 rows_L = 2097152
@@ -542,21 +533,30 @@ num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[103]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 1
-num_columns_M = 2
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
 name = "Lookup_gsum_[5000]"
 logup_type = "univariate"
 rows_L = 0
 rows_T = 2097152
 num_columns_S = 11
 num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 9
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 2
 grinding_bits_lookup = 0
 
 [[circuits]]
@@ -578,6 +578,24 @@ fri_early_stop_degree = 32
 grinding_query_phase = 16
 gap_to_radius = 0.005333333333333333
 proof_size = "1.64 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Direct_gsum_[8200]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 10
+num_columns_M = 1
+grinding_bits_lookup = 0
 
 [[circuits.lookups]]
 name = "Lookup_gsum_[5000]"
@@ -606,24 +624,6 @@ num_columns_S = 1
 num_columns_M = 2
 grinding_bits_lookup = 0
 
-[[circuits.lookups]]
-name = "Direct_gsum_[8200]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 2097152
-num_columns_S = 10
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Direct_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 11
-num_columns_M = 1
-grinding_bits_lookup = 0
-
 [[circuits]]
 name = "DmaUnaligned"
 group = "basic"
@@ -645,28 +645,10 @@ gap_to_radius = 0.005333333333333333
 proof_size = "1.59 MB"
 
 [[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 2097152
-num_columns_S = 6
-num_columns_M = 2
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[88]"
+name = "Direct_gsum_[5000]"
 logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
-num_columns_S = 2
-num_columns_M = 4
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 2097152
 num_columns_S = 11
 num_columns_M = 1
 grinding_bits_lookup = 0
@@ -681,12 +663,30 @@ num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Direct_gsum_[5000]"
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[88]"
 logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
-num_columns_S = 11
-num_columns_M = 1
+num_columns_S = 2
+num_columns_M = 4
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 6
+num_columns_M = 2
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
@@ -719,6 +719,33 @@ gap_to_radius = 0.005999999999999999
 proof_size = "1.71 MB"
 
 [[circuits.lookups]]
+name = "Lookup_gsum_[8002]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[8003]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 3
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[88]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 2
+num_columns_M = 12
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
 name = "Permutation_gsum_[10]"
 logup_type = "univariate"
 rows_L = 2097152
@@ -733,33 +760,6 @@ logup_type = "univariate"
 rows_L = 0
 rows_T = 2097152
 num_columns_S = 11
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[8002]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 6
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[88]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 2
-num_columns_M = 12
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[8003]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 3
 num_columns_M = 1
 grinding_bits_lookup = 0
 
@@ -784,15 +784,6 @@ gap_to_radius = 0.005666666666666667
 proof_size = "1.69 MB"
 
 [[circuits.lookups]]
-name = "Lookup_gsum_[88]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 2
-num_columns_M = 12
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
 name = "Lookup_gsum_[8002]"
 logup_type = "univariate"
 rows_L = 2097152
@@ -802,12 +793,12 @@ num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Permutation_gsum_[8000]"
+name = "Lookup_gsum_[88]"
 logup_type = "univariate"
-rows_L = 0
-rows_T = 2097152
-num_columns_S = 11
-num_columns_M = 1
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 2
+num_columns_M = 12
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
@@ -817,6 +808,15 @@ rows_L = 2097152
 rows_T = 0
 num_columns_S = 6
 num_columns_M = 4
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[8000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 11
+num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits]]
@@ -858,21 +858,21 @@ num_columns_M = 8
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Permutation_gsum_[8000]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 2097152
-num_columns_S = 11
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
 name = "Permutation_gsum_[10]"
 logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
 num_columns_S = 6
 num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[8000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 11
+num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits]]
@@ -896,25 +896,25 @@ gap_to_radius = 0.006333333333333333
 proof_size = "1.80 MB"
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[102]"
+name = "Direct_gsum_[1000]"
 logup_type = "univariate"
 rows_L = 4194304
-rows_T = 0
-num_columns_S = 1
-num_columns_M = 34
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[106]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 1
+rows_T = 4194304
+num_columns_S = 5
 num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
 name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[7890]"
 logup_type = "univariate"
 rows_L = 4194304
 rows_T = 0
@@ -932,20 +932,20 @@ num_columns_M = 34
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Direct_gsum_[1000]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 4194304
-num_columns_S = 5
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[7890]"
+name = "Range Check_gsum_[102]"
 logup_type = "univariate"
 rows_L = 4194304
 rows_T = 0
-num_columns_S = 11
+num_columns_S = 1
+num_columns_M = 34
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[106]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
 num_columns_M = 1
 grinding_bits_lookup = 0
 
@@ -1008,15 +1008,6 @@ num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[103]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 1
-num_columns_M = 5
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
 name = "Permutation_gsum_[10]"
 logup_type = "univariate"
 rows_L = 0
@@ -1026,7 +1017,7 @@ num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[104]"
+name = "Range Check_gsum_[102]"
 logup_type = "univariate"
 rows_L = 4194304
 rows_T = 0
@@ -1035,7 +1026,16 @@ num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[102]"
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 5
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
 logup_type = "univariate"
 rows_L = 4194304
 rows_T = 0
@@ -1064,15 +1064,6 @@ gap_to_radius = 0.004333333333333333
 proof_size = "1.56 MB"
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[102]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 1
-num_columns_M = 3
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
 name = "Direct_gsum_[11]"
 logup_type = "univariate"
 rows_L = 2097152
@@ -1090,6 +1081,15 @@ num_columns_S = 6
 num_columns_M = 1
 grinding_bits_lookup = 0
 
+[[circuits.lookups]]
+name = "Range Check_gsum_[102]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 3
+grinding_bits_lookup = 0
+
 [[circuits]]
 name = "InputData"
 group = "basic"
@@ -1099,7 +1099,7 @@ air_max_degree = 3
 num_columns_fixed = 2
 num_columns_witness = 23
 num_columns = 25
-num_constraints = 26
+num_constraints = 30
 opening_points = 3
 batch_size = 27
 power_batching = true
@@ -1134,7 +1134,7 @@ logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
 num_columns_S = 1
-num_columns_M = 3
+num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
@@ -1143,7 +1143,7 @@ logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
 num_columns_S = 1
-num_columns_M = 4
+num_columns_M = 8
 grinding_bits_lookup = 0
 
 [[circuits]]
@@ -1214,15 +1214,6 @@ gap_to_radius = 0.005333333333333333
 proof_size = "1.72 MB"
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[103]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 1
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
 name = "Direct_gsum_[10]"
 logup_type = "univariate"
 rows_L = 4194304
@@ -1247,6 +1238,15 @@ rows_L = 4194304
 rows_T = 4194304
 num_columns_S = 6
 num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
@@ -1279,20 +1279,20 @@ gap_to_radius = 0.005
 proof_size = "1.71 MB"
 
 [[circuits.lookups]]
-name = "Lookup_gsum_[88]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 2
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
 name = "Direct_gsum_[10]"
 logup_type = "univariate"
 rows_L = 4194304
 rows_T = 4194304
 num_columns_S = 6
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[88]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 2
 num_columns_M = 1
 grinding_bits_lookup = 0
 
@@ -1335,11 +1335,11 @@ gap_to_radius = 0.005333333333333333
 proof_size = "1.72 MB"
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[107]"
+name = "Direct_gsum_[10]"
 logup_type = "univariate"
 rows_L = 4194304
-rows_T = 0
-num_columns_S = 1
+rows_T = 4194304
+num_columns_S = 6
 num_columns_M = 1
 grinding_bits_lookup = 0
 
@@ -1353,12 +1353,12 @@ num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Direct_gsum_[10]"
+name = "Permutation_gsum_[10]"
 logup_type = "univariate"
 rows_L = 4194304
 rows_T = 4194304
 num_columns_S = 6
-num_columns_M = 1
+num_columns_M = 2
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
@@ -1371,12 +1371,12 @@ num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Permutation_gsum_[10]"
+name = "Range Check_gsum_[107]"
 logup_type = "univariate"
 rows_L = 4194304
-rows_T = 4194304
-num_columns_S = 6
-num_columns_M = 2
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits]]
@@ -1400,15 +1400,6 @@ gap_to_radius = 0.005666666666666667
 proof_size = "1.69 MB"
 
 [[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 2097152
-num_columns_S = 11
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
 name = "Lookup_gsum_[330]"
 logup_type = "univariate"
 rows_L = 2097152
@@ -1423,6 +1414,15 @@ logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
 num_columns_S = 4
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 11
 num_columns_M = 1
 grinding_bits_lookup = 0
 
@@ -1447,15 +1447,6 @@ gap_to_radius = 0.005999999999999999
 proof_size = "1.78 MB"
 
 [[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 4194304
-num_columns_S = 11
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
 name = "Direct_gsum_[5000]"
 logup_type = "univariate"
 rows_L = 4194304
@@ -1471,6 +1462,15 @@ rows_L = 4194304
 rows_T = 0
 num_columns_S = 7
 num_columns_M = 8
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 11
+num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits]]
@@ -1494,6 +1494,15 @@ gap_to_radius = 0.005
 proof_size = "1.71 MB"
 
 [[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
 name = "Lookup_gsum_[5000]"
 logup_type = "univariate"
 rows_L = 0
@@ -1509,15 +1518,6 @@ rows_L = 4194304
 rows_T = 0
 num_columns_S = 1
 num_columns_M = 4
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Direct_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 11
-num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits]]
@@ -1541,6 +1541,15 @@ gap_to_radius = 0.005999999999999999
 proof_size = "1.77 MB"
 
 [[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
 name = "Lookup_gsum_[124]"
 logup_type = "univariate"
 rows_L = 4194304
@@ -1550,10 +1559,10 @@ num_columns_M = 8
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Direct_gsum_[5000]"
+name = "Lookup_gsum_[5000]"
 logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
+rows_L = 0
+rows_T = 4194304
 num_columns_S = 11
 num_columns_M = 1
 grinding_bits_lookup = 0
@@ -1564,15 +1573,6 @@ logup_type = "univariate"
 rows_L = 4194304
 rows_T = 0
 num_columns_S = 1
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 4194304
-num_columns_S = 11
 num_columns_M = 1
 grinding_bits_lookup = 0
 
@@ -1606,20 +1606,20 @@ num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[103]"
-logup_type = "univariate"
-rows_L = 1048576
-rows_T = 0
-num_columns_S = 1
-num_columns_M = 16
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
 name = "Permutation_gsum_[10]"
 logup_type = "univariate"
 rows_L = 1048576
 rows_T = 0
 num_columns_S = 6
+num_columns_M = 16
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
 num_columns_M = 16
 grinding_bits_lookup = 0
 
@@ -1644,12 +1644,12 @@ gap_to_radius = 0.007333333333333333
 proof_size = "1.59 MB"
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[103, 104]"
+name = "Lookup_gsum_[5000]"
 logup_type = "univariate"
-rows_L = 1048576
-rows_T = 0
-num_columns_S = 1
-num_columns_M = 3
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 11
+num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
@@ -1659,6 +1659,24 @@ rows_L = 1048576
 rows_T = 0
 num_columns_S = 2
 num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[103, 104]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 3
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
@@ -1677,24 +1695,6 @@ rows_L = 1048576
 rows_T = 0
 num_columns_S = 1
 num_columns_M = 6
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 1048576
-rows_T = 0
-num_columns_S = 6
-num_columns_M = 2
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 1048576
-num_columns_S = 11
-num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits]]
@@ -1718,12 +1718,21 @@ gap_to_radius = 0.007666666666666666
 proof_size = "1.58 MB"
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[103, 104]"
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 11
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5002]"
 logup_type = "univariate"
 rows_L = 1048576
 rows_T = 0
-num_columns_S = 1
-num_columns_M = 3
+num_columns_S = 2
+num_columns_M = 2
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
@@ -1736,21 +1745,12 @@ num_columns_M = 2
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[108]"
+name = "Range Check_gsum_[103, 104]"
 logup_type = "univariate"
 rows_L = 1048576
 rows_T = 0
 num_columns_S = 1
-num_columns_M = 6
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 1048576
-num_columns_S = 11
-num_columns_M = 1
+num_columns_M = 3
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
@@ -1763,12 +1763,12 @@ num_columns_M = 7
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Lookup_gsum_[5002]"
+name = "Range Check_gsum_[108]"
 logup_type = "univariate"
 rows_L = 1048576
 rows_T = 0
-num_columns_S = 2
-num_columns_M = 2
+num_columns_S = 1
+num_columns_M = 6
 grinding_bits_lookup = 0
 
 [[circuits]]
@@ -1792,12 +1792,12 @@ gap_to_radius = 0.007333333333333333
 proof_size = "6.25 MB"
 
 [[circuits.lookups]]
-name = "Permutation_gsum_[10]"
+name = "Lookup_gsum_[126]"
 logup_type = "univariate"
 rows_L = 131072
 rows_T = 0
-num_columns_S = 6
-num_columns_M = 25
+num_columns_S = 4
+num_columns_M = 534
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
@@ -1810,12 +1810,12 @@ num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Lookup_gsum_[126]"
+name = "Permutation_gsum_[10]"
 logup_type = "univariate"
 rows_L = 131072
 rows_T = 0
-num_columns_S = 4
-num_columns_M = 534
+num_columns_S = 6
+num_columns_M = 25
 grinding_bits_lookup = 0
 
 [[circuits]]
@@ -1839,15 +1839,6 @@ gap_to_radius = 0.006666666666666666
 proof_size = "1.48 MB"
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[109]"
-logup_type = "univariate"
-rows_L = 262144
-rows_T = 0
-num_columns_S = 1
-num_columns_M = 2
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
 name = "Lookup_gsum_[5000]"
 logup_type = "univariate"
 rows_L = 0
@@ -1863,6 +1854,15 @@ rows_L = 262144
 rows_T = 0
 num_columns_S = 6
 num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[109]"
+logup_type = "univariate"
+rows_L = 262144
+rows_T = 0
+num_columns_S = 1
+num_columns_M = 2
 grinding_bits_lookup = 0
 
 [[circuits]]
@@ -1924,21 +1924,21 @@ gap_to_radius = 0.005999999999999999
 proof_size = "1.61 MB"
 
 [[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 262144
-rows_T = 0
-num_columns_S = 6
-num_columns_M = 4
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
 name = "Lookup_gsum_[5000]"
 logup_type = "univariate"
 rows_L = 0
 rows_T = 262144
 num_columns_S = 11
 num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 262144
+rows_T = 0
+num_columns_S = 6
+num_columns_M = 4
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
@@ -1980,34 +1980,7 @@ gap_to_radius = 0.005333333333333333
 proof_size = "1.84 MB"
 
 [[circuits.lookups]]
-name = "Lookup_gsum_[108]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 1048576
-num_columns_S = 1
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
 name = "Lookup_gsum_[102]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 1048576
-num_columns_S = 1
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[108, 109]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 1048576
-num_columns_S = 1
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[104]"
 logup_type = "univariate"
 rows_L = 0
 rows_T = 1048576
@@ -2026,6 +1999,33 @@ grinding_bits_lookup = 0
 
 [[circuits.lookups]]
 name = "Lookup_gsum_[104, 105, 106, 107, 108]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[104]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[108, 109]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 1
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[108]"
 logup_type = "univariate"
 rows_L = 0
 rows_T = 1048576
@@ -2054,7 +2054,34 @@ gap_to_radius = 0.005666666666666667
 proof_size = "1.87 MB"
 
 [[circuits.lookups]]
+name = "Lookup_gsum_[124, 8001]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 7
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[125, 124]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 7
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
 name = "Lookup_gsum_[125]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 7
+num_columns_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[126, 331, 8002, 133, 125]"
 logup_type = "univariate"
 rows_L = 0
 rows_T = 2097152
@@ -2072,38 +2099,11 @@ num_columns_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Lookup_gsum_[126, 331, 8002, 133, 125]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 2097152
-num_columns_S = 7
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
 name = "Lookup_gsum_[5002, 88, 77, 8003, 126]"
 logup_type = "univariate"
 rows_L = 0
 rows_T = 2097152
 num_columns_S = 4
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[124, 8001]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 2097152
-num_columns_S = 7
-num_columns_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[125, 124]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 2097152
-num_columns_S = 7
 num_columns_M = 1
 grinding_bits_lookup = 0
 
