@@ -68,18 +68,18 @@ fi
 echo "=== 3. Download ZisK proving key ==="
 ZISK_SETUP="$SCRIPT_DIR/zisk-setup"
 mkdir -p "$ZISK_SETUP"
-wget https://storage.googleapis.com/zisk-setup/zisk-provingkey-pre-0.16.0.tar.gz -O "$ZISK_SETUP/zisk-provingkey.tar.gz"
+wget https://storage.googleapis.com/zisk-setup/zisk-provingkey-0.16.0.tar.gz -O "$ZISK_SETUP/zisk-provingkey.tar.gz"
 tar -xvzf "$ZISK_SETUP/zisk-provingkey.tar.gz" -C "$ZISK_SETUP"
 
 echo "=== 4. Clone pil2-proofman ==="
 PIL2_DIR="$ZISK_SETUP/pil2-proofman"
-git clone https://github.com/0xPolygonHermez/pil2-proofman.git "$PIL2_DIR"
+git clone --branch pre-develop-0.17.0 https://github.com/0xPolygonHermez/pil2-proofman.git "$PIL2_DIR"
 
 echo "=== 5. Generate ZisK TOML ==="
 cargo run --manifest-path "$PIL2_DIR/Cargo.toml" --bin proofman-cli soundness -k "$ZISK_SETUP/provingKey" -a -o "$SCRIPT_DIR/zisk.toml"
 
 echo "=== 6. Calculate soundness info ==="
-python3 -m soundcalc --print-only ZisK
+python3 -m soundcalc
 
 echo "=== DONE ==="
 echo "Generated TOML: $SCRIPT_DIR/zisk.toml"
