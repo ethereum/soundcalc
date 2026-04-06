@@ -18,7 +18,6 @@ How to read this report:
 - [riscv](#riscv)
 - [convert](#convert)
 - [combine](#combine)
-- [compress](#compress)
 - [embed](#embed)
 
 ## riscv
@@ -35,19 +34,17 @@ How to read this report:
 - Queries per iteration: [55, 31, 22, 17, 14]
 - OOD samples per iteration: [1, 1, 1, 1]
 - Total grinding overhead log2: 24.16
-- Lookup (logup): alu
-- Lookup (logup): byte
-- Lookup (logup): memory
+- Lookup (logup): keccak
 - Lookup (logup): poseidon2
-- Lookup (logup): program
-- Lookup (logup): syscall
+- Lookup (logup): range_check_16
+- Lookup (logup): bus
 
 **Proof Size:** 1475 KiB (expected) / 1500 KiB (worst case)
 
-| regime | total | alu | byte | memory | poseidon2 | program | syscall | OOD(i=1) | OOD(i=2) | OOD(i=3) | OOD(i=4) | Shift(i=1) | Shift(i=2) | Shift(i=3) | Shift(i=4) | batching | fin | fold(i=0,s=1) | fold(i=0,s=2) | fold(i=0,s=3) | fold(i=0,s=4) | fold(i=1,s=1) | fold(i=1,s=2) | fold(i=1,s=3) | fold(i=1,s=4) | fold(i=2,s=1) | fold(i=2,s=2) | fold(i=2,s=3) | fold(i=2,s=4) | fold(i=3,s=1) | fold(i=3,s=2) | fold(i=3,s=3) | fold(i=3,s=4) | fold(i=4,s=1) | fold(i=4,s=2) | fold(i=4,s=3) | fold(i=4,s=4) |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 30 | 168 | 168 | 168 | 168 | 168 | 168 | 174 | 178 | 182 | 186 | 72 | 52 | 41 | 35 | 180 | 30 | 184 | 183 | 182 | 181 | 183 | 182 | 181 | 180 | 187 | 186 | 185 | 184 | 190 | 189 | 188 | 187 | 194 | 192 | 191 | 190 |
-| JBR | 128 | 168 | 168 | 168 | 168 | 168 | 168 | 149 | 147 | 145 | 143 | 131 | 130 | 129 | 129 | 140 | 128 | 144 | 143 | 142 | 141 | 138 | 137 | 136 | 135 | 138 | 137 | 136 | 135 | 136 | 135 | 134 | 133 | 136 | 135 | 134 | 133 |
+| regime | total | keccak | poseidon2 | range_check_16 | bus | OOD(i=1) | OOD(i=2) | OOD(i=3) | OOD(i=4) | Shift(i=1) | Shift(i=2) | Shift(i=3) | Shift(i=4) | batching | fin | fold(i=0,s=1) | fold(i=0,s=2) | fold(i=0,s=3) | fold(i=0,s=4) | fold(i=1,s=1) | fold(i=1,s=2) | fold(i=1,s=3) | fold(i=1,s=4) | fold(i=2,s=1) | fold(i=2,s=2) | fold(i=2,s=3) | fold(i=2,s=4) | fold(i=3,s=1) | fold(i=3,s=2) | fold(i=3,s=3) | fold(i=3,s=4) | fold(i=4,s=1) | fold(i=4,s=2) | fold(i=4,s=3) | fold(i=4,s=4) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 30 | 168 | 168 | 168 | 168 | 174 | 178 | 182 | 186 | 72 | 52 | 41 | 35 | 180 | 30 | 184 | 183 | 182 | 181 | 183 | 182 | 181 | 180 | 187 | 186 | 185 | 184 | 190 | 189 | 188 | 187 | 194 | 192 | 191 | 190 |
+| JBR | 128 | 168 | 168 | 168 | 168 | 149 | 147 | 145 | 143 | 131 | 130 | 129 | 129 | 140 | 128 | 144 | 143 | 142 | 141 | 138 | 137 | 136 | 135 | 138 | 137 | 136 | 135 | 136 | 135 | 134 | 133 | 136 | 135 | 134 | 133 |
 
 
 ## convert
@@ -96,30 +93,6 @@ How to read this report:
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | UDR | 35 | 172 | 178 | 182 | 186 | 72 | 52 | 41 | 184 | 35 | 188 | 187 | 186 | 185 | 187 | 186 | 185 | 184 | 191 | 190 | 189 | 188 | 194 | 193 | 191 | 190 |
 | JBR | 129 | 172 | 153 | 151 | 149 | 131 | 130 | 129 | 144 | 129 | 148 | 147 | 146 | 145 | 142 | 141 | 140 | 139 | 142 | 141 | 140 | 139 | 140 | 139 | 138 | 137 |
-
-
-## compress
-
-**Parameters:**
-- Polynomial commitment scheme: WHIR
-- Hash size (bits): 256
-- Field: Goldilocks³
-- Iterations (M): 4
-- Folding factor (k): 4
-- Constraint degree: 4
-- Batch size: 164
-- Batching: Powers
-- Queries per iteration: [55, 31, 22, 17]
-- OOD samples per iteration: [1, 1, 1]
-- Total grinding overhead log2: 23.64
-- Lookup (logup): memory
-
-**Proof Size:** 1191 KiB (expected) / 1213 KiB (worst case)
-
-| regime | total | memory | OOD(i=1) | OOD(i=2) | OOD(i=3) | Shift(i=1) | Shift(i=2) | Shift(i=3) | batching | fin | fold(i=0,s=1) | fold(i=0,s=2) | fold(i=0,s=3) | fold(i=0,s=4) | fold(i=1,s=1) | fold(i=1,s=2) | fold(i=1,s=3) | fold(i=1,s=4) | fold(i=2,s=1) | fold(i=2,s=2) | fold(i=2,s=3) | fold(i=2,s=4) | fold(i=3,s=1) | fold(i=3,s=2) | fold(i=3,s=3) | fold(i=3,s=4) |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 35 | 174 | 180 | 184 | 188 | 72 | 52 | 41 | 186 | 35 | 190 | 189 | 188 | 187 | 189 | 188 | 187 | 186 | 193 | 192 | 191 | 190 | 195 | 194 | 193 | 192 |
-| JBR | 129 | 174 | 155 | 153 | 151 | 131 | 130 | 129 | 146 | 129 | 150 | 149 | 148 | 147 | 144 | 143 | 142 | 141 | 144 | 143 | 142 | 141 | 142 | 141 | 140 | 139 |
 
 
 ## embed

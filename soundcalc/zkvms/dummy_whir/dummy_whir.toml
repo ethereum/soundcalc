@@ -1,24 +1,5 @@
-# A dummy zkVM just for demonstration purposes
-# It uses WHIR and targets 128-bit security.
-# The recursion architecture is pretty much copied from the Pico zkVM.
-#
-# -----------------------------------------------------------------------------
-# RISCV → CONVERT → COMBINE → EMBED
-#
-# - RISCV: Base STARK proof that emulates one RISC-V chunk and exposes the VM
-#   state (PC, chunk number etc.) as public values.
-# - CONVERT: A 1-to-1 recursion circuit that verifies a single RISCV proof.
-# - COMBINE: A recursive 2-to-1 circuit that verifies two proofs (any mix of
-#   CONVERT or COMBINE proofs) and produces a new proof whose public values
-#   represent the combined execution interval. It enforces continuity
-#   constraints on the VM state (e.g. next_pc of the first proof must match
-#   start_pc of the second), stitching the execution trace together until a
-#   single proof remains for COMPRESS.
-# - EMBED: A 1-to-1 recursion circuit that verifies a single COMBINE proof and
-#   produces the final proof.
-# -----------------------------------------------------------------------------
-
-
+# A dummy zkVM for demonstration purposes. Uses WHIR, targets 128-bit security.
+# Recursion topology: RISCV → CONVERT → COMBINE → EMBED
 
 [zkevm]
 name = "DummyWHIR"
@@ -29,7 +10,7 @@ hash_size_bits = 256
 
 [[circuits]]
 name = "riscv"
-log_inv_rate = 4  # rate 1/16
+log_inv_rate = 4
 num_iterations = 5
 folding_factor = 4
 log_degree = 22
@@ -38,79 +19,55 @@ power_batching = true
 constraint_degree = 8
 num_queries = [55, 31, 22, 17, 14]
 num_ood_samples = [1, 1, 1, 1]
-
-# grinding bits (ceiling of computed values to ensure 128-bit security)
 grinding_batching_phase = 21
 grinding_bits_folding = [[16, 14, 12, 10], [14, 12, 10, 8], [17, 15, 13, 11], [19, 17, 15, 13], [22, 20, 18, 16]]
 grinding_bits_queries = [22, 22, 20, 19, 17]
 grinding_bits_ood = [0, 0, 0, 0]
 
-# --- Lookup entries for riscv (base circuit, mirrors Pico's lookup types) ---
-# Sizes are proportional to Pico's riscv lookups, scaled to log_degree=22.
 [[circuits.lookups]]
-name = "alu"
+name = "keccak"
 logup_type = "multivariate"
-rows_L = 58720256   # ~14x trace (ALU operations across all chips)
-rows_T = 33554432   # 2^25 (ALU table)
-num_columns_S = 14
+rows_L = 41943040
+rows_T = 16777216
+num_columns_S = 20
 num_lookups_M = 1
-alphabet_size_H = 4194304  # 2^22
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "byte"
-logup_type = "multivariate"
-rows_L = 352321536  # ~84x trace (byte decompositions are very frequent)
-rows_T = 589824     # small fixed byte table
-num_columns_S = 6
-num_lookups_M = 1
-alphabet_size_H = 4194304  # 2^22
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "memory"
-logup_type = "multivariate"
-rows_L = 25165824   # ~6x trace (memory read/write operations)
-rows_T = 25165824   # ~6x trace
-num_columns_S = 23
-num_lookups_M = 1
-alphabet_size_H = 4194304  # 2^22
+alphabet_size_H = 4194304
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
 name = "poseidon2"
 logup_type = "multivariate"
-rows_L = 8388608    # 2x trace (hash operations for Merkle trees)
-rows_T = 8388608    # 2x trace
+rows_L = 8388608
+rows_T = 8388608
 num_columns_S = 33
 num_lookups_M = 1
-alphabet_size_H = 4194304  # 2^22
+alphabet_size_H = 4194304
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "program"
+name = "range_check_16"
 logup_type = "multivariate"
-rows_L = 4194304    # 1x trace (instruction fetches)
-rows_T = 4194304    # 1x trace
-num_columns_S = 39
+rows_L = 58720256
+rows_T = 65536
+num_columns_S = 1
 num_lookups_M = 1
-alphabet_size_H = 4194304  # 2^22
+alphabet_size_H = 4194304
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "syscall"
+name = "bus"
 logup_type = "multivariate"
-rows_L = 4194304    # 1x trace
-rows_T = 1048576    # 2^20 (syscall table is smaller)
-num_columns_S = 5
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 8
 num_lookups_M = 1
-alphabet_size_H = 4194304  # 2^22
+alphabet_size_H = 4194304
 grinding_bits_lookup = 0
 
 
 [[circuits]]
 name = "convert"
-log_inv_rate = 4  # rate 1/16
+log_inv_rate = 4
 num_iterations = 5
 folding_factor = 4
 log_degree = 20
@@ -119,28 +76,25 @@ power_batching = true
 constraint_degree = 4
 num_queries = [55, 31, 22, 17, 14]
 num_ood_samples = [1, 1, 1, 1]
-
-# grinding bits
 grinding_batching_phase = 21
 grinding_bits_folding = [[16, 14, 12, 10], [14, 12, 10, 8], [17, 15, 13, 11], [19, 17, 15, 13], [22, 20, 18, 16]]
 grinding_bits_queries = [22, 22, 20, 19, 17]
 grinding_bits_ood = [0, 0, 0, 0]
 
-# --- Lookup entries for convert (recursion circuit, memory only) ---
 [[circuits.lookups]]
 name = "memory"
 logup_type = "multivariate"
-rows_L = 17825808   # ~17x trace (verifier memory accesses)
-rows_T = 11534336   # ~11x trace
+rows_L = 17825808
+rows_T = 11534336
 num_columns_S = 6
 num_lookups_M = 1
-alphabet_size_H = 1048576  # 2^20
+alphabet_size_H = 1048576
 grinding_bits_lookup = 0
 
 
 [[circuits]]
 name = "combine"
-log_inv_rate = 4  # rate 1/16
+log_inv_rate = 4
 num_iterations = 4
 folding_factor = 4
 log_degree = 18
@@ -149,58 +103,24 @@ power_batching = true
 constraint_degree = 4
 num_queries = [55, 31, 22, 17]
 num_ood_samples = [1, 1, 1]
-
-# grinding bits
 grinding_batching_phase = 21
 grinding_bits_folding = [[16, 14, 12, 10], [14, 12, 10, 8], [17, 15, 13, 11], [19, 17, 15, 13]]
 grinding_bits_queries = [22, 22, 20, 19]
 grinding_bits_ood = [0, 0, 0]
 
-# --- Lookup entries for combine (recursion circuit, memory only) ---
 [[circuits.lookups]]
 name = "memory"
 logup_type = "multivariate"
-rows_L = 7733264    # ~29x trace (two proofs worth of memory)
-rows_T = 3407872    # ~13x trace
+rows_L = 7733264
+rows_T = 3407872
 num_columns_S = 6
 num_lookups_M = 1
-alphabet_size_H = 262144  # 2^18
+alphabet_size_H = 262144
 grinding_bits_lookup = 0
-
-
-[[circuits]]
-name = "compress"
-log_inv_rate = 4  # rate 1/16
-num_iterations = 4
-folding_factor = 4
-log_degree = 16
-batch_size = 164
-power_batching = true
-constraint_degree = 4
-num_queries = [55, 31, 22, 17]
-num_ood_samples = [1, 1, 1]
-
-# grinding bits
-grinding_batching_phase = 21
-grinding_bits_folding = [[16, 14, 12, 10], [14, 12, 10, 8], [17, 15, 13, 11], [19, 17, 15, 13]]
-grinding_bits_queries = [22, 22, 20, 19]
-grinding_bits_ood = [0, 0, 0]
-
-# --- Lookup entries for compress (recursion circuit, memory only) ---
-[[circuits.lookups]]
-name = "memory"
-logup_type = "multivariate"
-rows_L = 4063248    # ~62x trace
-rows_T = 1703936    # ~26x trace
-num_columns_S = 6
-num_lookups_M = 1
-alphabet_size_H = 65536  # 2^16
-grinding_bits_lookup = 0
-
 
 [[circuits]]
 name = "embed"
-log_inv_rate = 4  # rate 1/16
+log_inv_rate = 4
 num_iterations = 3
 folding_factor = 4
 log_degree = 14
@@ -209,20 +129,17 @@ power_batching = true
 constraint_degree = 4
 num_queries = [55, 31, 22]
 num_ood_samples = [1, 1]
-
-# grinding bits
 grinding_batching_phase = 21
 grinding_bits_folding = [[16, 14, 12, 10], [14, 12, 10, 8], [17, 15, 13, 11]]
 grinding_bits_queries = [22, 22, 20]
 grinding_bits_ood = [0, 0]
 
-# --- Lookup entries for embed (recursion circuit, memory only) ---
 [[circuits.lookups]]
 name = "memory"
 logup_type = "multivariate"
-rows_L = 1048592    # ~64x trace
-rows_T = 491520     # ~30x trace
+rows_L = 1048592
+rows_T = 491520
 num_columns_S = 6
 num_lookups_M = 1
-alphabet_size_H = 16384  # 2^14
+alphabet_size_H = 16384
 grinding_bits_lookup = 0
