@@ -1,0 +1,115 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+from soundcalc.common.fields import FieldParams
+from soundcalc.custom.swirl.calculator import SWIRLSoundnessResult, SWIRLSystemParams, calculate_swirl_soundness
+from soundcalc.pcs.whir import WHIR
+from soundcalc.zkvms.circuit import Circuit, CircuitConfig
+
+
+@dataclass(frozen=True)
+class SWIRLCircuitConfig:
+    name: str
+    pcs: WHIR
+    field: FieldParams
+    params: SWIRLSystemParams
+    max_num_constraints_per_air: int
+    num_airs: int
+    max_log_trace_height: int
+    num_trace_columns: int
+    max_interactions_per_air: int
+
+
+class SWIRLCircuit(Circuit):
+    def __init__(self, config: SWIRLCircuitConfig):
+        super().__init__(CircuitConfig(name=config.name, pcs=config.pcs, field=config.field, udr_only=True))
+        self.params = config.params
+        self.max_num_constraints_per_air = config.max_num_constraints_per_air
+        self.num_airs = config.num_airs
+        self.max_log_trace_height = config.max_log_trace_height
+        self.num_trace_columns = config.num_trace_columns
+        self.max_interactions_per_air = config.max_interactions_per_air
+        self.protocol_label = "SWIRL"
+        self._soundness_result: SWIRLSoundnessResult | None = None
+
+    def get_soundness_result(self) -> SWIRLSoundnessResult:
+        if self._soundness_result is None:
+            self._soundness_result = calculate_swirl_soundness(
+                params=self.params,
+                field=self.field,
+                whir=self.pcs,
+                max_num_constraints_per_air=self.max_num_constraints_per_air,
+                num_airs=self.num_airs,
+                max_log_trace_height=self.max_log_trace_height,
+                num_trace_columns=self.num_trace_columns,
+                max_interactions_per_air=self.max_interactions_per_air,
+            )
+        return self._soundness_result
+
+    def get_security_levels(self) -> dict[str, dict[str, float]]:
+        result = self.get_soundness_result()
+        levels = {
+            "logup": round(result.logup_bits, 1),
+            "gkr_sumcheck": round(result.gkr_sumcheck_bits, 1),
+            "gkr_batching": round(result.gkr_batching_bits, 1),
+            "zerocheck_sumcheck": round(result.zerocheck_sumcheck_bits, 1),
+            "constraint_batching": round(result.constraint_batching_bits, 1),
+            "stacked_reduction": round(result.stacked_reduction_bits, 1),
+            "whir": round(result.whir_bits, 1),
+            "whir.query": round(result.whir_details.query_bits, 1),
+            "whir.proximity_gaps": round(result.whir_details.proximity_gaps_bits, 1),
+            "whir.sumcheck": round(result.whir_details.sumcheck_bits, 1),
+            "whir.fold_rbr": round(result.whir_details.fold_rbr_bits, 1),
+            "whir.ood_rbr": round(result.whir_details.ood_rbr_bits, 1),
+            "whir.gamma_batching": round(result.whir_details.gamma_batching_bits, 1),
+            "whir.shift_rbr": round(result.whir_details.shift_rbr_bits, 1),
+            "whir.mu_batching": round(result.whir_details.mu_batching_bits, 1),
+            "total": round(result.total_bits, 1),
+        }
+        return {"SWIRL": levels}
+
+    def get_parameter_summary(self) -> str:
+        lines = [
+            "",
+            "```",
+            "  protocol_family            : SWIRL",
+            "  pcs                        : WHIR",
+            f"  field                      : {self.field.to_string()}",
+            f"  l_skip                     : {self.params.l_skip}",
+            f"  n_stack                    : {self.params.n_stack}",
+            f"  w_stack                    : {self.params.w_stack}",
+            f"  log_blowup                 : {self.params.log_blowup}",
+            f"  max_constraint_degree      : {self.params.max_constraint_degree}",
+            f"  whir_queries               : {[round_config.num_queries for round_config in self.params.whir.rounds]}",
+            f"  whir_folding_pow_bits      : {self.params.whir.folding_pow_bits}",
+            f"  whir_query_phase_pow_bits  : {self.params.whir.query_phase_pow_bits}",
+            f"  whir_mu_pow_bits           : {self.params.whir.mu_pow_bits}",
+            f"  max_constraints_per_air    : {self.max_num_constraints_per_air}",
+            f"  num_airs                   : {self.num_airs}",
+            f"  max_log_trace_height       : {self.max_log_trace_height}",
+            f"  num_trace_columns          : {self.num_trace_columns}",
+            f"  max_interactions_per_air   : {self.max_interactions_per_air}",
+            "```",
+        ]
+        return "\n".join(lines)
+
+    def get_report_parameter_lines(self) -> list[str]:
+        return [
+            "- Proof system: SWIRL",
+            "- Inner PCS: WHIR",
+            f"- Field: {self.field.to_string()}",
+            f"- `l_skip`: {self.params.l_skip}",
+            f"- `n_stack`: {self.params.n_stack}",
+            f"- `w_stack`: {self.params.w_stack}",
+            f"- Log blowup: {self.params.log_blowup}",
+            f"- WHIR queries per round: {[round_config.num_queries for round_config in self.params.whir.rounds]}",
+            f"- WHIR folding PoW (bits): {self.params.whir.folding_pow_bits}",
+            f"- WHIR query-phase PoW (bits): {self.params.whir.query_phase_pow_bits}",
+            f"- WHIR μ PoW (bits): {self.params.whir.mu_pow_bits}",
+            f"- Max constraints per AIR: {self.max_num_constraints_per_air}",
+            f"- Number of AIRs: {self.num_airs}",
+            f"- Max log trace height: {self.max_log_trace_height}",
+            f"- Number of trace columns: {self.num_trace_columns}",
+            f"- Max interactions per AIR: {self.max_interactions_per_air}",
+        ]

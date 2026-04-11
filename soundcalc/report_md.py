@@ -33,7 +33,7 @@ class zkVMSummary:
     pcs: str
     num_circuits: int
     weakest_circuit_name: str
-    security_bits: int
+    security_bits: float
     security_regime: str
     final_proof_size_kib: int
 
@@ -92,8 +92,16 @@ def _field_label(field) -> str:
     return "Unknown"
 
 
+def _format_security_value(value: Any) -> str:
+    if isinstance(value, float):
+        return f"{value:.1f}"
+    return str(value)
+
+
 def _pcs_label(circuit: Circuit) -> str:
     """Get the PCS type label for a circuit."""
+    if hasattr(circuit, "protocol_label"):
+        return getattr(circuit, "protocol_label")
     if isinstance(circuit.pcs, FRI):
         return "FRI"
     elif isinstance(circuit.pcs, WHIR):
@@ -229,6 +237,8 @@ def _lookup_parameter_lines(circuit: Circuit) -> list[str]:
 
 def _get_parameter_lines(circuit: Circuit) -> list[str]:
     """Get parameter lines for a circuit."""
+    if hasattr(circuit, "get_report_parameter_lines"):
+        return circuit.get_report_parameter_lines()
     if isinstance(circuit.pcs, FRI):
         lines = _fri_parameter_lines(circuit)
     elif isinstance(circuit.pcs, WHIR):
@@ -315,12 +325,12 @@ def _build_security_table(results: dict[str, Any], lookup_names: list[str] | Non
         row_values = [row_name]
         if isinstance(row_data, dict):
             for col in columns[1:]:
-                row_values.append(str(row_data.get(col, "—")))
+                row_values.append(_format_security_value(row_data.get(col, "—")))
         else:
             # Non-dict value sits under the 'total' column when present.
             for col in columns[1:]:
                 if col == "total":
-                    row_values.append(str(row_data))
+                    row_values.append(_format_security_value(row_data))
                 else:
                     row_values.append("—")
         md_table += "| " + " | ".join(row_values) + " |\n"
@@ -366,7 +376,7 @@ def _build_zkvm_report(zkvm: zkVM, multi_circuit: bool = False) -> str:
             lines.append(f"| Metric | Value | Relevant circuit | Notes |")
             lines.append(f"| --- | --- | --- | --- |")
             lines.append(f"| Final proof size (worst case) | **{int(overview['final_proof_size_kib'])} KiB** | {final_circuit_link} | |")
-            lines.append(f"| Final bits of security | **{overview['min_security_bits']} bits** | {offending_circuit_link} | Regime: {overview['best_regime']} |")
+            lines.append(f"| Final bits of security | **{_format_security_value(overview['min_security_bits'])} bits** | {offending_circuit_link} | Regime: {overview['best_regime']} |")
             lines.append("")
 
         lines.append("## Circuits")
@@ -435,7 +445,7 @@ def _build_summary_report(zkvms: list[zkVM]) -> str:
         "",
         "How to read this report:",
         "- Click on zkVM names to view detailed individual reports",
-        "- Security shows the best bits of security across regimes (UDR/JBR)",
+        "- Security shows the best bits of security across the reported regimes",
         "",
         "## Overview",
         "",
@@ -454,7 +464,7 @@ def _build_summary_report(zkvms: list[zkVM]) -> str:
         lines.append(
             f"| [{s.name}]({report_filename}) "
             f"| {version_str} "
-            f"| **{s.security_bits}** bits ({s.security_regime}) "
+            f"| **{_format_security_value(s.security_bits)}** bits ({s.security_regime}) "
             f"| {s.final_proof_size_kib} KiB "
             f"| {s.pcs} | {s.field} | {s.num_circuits} | {s.weakest_circuit_name} |"
         )
@@ -463,7 +473,7 @@ def _build_summary_report(zkvms: list[zkVM]) -> str:
         "",
         "## Notes",
         "",
-        "- **Security**: Best bits of security across UDR (Unique Decoding) and JBR (Johnson Bound) regimes",
+        "- **Security**: Best bits of security across the reported regimes",
         "- **Weakest Circuit**: Circuit determining the overall security level",
         "- **Proof Size**: Final proof size in KiB (1 KiB = 1024 bytes)",
         "",

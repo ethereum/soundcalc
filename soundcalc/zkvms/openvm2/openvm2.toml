@@ -1,0 +1,77 @@
+[zkevm]
+name = "OpenVM2"
+protocol_family = "SWIRL"
+version = "2.0.0-beta"
+field = "BabyBear^4"
+hash_size_bits = 256
+
+[swirl]
+logup_max_interaction_count = 2013265921
+logup_log_max_message_length = 7
+logup_pow_bits = 18
+
+[[circuits]]
+name = "app"
+l_skip = 4
+n_stack = 20
+w_stack = 2048
+log_blowup = 1
+whir_folding_pow_bits = 5
+whir_mu_pow_bits = 15
+whir_proximity = "unique"
+constraint_degree = 3
+max_constraints_per_air = 5000
+num_airs = 100
+max_log_trace_height = 24
+num_trace_columns = 30000
+max_interactions_per_air = 1000
+
+[[circuits]]
+name = "leaf"
+l_skip = 4
+n_stack = 17
+w_stack = 2048
+log_blowup = 2
+whir_folding_pow_bits = 4
+whir_mu_pow_bits = 13
+whir_proximity = "unique"
+constraint_degree = 3
+max_constraints_per_air = 1000
+num_airs = 50
+max_log_trace_height = 20
+num_trace_columns = 2000
+max_interactions_per_air = 100
+
+[[circuits]]
+name = "internal"
+l_skip = 2
+n_stack = 17
+w_stack = 512
+log_blowup = 3
+whir_folding_pow_bits = 18
+whir_mu_pow_bits = 20
+whir_proximity = "list"
+whir_m = 2
+constraint_degree = 3
+max_constraints_per_air = 1000
+num_airs = 50
+max_log_trace_height = 19
+num_trace_columns = 2000
+max_interactions_per_air = 100
+
+[[circuits]]
+name = "root"
+l_skip = 2
+n_stack = 19
+w_stack = 9
+log_blowup = 4
+whir_folding_pow_bits = 20
+whir_mu_pow_bits = 20
+whir_proximity = "list"
+whir_m = 2
+constraint_degree = 3
+max_constraints_per_air = 1000
+num_airs = 50
+max_log_trace_height = 21
+num_trace_columns = 2000
+max_interactions_per_air = 100
