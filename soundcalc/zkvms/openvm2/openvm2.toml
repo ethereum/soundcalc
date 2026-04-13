@@ -59,6 +59,7 @@ max_log_trace_height = 19
 num_trace_columns = 2000
 max_interactions_per_air = 100
 
+# the root aggregation layer is only used for STARK-to-SNARK recursion
 [[circuits]]
 name = "root"
 l_skip = 2
