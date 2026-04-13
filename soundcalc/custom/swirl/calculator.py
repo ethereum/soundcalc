@@ -274,7 +274,12 @@ def calculate_swirl_soundness(
 ) -> SWIRLSoundnessResult:
     challenge_field_bits = _challenge_field_bits(field)
     regime = params.whir.proximity.build_regime(field)
-    mu_batching_bits = -math.log2(whir._get_batching_error(regime))
+    whir_errors = whir.get_pcs_soundness_errors(regime)
+
+    mu_batching_bits = math.inf
+    if whir_errors.batching_error is not None:
+        mu_batching_bits = -math.log2(whir_errors.batching_error)
+
     initial_list_size = whir._get_list_size_for_iteration_and_round(0, 0, regime)
     log2_list_size = math.log2(initial_list_size)
 
@@ -308,57 +313,54 @@ def calculate_swirl_soundness(
         stacked_multilinear_bits,
     )
 
-    min_query_bits = math.inf
-    min_proximity_gaps_bits = math.inf
-    min_sumcheck_bits = math.inf
-    min_ood_bits = math.inf
-    min_gamma_batching_bits = math.inf
-    min_fold_rbr_bits = math.inf
-    min_shift_rbr_bits = math.inf
-    min_whir_bits = mu_batching_bits
+    query_bits_by_round = tuple(-math.log2(error) for error in whir_errors.query_errors)
+    fold_bits = tuple(
+        -math.log2(error)
+        for round_errors in whir_errors.fold_errors
+        for error in round_errors
+    )
+    ood_bits = tuple(-math.log2(error) for error in whir_errors.ood_errors)
 
-    for round_index, round_config in enumerate(params.whir.rounds):
-        current_list_size = whir._get_list_size_for_iteration_and_round(round_index, 0, regime)
-        sumcheck_bits = _whir_sumcheck_security(
+    sumcheck_bits = tuple(
+        _whir_sumcheck_security(
             challenge_field_bits,
-            current_list_size,
+            whir._get_list_size_for_iteration_and_round(round_index, 0, regime),
             params.whir.folding_pow_bits,
         )
-        min_sumcheck_bits = min(min_sumcheck_bits, sumcheck_bits)
-
-        for sub_round in range(params.whir.k):
-            fold_bits = -math.log2(whir._epsilon_fold(round_index, sub_round + 1, regime))
-            min_fold_rbr_bits = min(min_fold_rbr_bits, fold_bits)
-            min_whir_bits = min(min_whir_bits, fold_bits)
-
-            rate, dimension = whir._get_code_for_iteration_and_round(round_index, sub_round + 1)
-            proximity_error = regime.get_error_powers(rate, dimension, 2)
-            proximity_bits = -math.log2(proximity_error) + params.whir.folding_pow_bits
-            min_proximity_gaps_bits = min(min_proximity_gaps_bits, proximity_bits)
-
-        query_bits = -math.log2(whir._epsilon_query(round_index, regime))
-        min_query_bits = min(min_query_bits, query_bits)
-
-        if round_index == whir.num_iterations - 1:
-            min_shift_rbr_bits = min(min_shift_rbr_bits, query_bits)
-            min_whir_bits = min(min_whir_bits, query_bits)
-            continue
-
-        next_list_size = whir._get_list_size_for_iteration_and_round(round_index + 1, 0, regime)
-        gamma_batching_bits = _whir_gamma_batching_security(
+        for round_index in range(whir.num_iterations)
+    )
+    proximity_gaps_bits = tuple(
+        -math.log2(regime.get_error_powers(*whir._get_code_for_iteration_and_round(round_index, sub_round + 1), 2))
+        + params.whir.folding_pow_bits
+        for round_index in range(whir.num_iterations)
+        for sub_round in range(params.whir.k)
+    )
+    gamma_bits_by_round = tuple(
+        _whir_gamma_batching_security(
             challenge_field_bits,
-            round_config.num_queries + 1,
-            next_list_size,
+            whir.num_queries[round_index] + 1,
+            whir._get_list_size_for_iteration_and_round(round_index + 1, 0, regime),
         )
-        min_gamma_batching_bits = min(min_gamma_batching_bits, gamma_batching_bits)
+        for round_index in range(whir.num_iterations - 1)
+    )
+    shift_bits = tuple(
+        _combine_security_bits(query_bits_by_round[round_index], gamma_bits_by_round[round_index])
+        for round_index in range(whir.num_iterations - 1)
+    ) + (query_bits_by_round[-1],)
 
-        shift_rbr_bits = _combine_security_bits(query_bits, gamma_batching_bits)
-        min_shift_rbr_bits = min(min_shift_rbr_bits, shift_rbr_bits)
-        min_whir_bits = min(min_whir_bits, shift_rbr_bits)
-
-        ood_bits = -math.log2(whir._epsilon_out(round_index + 1, regime))
-        min_ood_bits = min(min_ood_bits, ood_bits)
-        min_whir_bits = min(min_whir_bits, ood_bits)
+    min_query_bits = min(query_bits_by_round)
+    min_proximity_gaps_bits = min(proximity_gaps_bits)
+    min_sumcheck_bits = min(sumcheck_bits)
+    min_ood_bits = min(ood_bits, default=math.inf)
+    min_gamma_batching_bits = min(gamma_bits_by_round, default=math.inf)
+    min_fold_rbr_bits = min(fold_bits)
+    min_shift_rbr_bits = min(shift_bits)
+    min_whir_bits = min(
+        mu_batching_bits,
+        min_fold_rbr_bits,
+        min_ood_bits,
+        min_shift_rbr_bits,
+    )
 
     whir_details = SWIRLWhirDetails(
         mu_batching_bits=mu_batching_bits,
