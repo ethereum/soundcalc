@@ -62,13 +62,13 @@ max_interactions_per_air = 100
 [[circuits]]
 name = "root"
 l_skip = 2
-n_stack = 19
-w_stack = 9
+n_stack = 18
+w_stack = 18
 log_blowup = 4
 whir_folding_pow_bits = 20
 whir_mu_pow_bits = 20
 whir_proximity = "list"
-whir_m = 2
+whir_m = 1
 constraint_degree = 3
 max_constraints_per_air = 1000
 num_airs = 50

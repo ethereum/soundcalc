@@ -607,6 +607,23 @@ class WHIR(PCS):
         epsilon = apply_grinding(epsilon, self.grinding_batching_phase)
         return epsilon
 
+    def _epsilon_query(self, iteration: int, regime: ProximityGapsRegime) -> float:
+        """
+        Returns the query-only error (1-delta_i)^{t_i} for the given iteration,
+        including the per-query grinding.
+        """
+
+        assert 0 <= iteration < self.num_iterations, "Iteration out of bounds"
+
+        t = self.num_queries[iteration]
+        delta = self._get_delta_for_iteration(iteration, regime)
+
+        assert 0 < delta < 1.0, f"Invalid delta {delta} for iteration {iteration}"
+
+        epsilon = (1.0 - delta) ** t
+        epsilon = apply_grinding(epsilon, self.grinding_bits_queries[iteration])
+        return epsilon
+
     def _epsilon_fold(
         self, iteration: int, round: int, regime: ProximityGapsRegime
     ) -> float:
@@ -699,21 +716,7 @@ class WHIR(PCS):
         Returns the error epsilon^fin from the paper (Theorem 5.2 in WHIR paper).
         """
 
-        t_final = self.num_queries[-1]
-        grinding_bits = self.grinding_bits_queries[-1]
-
-        # the error is (1-delta_{M-1})^{t_{M-1}}
-        delta = self._get_delta_for_iteration(self.num_iterations - 1, regime)
-
-        # Sanity Check: If delta is 1.0, the code has no redundancy, and security is 0.
-        # (Technically error=0, but this implies a broken config).
-        assert 0 < delta < 1.0, f"Invalid delta {delta} for final round"
-
-        epsilon = (1.0 - delta) ** t_final
-
-        # grinding
-        epsilon = apply_grinding(epsilon, grinding_bits)
-        return epsilon
+        return self._epsilon_query(self.num_iterations - 1, regime)
 
     def _get_log_grinding_overhead(self) -> float:
         """
