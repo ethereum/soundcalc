@@ -308,6 +308,17 @@ class WHIRConfig:
     # (This is useful to pin fixed parameters in TOML configs.)
     gap_to_radius: Optional[float] = None
 
+
+@dataclass(frozen=True)
+class WHIRSoundnessErrors:
+    batching_error: Optional[float]
+    fold_errors: tuple[tuple[float, ...], ...]
+    query_errors: tuple[float, ...]
+    ood_errors: tuple[float, ...]
+    shift_errors: tuple[float, ...]
+    final_error: float
+
+
 class WHIR(PCS):
     """
     WHIR Polynomial Commitment Scheme.
@@ -455,19 +466,18 @@ class WHIR(PCS):
         """
         Returns PCS-specific security levels for a given regime.
         """
+        errors = self.get_pcs_soundness_errors(regime)
         levels: dict[str, int] = {}
 
         # add an error from the batching step
-        if self.batch_size > 1:
-            epsilon_batch = self._get_batching_error(regime)
-            levels["batching"] = get_bits_of_security_from_error(epsilon_batch)
+        if errors.batching_error is not None:
+            levels["batching"] = get_bits_of_security_from_error(errors.batching_error)
 
         # Initial Iteration (i=0)
         #
         # Construction 5.1: "1. Initial sumcheck... For l = 1...k0"
         # This iteration only contains folding (sumcheck), no OOD/Shift.
-        for round_s in range(1, self.folding_factor + 1):
-            epsilon = self._epsilon_fold(iteration=0, round=round_s, regime=regime)
+        for round_s, epsilon in enumerate(errors.fold_errors[0], start=1):
             levels[f"fold(i=0,s={round_s})"] = get_bits_of_security_from_error(epsilon)
 
         # Main Loop (i=1 to M-1)
@@ -476,28 +486,66 @@ class WHIR(PCS):
         # For each iteration i = 1, ... M - 1: OOD errors, shift errors, fold errors
         for iteration in range(1, self.num_iterations):
             # out of domain samples
-            epsilon_ood = self._epsilon_out(iteration, regime)
+            epsilon_ood = errors.ood_errors[iteration - 1]
             levels[f"OOD(i={iteration})"] = get_bits_of_security_from_error(epsilon_ood)
 
             # shift queries
-            epsilon_shift = self._epsilon_shift(iteration, regime)
+            epsilon_shift = errors.shift_errors[iteration - 1]
             levels[f"Shift(i={iteration})"] = get_bits_of_security_from_error(
                 epsilon_shift
             )
 
             # sum check (one error for each round)
-            for round in range(1, self.folding_factor + 1):
-                epsilon = self._epsilon_fold(iteration, round, regime)
-                levels[f"fold(i={iteration},s={round})"] = (
+            for round_s, epsilon in enumerate(errors.fold_errors[iteration], start=1):
+                levels[f"fold(i={iteration},s={round_s})"] = (
                     get_bits_of_security_from_error(epsilon)
                 )
 
         # final error
         # Construction 5.1: "3. Check final polynomial..."
-        epsilon_final = self._epsilon_final(regime)
-        levels["fin"] = get_bits_of_security_from_error(epsilon_final)
-
+        levels["fin"] = get_bits_of_security_from_error(errors.final_error)
         return levels
+
+    def get_pcs_soundness_errors(
+        self, regime: ProximityGapsRegime
+    ) -> WHIRSoundnessErrors:
+        """
+        Returns the exact WHIR soundness errors without converting them to integer bits.
+        """
+
+        batching_error = None
+        if self.batch_size > 1:
+            batching_error = self._get_batching_error(regime)
+
+        fold_errors = tuple(
+            tuple(
+                self._epsilon_fold(iteration, round_s, regime)
+                for round_s in range(1, self.folding_factor + 1)
+            )
+            for iteration in range(self.num_iterations)
+        )
+        query_errors = tuple(
+            self._epsilon_query(iteration, regime)
+            for iteration in range(self.num_iterations)
+        )
+        ood_errors = tuple(
+            self._epsilon_out(iteration, regime)
+            for iteration in range(1, self.num_iterations)
+        )
+        shift_errors = tuple(
+            self._epsilon_shift(iteration, regime)
+            for iteration in range(1, self.num_iterations)
+        )
+        final_error = self._epsilon_final(regime)
+
+        return WHIRSoundnessErrors(
+            batching_error=batching_error,
+            fold_errors=fold_errors,
+            query_errors=query_errors,
+            ood_errors=ood_errors,
+            shift_errors=shift_errors,
+            final_error=final_error,
+        )
 
     def _get_code_for_iteration_and_round(
         self, iteration: int, round: int
@@ -607,6 +655,23 @@ class WHIR(PCS):
         epsilon = apply_grinding(epsilon, self.grinding_batching_phase)
         return epsilon
 
+    def _epsilon_query(self, iteration: int, regime: ProximityGapsRegime) -> float:
+        """
+        Returns the query-only error (1-delta_i)^{t_i} for the given iteration,
+        including the per-query grinding.
+        """
+
+        assert 0 <= iteration < self.num_iterations, "Iteration out of bounds"
+
+        t = self.num_queries[iteration]
+        delta = self._get_delta_for_iteration(iteration, regime)
+
+        assert 0 < delta < 1.0, f"Invalid delta {delta} for iteration {iteration}"
+
+        epsilon = (1.0 - delta) ** t
+        epsilon = apply_grinding(epsilon, self.grinding_bits_queries[iteration])
+        return epsilon
+
     def _epsilon_fold(
         self, iteration: int, round: int, regime: ProximityGapsRegime
     ) -> float:
@@ -699,21 +764,7 @@ class WHIR(PCS):
         Returns the error epsilon^fin from the paper (Theorem 5.2 in WHIR paper).
         """
 
-        t_final = self.num_queries[-1]
-        grinding_bits = self.grinding_bits_queries[-1]
-
-        # the error is (1-delta_{M-1})^{t_{M-1}}
-        delta = self._get_delta_for_iteration(self.num_iterations - 1, regime)
-
-        # Sanity Check: If delta is 1.0, the code has no redundancy, and security is 0.
-        # (Technically error=0, but this implies a broken config).
-        assert 0 < delta < 1.0, f"Invalid delta {delta} for final round"
-
-        epsilon = (1.0 - delta) ** t_final
-
-        # grinding
-        epsilon = apply_grinding(epsilon, grinding_bits)
-        return epsilon
+        return self._epsilon_query(self.num_iterations - 1, regime)
 
     def _get_log_grinding_overhead(self) -> float:
         """
