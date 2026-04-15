@@ -180,6 +180,7 @@ class zkVM:
                 num_queries=section["num_queries"],
                 FRI_folding_factors=section.get("fri_folding_factors"),
                 FRI_early_stop_degree=section.get("fri_early_stop_degree"),
+                grinding_batching_phase=section.get("grinding_batching_phase", 0),
                 grinding_query_phase=section.get("grinding_query_phase", 0),
             ))
             pcs = JaggedPCS(JaggedConfig(
