@@ -7,7 +7,7 @@ from soundcalc.common.fields import GOLDILOCKS_3
 from soundcalc.pcs.fri import FRI, FRIConfig
 from soundcalc.proxgaps.johnson_bound import JohnsonBoundRegime
 from soundcalc.proxgaps.unique_decoding import UniqueDecodingRegime
-from soundcalc.zkvms.circuit import Circuit, CircuitConfig
+from soundcalc.circuits.deep_ali import DeepAliCircuit, DeepAliConfig
 
 
 def _make_fri_config(grinding_commit_phase: int = 0, grinding_query_phase: int = 0) -> FRIConfig:
@@ -62,7 +62,7 @@ def test_grinding_deep_increases_security(regime_cls):
     pcs = FRI(_make_fri_config())
     regime = regime_cls(GOLDILOCKS_3)
 
-    circuit_no_grind = Circuit(CircuitConfig(
+    circuit_no_grind = DeepAliCircuit(DeepAliConfig(
         name="test",
         pcs=pcs,
         field=GOLDILOCKS_3,
@@ -72,7 +72,7 @@ def test_grinding_deep_increases_security(regime_cls):
         grinding_deep=0,
     ))
 
-    circuit_with_grind = Circuit(CircuitConfig(
+    circuit_with_grind = DeepAliCircuit(DeepAliConfig(
         name="test",
         pcs=pcs,
         field=GOLDILOCKS_3,
@@ -117,12 +117,15 @@ def test_grinding_commit_phase_default_zero():
 def test_grinding_deep_default_zero():
     """Test that grinding_deep defaults to 0."""
     pcs = FRI(_make_fri_config())
-    config = CircuitConfig(
+    config = DeepAliConfig(
         name="test",
         pcs=pcs,
         field=GOLDILOCKS_3,
+        num_constraints=100,
+        AIR_max_degree=3,
+        max_combo=3,
     )
     assert config.grinding_deep == 0
 
-    circuit = Circuit(config)
+    circuit = DeepAliCircuit(config)
     assert circuit.grinding_deep == 0

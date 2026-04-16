@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from soundcalc.circuits.circuit import Circuit
+from soundcalc.circuits.swirl.calculator import SWIRLSoundnessResult, SWIRLSystemParams, calculate_swirl_soundness
 from soundcalc.common.fields import FieldParams
-from soundcalc.custom.swirl.calculator import SWIRLSoundnessResult, SWIRLSystemParams, calculate_swirl_soundness
 from soundcalc.pcs.whir import WHIR
-from soundcalc.zkvms.circuit import Circuit, CircuitConfig
 
 
 @dataclass(frozen=True)
@@ -23,14 +23,16 @@ class SWIRLCircuitConfig:
 
 class SWIRLCircuit(Circuit):
     def __init__(self, config: SWIRLCircuitConfig):
-        super().__init__(CircuitConfig(name=config.name, pcs=config.pcs, field=config.field, udr_only=True))
+        self.name = config.name
+        self.pcs = config.pcs
+        self.field = config.field
+        self.protocol_label = "SWIRL"
         self.params = config.params
         self.max_num_constraints_per_air = config.max_num_constraints_per_air
         self.num_airs = config.num_airs
         self.max_log_trace_height = config.max_log_trace_height
         self.num_trace_columns = config.num_trace_columns
         self.max_interactions_per_air = config.max_interactions_per_air
-        self.protocol_label = "SWIRL"
         self._soundness_result: SWIRLSoundnessResult | None = None
 
     def get_soundness_result(self) -> SWIRLSoundnessResult:

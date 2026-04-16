@@ -3,13 +3,15 @@ import pytest
 
 from soundcalc.common.fields import BABYBEAR_4
 from soundcalc.pcs.pcs import PCS
-from soundcalc.zkvms.circuit import Circuit, CircuitConfig
+from soundcalc.circuits.deep_ali import DeepAliCircuit, DeepAliConfig
 from soundcalc.proxgaps.johnson_bound import JohnsonBoundRegime
 from soundcalc.proxgaps.unique_decoding import UniqueDecodingRegime
 from soundcalc.lookups.logup import LogUp, LogUpConfig, LogUpType
 
 
 class DummyPCS(PCS):
+    label = "Dummy"
+
     def __init__(self, *, dimension: int, rate: float):
         self._dimension = dimension
         self._rate = rate
@@ -35,6 +37,9 @@ class DummyPCS(PCS):
 
     def get_parameter_summary(self) -> str:
         return "dummy"
+
+    def get_report_parameter_lines(self) -> list[str]:
+        return []
 
 
 def _multipoint_rhs(*, pcs: PCS, regime) -> float:
@@ -69,8 +74,8 @@ def test_deep_ali_multipoint_raises_when_max_combo_too_large(regime_cls):
     m_ok = _max_combo_at_bound(pcs=pcs, regime=regime)
     m_bad = m_ok + 1
 
-    circuit = Circuit(
-        CircuitConfig(
+    circuit = DeepAliCircuit(
+        DeepAliConfig(
             name="test",
             pcs=pcs,
             field=BABYBEAR_4,
@@ -91,8 +96,8 @@ def test_deep_ali_multipoint_allows_max_combo_at_bound(regime_cls):
 
     m_ok = _max_combo_at_bound(pcs=pcs, regime=regime)
 
-    circuit = Circuit(
-        CircuitConfig(
+    circuit = DeepAliCircuit(
+        DeepAliConfig(
             name="test",
             pcs=pcs,
             field=BABYBEAR_4,

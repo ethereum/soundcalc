@@ -5,7 +5,7 @@ from pathlib import Path
 import toml
 
 from soundcalc.common.fields import parse_field
-from soundcalc.custom.swirl import (
+from soundcalc.circuits.swirl import (
     SWIRLCircuit,
     SWIRLCircuitConfig,
     SWIRLLogUpSecurityParameters,

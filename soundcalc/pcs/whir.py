@@ -324,6 +324,8 @@ class WHIR(PCS):
     WHIR Polynomial Commitment Scheme.
     """
 
+    label = "WHIR"
+
     def __init__(self, config: WHIRConfig):
         """
         Given a config, compute all the parameters relevant for the PCS.
@@ -970,3 +972,19 @@ class WHIR(PCS):
 
         lines.append("```")
         return "\n".join(lines)
+
+    def get_report_parameter_lines(self) -> list[str]:
+        batching = "Powers" if self.power_batching else "Affine"
+        return [
+            f"- Polynomial commitment scheme: WHIR",
+            f"- Hash size (bits): {self.hash_size_bits}",
+            f"- Field: {self.field.to_string()}",
+            f"- Iterations (M): {self.num_iterations}",
+            f"- Folding factor (k): {self.folding_factor}",
+            f"- Constraint degree: {self.constraint_degree}",
+            f"- Batch size: {self.batch_size}",
+            f"- Batching: {batching}",
+            f"- Queries per iteration: {self.num_queries}",
+            f"- OOD samples per iteration: {self.num_ood_samples}",
+            f"- Total grinding overhead log2: {self.log_grinding_overhead}",
+        ]

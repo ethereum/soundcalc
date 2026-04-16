@@ -4,13 +4,13 @@ from pathlib import Path
 
 import toml
 
+from soundcalc.circuits.circuit import Circuit
+from soundcalc.circuits.deep_ali import DeepAliCircuit, DeepAliConfig
+from soundcalc.circuits.jagged import JaggedCircuit, JaggedCircuitConfig
 from soundcalc.common.fields import FieldParams, parse_field
 from soundcalc.lookups.logup import LogUp, LogUpConfig, LogUpType
 from soundcalc.pcs.fri import FRI, FRIConfig
-from soundcalc.pcs.pcs import PCS
-from soundcalc.pcs.jagged import JaggedPCS, JaggedConfig
 from soundcalc.pcs.whir import WHIR, WHIRConfig
-from soundcalc.zkvms.circuit import Circuit, CircuitConfig
 
 
 def _parse_lookups_from_toml(section: dict, field: FieldParams) -> list[LogUp]:
@@ -99,7 +99,7 @@ class zkVM:
                 grinding_batching_phase=section.get("grinding_batching_phase", 0),
             ))
             lookups = _parse_lookups_from_toml(section, field)
-            circuit = Circuit(CircuitConfig(
+            circuit = DeepAliCircuit(DeepAliConfig(
                 name=section["name"],
                 pcs=pcs,
                 field=field,
@@ -109,7 +109,6 @@ class zkVM:
                 max_combo=section["opening_points"],
                 lookups=lookups if lookups else None,
                 grinding_deep=section.get("grinding_deep", 0),
-                multilinear_zerocheck = section.get("multilinear_zerocheck", False),
                 udr_only = section.get("udr_only", False),
             ))
             circuits.append(circuit)
@@ -145,12 +144,14 @@ class zkVM:
                 grinding_bits_ood=section["grinding_bits_ood"],
             ))
             lookups = _parse_lookups_from_toml(section, field)
-            circuit = Circuit(CircuitConfig(
+            circuit = DeepAliCircuit(DeepAliConfig(
                 name=section["name"],
                 pcs=pcs,
                 field=field,
                 gap_to_radius=section.get("gap_to_radius"),
-                multilinear_zerocheck = section.get("multilinear_zerocheck", False),
+                num_constraints=section["num_constraints"],
+                AIR_max_degree=section["air_max_degree"],
+                max_combo=section["opening_points"],
                 udr_only = section.get("udr_only", False),
                 lookups=lookups if lookups else None,
             ))
@@ -162,7 +163,7 @@ class zkVM:
     @classmethod
     def _load_jagged_from_toml(cls, config: dict) -> "zkVM":
         """
-        Load a Jagged PCS-based VM from a parsed TOML config dict.
+        Load a Jagged-based VM from a parsed TOML config dict.
         """
         field = parse_field(config["zkevm"]["field"])
         circuits = []
@@ -183,22 +184,15 @@ class zkVM:
                 grinding_batching_phase=section.get("grinding_batching_phase", 0),
                 grinding_query_phase=section.get("grinding_query_phase", 0),
             ))
-            pcs = JaggedPCS(JaggedConfig(
-                dense_pcs = dense_pcs,
-                trace_length = section["trace_length"],
-                trace_width = section["trace_columns"],
-            ))
             lookups = _parse_lookups_from_toml(section, field)
-            circuit = Circuit(CircuitConfig(
+            circuit = JaggedCircuit(JaggedCircuitConfig(
                 name=section["name"],
-                pcs=pcs,
+                dense_pcs=dense_pcs,
                 field=field,
-                gap_to_radius=section.get("gap_to_radius"),
+                trace_length=section["trace_length"],
+                trace_width=section["trace_columns"],
                 num_constraints=section["num_constraints"],
                 AIR_max_degree=section["air_max_degree"],
-                max_combo=section["opening_points"],
-                multilinear_zerocheck = section.get("multilinear_zerocheck", False),
-                udr_only = section.get("udr_only", False),
                 lookups=lookups if lookups else None,
             ))
             circuits.append(circuit)

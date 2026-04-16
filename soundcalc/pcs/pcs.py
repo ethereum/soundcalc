@@ -10,6 +10,15 @@ class PCS(ABC):
     Abstract base class for Polynomial Commitment Schemes.
     """
 
+    # Human-readable label for this PCS type (e.g. "FRI", "WHIR").
+    # Subclasses must set this.
+    label: str
+
+    @abstractmethod
+    def get_report_parameter_lines(self) -> list[str]:
+        """Returns markdown-formatted parameter lines for reports."""
+        ...
+
     @abstractmethod
     def get_pcs_security_levels(self, regime: ProximityGapsRegime) -> dict[str, int]:
         """

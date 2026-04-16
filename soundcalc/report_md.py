@@ -6,16 +6,12 @@ This file is a mess.
 
 from __future__ import annotations
 
-import math
 import os
 from dataclasses import dataclass
 from typing import Any
 
+from soundcalc.circuits.circuit import Circuit
 from soundcalc.common.utils import KIB
-from soundcalc.pcs.fri import FRI
-from soundcalc.pcs.jagged import JaggedPCS
-from soundcalc.pcs.whir import WHIR
-from soundcalc.zkvms.circuit import Circuit
 from soundcalc.zkvms.zkvm import zkVM
 
 
@@ -102,15 +98,7 @@ def _format_security_value(value: Any) -> str:
 
 def _pcs_label(circuit: Circuit) -> str:
     """Get the PCS type label for a circuit."""
-    if hasattr(circuit, "protocol_label"):
-        return getattr(circuit, "protocol_label")
-    if isinstance(circuit.pcs, FRI):
-        return "FRI"
-    elif isinstance(circuit.pcs, WHIR):
-        return "WHIR"
-    elif isinstance(circuit.pcs, JaggedPCS):
-        return "Jagged + FRI"
-    return "Unknown"
+    return circuit.protocol_label
 
 
 def _collect_zkvm_summary(zkvm: zkVM) -> zkVMSummary:
@@ -173,118 +161,9 @@ def _collect_zkvm_summary(zkvm: zkVM) -> zkVMSummary:
     )
 
 
-def _fri_parameter_lines(circuit: Circuit) -> list[str]:
-    pcs = circuit.pcs
-    batching = "Powers" if pcs.power_batching else "Affine"
-    lines = [
-        f"- Polynomial commitment scheme: FRI",
-        f"- Hash size (bits): {pcs.hash_size_bits}",
-        f"- Number of queries: {pcs.num_queries}",
-        f"- Grinding query phase (bits): {pcs.grinding_query_phase}",
-    ]
-    if pcs.grinding_commit_phase > 0:
-        lines.append(f"- Grinding commit phase, at every folding round (bits): {pcs.grinding_commit_phase}")
-    if pcs.grinding_batching_phase > 0:
-        lines.append(f"- Grinding batching phase (bits): {pcs.grinding_batching_phase}")
-    if circuit.grinding_deep > 0:
-        lines.append(f"- Grinding DEEP (bits): {circuit.grinding_deep}")
-    lines.extend([
-        f"- Field: {_field_label(pcs.field)}",
-        f"- Rate (ρ): {pcs.rho}",
-        f"- Trace length (H): $2^{{{pcs.h}}}$",
-        f"- FRI rounds: {pcs.FRI_rounds_n}",
-        f"- FRI folding factors: {pcs.FRI_folding_factors}",
-        f"- FRI early stop degree: {pcs.FRI_early_stop_degree}",
-        f"- Number of constraints: {circuit.num_constraints}",
-        f"- Batch size: {pcs.batch_size}",
-        f"- Batching: {batching}",
-    ])
-    return lines
-
-
-def _jagged_parameter_lines(circuit: Circuit) -> list[str]:
-    pcs = circuit.pcs
-    dense_pcs = pcs.dense_pcs
-    batching = "Powers" if dense_pcs.power_batching else "Affine"
-    lines = [
-        f"- Polynomial commitment scheme: Jagged + FRI",
-        f"- Trace length: $2^{{{math.ceil(math.log2(pcs.trace_length))}}}$",
-        f"- Trace width: {pcs.trace_width}",
-        f"- Dense length (inner FRI): $2^{{{dense_pcs.h}}}$",
-        f"- Hash size (bits): {dense_pcs.hash_size_bits}",
-        f"- Number of queries: {dense_pcs.num_queries}",
-        f"- Grinding query phase (bits): {dense_pcs.grinding_query_phase}",
-    ]
-    if dense_pcs.grinding_commit_phase > 0:
-        lines.append(f"- Grinding commit phase, at every folding round (bits): {dense_pcs.grinding_commit_phase}")
-    if dense_pcs.grinding_batching_phase > 0:
-        lines.append(f"- Grinding batching phase (bits): {dense_pcs.grinding_batching_phase}")
-    if circuit.grinding_deep > 0:
-        lines.append(f"- Grinding DEEP (bits): {circuit.grinding_deep}")
-    lines.extend([
-        f"- Field: {_field_label(dense_pcs.field)}",
-        f"- Rate (ρ): {dense_pcs.rho}",
-        f"- FRI rounds: {dense_pcs.FRI_rounds_n}",
-        f"- FRI folding factors: {dense_pcs.FRI_folding_factors}",
-        f"- FRI early stop degree: {dense_pcs.FRI_early_stop_degree}",
-        f"- Number of constraints: {circuit.num_constraints}",
-        f"- Dense batch size: {dense_pcs.batch_size}",
-        f"- Batching: {batching}",
-    ])
-    return lines
-
-
-def _whir_parameter_lines(circuit: Circuit) -> list[str]:
-    pcs = circuit.pcs
-    batching = "Powers" if pcs.power_batching else "Affine"
-    return [
-        f"- Polynomial commitment scheme: WHIR",
-        f"- Hash size (bits): {pcs.hash_size_bits}",
-        f"- Field: {_field_label(pcs.field)}",
-        f"- Iterations (M): {pcs.num_iterations}",
-        f"- Folding factor (k): {pcs.folding_factor}",
-        f"- Constraint degree: {pcs.constraint_degree}",
-        f"- Batch size: {pcs.batch_size}",
-        f"- Batching: {batching}",
-        f"- Queries per iteration: {pcs.num_queries}",
-        f"- OOD samples per iteration: {pcs.num_ood_samples}",
-        f"- Total grinding overhead log2: {pcs.log_grinding_overhead}",
-    ]
-
-
-def _generic_parameter_lines(circuit: Circuit) -> list[str]:
-    lines: list[str] = []
-    lines.append(f"- Polynomial commitment scheme: Unknown")
-    pcs = circuit.pcs
-    if hasattr(pcs, "hash_size_bits"):
-        lines.append(f"- Hash size (bits): {pcs.hash_size_bits}")
-    if hasattr(pcs, "field"):
-        lines.append(f"- Field: {_field_label(pcs.field)}")
-    return lines
-
-
-def _lookup_parameter_lines(circuit: Circuit) -> list[str]:
-    """Get parameter lines for lookups in a circuit."""
-    lines: list[str] = []
-    for lookup in circuit.get_lookups():
-        lines.append(f"- Lookup (logup): {lookup.get_name()}")
-    return lines
-
-
 def _get_parameter_lines(circuit: Circuit) -> list[str]:
     """Get parameter lines for a circuit."""
-    if hasattr(circuit, "get_report_parameter_lines"):
-        return circuit.get_report_parameter_lines()
-    if isinstance(circuit.pcs, FRI):
-        lines = _fri_parameter_lines(circuit)
-    elif isinstance(circuit.pcs, WHIR):
-        lines = _whir_parameter_lines(circuit)
-    elif isinstance(circuit.pcs, JaggedPCS):
-        lines = _jagged_parameter_lines(circuit)
-    else:
-        lines = _generic_parameter_lines(circuit)
-    lines.extend(_lookup_parameter_lines(circuit))
-    return lines
+    return circuit.get_report_parameter_lines()
 
 
 def _build_security_table(results: dict[str, Any], lookup_names: list[str] | None = None) -> str:

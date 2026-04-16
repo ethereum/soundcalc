@@ -27,16 +27,16 @@ How to read this report:
 - Number of queries: 193
 - Grinding query phase (bits): 20
 - Grinding batching phase (bits): 20
-- Grinding DEEP (bits): 5
 - Field: BabyBear⁴
 - Rate (ρ): 0.5
 - Trace length (H): $2^{23}$
 - FRI rounds: 23
 - FRI folding factors: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 - FRI early stop degree: 2
-- Number of constraints: 15000
 - Batch size: 80000
 - Batching: Powers
+- Grinding DEEP (bits): 5
+- Number of constraints: 15000
 
 **Proof Size:** 234635 KiB (expected) / 235651 KiB (worst case)
 
@@ -54,16 +54,16 @@ How to read this report:
 - Number of queries: 193
 - Grinding query phase (bits): 20
 - Grinding batching phase (bits): 20
-- Grinding DEEP (bits): 5
 - Field: BabyBear⁴
 - Rate (ρ): 0.5
 - Trace length (H): $2^{23}$
 - FRI rounds: 23
 - FRI folding factors: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 - FRI early stop degree: 2
-- Number of constraints: 15000
 - Batch size: 80000
 - Batching: Powers
+- Grinding DEEP (bits): 5
+- Number of constraints: 15000
 
 **Proof Size:** 234635 KiB (expected) / 235651 KiB (worst case)
 
@@ -81,16 +81,16 @@ How to read this report:
 - Number of queries: 118
 - Grinding query phase (bits): 20
 - Grinding batching phase (bits): 16
-- Grinding DEEP (bits): 5
 - Field: BabyBear⁴
 - Rate (ρ): 0.25
 - Trace length (H): $2^{21}$
 - FRI rounds: 21
 - FRI folding factors: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 - FRI early stop degree: 4
-- Number of constraints: 15000
 - Batch size: 4000
 - Batching: Powers
+- Grinding DEEP (bits): 5
+- Number of constraints: 15000
 - Lookup (logup): lookup
 
 **Proof Size:** 7687 KiB (expected) / 8231 KiB (worst case)

@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from math import ceil, log2
+
+from soundcalc.circuits.circuit import Circuit
 from soundcalc.common.fields import FieldParams
 from soundcalc.common.utils import apply_grinding, get_bits_of_security_from_error
 from soundcalc.lookups.logup import LogUp
@@ -12,59 +13,76 @@ from soundcalc.proxgaps.unique_decoding import UniqueDecodingRegime
 
 
 @dataclass
-class CircuitConfig:
-    """Configuration for a Circuit."""
+class DeepAliConfig:
+    """Configuration for a DeepAliCircuit."""
     name: str
     pcs: PCS
     field: FieldParams
-    gap_to_radius: float | None = None
     # Total constraints of AIR table (used in DEEP-ALI soundness)
-    num_constraints: int | None = None
+    num_constraints: int
     # Maximum constraint degree
-    AIR_max_degree: int | None = None
+    AIR_max_degree: int
     # Maximum number of entries from a single column referenced in a single constraint
-    max_combo: int | None = None
+    max_combo: int
+    gap_to_radius: float | None = None
     # Optional list of LogUp instances for lookup soundness
     lookups: list[LogUp] | None = None
-    # Whether or not the zerocheck is done with a multilinear sumcheck
-    multilinear_zerocheck: bool = False
     # Whether or not to only analyze unique decoding regime.
     udr_only: bool = False
     # Proof of Work grinding during DEEP (expressed in bits of security)
     grinding_deep: int = 0
 
 
-class Circuit:
+class DeepAliCircuit(Circuit):
     """
-    A class modeling a single circuit within a zkVM.
-    Each circuit has its own parameters and security analysis.
+    Circuit using the DEEP-ALI proof system over a polynomial commitment scheme.
+
+    Used by FRI-based and WHIR-based zkVMs (e.g. ZisK, Pico, DummyWHIR).
     """
 
-    def __init__(self, config: CircuitConfig):
+    def __init__(self, config: DeepAliConfig):
         self.name = config.name
         self.pcs = config.pcs
         self.field = config.field
+        self.protocol_label = config.pcs.label
         self.gap_to_radius = config.gap_to_radius
-        # Store optional DEEP-ALI params
         self.num_constraints = config.num_constraints
         self.AIR_max_degree = config.AIR_max_degree
         self.max_combo = config.max_combo
-        self.multilinear_zerocheck = config.multilinear_zerocheck
         self.udr_only = config.udr_only
-        # TODO: add zerocheck error outside of unique decoding regime
-        if self.multilinear_zerocheck:
-            assert self.udr_only
-        # Store optional lookups
         self._lookups = config.lookups or []
         self.grinding_deep = config.grinding_deep
-
-    def get_name(self) -> str:
-        """Returns the name of the circuit."""
-        return self.name
 
     def get_lookups(self) -> list[LogUp]:
         """Returns the list of lookups for this circuit."""
         return self._lookups
+
+    def get_security_levels(self) -> dict[str, dict[str, int]]:
+        regimes = [
+            UniqueDecodingRegime(self.field),
+        ]
+        if self.udr_only == False:
+            regimes.append(JohnsonBoundRegime(self.field, gap_to_radius=self.gap_to_radius))
+
+        result = {}
+        for regime in regimes:
+            id = regime.identifier()
+            pcs_levels = self.pcs.get_pcs_security_levels(regime)
+
+            rate = self.pcs.get_rate()
+            dimension = self.pcs.get_dimension()
+            list_size = regime.get_max_list_size(rate, dimension)
+            deep_ali_levels = self._get_DEEP_ALI_errors(list_size, regime)
+            all_levels = pcs_levels | deep_ali_levels
+
+            # Add lookup security levels
+            for lookup in self._lookups:
+                all_levels[lookup.get_name()] = lookup.get_soundness_bits()
+
+            all_levels["total"] = min(all_levels.values())
+            result[id] = all_levels
+
+        return result
 
     def get_parameter_summary(self) -> str:
         """Returns a description of the parameters of the circuit."""
@@ -74,15 +92,11 @@ class Circuit:
         # Find the closing ``` (last one) and insert params before it
         for i in range(len(lines) - 1, -1, -1):
             if lines[i].strip() == "```":
-                extra_lines = []
-
-                # Add DEEP-ALI params if present
-                if self._has_deep_ali_params():
-                    extra_lines.extend([
-                        f"  num_constraints                    : {self.num_constraints}",
-                        f"  AIR_max_degree                     : {self.AIR_max_degree}",
-                        f"  max_combo                          : {self.max_combo}",
-                    ])
+                extra_lines = [
+                    f"  num_constraints                    : {self.num_constraints}",
+                    f"  AIR_max_degree                     : {self.AIR_max_degree}",
+                    f"  max_combo                          : {self.max_combo}",
+                ]
 
                 # Add lookup params
                 for lookup in self._lookups:
@@ -98,71 +112,15 @@ class Circuit:
 
         return "\n".join(lines)
 
-    def get_proof_size_bits(self) -> int:
-        """
-        Returns an estimate for the proof size, given in bits.
-        """
-        return self.pcs.get_proof_size_bits()
-
-    def get_expected_proof_size_bits(self) -> int:
-        """
-        Returns an estimate for the *expected* proof size, given in bits.
-        """
-        return self.pcs.get_expected_proof_size_bits()
-
-    def get_security_levels(self) -> dict[str, dict[str, int]]:
-        """
-        Returns a dictionary that maps each regime (i.e., a way of doing security analysis)
-        to a dictionary that contains the round-by-round soundness levels.
-
-        It maps from a label that describes the regime (e.g., UDR, JBR in case of FRI) to a
-        regime-specific dictionary. Any such regime-specific dictionary is as follows:
-
-        It maps from a label that explains which round it is for to an integer.
-        If this integer is, say, k, then it means the error for this round is at
-        most 2^{-k}.
-        """
-        regimes = [
-            UniqueDecodingRegime(self.field),
-        ]
-        if self.udr_only == False:
-            regimes.append(JohnsonBoundRegime(self.field, gap_to_radius=self.gap_to_radius))
-
-        result = {}
-        for regime in regimes:
-            id = regime.identifier()
-            pcs_levels = self.pcs.get_pcs_security_levels(regime)
-
-            # Add DEEP-ALI errors if circuit params are provided
-            if self._has_deep_ali_params():
-                rate = self.pcs.get_rate()
-                dimension = self.pcs.get_dimension()
-                list_size = regime.get_max_list_size(rate, dimension)
-                deep_ali_levels = self._get_DEEP_ALI_errors(list_size,regime)
-                all_levels = pcs_levels | deep_ali_levels
-            # A dirty heuristic for now, add zerocheck error only for unique decoding regime.
-            elif self.multilinear_zerocheck and self.udr_only:
-                zerocheck_levels = {}
-                log_height = ceil(log2(self.pcs.get_trace_length()))
-                zerocheck_error = (self.num_constraints + (self.AIR_max_degree + 2) * log_height) / self.field.F
-                zerocheck_levels["zerocheck"] = get_bits_of_security_from_error(zerocheck_error)
-                all_levels = pcs_levels | zerocheck_levels
-            else:
-                all_levels = pcs_levels
-
-            # Add lookup security levels
-            for lookup in self._lookups:
-                all_levels[lookup.get_name()] = lookup.get_soundness_bits()
-
-            all_levels["total"] = min(all_levels.values())
-            result[id] = all_levels
-
-        return result
-
-    def _has_deep_ali_params(self) -> bool:
-        """Should we report DEEP-ALI soundness?"""
-        # A dirty heuristic for now
-        return self.num_constraints is not None and self.multilinear_zerocheck == False
+    def get_report_parameter_lines(self) -> list[str]:
+        """Returns markdown-formatted parameter lines for reports."""
+        lines = self.pcs.get_report_parameter_lines()
+        if self.grinding_deep > 0:
+            lines.append(f"- Grinding DEEP (bits): {self.grinding_deep}")
+        lines.append(f"- Number of constraints: {self.num_constraints}")
+        for lookup in self._lookups:
+            lines.append(f"- Lookup (logup): {lookup.get_name()}")
+        return lines
 
     def _get_DEEP_ALI_errors(self, L_plus: float, regime: ProximityGapsRegime) -> dict[str, int]:
         """

@@ -12,16 +12,16 @@ How to read this report:
 - Number of queries: 87
 - Grinding query phase (bits): 28
 - Grinding commit phase, at every folding round (bits): 5
-- Grinding DEEP (bits): 12
 - Field: M31⁴
 - Rate (ρ): 0.5
 - Trace length (H): $2^{24}$
 - FRI rounds: 5
 - FRI folding factors: [16, 16, 16, 8, 8]
 - FRI early stop degree: 128
-- Number of constraints: 928
 - Batch size: 1225
 - Batching: Powers
+- Grinding DEEP (bits): 12
+- Number of constraints: 928
 - Lookup (logup): generic_lookup
 - Lookup (logup): range_check_16_lookup
 - Lookup (logup): range_check_19_lookup

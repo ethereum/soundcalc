@@ -28,6 +28,35 @@ pytest
 
 `math_companion/` - A LaTeX-based PDF that acts as the math companion of the math used throughout the code. Build with `make` inside the directory. Function references in footnotes use the format `path/file.py:function_name()`.
 
+## Architecture
+
+A zkVM contains one or more Circuits; each Circuit uses exactly one PCS. Both
+`Circuit` and `PCS` are abstract base classes with concrete subclasses per
+proof system / commitment scheme:
+
+```
+        ┌─────────────────────┐
+        │        zkVM         │
+        └──────────┬──────────┘
+                   │ contains 1..N
+                   ▼
+        ┌─────────────────────┐
+        │  Circuit (abstract) │
+        ├─────────────────────┤
+        │  • DeepAliCircuit   │
+        │  • JaggedCircuit    │
+        │  • SWIRLCircuit     │
+        └──────────┬──────────┘
+                   │ uses 1
+                   ▼
+        ┌─────────────────────┐
+        │   PCS  (abstract)   │
+        ├─────────────────────┤
+        │  • FRI              │
+        │  • WHIR             │
+        └─────────────────────┘
+```
+
 ## Workflows
 
 ### Adding a new zkVM project

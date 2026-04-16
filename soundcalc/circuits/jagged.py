@@ -2,13 +2,15 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from math import log2, ceil
-from typing import Optional
 
+from soundcalc.circuits.circuit import Circuit
 from soundcalc.common.fields import FieldParams
-from soundcalc.common.utils import get_bits_of_security_from_error, get_size_of_merkle_multi_proof_bits, get_size_of_merkle_proof_bits
+from soundcalc.common.utils import get_bits_of_security_from_error
+from soundcalc.lookups.logup import LogUp
 from soundcalc.pcs.pcs import PCS
-from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
 from soundcalc.pcs.fri import FRI
+from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
+from soundcalc.proxgaps.unique_decoding import UniqueDecodingRegime
 
 
 def sumcheck_size_bits(
@@ -17,6 +19,7 @@ def sumcheck_size_bits(
     field_size_bits: int
 ) -> int:
     return (num_variables * (degree + 2) + 2) * field_size_bits
+
 
 @dataclass(frozen=True)
 class JaggedConfig:
@@ -36,6 +39,8 @@ class JaggedPCS(PCS):
     """
     Jagged Polynomial Commitment Scheme.
     """
+
+    label = "Jagged"
 
     def __init__(self, config: JaggedConfig):
         self.dense_pcs = config.dense_pcs
@@ -135,3 +140,109 @@ class JaggedPCS(PCS):
 
         lines.append("```")
         return "\n".join(lines)
+
+    def get_report_parameter_lines(self) -> list[str]:
+        return self.dense_pcs.get_report_parameter_lines()
+
+
+@dataclass(frozen=True)
+class JaggedCircuitConfig:
+    """Configuration for a JaggedCircuit."""
+    name: str
+    dense_pcs: FRI
+    field: FieldParams
+    trace_length: int
+    trace_width: int
+    num_constraints: int
+    AIR_max_degree: int
+    lookups: list[LogUp] | None = None
+
+
+class JaggedCircuit(Circuit):
+    """
+    Circuit using the Jagged proof system over FRI.
+
+    Jagged adds a sumcheck-based reduction layer on top of a dense FRI PCS,
+    plus a multilinear zerocheck for constraint satisfaction.
+    Used by SP1.
+    """
+
+    def __init__(self, config: JaggedCircuitConfig):
+        self.name = config.name
+        self.field = config.field
+        self.protocol_label = "Jagged + FRI"
+        self._jagged_pcs = JaggedPCS(JaggedConfig(
+            dense_pcs=config.dense_pcs,
+            trace_length=config.trace_length,
+            trace_width=config.trace_width,
+        ))
+        self.pcs = self._jagged_pcs
+        self.num_constraints = config.num_constraints
+        self.AIR_max_degree = config.AIR_max_degree
+        self._lookups = config.lookups or []
+
+    def get_lookups(self) -> list[LogUp]:
+        """Returns the list of lookups for this circuit."""
+        return self._lookups
+
+    def get_security_levels(self) -> dict[str, dict[str, float]]:
+        regime = UniqueDecodingRegime(self.field)
+        pcs_levels = self.pcs.get_pcs_security_levels(regime)
+
+        # Multilinear zerocheck error
+        log_height = ceil(log2(self.pcs.get_trace_length()))
+        zerocheck_error = (self.num_constraints + (self.AIR_max_degree + 2) * log_height) / self.field.F
+        all_levels = pcs_levels | {"zerocheck": get_bits_of_security_from_error(zerocheck_error)}
+
+        # Add lookup security levels
+        for lookup in self._lookups:
+            all_levels[lookup.get_name()] = lookup.get_soundness_bits()
+
+        all_levels["total"] = min(all_levels.values())
+        return {regime.identifier(): all_levels}
+
+    def get_parameter_summary(self) -> str:
+        """Returns a description of the parameters of the circuit."""
+        pcs_summary = self.pcs.get_parameter_summary()
+        lines = pcs_summary.split("\n")
+
+        # Find the closing ``` (last one) and insert params before it
+        for i in range(len(lines) - 1, -1, -1):
+            if lines[i].strip() == "```":
+                extra_lines = []
+                for lookup in self._lookups:
+                    extra_lines.append(f"  lookup (logup)                     : {lookup.get_name()}")
+                if extra_lines:
+                    lines = lines[:i] + extra_lines + lines[i:]
+                break
+
+        return "\n".join(lines)
+
+    def get_report_parameter_lines(self) -> list[str]:
+        """Returns markdown-formatted parameter lines for reports."""
+        dense = self._jagged_pcs.dense_pcs
+        batching = "Powers" if dense.power_batching else "Affine"
+        lines = [
+            "- Proof system: Jagged",
+            "- Inner PCS: FRI",
+            f"- Hash size (bits): {dense.hash_size_bits}",
+            f"- Number of queries: {dense.num_queries}",
+            f"- Grinding query phase (bits): {dense.grinding_query_phase}",
+        ]
+        if dense.grinding_commit_phase > 0:
+            lines.append(f"- Grinding commit phase (bits): {dense.grinding_commit_phase}")
+        lines.extend([
+            f"- Field: {dense.field.to_string()}",
+            f"- Rate (ρ): {dense.rho}",
+            f"- Dense trace length: $2^{{{dense.h}}}$",
+            f"- Trace length: {self._jagged_pcs.trace_length}",
+            f"- Trace width: {self._jagged_pcs.trace_width}",
+            f"- FRI rounds: {dense.FRI_rounds_n}",
+            f"- FRI folding factors: {dense.FRI_folding_factors}",
+            f"- FRI early stop degree: {dense.FRI_early_stop_degree}",
+            f"- Dense batch size: {dense.batch_size}",
+            f"- Batching: {batching}",
+        ])
+        for lookup in self._lookups:
+            lines.append(f"- Lookup (logup): {lookup.get_name()}")
+        return lines

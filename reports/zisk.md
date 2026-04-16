@@ -73,9 +73,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 49
 - Batch size: 46
 - Batching: Powers
+- Number of constraints: 49
 - Lookup (logup): Lookup_gsum_[5000]
 - Lookup (logup): Lookup_gsum_[77]
 - Lookup (logup): Lookup_gsum_[8001]
@@ -106,9 +106,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 22
 - Batch size: 33
 - Batching: Powers
+- Number of constraints: 22
 - Lookup (logup): Lookup_gsum_[5000]
 - Lookup (logup): Lookup_gsum_[77]
 - Lookup (logup): Lookup_gsum_[8001]
@@ -138,9 +138,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 20
 - Batch size: 27
 - Batching: Powers
+- Number of constraints: 20
 - Lookup (logup): Lookup_gsum_[5000]
 - Lookup (logup): Lookup_gsum_[8001]
 - Lookup (logup): Permutation_gsum_[10]
@@ -170,9 +170,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 88
 - Batch size: 62
 - Batching: Powers
+- Number of constraints: 88
 - Lookup (logup): Direct_gsum_[5000]
 - Lookup (logup): Direct_gsum_[8200]
 - Lookup (logup): Lookup_gsum_[5000]
@@ -202,9 +202,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 52
 - Batch size: 44
 - Batching: Powers
+- Number of constraints: 52
 - Lookup (logup): Direct_gsum_[5000]
 - Lookup (logup): Direct_gsum_[8200]
 - Lookup (logup): Lookup_gsum_[5000]
@@ -234,9 +234,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 62
 - Batch size: 30
 - Batching: Powers
+- Number of constraints: 62
 - Lookup (logup): Direct_gsum_[5000]
 - Lookup (logup): Direct_gsum_[8200]
 - Lookup (logup): Lookup_gsum_[5000]
@@ -264,9 +264,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 81
 - Batch size: 46
 - Batching: Powers
+- Number of constraints: 81
 - Lookup (logup): Direct_gsum_[5000]
 - Lookup (logup): Direct_gsum_[8200]
 - Lookup (logup): Lookup_gsum_[5000]
@@ -294,9 +294,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 69
 - Batch size: 52
 - Batching: Powers
+- Number of constraints: 69
 - Lookup (logup): Direct_gsum_[5000]
 - Lookup (logup): Direct_gsum_[8200]
 - Lookup (logup): Lookup_gsum_[5000]
@@ -324,9 +324,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 75
 - Batch size: 52
 - Batching: Powers
+- Number of constraints: 75
 - Lookup (logup): Direct_gsum_[5000]
 - Lookup (logup): Direct_gsum_[8201]
 - Lookup (logup): Lookup_gsum_[5000]
@@ -355,9 +355,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 69
 - Batch size: 83
 - Batching: Powers
+- Number of constraints: 69
 - Lookup (logup): Lookup_gsum_[8002]
 - Lookup (logup): Lookup_gsum_[8003]
 - Lookup (logup): Lookup_gsum_[88]
@@ -385,9 +385,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 38
 - Batch size: 70
 - Batching: Powers
+- Number of constraints: 38
 - Lookup (logup): Lookup_gsum_[8002]
 - Lookup (logup): Lookup_gsum_[88]
 - Lookup (logup): Permutation_gsum_[10]
@@ -414,9 +414,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 20
 - Batch size: 44
 - Batching: Powers
+- Number of constraints: 20
 - Lookup (logup): Lookup_gsum_[8002]
 - Lookup (logup): Lookup_gsum_[88]
 - Lookup (logup): Permutation_gsum_[10]
@@ -443,9 +443,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of constraints: 144
 - Batch size: 61
 - Batching: Powers
+- Number of constraints: 144
 - Lookup (logup): Direct_gsum_[1000]
 - Lookup (logup): Lookup_gsum_[5000]
 - Lookup (logup): Lookup_gsum_[7890]
@@ -474,9 +474,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of constraints: 3
 - Batch size: 18
 - Batching: Powers
+- Number of constraints: 3
 - Lookup (logup): Lookup_gsum_[7890]
 
 **Proof Size:** 635 KiB (expected) / 1019 KiB (worst case)
@@ -500,9 +500,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of constraints: 34
 - Batch size: 29
 - Batching: Powers
+- Number of constraints: 34
 - Lookup (logup): Direct_gsum_[11]
 - Lookup (logup): Permutation_gsum_[10]
 - Lookup (logup): Range Check_gsum_[102]
@@ -530,9 +530,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 23
 - Batch size: 19
 - Batching: Powers
+- Number of constraints: 23
 - Lookup (logup): Direct_gsum_[11]
 - Lookup (logup): Permutation_gsum_[10]
 - Lookup (logup): Range Check_gsum_[102]
@@ -558,9 +558,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 30
 - Batch size: 27
 - Batching: Powers
+- Number of constraints: 30
 - Lookup (logup): Direct_gsum_[11]
 - Lookup (logup): Permutation_gsum_[10]
 - Lookup (logup): Range Check_gsum_[102]
@@ -587,9 +587,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 40
 - Batch size: 59
 - Batching: Powers
+- Number of constraints: 40
 - Lookup (logup): Lookup_gsum_[133]
 - Lookup (logup): Permutation_gsum_[10]
 - Lookup (logup): Range Check_gsum_[107]
@@ -615,9 +615,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of constraints: 16
 - Batch size: 25
 - Batching: Powers
+- Number of constraints: 16
 - Lookup (logup): Direct_gsum_[10]
 - Lookup (logup): Lookup_gsum_[88]
 - Lookup (logup): Permutation_gsum_[10]
@@ -645,9 +645,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of constraints: 10
 - Batch size: 18
 - Batching: Powers
+- Number of constraints: 10
 - Lookup (logup): Direct_gsum_[10]
 - Lookup (logup): Lookup_gsum_[88]
 - Lookup (logup): Permutation_gsum_[10]
@@ -674,9 +674,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of constraints: 15
 - Batch size: 23
 - Batching: Powers
+- Number of constraints: 15
 - Lookup (logup): Direct_gsum_[10]
 - Lookup (logup): Lookup_gsum_[88]
 - Lookup (logup): Permutation_gsum_[10]
@@ -704,9 +704,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 65
 - Batch size: 64
 - Batching: Powers
+- Number of constraints: 65
 - Lookup (logup): Lookup_gsum_[330]
 - Lookup (logup): Lookup_gsum_[331]
 - Lookup (logup): Lookup_gsum_[5000]
@@ -732,9 +732,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of constraints: 14
 - Batch size: 49
 - Batching: Powers
+- Number of constraints: 14
 - Lookup (logup): Direct_gsum_[5000]
 - Lookup (logup): Lookup_gsum_[125]
 - Lookup (logup): Lookup_gsum_[5000]
@@ -760,9 +760,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of constraints: 9
 - Batch size: 18
 - Batching: Powers
+- Number of constraints: 9
 - Lookup (logup): Direct_gsum_[5000]
 - Lookup (logup): Lookup_gsum_[5000]
 - Lookup (logup): Range Check_gsum_[103]
@@ -788,9 +788,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of constraints: 8
 - Batch size: 40
 - Batching: Powers
+- Number of constraints: 8
 - Lookup (logup): Direct_gsum_[5000]
 - Lookup (logup): Lookup_gsum_[124]
 - Lookup (logup): Lookup_gsum_[5000]
@@ -817,9 +817,9 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [8, 8, 8, 8, 8]
 - FRI early stop degree: 64
-- Number of constraints: 36
 - Batch size: 69
 - Batching: Powers
+- Number of constraints: 36
 - Lookup (logup): Lookup_gsum_[5000]
 - Lookup (logup): Permutation_gsum_[10]
 - Lookup (logup): Range Check_gsum_[103]
@@ -845,9 +845,9 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [8, 8, 8, 8, 8]
 - FRI early stop degree: 64
-- Number of constraints: 103
 - Batch size: 470
 - Batching: Powers
+- Number of constraints: 103
 - Lookup (logup): Lookup_gsum_[5000]
 - Lookup (logup): Lookup_gsum_[5002]
 - Lookup (logup): Permutation_gsum_[10]
@@ -876,9 +876,9 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [8, 8, 8, 8, 8]
 - FRI early stop degree: 64
-- Number of constraints: 76
 - Batch size: 536
 - Batching: Powers
+- Number of constraints: 76
 - Lookup (logup): Lookup_gsum_[5000]
 - Lookup (logup): Lookup_gsum_[5002]
 - Lookup (logup): Permutation_gsum_[10]
@@ -907,9 +907,9 @@ How to read this report:
 - FRI rounds: 4
 - FRI folding factors: [8, 8, 8, 8]
 - FRI early stop degree: 64
-- Number of constraints: 2432
 - Batch size: 4065
 - Batching: Powers
+- Number of constraints: 2432
 - Lookup (logup): Lookup_gsum_[126]
 - Lookup (logup): Lookup_gsum_[5000]
 - Lookup (logup): Permutation_gsum_[10]
@@ -935,9 +935,9 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 115
 - Batch size: 1265
 - Batching: Powers
+- Number of constraints: 115
 - Lookup (logup): Lookup_gsum_[5000]
 - Lookup (logup): Permutation_gsum_[10]
 - Lookup (logup): Range Check_gsum_[109]
@@ -963,9 +963,9 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 85
 - Batch size: 182
 - Batching: Powers
+- Number of constraints: 85
 - Lookup (logup): Lookup_gsum_[5000]
 - Lookup (logup): Permutation_gsum_[10]
 
@@ -990,9 +990,9 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 189
 - Batch size: 651
 - Batching: Powers
+- Number of constraints: 189
 - Lookup (logup): Lookup_gsum_[5000]
 - Lookup (logup): Permutation_gsum_[10]
 - Lookup (logup): Permutation_gsum_[127]
@@ -1019,9 +1019,9 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [8, 8, 8, 8, 8]
 - FRI early stop degree: 64
-- Number of constraints: 16
 - Batch size: 107
 - Batching: Powers
+- Number of constraints: 16
 - Lookup (logup): Lookup_gsum_[102]
 - Lookup (logup): Lookup_gsum_[103, 104]
 - Lookup (logup): Lookup_gsum_[104, 105, 106, 107, 108]
@@ -1050,9 +1050,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 6
 - Batch size: 69
 - Batching: Powers
+- Number of constraints: 6
 - Lookup (logup): Lookup_gsum_[124, 8001]
 - Lookup (logup): Lookup_gsum_[125, 124]
 - Lookup (logup): Lookup_gsum_[125]
@@ -1081,9 +1081,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 6
 - Batch size: 90
 - Batching: Powers
+- Number of constraints: 6
 - Lookup (logup): Lookup_gsum_[5000]
 
 **Proof Size:** 989 KiB (expected) / 1384 KiB (worst case)
@@ -1107,9 +1107,9 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of constraints: 179
 - Batch size: 198
 - Batching: Powers
+- Number of constraints: 179
 - Lookup (logup): Connection_gprod_[1]
 
 **Proof Size:** 726 KiB (expected) / 871 KiB (worst case)
@@ -1133,9 +1133,9 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of constraints: 179
 - Batch size: 198
 - Batching: Powers
+- Number of constraints: 179
 - Lookup (logup): Connection_gprod_[1]
 
 **Proof Size:** 726 KiB (expected) / 871 KiB (worst case)
@@ -1159,9 +1159,9 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of constraints: 179
 - Batch size: 198
 - Batching: Powers
+- Number of constraints: 179
 - Lookup (logup): Connection_gprod_[1]
 
 **Proof Size:** 726 KiB (expected) / 871 KiB (worst case)
@@ -1185,9 +1185,9 @@ How to read this report:
 - FRI rounds: 6
 - FRI folding factors: [8, 8, 8, 8, 8, 4]
 - FRI early stop degree: 32
-- Number of constraints: 179
 - Batch size: 198
 - Batching: Powers
+- Number of constraints: 179
 - Lookup (logup): Connection_gprod_[1]
 
 **Proof Size:** 771 KiB (expected) / 940 KiB (worst case)
@@ -1211,9 +1211,9 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [8, 8, 8, 8, 8]
 - FRI early stop degree: 64
-- Number of constraints: 179
 - Batch size: 198
 - Batching: Powers
+- Number of constraints: 179
 - Lookup (logup): Connection_gprod_[1]
 
 **Proof Size:** 743 KiB (expected) / 892 KiB (worst case)
@@ -1237,9 +1237,9 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of constraints: 179
 - Batch size: 198
 - Batching: Powers
+- Number of constraints: 179
 - Lookup (logup): Connection_gprod_[1]
 
 **Proof Size:** 726 KiB (expected) / 871 KiB (worst case)
@@ -1263,9 +1263,9 @@ How to read this report:
 - FRI rounds: 5
 - FRI folding factors: [8, 8, 8, 8, 8]
 - FRI early stop degree: 32
-- Number of constraints: 158
 - Batch size: 145
 - Batching: Powers
+- Number of constraints: 158
 - Lookup (logup): Connection_gprod_[1]
 
 **Proof Size:** 398 KiB (expected) / 487 KiB (worst case)
@@ -1289,9 +1289,9 @@ How to read this report:
 - FRI rounds: 4
 - FRI folding factors: [16, 16, 16, 16]
 - FRI early stop degree: 32
-- Number of constraints: 154
 - Batch size: 139
 - Batching: Powers
+- Number of constraints: 154
 - Lookup (logup): Connection_gprod_[1]
 
 **Proof Size:** 253 KiB (expected) / 292 KiB (worst case)
@@ -1315,9 +1315,9 @@ How to read this report:
 - FRI rounds: 3
 - FRI folding factors: [8, 8, 8]
 - FRI early stop degree: 1024
-- Number of constraints: 158
 - Batch size: 145
 - Batching: Powers
+- Number of constraints: 158
 - Lookup (logup): Connection_gprod_[1]
 
 **Proof Size:** 269 KiB (expected) / 313 KiB (worst case)

@@ -34,9 +34,9 @@ How to read this report:
 - FRI rounds: 22
 - FRI folding factors: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 - FRI early stop degree: 2
-- Number of constraints: 4729
 - Batch size: 1435
 - Batching: Powers
+- Number of constraints: 4729
 - Lookup (logup): alu
 - Lookup (logup): byte
 - Lookup (logup): global_type
@@ -66,9 +66,9 @@ How to read this report:
 - FRI rounds: 20
 - FRI folding factors: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 - FRI early stop degree: 2
-- Number of constraints: 323
 - Batch size: 485
 - Batching: Powers
+- Number of constraints: 323
 - Lookup (logup): memory
 
 **Proof Size:** 934 KiB (expected) / 1255 KiB (worst case)
@@ -92,9 +92,9 @@ How to read this report:
 - FRI rounds: 18
 - FRI folding factors: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 - FRI early stop degree: 2
-- Number of constraints: 323
 - Batch size: 485
 - Batching: Powers
+- Number of constraints: 323
 - Lookup (logup): memory
 
 **Proof Size:** 861 KiB (expected) / 1146 KiB (worst case)
@@ -118,9 +118,9 @@ How to read this report:
 - FRI rounds: 17
 - FRI folding factors: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 - FRI early stop degree: 16
-- Number of constraints: 323
 - Batch size: 485
 - Batching: Powers
+- Number of constraints: 323
 - Lookup (logup): memory
 
 **Proof Size:** 253 KiB (expected) / 308 KiB (worst case)
@@ -144,9 +144,9 @@ How to read this report:
 - FRI rounds: 15
 - FRI folding factors: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 - FRI early stop degree: 16
-- Number of constraints: 323
 - Batch size: 485
 - Batching: Powers
+- Number of constraints: 323
 - Lookup (logup): memory
 
 **Proof Size:** 232 KiB (expected) / 281 KiB (worst case)

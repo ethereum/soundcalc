@@ -21,20 +21,19 @@ How to read this report:
 ## core
 
 **Parameters:**
-- Polynomial commitment scheme: Jagged + FRI
-- Trace length: $2^{22}$
-- Trace width: 3741
-- Dense length (inner FRI): $2^{21}$
+- Proof system: Jagged
+- Inner PCS: FRI
 - Hash size (bits): 248
 - Number of queries: 124
 - Grinding query phase (bits): 16
-- Grinding batching phase (bits): 5
 - Field: KoalaBear⁴
 - Rate (ρ): 0.25
+- Dense trace length: $2^{21}$
+- Trace length: 4194304
+- Trace width: 3741
 - FRI rounds: 21
 - FRI folding factors: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 - FRI early stop degree: 4
-- Number of constraints: 3412
 - Dense batch size: 193
 - Batching: Affine
 - Lookup (logup): lookup
@@ -49,20 +48,19 @@ How to read this report:
 ## compress
 
 **Parameters:**
-- Polynomial commitment scheme: Jagged + FRI
-- Trace length: $2^{21}$
-- Trace width: 326
-- Dense length (inner FRI): $2^{20}$
+- Proof system: Jagged
+- Inner PCS: FRI
 - Hash size (bits): 248
 - Number of queries: 124
 - Grinding query phase (bits): 16
-- Grinding batching phase (bits): 5
 - Field: KoalaBear⁴
 - Rate (ρ): 0.25
+- Dense trace length: $2^{20}$
+- Trace length: 2097152
+- Trace width: 326
 - FRI rounds: 20
 - FRI folding factors: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 - FRI early stop degree: 4
-- Number of constraints: 204
 - Dense batch size: 128
 - Batching: Affine
 - Lookup (logup): lookup

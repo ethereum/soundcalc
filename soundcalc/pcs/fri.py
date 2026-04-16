@@ -138,6 +138,8 @@ class FRI(PCS):
     FRI Polynomial Commitment Scheme.
     """
 
+    label = "FRI"
+
     def __init__(self, config: FRIConfig):
         self.hash_size_bits = config.hash_size_bits
         self.rho = config.rho
@@ -334,3 +336,27 @@ class FRI(PCS):
 
         lines.append("```")
         return "\n".join(lines)
+
+    def get_report_parameter_lines(self) -> list[str]:
+        batching = "Powers" if self.power_batching else "Affine"
+        lines = [
+            f"- Polynomial commitment scheme: FRI",
+            f"- Hash size (bits): {self.hash_size_bits}",
+            f"- Number of queries: {self.num_queries}",
+            f"- Grinding query phase (bits): {self.grinding_query_phase}",
+        ]
+        if self.grinding_commit_phase > 0:
+            lines.append(f"- Grinding commit phase, at every folding round (bits): {self.grinding_commit_phase}")
+        if self.grinding_batching_phase > 0:
+            lines.append(f"- Grinding batching phase (bits): {self.grinding_batching_phase}")
+        lines.extend([
+            f"- Field: {self.field.to_string()}",
+            f"- Rate (ρ): {self.rho}",
+            f"- Trace length (H): $2^{{{self.h}}}$",
+            f"- FRI rounds: {self.FRI_rounds_n}",
+            f"- FRI folding factors: {self.FRI_folding_factors}",
+            f"- FRI early stop degree: {self.FRI_early_stop_degree}",
+            f"- Batch size: {self.batch_size}",
+            f"- Batching: {batching}",
+        ])
+        return lines
