@@ -23,13 +23,12 @@ def _parse_lookups_from_toml(section: dict, field: FieldParams) -> list[LogUp]:
             name=lookup_section["name"],
             field=field,
             logup_type=logup_type,
-            rows_L=lookup_section["rows_L"],
-            rows_T=lookup_section["rows_T"],
+            H_L=lookup_section["H_L"],
+            H_T=lookup_section["H_T"],
             num_columns_S=lookup_section.get("num_columns_S", 1),
             num_lookups_M=lookup_section.get("num_lookups_M", 1),
-            alphabet_size_H=lookup_section.get("alphabet_size_H"),
             grinding_bits_lookup=lookup_section.get("grinding_bits_lookup", 0),
-            multilinear_fingerprint=lookup_section.get("multilinear_fingerprint", False),
+            multilinear_fingerprint=lookup_section.get("multilinear_fingerprint"),
             reduction_error=lookup_section.get("reduction_error", 0.0),
         )
         lookups.append(LogUp(lookup_config))

@@ -79,7 +79,7 @@ grinding_deep = 5
 [[circuits.lookups]]
 name = "lookup"
 logup_type = "univariate"
-rows_L = 128  # 2^7
-rows_T = 0  # one table
+H_L = 128  # 2^7
+H_T = 0  # one table
 num_columns_S = 1
 grinding_bits_lookup = 18

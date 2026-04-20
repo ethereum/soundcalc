@@ -115,8 +115,8 @@ def test_grinding_adds_security_bits_additively():
         name="test",
         field=BABYBEAR_4,
         logup_type=LogUpType.UNIVARIATE,
-        rows_L=1024,
-        rows_T=1024,
+        H_L=1024,
+        H_T=1024,
         num_columns_S=1,
         grinding_bits_lookup=0,
     )
@@ -124,8 +124,8 @@ def test_grinding_adds_security_bits_additively():
         name="test",
         field=BABYBEAR_4,
         logup_type=LogUpType.UNIVARIATE,
-        rows_L=1024,
-        rows_T=1024,
+        H_L=1024,
+        H_T=1024,
         num_columns_S=1,
         grinding_bits_lookup=grinding_bits,
     )
@@ -138,3 +138,60 @@ def test_grinding_adds_security_bits_additively():
     assert abs(diff - grinding_bits) <= 1, (
         f"Expected grinding to add ~{grinding_bits} bits, but got {diff}"
     )
+
+
+def test_lookup_soundness_uses_k_h_s_over_f_for_univariate_aggregation():
+    config = LogUpConfig(
+        name="test",
+        field=BABYBEAR_4,
+        logup_type=LogUpType.UNIVARIATE,
+        H_L=1024,
+        H_T=2048,
+        num_columns_S=4,
+        num_lookups_M=3,
+        grinding_bits_lookup=0,
+    )
+
+    expected_error = 3 * (1024 + 2048) * 4 / BABYBEAR_4.F
+    expected_bits = math.floor(-math.log2(expected_error))
+
+    assert LogUp(config).get_soundness_bits() == expected_bits
+
+
+def test_lookup_soundness_uses_k_h_log_s_over_f_for_multivariate_aggregation():
+    config = LogUpConfig(
+        name="test",
+        field=BABYBEAR_4,
+        logup_type=LogUpType.MULTIVARIATE,
+        H_L=1024,
+        H_T=2048,
+        num_columns_S=8,
+        num_lookups_M=3,
+        multilinear_fingerprint=True,
+        grinding_bits_lookup=0,
+    )
+
+    expected_error = 3 * (1024 + 2048) * math.log2(8) / BABYBEAR_4.F
+    expected_bits = math.floor(-math.log2(expected_error))
+
+    assert LogUp(config).get_soundness_bits() == expected_bits
+
+
+def test_multilinear_fingerprint_defaults_follow_lookup_type():
+    univariate_config = LogUpConfig(
+        name="univariate",
+        field=BABYBEAR_4,
+        logup_type=LogUpType.UNIVARIATE,
+        H_L=1024,
+        H_T=2048,
+    )
+    multivariate_config = LogUpConfig(
+        name="multivariate",
+        field=BABYBEAR_4,
+        logup_type=LogUpType.MULTIVARIATE,
+        H_L=1024,
+        H_T=2048,
+    )
+
+    assert univariate_config.multilinear_fingerprint is False
+    assert multivariate_config.multilinear_fingerprint is True

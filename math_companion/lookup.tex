@@ -5,7 +5,14 @@ We consider logUP, the lookup argument introduced in~\cite{habock2022logup}.
 
 We have a table $\mathbf{T}\in\mathbb{F}^{T\times S}$ and tables $\mathbf{L}^1, \ldots, \mathbf{L}^K$ in $\mathbb{F}^{L\times S}$ that are lookups of it, that is, $\forall \ i\in[L] \ \exists \ j\in[T] \ s.t. \ \mathbf L_i=\mathbf T_j$.
 
-For the sake of the integration and in order to be consistent with parameters, we consider the cases when the lookup argument is proven using a univariate or multivariate IOP separately. We also consider a differentiate case when $S=1$.
+For the sake of the integration and in order to be consistent with the implementation parameters, we consider separately the cases when the lookup argument is proven using a univariate or multivariate IOP. We also consider a different case when $S=1$.
+
+In the code, the parameter controlling the aggregation is \texttt{multilinear\_fingerprint}. If it is not specified, then we assume it follows the lookup type:
+\begin{itemize}
+	\item univariate lookup $\Rightarrow$ univariate aggregation,
+	\item multivariate lookup $\Rightarrow$ multivariate aggregation.
+\end{itemize}
+Only when \texttt{multilinear\_fingerprint} is explicitly specified do we override this default.
 
 The logUP argument proves lookup relations by proving that given a vector $\vec m\in\mathbb{F}^{|\mathbf T|}$ such that $m_j\in\mathbb{Z}$, the lookup relation holds if and only if the following equation is satisfied.
 
@@ -27,13 +34,16 @@ We split the logUP protocol in two steps:
 
 In this case, we always assume that proving the well formation of the sums is deferred to AIR constraints, and that the additional constraints this causes are already taken into account in the size of the AIR trace for the soundness of the proof of correct execution of it.
 
+If \texttt{multilinear\_fingerprint} is not specified, then in this section we assume it is \texttt{false}, i.e. the aggregation is univariate.
+
 We consider the following parameters:
 \begin{itemize}
 	\item $F$ = size of the extension field $\mathbb{F}$
-	\item $T$ = rows of $\mathbf{T}$
-	\item $L$ = rows of $\mathbf{L}$
-	\item $S$ = number of columns of $T$ and $L$
-	\item $M$ = number of lookups performed on $\mathbf{T}$
+	\item $H_L$ = size of the set used to interpolate $\mathbf{L}$
+	\item $H_T$ = size of the set used to interpolate $\mathbf{T}$
+	\item $H = H_L + H_T$
+	\item $S$ = number of columns of $\mathbf{T}$ and $\mathbf{L}$
+	\item $K$ = number of lookups performed on $\mathbf{T}$
 \end{itemize}
 
 
@@ -51,81 +61,89 @@ $\lambda_i(X), \mu_j(X)$ being the Lagrange interpolation polynomials of some do
 The probability that a prover gets a randomness that verifies without $\mathbf L$ being a lookup on $\mathbf{T}$ is bounded by $\epsilon_{\mathsf{sum}}$ as follows:
 
 
-\subsubsection{Multi-column:}
+\subsubsection{Multi-column and aggregation:}
 
+Let $R$ be the contribution of the column aggregation. In the default univariate setting of this section, we take $R=S$. If the implementation explicitly overrides the aggregation to be multivariate, then we instead take $R=\log(S)$. Thus:
+\[
+R =
+\begin{cases}
+S & \text{if the aggregation is univariate,}\\
+\log(S) & \text{if the aggregation is multivariate.}
+\end{cases}
+\]
 
-A cheating prover can be lucky and obtain $\alpha, \beta$ such that the expression above is satisfied for a table $\mathbf {L}$ that is not a lookup on $\mathbf{T}$ with probability  $\epsilon_{\mathsf{sum}}\leq \frac{(L+T)S}{F}$.
+Then the lookup soundness error is bounded by
+\[
+\epsilon_{\mathsf{sum}}\leq \frac{K H R}{F}.
+\]
 
-If the aggregation of the columns is done with a multivariate polynomial, the probability is then  $\epsilon_{\mathsf{sum}}\leq \frac{(L+T)\log(S)}{F}$.
-
-
-
-\subsubsection{Single column:}
-
-For the single column case, we simply set $S=1$ above and have that the soundness error is $\epsilon_{\mathsf{sum}}\leq \frac{(L+T)}{F}$.
-
-
-
-\subsubsection{Aggregation:}
-
-When performing $M$ lookups on $\mathbf T$, we have that the soundness error $\epsilon_{\mathsf{sum}}$ is bounded by $ M\frac{(L+T)S}{F}$.
+For the single-column case, we take $R=1$.
 
 \subsubsection{Dummy Variables}
 
-If $\mathbf T, \mathbf L$ are smaller than the domain size and the tables are filled with dummy variables, those variables should be taken into account in the size of $L$ and $T$. 
+If $\mathbf T, \mathbf L$ are smaller than the interpolation set and the tables are filled with dummy variables, those variables should be taken into account in the sizes of $H_L$ and $H_T$. 
 
 \subsection{Multivariate}
+
+If \texttt{multilinear\_fingerprint} is not specified, then in this section we assume it is \texttt{true}, i.e. the aggregation is multivariate.
 
 We consider the following parameters:
 \begin{itemize}
 	\item $F$ = size of the extension field $\mathbb{F}$
-	\item $T$ = rows of $\mathbf{T}$
-	\item $L$ = rows of $\mathbf{L}$
-	\item $H_L$ = size of alphabet used to interpolate $T$.
-	\item $H_T$ = size of alphabet used to interpolate $L$.
-	\item $H=H_L+H_T$
-	\item $S$ = number of columns of $T$ and $L$
-	\item $M$ = number of lookups performed on $\mathbf{T}$
+	\item $H_L$ = size of the alphabet used to interpolate $\mathbf{L}$
+	\item $H_T$ = size of the alphabet used to interpolate $\mathbf{T}$
+	\item $H = H_L + H_T$
+	\item $S$ = number of columns of $\mathbf{T}$ and $\mathbf{L}$
+	\item $K$ = number of lookups performed on $\mathbf{T}$
 \end{itemize}
 
-We assume $\mathbf L$ and $\mathbf T$ are padded to have $T=L=H$.
 The expression 
 
 $$\sum_{i=1}^L \frac{1}{X- \sum_{s=1}^S \mathbf L_{is}Y^{s-1}}=\sum_{j=1}^T \frac{m_j}{X-\sum_{s=1}^S \mathbf T_{js}Y^{s-1}}$$
 
-is replaced, upon receiving $\alpha$ uniformly sampled from $\mathbb{F}$, by the polynomial equality  
+is replaced, upon receiving $\alpha$ uniformly sampled from $\mathbb{F}$ and $\vec \beta$ uniformly sampled from $\mathbb{F}^{\log S}$, by the polynomial equation:  
 
-$$\sum_{\vec x\in \Sigma} \frac{1}{\alpha- L(\vec x)}=\sum_{\vec x\in \Sigma} \frac{m(\vec x)}{\alpha-T(\vec x)}$$
+$$\sum_{\vec x\in H} \frac{1}{\alpha- L(\vec x, \vec \beta)}=\sum_{\vec x\in H} \frac{m(\vec x)}{\alpha-T(\vec x, \vec \beta)}$$
 
-where $\Sigma\in\mathbb{F}^\ell$ and $|\Sigma|=$max$\{TS, LS\}$.
 
 To convert the equation above into a polynomial one, both sides are multiplied by 
 
-$$\prod_{\vec x\in \Sigma}(\alpha - L(\vec x))\prod_{\vec x\in \Sigma}(\alpha - T(\vec x))$$
+$$\prod_{\vec x\in H}(\alpha - L(\vec x, \vec \beta))\prod_{\vec x\in H}(\alpha - T(\vec x, \vec \beta))$$
 
-To prove step number $2.$ of logUP, that is, that these expressions are consistent with $\mathbf L$ and $\mathbf T$, we consider two options: 
-$(i)$ The logUP argument is proven independently of the AIR trace, which adds an error $\epsilon_{\mathsf{logup-sound}}$
-$(ii)$ The polynomial identities that prove consistency are reduced to univariate identities, and included in the AIR constraints as in the univariate case, which adds an error $\epsilon_{\mathsf{reduction-univ}}$.
+\subsubsection{Multi-column and aggregation:}
 
-We capture case $(i)$ when proven with GKR. Following Papini and Haböck~\cite{logup-GKR} we calculate:
+Let $R$ be the contribution of the column aggregation. In the default multivariate setting of this section, we take $R=\log(S)$. If the implementation explicitly overrides the aggregation to be univariate, then we instead take $R=S$. Thus:
+\[
+R =
+\begin{cases}
+S & \text{if the aggregation is univariate,}\\
+\log(S) & \text{if the aggregation is multivariate.}
+\end{cases}
+\]
 
-$$\epsilon_{\mathsf{logup-sound}}=\epsilon_{\mathsf{GKR}}(H_{\log(H)+\log(M)})\leq \frac{1}{2}\frac{(\log(H)+\log(M))(3(\log(H)+\log(M))+1)}{F}$$
+Then the lookup soundness error is bounded by
+\[
+\epsilon_{\mathsf{sum}}\leq \frac{K H R}{F}.
+\]
 
-\subsubsection{Single column:}
+For the single-column case, we take $R=1$.
 
-By the same reasoning as above, we have that a cheating prover can get lucky with $\alpha$ with probability $\epsilon_{\mathsf{sum}}\leq \frac{H}{F}$. 
-
-\subsubsection{Multi column:}
-
-As the tables $\mathbf L, \mathbf T$ are already represented as tensors, considering $S$ columns consists on expanding $\mathbf L, \mathbf T$ with $\log (S)$ new variables. Still, to ensure all rows are lookup at together, those variables should be evaluated at random elements and the probability the prover gets lucky with those randomness is $\epsilon_{\mathsf{sum}}\leq \frac{\log(S) H}{F}$.
-
-\subsubsection{Aggregation:}
-
-When performing $K$ lookups on one table, they can all be verified together, as looking up a matrix of size $L\times K$ on  $\mathbf T$.
-The soundness error is then bounded as $\epsilon_{\mathsf{sum}}\leq \frac{KH}{F}$.
+To prove consistency with $\mathbf L$ and $\mathbf T$, we also account for the
+GKR soundness term. Writing $\epsilon_{\mathsf{gkr}}$ for that contribution, we
+use
+\[
+\epsilon_{\mathsf{gkr}}
+\leq \frac{1}{2}\frac{(\log(H)+\log(K))(3(\log(H)+\log(K))+1)}{F},
+\]
+which matches the implementation with $H = H_L + H_T$.
 
 \subsection{Grinding}
 
-For both cases we capture the option to decrease the soundness error of the lookup round through grinding. We consider a parameter $\mathsf{grinding\_bits\_lookup}$ denoting the rounds of proof of work, and compute the soundess error as: $\epsilon=(\epsilon_{\mathsf{sum}}+\epsilon')2^{\mathsf{-grinding\_bits\_lookup}}$, where $\epsilon'$ can be $0$, $\epsilon_{\mathsf{logup-sound}}$, $\epsilon_{\mathsf{reduction-univ}}$, or the GKR soundness error $\epsilon_{\mathsf{gkr}}.$
-
-
+For both cases we capture the option to decrease the soundness error of the lookup round through grinding. We consider a parameter $\mathsf{grinding\_bits\_lookup}$ denoting the rounds of proof of work, and compute the soundness error as
+\[
+\epsilon=
+\begin{cases}
+\epsilon_{\mathsf{sum}}2^{-\mathsf{grinding\_bits\_lookup}} & \text{in the univariate case,}\\
+(\epsilon_{\mathsf{sum}}+\epsilon_{\mathsf{gkr}}+\epsilon_{\mathsf{reduction}})2^{-\mathsf{grinding\_bits\_lookup}} & \text{in the multivariate case.}
+\end{cases}
+\]

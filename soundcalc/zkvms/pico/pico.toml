@@ -65,56 +65,56 @@ grinding_query_phase = 16
 [[circuits.lookups]]
 name = "alu"
 logup_type = "univariate"
-rows_L = 58720256
-rows_T = 33554432
+H_L = 58720256
+H_T = 33554432
 num_columns_S = 14
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
 name = "byte"
 logup_type = "univariate"
-rows_L = 352321536
-rows_T = 589824
+H_L = 352321536
+H_T = 589824
 num_columns_S = 6
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
 name = "global_type"
 logup_type = "univariate"
-rows_L = 9437184
-rows_T = 8388608
+H_L = 9437184
+H_T = 8388608
 num_columns_S = 11
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
 name = "memory"
 logup_type = "univariate"
-rows_L = 25165824
-rows_T = 25165824
+H_L = 25165824
+H_T = 25165824
 num_columns_S = 23
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
 name = "poseidon2"
 logup_type = "univariate"
-rows_L = 8388608
-rows_T = 8388608
+H_L = 8388608
+H_T = 8388608
 num_columns_S = 33
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
 name = "program"
 logup_type = "univariate"
-rows_L = 4194304
-rows_T = 4194304
+H_L = 4194304
+H_T = 4194304
 num_columns_S = 39
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
 name = "syscall"
 logup_type = "univariate"
-rows_L = 4194304
-rows_T = 1048576
+H_L = 4194304
+H_T = 1048576
 num_columns_S = 5
 grinding_bits_lookup = 0
 
@@ -143,8 +143,8 @@ grinding_query_phase = 16
 [[circuits.lookups]]
 name = "memory"
 logup_type = "univariate"
-rows_L = 17825808
-rows_T = 11534336
+H_L = 17825808
+H_T = 11534336
 num_columns_S = 6
 grinding_bits_lookup = 0
 
@@ -173,8 +173,8 @@ grinding_query_phase = 16
 [[circuits.lookups]]
 name = "memory"
 logup_type = "univariate"
-rows_L = 7733264
-rows_T = 3407872
+H_L = 7733264
+H_T = 3407872
 num_columns_S = 6
 grinding_bits_lookup = 0
 
@@ -203,8 +203,8 @@ grinding_query_phase = 16
 [[circuits.lookups]]
 name = "memory"
 logup_type = "univariate"
-rows_L = 4063248
-rows_T = 1703936
+H_L = 4063248
+H_T = 1703936
 num_columns_S = 6
 grinding_bits_lookup = 0
 
@@ -233,7 +233,7 @@ grinding_query_phase = 16
 [[circuits.lookups]]
 name = "memory"
 logup_type = "univariate"
-rows_L = 1048592
-rows_T = 491520
+H_L = 1048592
+H_T = 491520
 num_columns_S = 6
 grinding_bits_lookup = 0
