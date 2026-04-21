@@ -8,6 +8,7 @@ from soundcalc.common.utils import apply_grinding
 from soundcalc.pcs.whir import WHIR
 from soundcalc.proxgaps.johnson_bound import JohnsonBoundRegime
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
+from soundcalc.proxgaps.unique_decoding import UniqueDecodingRegime
 
 
 SWIRL_SECURITY_BITS_TARGET = 100
@@ -29,11 +30,11 @@ class SWIRLWhirProximityMode:
 
     def build_regime(self, field: FieldParams) -> ProximityGapsRegime:
         if self.kind == "unique":
-            return SWIRLUniqueDecodingRegime(field)
+            return UniqueDecodingRegime(field)
         if self.kind == "list":
             if self.m is None:
                 raise ValueError("list-decoding mode requires multiplicity m")
-            return SWIRLListDecodingRegime(field, self.m)
+            return JohnsonBoundRegime(field, explicit_m=self.m)
         raise ValueError(f"Unknown SWIRL proximity mode: {self.kind}")
 
     def whir_query_security_bits(self, num_queries: int, log_inv_rate: int) -> float:
@@ -127,65 +128,6 @@ class SWIRLSoundnessResult:
     whir_bits: float
     whir_details: SWIRLWhirDetails
     total_bits: float
-
-
-class SWIRLUniqueDecodingRegime(ProximityGapsRegime):
-    """
-    SWIRL's unique-decoding WHIR bound uses `n / |F|` for the proximity-gap term.
-
-    This differs from soundcalc's generic UDR MCA bound, so it stays isolated here.
-    """
-
-    def identifier(self) -> str:
-        return "SWIRL-UDR"
-
-    def get_proximity_parameter(self, rate: float, dimension: int) -> float:
-        return (1.0 - rate) / 2.0
-
-    def get_max_list_size(self, rate: float, dimension: int) -> int:
-        return 1
-
-    def get_error_powers(self, rate: float, dimension: int, batch_size: int) -> float:
-        if batch_size <= 1:
-            return 0.0
-        return self.get_error_linear(rate, dimension) * (batch_size - 1)
-
-    def get_error_linear(self, rate: float, dimension: int) -> float:
-        code_length = dimension / rate
-        return code_length / self.field.F
-
-    def get_error_multilinear(self, rate: float, dimension: int, batch_size: int) -> float:
-        if batch_size <= 1:
-            return 0.0
-        return self.get_error_linear(rate, dimension) * math.ceil(math.log2(batch_size))
-
-
-class SWIRLListDecodingRegime(JohnsonBoundRegime):
-    """
-    SWIRL uses the default BCHKS25 closed-form `a`-bound with an explicit multiplicity `m`.
-
-    The shared Johnson-bound implementation already contains the default `a`-bound algebra.
-    We only override the parts where SWIRL fixes `m` directly and uses `D_Y` as the list-size
-    proxy for subsequent soundness terms.
-    """
-
-    def __init__(self, field: FieldParams, m: int):
-        super().__init__(field)
-        self.explicit_m = max(m, 1)
-
-    def identifier(self) -> str:
-        return f"SWIRL-LDR(m={self.explicit_m})"
-
-    def get_proximity_parameter(self, rate: float, dimension: int) -> float:
-        sqrt_rate = math.sqrt(rate)
-        return 1.0 - sqrt_rate - (sqrt_rate / (2.0 * self.explicit_m))
-
-    def get_m(self, rate: float, dimension: int) -> int:
-        return self.explicit_m
-
-    def get_max_list_size(self, rate: float, dimension: int) -> float:
-        sqrt_rate = math.sqrt(rate)
-        return (self.explicit_m + 0.5) / sqrt_rate
 
 
 def _challenge_field_bits(field: FieldParams) -> float:

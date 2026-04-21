@@ -304,10 +304,6 @@ class WHIRConfig:
     # agree on the sampled OOD point.
     grinding_bits_ood: list[int]
 
-    # Optional override for the bound *gap*.
-    # (This is useful to pin fixed parameters in TOML configs.)
-    gap_to_radius: Optional[float] = None
-
 
 @dataclass(frozen=True)
 class WHIRSoundnessErrors:
@@ -344,7 +340,6 @@ class WHIR(PCS):
         self.grinding_bits_queries = config.grinding_bits_queries
         self.num_ood_samples = config.num_ood_samples
         self.grinding_bits_ood = config.grinding_bits_ood
-        self.gap_to_radius = config.gap_to_radius
 
         # Parameter validity checks
 
@@ -942,7 +937,6 @@ class WHIR(PCS):
             "hash_size_bits": self.hash_size_bits,
             "folding_factor": self.folding_factor,
             "batch_size": self.batch_size,
-            "gap_to_radius": self.gap_to_radius,
             "power_batching": self.power_batching,
             "grinding_batching_phase": self.grinding_batching_phase,
             "num_iterations": self.num_iterations,

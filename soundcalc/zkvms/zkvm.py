@@ -131,7 +131,6 @@ class zkVM:
                 num_iterations=section["num_iterations"],
                 folding_factor=section["folding_factor"],
                 field=field,
-                gap_to_radius=section.get("gap_to_radius"),
                 log_degree=section["log_degree"],
                 batch_size=section["batch_size"],
                 power_batching=section["power_batching"],

@@ -44,7 +44,7 @@ How to read this report:
 
 | regime | total | constraint_batching | gkr_batching | gkr_sumcheck | logup | stacked_reduction | whir | whir.fold_rbr | whir.gamma_batching | whir.mu_batching | whir.ood_rbr | whir.proximity_gaps | whir.query | whir.shift_rbr | whir.sumcheck | zerocheck_sumcheck |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| SWIRL | 100.1 | 111.3 | 123.6 | 122.0 | 102.7 | 107.8 | 100.1 | 104.6 | 116.0 | 102.6 | 104.6 | 104.6 | 100.1 | 100.1 | 127.0 | 117.4 |
+| SWIRL | 100.1 | 111.3 | 123.6 | 122.0 | 102.7 | 107.8 | 100.1 | 106.6 | 116.0 | 104.6 | 104.6 | 106.6 | 100.1 | 100.1 | 127.0 | 117.4 |
 
 
 ## leaf
@@ -71,7 +71,7 @@ How to read this report:
 
 | regime | total | constraint_batching | gkr_batching | gkr_sumcheck | logup | stacked_reduction | whir | whir.fold_rbr | whir.gamma_batching | whir.mu_batching | whir.ood_rbr | whir.proximity_gaps | whir.query | whir.shift_rbr | whir.sumcheck | zerocheck_sumcheck |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| SWIRL | 100.0 | 113.7 | 123.6 | 122.0 | 102.7 | 111.7 | 100.0 | 105.6 | 116.7 | 102.6 | 107.6 | 105.6 | 100.0 | 100.0 | 126.0 | 117.4 |
+| SWIRL | 100.0 | 113.7 | 123.6 | 122.0 | 102.7 | 111.7 | 100.0 | 107.0 | 116.7 | 104.0 | 107.6 | 107.0 | 100.0 | 100.0 | 126.0 | 117.4 |
 
 
 ## internal
