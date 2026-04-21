@@ -45,7 +45,10 @@ class SWIRLCircuit(Circuit):
             num_trace_columns=self.num_trace_columns,
             max_interactions_per_air=self.max_interactions_per_air,
         )
-        return {"SWIRL": {k: round(v, 1) for k, v in levels.items()}}
+        return {self._regime_label(): {k: round(v, 1) for k, v in levels.items()}}
+
+    def _regime_label(self) -> str:
+        return "UDR" if self.params.whir.explicit_regime == "unique" else "JBR"
 
     def get_parameter_summary(self) -> str:
         lines = [
@@ -73,10 +76,15 @@ class SWIRLCircuit(Circuit):
         return "\n".join(lines)
 
     def get_report_parameter_lines(self) -> list[str]:
-        return [
+        lines = [
             "- Proof system: SWIRL",
             "- Inner PCS: WHIR",
             f"- Field: {self.field.to_string()}",
+            f"- Regime: {self._regime_label()}",
+        ]
+        if self.params.whir.explicit_m is not None:
+            lines.append(f"- `m`: {self.params.whir.explicit_m}")
+        lines.extend([
             f"- `l_skip`: {self.params.l_skip}",
             f"- `n_stack`: {self.params.n_stack}",
             f"- `w_stack`: {self.params.w_stack}",
@@ -90,4 +98,5 @@ class SWIRLCircuit(Circuit):
             f"- Max log trace height: {self.max_log_trace_height}",
             f"- Number of trace columns: {self.num_trace_columns}",
             f"- Max interactions per AIR: {self.max_interactions_per_air}",
-        ]
+        ])
+        return lines

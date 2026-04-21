@@ -33,17 +33,35 @@ class JohnsonBoundRegime(ProximityGapsRegime):
         # the proximity parameter and list size are derived directly from m
         # (rather than computing m from the gap). Used by protocols like
         # SWIRL that commit to a specific m.
+        #
+        # We allow m ≥ 1 (not just the m ≥ 3 from Thm 4.2): the lower bound
+        # of 3 can be relaxed to 1, as noted in the optimization remark
+        # right after Lemma 3.1 of BCHKS25.
         if explicit_m:
             self.explicit_m = max(explicit_m, 1)
         else:
             self.explicit_m = None
 
     def get_proximity_parameter(self, rate: float, dimension: int) -> float:
-        # The proximity parameter defines how close we are to the Johnson Bound 1-sqrt(rate).
+        """
+        The proximity parameter is γ from BCHKS25 Theorem 4.2.
+
+        The formulas for m and η are:
+            η := 1 - √ρ - γ                  (gap below the Johnson bound)
+            m := max(⌈√ρ / (2η)⌉, 3)
+
+        Note: the stated m in BCHKS25 Thm 4.2 drops the factor of 2; this is a typo
+        confirmed by the authors. The correct formula matches Thm 1.5.
+
+        This function goes in the opposite direction: we pick a gap (from
+        explicit_m, gap_to_radius, or the heuristic below) and return γ = 1 - √ρ - gap.
+        """
         sqrt_rate = math.sqrt(rate)
 
         if self.explicit_m:
-            # Explicit-m override: pp = 1 - sqrt(rate) - sqrt(rate)/(2*m).
+            # The caller pinned m, so solve the m-formula above for η.
+            # Dropping the ⌈·⌉ and the max-with-3 (m is given exactly),
+            # m = √ρ / (2η)  ⇒  η = √ρ / (2m), and γ = 1 - √ρ - η below.
             gap = sqrt_rate / (2 * self.explicit_m)
         elif self.gap_to_radius:
             # gap_to_radius override (primarily for FRI-based systems that want fixed params).

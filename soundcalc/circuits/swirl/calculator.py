@@ -1,3 +1,20 @@
+"""Soundness calculator for the SWIRL proof system.
+
+The SWIRL proof system consists of the following components:
+1. LogUp GKR - Fractional sumcheck for interaction constraints
+2. ZeroCheck - Batched constraint verification across AIRs
+3. Stacked Reduction - Reduces trace evaluations to stacked polynomial evaluations
+4. WHIR - Polynomial commitment opening via FRI-like folding
+
+Each component contributes to the overall soundness error, and the total security
+is the minimum across all components.
+
+References:
+- SWIRL paper: https://openvm.dev/swirl.pdf
+- Canonical OpenVM2 soundness calculator:
+  https://github.com/openvm-org/stark-backend/blob/develop-v2/crates/stark-backend/src/soundness.rs
+"""
+
 from __future__ import annotations
 
 import math
@@ -44,8 +61,19 @@ class SWIRLWhirConfig:
 
 @dataclass(frozen=True)
 class SWIRLLogUpSecurityParameters:
-    """
-    SWIRL's interaction LogUp bound expressed through the shared error-to-bits path.
+    """SWIRL's interaction LogUp bound expressed through the shared error-to-bits path.
+
+    LogUp soundness from α/β sampling.
+
+    - α: Random evaluation point to test whether Σ p(y)/q(y) = 0. If interactions
+      are unbalanced, the sum is a non-zero rational function with a bounded number
+      of roots. By Schwartz-Zippel, a random α detects this with high probability.
+    - β: Random challenge for compressing interaction messages into field elements.
+      Degeneracy would allow distinct message tuples to collide.
+
+    Security = |F_ext| - log₂(2 × max_interaction_count) - log_max_message_length + pow_bits
+
+    Reference: Section 4 of docs/Soundness_of_Interactions_via_LogUp.pdf
     """
 
     max_interaction_count: int
@@ -89,29 +117,115 @@ def _challenge_field_bits(field: FieldParams) -> float:
     return field.field_extension_degree * math.log2(field.p)
 
 
-def _log2_add(log2_x: float, log2_y: float) -> float:
-    hi, lo = (log2_x, log2_y) if log2_x >= log2_y else (log2_y, log2_x)
-    return hi + math.log2(1.0 + (2.0 ** (lo - hi)))
+def calculate_gkr_batching_soundness(challenge_field_bits: float) -> float:
+    """GKR batching soundness from μ and λ challenges per layer.
+
+    Each layer samples:
+    - μ: Reduces four evaluation claims to two via linear interpolation (degree 1)
+    - λ: Batches numerator and denominator claims (degree 1)
+
+    Per-round security = ``|F_ext| - log₂(degree) = |F_ext| - log₂(1) = |F_ext|``.
+    """
+    # Each μ/λ challenge is a degree-1 polynomial test (linear interpolation)
+    return challenge_field_bits
 
 
-def _combine_security_bits(bits_a: float, bits_b: float) -> float:
-    return -_log2_add(-bits_a, -bits_b)
-
-
-def _whir_sumcheck_security(
+def calculate_constraint_batching_soundness(
     challenge_field_bits: float,
-    list_size: float,
-    folding_pow_bits: int,
+    max_num_constraints_per_air: int,
+    num_airs: int,
+    log2_list_size: float,
 ) -> float:
-    return challenge_field_bits - math.log2(3.0) - math.log2(list_size) + folding_pow_bits
+    """Constraint batching soundness via Schwartz-Zippel.
+
+    Two batching levels:
+
+    - λ: Within each AIR, batching n constraints. Error ≤ ``n / |F_ext|``.
+    - μ: Across AIRs, batching 3k sum claims (ZeroCheck + LogUp numerator + LogUp
+      denominator per AIR). Error ≤ ``3k / |F_ext|``.
+    """
+    lambda_batching_bits = challenge_field_bits - math.log2(max_num_constraints_per_air)
+    # Each AIR contributes 3 sum claims to the batch sumcheck:
+    # 1. ZeroCheck (constraint satisfaction)
+    # 2. LogUp numerator (p̂(ξ) input layer)
+    # 3. LogUp denominator (q̂(ξ) input layer)
+    mu_batching_bits = challenge_field_bits - math.log2(3.0 * num_airs)
+
+    return log2_list_size + min(lambda_batching_bits, mu_batching_bits)
 
 
-def _whir_gamma_batching_security(
+def calculate_stacked_reduction_soundness(
     challenge_field_bits: float,
-    batch_size: int,
-    list_size: float,
+    num_trace_columns: int,
+    l_skip: int,
+    n_stack: int,
+    log2_list_size: float,
 ) -> float:
-    return challenge_field_bits - math.log2(batch_size) - math.log2(list_size)
+    """Stacked reduction soundness.
+
+    Reduces trace evaluations at point r to stacked polynomial evaluations at
+    point u.
+
+    Note: Trace heights do not appear directly; polynomial degrees are determined
+    by the stacking structure (``l_skip``, ``n_stack``), not individual trace
+    heights.
+
+    Error sources:
+
+    1. **λ batching**: 2 claims per column (``T(r)`` and ``T_rot(r)``).
+       Error = ``2n / |F_ext|``.
+    2. **Univariate round**: Degree ``2×(2^l_skip - 1)``.
+       Per-round error = ``degree / |F_ext|``.
+    3. **Multilinear rounds**: ``n_stack`` rounds, each with degree 2.
+       Per-round error = ``2 / |F_ext|``.
+    """
+    batching_bits = challenge_field_bits - math.log2(2.0 * num_trace_columns)
+
+    univariate_degree = 2 * ((1 << l_skip) - 1)
+    univariate_bits = challenge_field_bits - math.log2(univariate_degree)
+
+    # Degree 2 per round => log2(2) = 1.
+    multilinear_bits = challenge_field_bits - 1.0
+
+    return log2_list_size + min(batching_bits, univariate_bits, multilinear_bits)
+
+
+def calculate_zerocheck_sumcheck_soundness(
+    challenge_field_bits: float,
+    max_constraint_degree: int,
+    l_skip: int,
+    max_log_trace_height: int,
+    log2_list_size: float,
+) -> float:
+    """ZeroCheck sumcheck soundness (per-round).
+
+    Two phases with different per-round degrees:
+
+    1. Univariate round over coset domain (size ``2^l_skip``):
+       - Degree: ``(max_constraint_degree + 1) × (2^l_skip - 1)``
+
+    2. Multilinear rounds (``n_max = max_log_trace_height - l_skip``):
+       - Per-round degree: ``max_constraint_degree + 1``
+
+    3. Polynomial identity testing at r: After sumcheck completes, trace
+       polynomials are evaluated at random r. If the prover's trace differs from
+       the committed trace, this is caught by Schwartz-Zippel. Trace polynomials
+       have ``deg_Z ≤ 2^l_skip - 1`` and ``deg_{X_i} ≤ 1``.
+       Error ≤ ``(2^l_skip - 1 + n_max) / |F_ext|``.
+    """
+    univariate_degree = (max_constraint_degree + 1) * ((1 << l_skip) - 1)
+    multilinear_degree = max_constraint_degree + 1
+
+    worst_degree = max(univariate_degree, multilinear_degree)
+    sumcheck_bits = challenge_field_bits - math.log2(worst_degree)
+
+    # Polynomial identity testing: trace polynomial has deg_Z ≤ 2^l_skip - 1,
+    # deg_{X_i} ≤ 1. n_max = max_log_trace_height - l_skip multilinear variables.
+    n_max = max(max_log_trace_height - l_skip, 0)
+    poly_degree_sum = ((1 << l_skip) - 1) + n_max
+    poly_identity_bits = challenge_field_bits - math.log2(poly_degree_sum)
+
+    return log2_list_size + min(sumcheck_bits, poly_identity_bits)
 
 
 def build_swirl_system_params(
@@ -159,123 +273,81 @@ def calculate_swirl_soundness(
     num_trace_columns: int,
     max_interactions_per_air: int,
 ) -> dict[str, float]:
+    """Calculates soundness for the given system parameters.
+
+    Args:
+        params: System parameters including WHIR config and LogUp parameters.
+        field: Field parameters. The challenge field bits are derived as
+            ``field_extension_degree * log2(p)`` (e.g. BabyBear4 ≈ 124 bits).
+        whir: The WHIR PCS instance used for polynomial commitments.
+        max_num_constraints_per_air: Maximum constraints in any single AIR.
+        num_airs: Number of AIRs being batched.
+        max_log_trace_height: Maximum log₂(trace height) across all AIRs.
+        num_trace_columns: Total columns batched in stacked reduction.
+        max_interactions_per_air: Maximum number of interactions in any single AIR
+            (used by LogUp-related checks).
+
+    The maximum constraint degree and number of stacked columns are taken from
+    ``params`` / ``whir`` respectively.
+    """
     challenge_field_bits = _challenge_field_bits(field)
     regime = params.whir.choose_regime_for_this_circuit(field)
-    whir_errors = whir.get_pcs_soundness_errors(regime)
 
-    mu_batching_bits = math.inf
-    if whir_errors.batching_error is not None:
-        mu_batching_bits = -math.log2(whir_errors.batching_error)
+    # Delegate all WHIR soundness analysis to the WHIR module
+    pcs_security_levels = whir.get_pcs_security_levels(regime)
 
-    initial_list_size = whir._get_list_size_for_iteration_and_round(0, 0, regime)
+    # List size of the initial WHIR code, used by SWIRL-side bounds below.
+    initial_list_size = regime.get_max_list_size(whir.get_rate(), whir.get_dimension())
     log2_list_size = math.log2(initial_list_size)
 
+    # Get security for the LogUp argument
     logup_bits = params.logup.get_soundness_bits(
         field.F,
         initial_list_size,
     )
 
+    # GKR sumcheck soundness (per-round).
+    #
+    # The GKR protocol has a triangular sumcheck structure where round j has j
+    # sub-rounds. Each sub-round uses degree-3 interpolation, giving per-round
+    # error = 3 / |F_ext|.
+    #
+    # Security is determined by the worst round: |F_ext| - log₂(3)
     gkr_sumcheck_bits = challenge_field_bits - math.log2(3.0)
-    gkr_batching_bits = challenge_field_bits
 
-    univariate_degree = (params.max_constraint_degree + 1) * ((1 << params.l_skip) - 1)
-    multilinear_degree = params.max_constraint_degree + 1
-    zerocheck_sumcheck_bits = challenge_field_bits - math.log2(max(univariate_degree, multilinear_degree))
+    gkr_batching_bits = calculate_gkr_batching_soundness(challenge_field_bits)
 
-    n_max = max_log_trace_height - params.l_skip
-    poly_degree_sum = ((1 << params.l_skip) - 1) + n_max
-    poly_identity_bits = challenge_field_bits - math.log2(poly_degree_sum)
-    zerocheck_bits = log2_list_size + min(zerocheck_sumcheck_bits, poly_identity_bits)
-
-    lambda_batching_bits = challenge_field_bits - math.log2(max_num_constraints_per_air)
-    mu_constraint_bits = challenge_field_bits - math.log2(3.0 * num_airs)
-    constraint_batching_bits = log2_list_size + min(lambda_batching_bits, mu_constraint_bits)
-
-    stacked_batching_bits = challenge_field_bits - math.log2(2.0 * num_trace_columns)
-    stacked_univariate_bits = challenge_field_bits - math.log2(2.0 * ((1 << params.l_skip) - 1))
-    stacked_multilinear_bits = challenge_field_bits - 1.0
-    stacked_reduction_bits = log2_list_size + min(
-        stacked_batching_bits,
-        stacked_univariate_bits,
-        stacked_multilinear_bits,
+    zerocheck_bits = calculate_zerocheck_sumcheck_soundness(
+        challenge_field_bits,
+        params.max_constraint_degree,
+        params.l_skip,
+        max_log_trace_height,
+        log2_list_size,
     )
 
-    query_bits_by_round = tuple(-math.log2(error) for error in whir_errors.query_errors)
-    fold_bits = tuple(
-        -math.log2(error)
-        for round_errors in whir_errors.fold_errors
-        for error in round_errors
-    )
-    ood_bits = tuple(-math.log2(error) for error in whir_errors.ood_errors)
-
-    sumcheck_bits = tuple(
-        _whir_sumcheck_security(
-            challenge_field_bits,
-            whir._get_list_size_for_iteration_and_round(round_index, 0, regime),
-            params.whir.folding_pow_bits,
-        )
-        for round_index in range(whir.num_iterations)
-    )
-    proximity_gaps_bits = tuple(
-        -math.log2(regime.get_error_powers(*whir._get_code_for_iteration_and_round(round_index, sub_round + 1), 2))
-        + params.whir.folding_pow_bits
-        for round_index in range(whir.num_iterations)
-        for sub_round in range(params.whir.k)
-    )
-    gamma_bits_by_round = tuple(
-        _whir_gamma_batching_security(
-            challenge_field_bits,
-            whir.num_queries[round_index] + 1,
-            whir._get_list_size_for_iteration_and_round(round_index + 1, 0, regime),
-        )
-        for round_index in range(whir.num_iterations - 1)
-    )
-    shift_bits = tuple(
-        _combine_security_bits(query_bits_by_round[round_index], gamma_bits_by_round[round_index])
-        for round_index in range(whir.num_iterations - 1)
-    ) + (query_bits_by_round[-1],)
-
-    min_query_bits = min(query_bits_by_round)
-    min_proximity_gaps_bits = min(proximity_gaps_bits)
-    min_sumcheck_bits = min(sumcheck_bits)
-    min_ood_bits = min(ood_bits, default=math.inf)
-    min_gamma_batching_bits = min(gamma_bits_by_round, default=math.inf)
-    min_fold_rbr_bits = min(fold_bits)
-    min_shift_rbr_bits = min(shift_bits)
-    min_whir_bits = min(
-        mu_batching_bits,
-        min_fold_rbr_bits,
-        min_ood_bits,
-        min_shift_rbr_bits,
+    constraint_batching_bits = calculate_constraint_batching_soundness(
+        challenge_field_bits,
+        max_num_constraints_per_air,
+        num_airs,
+        log2_list_size,
     )
 
-    levels: dict[str, float] = {
+    stacked_reduction_bits = calculate_stacked_reduction_soundness(
+        challenge_field_bits,
+        num_trace_columns,
+        params.l_skip,
+        params.n_stack,
+        log2_list_size,
+    )
+
+    swirl_levels: dict[str, float] = {
         "logup": logup_bits,
         "gkr_sumcheck": gkr_sumcheck_bits,
         "gkr_batching": gkr_batching_bits,
         "zerocheck_sumcheck": zerocheck_bits,
         "constraint_batching": constraint_batching_bits,
         "stacked_reduction": stacked_reduction_bits,
-        "whir": min_whir_bits,
-        "whir.query": min_query_bits,
-        "whir.proximity_gaps": min_proximity_gaps_bits,
-        "whir.sumcheck": min_sumcheck_bits,
-        "whir.fold_rbr": min_fold_rbr_bits,
-        "whir.ood_rbr": min_ood_bits,
-        "whir.gamma_batching": min_gamma_batching_bits,
-        "whir.shift_rbr": min_shift_rbr_bits,
-        "whir.mu_batching": mu_batching_bits,
     }
-    # Note: "total" combines only the top-level bounds (including the aggregate
-    # "whir"), not the individual "whir.*" breakdown entries, matching the
-    # structure of the math.
-    levels["total"] = min(
-        logup_bits,
-        gkr_sumcheck_bits,
-        gkr_batching_bits,
-        zerocheck_bits,
-        constraint_batching_bits,
-        stacked_reduction_bits,
-        min_whir_bits,
-    )
+    levels: dict[str, float] = pcs_security_levels | swirl_levels
+    levels["total"] = min(levels.values())
     return levels
