@@ -26,7 +26,7 @@ class SWIRLCircuit(Circuit):
         self.name = config.name
         self.pcs = config.pcs
         self.field = config.field
-        self.protocol_label = "SWIRL"
+        self.protocol_label = "SWIRL + WHIR"
         self.params = config.params
         self.max_num_constraints_per_air = config.max_num_constraints_per_air
         self.num_airs = config.num_airs

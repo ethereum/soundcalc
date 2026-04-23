@@ -21,7 +21,7 @@ import math
 from dataclasses import dataclass
 
 from soundcalc.common.fields import FieldParams
-from soundcalc.common.utils import apply_grinding
+from soundcalc.common.utils import apply_grinding, get_bits_of_security_from_error
 from soundcalc.pcs.whir import WHIR
 from soundcalc.proxgaps.johnson_bound import JohnsonBoundRegime
 from soundcalc.proxgaps.proxgaps_regime import ProximityGapsRegime
@@ -91,12 +91,12 @@ class SWIRLLogUpSecurityParameters:
             / (challenge_field_size * list_size)
         )
 
-    def get_soundness_bits(self, challenge_field_size: int, list_size: float = 1.0) -> float:
+    def get_soundness_bits(self, challenge_field_size: int, list_size: float = 1.0) -> int:
         grounded_error = apply_grinding(
             self.get_soundness_error(challenge_field_size, list_size),
             self.pow_bits,
         )
-        return -math.log2(grounded_error)
+        return get_bits_of_security_from_error(grounded_error)
 
 
 @dataclass(frozen=True)
@@ -117,7 +117,9 @@ def _challenge_field_bits(field: FieldParams) -> float:
     return field.field_extension_degree * math.log2(field.p)
 
 
-def calculate_gkr_batching_soundness(challenge_field_bits: float) -> float:
+def calculate_gkr_batching_soundness(
+    challenge_field_bits: float,
+) -> float:
     """GKR batching soundness from μ and λ challenges per layer.
 
     Each layer samples:
@@ -127,7 +129,25 @@ def calculate_gkr_batching_soundness(challenge_field_bits: float) -> float:
     Per-round security = ``|F_ext| - log₂(degree) = |F_ext| - log₂(1) = |F_ext|``.
     """
     # Each μ/λ challenge is a degree-1 polynomial test (linear interpolation)
-    return challenge_field_bits
+    degree = 1
+    # This function is essentially a NOP
+    return challenge_field_bits - math.log2(degree)
+
+
+def calculate_gkr_sumcheck_soundness(
+    challenge_field_bits: float,
+) -> float:
+    """GKR sumcheck soundness (per-round).
+
+    The GKR protocol has a triangular sumcheck structure where round j has j
+    sub-rounds. Each sub-round uses degree-3 interpolation, giving per-round
+    error = ``3 / |F_ext|``.
+
+    Security is determined by the worst round: ``|F_ext| - log₂(3)``.
+    """
+    # Each sub-round has degree 3; security = |F_ext| - log2(degree)
+    degree_per_subround = 3
+    return challenge_field_bits - math.log2(degree_per_subround)
 
 
 def calculate_constraint_batching_soundness(
@@ -306,14 +326,9 @@ def calculate_swirl_soundness(
         initial_list_size,
     )
 
-    # GKR sumcheck soundness (per-round).
-    #
-    # The GKR protocol has a triangular sumcheck structure where round j has j
-    # sub-rounds. Each sub-round uses degree-3 interpolation, giving per-round
-    # error = 3 / |F_ext|.
-    #
-    # Security is determined by the worst round: |F_ext| - log₂(3)
-    gkr_sumcheck_bits = challenge_field_bits - math.log2(3.0)
+    gkr_sumcheck_bits = calculate_gkr_sumcheck_soundness(
+        challenge_field_bits,
+    )
 
     gkr_batching_bits = calculate_gkr_batching_soundness(challenge_field_bits)
 
