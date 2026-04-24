@@ -71,6 +71,10 @@ proof system / commitment scheme:
 
 See `soundcalc/zkvms/pico/pico.toml` for a well-documented example.
 
+### Changing the TOML config format
+
+When you rename or remove a key in the `*.toml` schema, or change the meaning of a value, add an entry to `CHANGELOG.md` so zkVM maintainers can update their own tooling and configs.
+
 ## Code Patterns
 
 **Code style:**
