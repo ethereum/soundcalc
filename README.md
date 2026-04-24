@@ -22,8 +22,14 @@ We currently support the following zkEVMs:
 - [ZisK](reports/zisk.md)
 - [Pico](reports/pico.md)
 - [OpenVM](reports/openvm.md)
+- [OpenVM2](reports/openvm2.md)
 - [Airbender](reports/airbender.md)
 - [SP1](reports/sp1.md)
+
+We support proof systems based on:
+- DEEP-ALI
+- [Jagged PCS](https://eprint.iacr.org/2025/917)
+- [SWIRL](https://openvm.dev/swirl.pdf)
 
 We support the following polynomial commitment schemes:
 - FRI
@@ -86,6 +92,7 @@ In soundcalc we have incorporated:
 
 - `soundcalc/main.py`: Entry point
 - `soundcalc/zkvms/`: One directory per supported zkVM
+- `soundcalc/circuits/`: Proof-system-specific circuits for zkVMs
 - `soundcalc/proxgaps/`: Proximity gaps related functionality
 - `soundcalc/pcs/`: Polynomial commitment schemes functionality
 - `soundcalc/common/`: Common utilities used by the entire codebase

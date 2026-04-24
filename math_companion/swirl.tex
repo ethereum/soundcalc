@@ -1,0 +1,13 @@
+\newpage
+\section{SWIRL-based VM security level calculation}\label{sec:swirl_security_level}
+
+The SWIRL proof system is used by OpenVM2. It is a matrix-stacking proof system
+that reduces trace evaluations to a stacked polynomial evaluation, which is then
+opened via the WHIR PCS (\cref{sec:whir_security_level}).
+
+We do not reproduce the SWIRL soundness analysis in this companion. For details, see:
+\begin{itemize}
+    \item SWIRL paper: \url{https://openvm.dev/swirl.pdf}
+    \item Canonical OpenVM2 soundness calculator:
+          \url{https://github.com/openvm-org/stark-backend/blob/develop-v2/crates/stark-backend/src/soundness.rs}
+\end{itemize}

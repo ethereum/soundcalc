@@ -11,9 +11,10 @@ class Circuit(ABC):
     """
     Abstract base class for a circuit within a zkVM.
 
+    A circuit is proved with a specific proof system (e.g. DEEP-ALI, Jagged, SWIRL).
+
     Each circuit has its own parameters and security analysis.
-    Subclasses implement the specific proof system logic
-    (e.g. DEEP-ALI, Jagged, SWIRL).
+    Subclasses implement the specific proof system logic.
     """
 
     # These attributes must be set by each subclass __init__
