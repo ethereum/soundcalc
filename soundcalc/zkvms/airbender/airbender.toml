@@ -58,8 +58,8 @@ num_queries = 87
 name = "generic_lookup"
 logup_type = "univariate"
 
-H_L = 16777215
-H_T = 16777215
+rows_L = 16777215
+rows_T = 16777215
 num_columns_S = 4
 num_lookups_M = 208
 
@@ -70,8 +70,8 @@ grinding_bits_lookup = 5
 name = "range_check_16_lookup"
 logup_type = "univariate"
 
-H_L = 16777215
-H_T = 65536
+rows_L = 16777215
+rows_T = 65536
 num_columns_S = 1
 num_lookups_M = 34
 
@@ -82,8 +82,8 @@ grinding_bits_lookup = 5
 name = "range_check_19_lookup"
 logup_type = "univariate"
 
-H_L = 16777215
-H_T = 524288
+rows_L = 16777215
+rows_T = 524288
 num_columns_S = 1
 num_lookups_M = 86
 
@@ -94,8 +94,8 @@ grinding_bits_lookup = 5
 name = "decoder"
 logup_type = "univariate"
 
-H_L = 16777215
-H_T = 16777215
+rows_L = 16777215
+rows_T = 16777215
 num_columns_S = 10
 num_lookups_M = 1
 

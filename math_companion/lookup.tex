@@ -46,8 +46,9 @@ We consider the following parameters:
 	\item $K$ = number of lookups performed on $\mathbf{T}$
 \end{itemize}
 
+In the soundcalc code and TOML configs, $H_L$ and $H_T$ correspond to the fields \texttt{rows\_L} and \texttt{rows\_T} respectively.
 
-The expression 
+The expression
 
 $$\sum_{i=1}^L \frac{1}{X- \sum_{s=1}^S \mathbf L_{is}Y^{s-1}}=\sum_{j=1}^T \frac{m_j}{X-\sum_{s=1}^S \mathbf T_{js}Y^{s-1}}$$
 

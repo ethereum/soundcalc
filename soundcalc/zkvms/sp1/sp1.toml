@@ -34,8 +34,8 @@ grinding_query_phase = 16
 [[circuits.lookups]]
 name = "lookup"
 logup_type = "multivariate"
-H_L = 4194304
-H_T = 0
+rows_L = 4194304
+rows_T = 0
 num_columns_S = 107
 num_lookups_M = 1911
 grinding_bits_lookup = 12
@@ -68,8 +68,8 @@ grinding_query_phase = 16
 [[circuits.lookups]]
 name = "lookup"
 logup_type = "multivariate"
-H_L = 2097152
-H_T = 0
+rows_L = 2097152
+rows_T = 0
 num_columns_S = 6
 num_lookups_M = 53
 grinding_bits_lookup = 12

@@ -23,10 +23,11 @@ class LogUpConfig:
     field: FieldParams
     logup_type: LogUpType
 
-    # H_T is the size of the set/alphabet used to interpolate T.
-    H_T: int
-    # H_L is the size of the set/alphabet used to interpolate L.
-    H_L: int
+    # T: Rows of "big" table T
+    rows_T: int
+    # L: Rows of "small" table L
+    # L is the table is looked-up inside T
+    rows_L: int
     # S: Number of columns of T and L (S=1 for single column case)
     num_columns_S: int = 1
     # M: Number of lookups performed on T
@@ -65,13 +66,13 @@ class LogUp:
         """
         Calculates lookup soundness using the unified lookup model:
             K * H * R / F
-        where H = H_L + H_T and R is the column aggregation factor.
+        where H = rows_L + rows_T and R is the column aggregation factor.
 
         For multivariate lookups, we additionally account for the GKR
         soundness term and any configured reduction error.
         """
         F = self.config.field.F
-        H = self.config.H_L + self.config.H_T
+        H = self.config.rows_L + self.config.rows_T
         S = self.config.num_columns_S
         K = self.config.num_lookups_M
         R = self._get_column_aggregation_factor(S)

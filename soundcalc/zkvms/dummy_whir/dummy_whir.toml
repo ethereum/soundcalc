@@ -30,8 +30,8 @@ grinding_bits_ood = [0, 0, 0, 0]
 [[circuits.lookups]]
 name = "keccak"
 logup_type = "multivariate"
-H_L = 41943040
-H_T = 16777216
+rows_L = 41943040
+rows_T = 16777216
 num_columns_S = 20
 num_lookups_M = 1
 grinding_bits_lookup = 0
@@ -39,8 +39,8 @@ grinding_bits_lookup = 0
 [[circuits.lookups]]
 name = "poseidon2"
 logup_type = "multivariate"
-H_L = 8388608
-H_T = 8388608
+rows_L = 8388608
+rows_T = 8388608
 num_columns_S = 33
 num_lookups_M = 1
 grinding_bits_lookup = 0
@@ -48,8 +48,8 @@ grinding_bits_lookup = 0
 [[circuits.lookups]]
 name = "range_check_16"
 logup_type = "multivariate"
-H_L = 58720256
-H_T = 65536
+rows_L = 58720256
+rows_T = 65536
 num_columns_S = 1
 num_lookups_M = 1
 grinding_bits_lookup = 0
@@ -57,8 +57,8 @@ grinding_bits_lookup = 0
 [[circuits.lookups]]
 name = "bus"
 logup_type = "multivariate"
-H_L = 4194304
-H_T = 0
+rows_L = 4194304
+rows_T = 0
 num_columns_S = 8
 num_lookups_M = 1
 grinding_bits_lookup = 0
@@ -86,8 +86,8 @@ grinding_bits_ood = [0, 0, 0, 0]
 [[circuits.lookups]]
 name = "memory"
 logup_type = "multivariate"
-H_L = 17825808
-H_T = 11534336
+rows_L = 17825808
+rows_T = 11534336
 num_columns_S = 6
 num_lookups_M = 1
 grinding_bits_lookup = 0
@@ -115,8 +115,8 @@ grinding_bits_ood = [0, 0, 0]
 [[circuits.lookups]]
 name = "memory"
 logup_type = "multivariate"
-H_L = 7733264
-H_T = 3407872
+rows_L = 7733264
+rows_T = 3407872
 num_columns_S = 6
 num_lookups_M = 1
 grinding_bits_lookup = 0
@@ -143,8 +143,8 @@ grinding_bits_ood = [0, 0]
 [[circuits.lookups]]
 name = "memory"
 logup_type = "multivariate"
-H_L = 1048592
-H_T = 491520
+rows_L = 1048592
+rows_T = 491520
 num_columns_S = 6
 num_lookups_M = 1
 grinding_bits_lookup = 0
