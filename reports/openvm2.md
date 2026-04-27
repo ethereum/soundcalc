@@ -10,8 +10,8 @@ How to read this report:
 
 | Metric | Value | Relevant circuit | Notes |
 | --- | --- | --- | --- |
-| Final proof size (worst case) | **TODO** | [root](#root) | |
 | Final bits of security | **100 bits** | [app](#app) | Regime: UDR |
+| Final proof size (worst case) | **TODO** | [root](#root) | |
 
 ## Circuits
 

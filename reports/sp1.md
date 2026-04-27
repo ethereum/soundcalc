@@ -10,8 +10,8 @@ How to read this report:
 
 | Metric | Value | Relevant circuit | Notes |
 | --- | --- | --- | --- |
-| Final proof size (worst case) | **1267 KiB** | [compress](#compress) | |
 | Final bits of security | **100 bits** | [core](#core) | Regime: UDR |
+| Final proof size (worst case) | **1267 KiB** | [compress](#compress) | |
 
 ## Circuits
 

@@ -302,8 +302,8 @@ def _build_zkvm_report(zkvm: zkVM, multi_circuit: bool = False) -> str:
             lines.append(f"| --- | --- | --- | --- |")
             final_proof_size_kib = overview['final_proof_size_kib']
             final_proof_size_str = "**TODO**" if final_proof_size_kib is None else f"**{int(final_proof_size_kib)} KiB**"
-            lines.append(f"| Final proof size (worst case) | {final_proof_size_str} | {final_circuit_link} | |")
             lines.append(f"| Final bits of security | **{_format_security_value(overview['min_security_bits'])} bits** | {offending_circuit_link} | Regime: {overview['best_regime']} |")
+            lines.append(f"| Final proof size (worst case) | {final_proof_size_str} | {final_circuit_link} | |")
             lines.append("")
 
         lines.append("## Circuits")

@@ -10,8 +10,8 @@ How to read this report:
 
 | Metric | Value | Relevant circuit | Notes |
 | --- | --- | --- | --- |
-| Final proof size (worst case) | **313 KiB** | [Final_Compressed](#final_compressed) | |
 | Final bits of security | **128 bits** | [Dma](#dma) | Regime: JBR |
+| Final proof size (worst case) | **313 KiB** | [Final_Compressed](#final_compressed) | |
 
 ## Circuits
 

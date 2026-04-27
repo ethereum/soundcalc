@@ -10,8 +10,8 @@ How to read this report:
 
 | Metric | Value | Relevant circuit | Notes |
 | --- | --- | --- | --- |
-| Final proof size (worst case) | **1193 KiB** | [embed](#embed) | |
 | Final bits of security | **128 bits** | [riscv](#riscv) | Regime: JBR |
+| Final proof size (worst case) | **1193 KiB** | [embed](#embed) | |
 
 ## Circuits
 
