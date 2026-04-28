@@ -74,3 +74,37 @@ num_columns_S = 6
 num_lookups_M = 53
 grinding_bits_lookup = 12
 multilinear_fingerprint = true
+
+
+[[circuits]]
+name = "shrink"
+udr_only = true
+blowup_factor = 8
+rho = 0.125
+trace_length = 524288 # 2^19
+trace_columns = 326
+dense_length = 262144 # 2^18
+dense_batch = 128 # can be changed to 82
+num_constraints = 204
+air_max_degree = 3
+# SP1 has no "next row" constraints.
+opening_points = 1
+# We batch using the random `eq` polynomials.
+power_batching = false
+multilinear_batching = true
+multilinear_zerocheck = true
+num_queries = 94
+fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+fri_early_stop_degree = 8
+grinding_batching_phase = 5
+grinding_query_phase = 22
+
+[[circuits.lookups]]
+name = "lookup"
+logup_type = "multivariate"
+rows_L = 524288
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 53
+grinding_bits_lookup = 12
+multilinear_fingerprint = true
