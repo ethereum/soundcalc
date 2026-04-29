@@ -1,0 +1,96 @@
+# zkDTVM Configuration
+#
+# Architecture: Jagged PCS (BaseFold → FRI) + sumcheck constraint verification.
+# Key innovation: protocol-level sumcheck for LogUp (no running sum column,
+#                 no shifted openings, no GKR overhead).
+#
+# Parameters extracted from:
+#   - dump_constraints tool (56 chips, precise constraint/interaction counts)
+#   - RSP example chip shapes (max_log_height=22 supported)
+#   - FRI config from koalabear_poseidon2.rs
+#
+# NOTE on LogUp parameters: soundcalc uses K*H*R/|F| but Jagged systems have
+# different heights per chip. We set num_lookups_M so that M * rows_L equals the
+# actual sum(k_i * h_i) across active chips. For the RSP shard:
+#   actual total LogUp entries = 56,200,256
+#   num_lookups_M = 56200256 / 4194304 ≈ 14
+#   (29 active chips, 2261 actual interactions)
+
+[zkevm]
+name = "zkDTVM"
+protocol_family = "JAGGED"
+field = "KoalaBear^4"
+version = "0.1.0"
+hash_size_bits = 248   # DIGEST_SIZE=8, 8 * 31 = 248
+
+# ---- Core circuit ----
+# 56 chips registered, ~29 active in RSP shard.
+# FRI config: log_blowup=1, num_queries=193, grinding_query=20, grinding_batching=12
+[[circuits]]
+name = "core"
+udr_only = true
+blowup_factor = 2
+rho = 0.5                  # 1 / 2^log_blowup, log_blowup = 1
+trace_length = 4194304     # 2^22, max supported trace height
+trace_columns = 31209      # sum of main_width across all 56 chips (from dump_constraints)
+dense_length = 2097152     # 2^21
+dense_batch = 62928        # main(31209) + perm_EF*4(31692) + prep(27)
+num_constraints = 29053    # PRECISE: 21060 main + 7993 permutation (from dump_constraints)
+air_max_degree = 3         # max_constraint_degree = 3
+opening_points = 1         # no shifted openings (protocol-level sumcheck)
+power_batching = true
+multilinear_batching = false
+multilinear_zerocheck = true
+num_queries = 193
+fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+fri_early_stop_degree = 2
+grinding_batching_phase = 12
+grinding_query_phase = 20
+
+# LogUp: protocol-level sumcheck (NOT GKR).
+# Adjusted M so that M*rows_L = actual sum(k_i * h_i) = 56,200,256 for RSP shard.
+# 29 active chips contribute 2261 interactions across varying heights.
+[[circuits.lookups]]
+name = "lookup"
+logup_type = "univariate"
+rows_L = 4194304           # max supported trace height (2^22)
+rows_T = 0
+num_columns_S = 103        # max values per interaction (KeccakPermute/KeccakController)
+num_lookups_M = 14         # effective M: 56200256 / 4194304 ≈ 14
+grinding_bits_lookup = 10  # batching PoW also covers lookup in Fiat-Shamir model
+multilinear_fingerprint = true
+
+
+# ---- Compress circuit ----
+# Recursion circuit verifying the core proof.
+# FRI config: log_blowup=2, num_queries=118, grinding_query=20, grinding_batching=10
+[[circuits]]
+name = "compress"
+udr_only = true
+blowup_factor = 4
+rho = 0.25                 # 1 / 2^log_blowup, log_blowup = 2
+trace_length = 2097152     # 2^21, recursion circuit trace
+trace_columns = 326        # recursion circuit width (from SP1 compress reference)
+dense_length = 1048576     # 2^20
+dense_batch = 128
+num_constraints = 204      # recursion circuit constraints (from SP1 compress reference)
+air_max_degree = 3
+opening_points = 1
+power_batching = true
+multilinear_batching = false
+multilinear_zerocheck = true
+num_queries = 118
+fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+fri_early_stop_degree = 4
+grinding_batching_phase = 10
+grinding_query_phase = 20
+
+[[circuits.lookups]]
+name = "lookup"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 50
+grinding_bits_lookup = 10  # batching PoW also covers lookup in Fiat-Shamir model
+multilinear_fingerprint = true

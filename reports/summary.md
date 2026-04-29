@@ -15,6 +15,7 @@ How to read this report:
 | [SP1](sp1.md) | 6.1.0 | **100** bits (UDR) | 529 KiB | 887 KiB | Jagged + FRI | KoalaBear⁴ | 3 |
 | [Venus](venus.md) | 0.1.6 | **128** bits (JBR) | 269 KiB | 313 KiB | DEEP-ALI + FRI | Goldilocks³ | 44 |
 | [ZisK](zisk.md) | 0.16.1 | **128** bits (JBR) | 269 KiB | 313 KiB | DEEP-ALI + FRI | Goldilocks³ | 44 |
+| [zkDTVM](zkdtvm.md) | 0.1.0 | **100** bits (UDR) | 703 KiB | 1206 KiB | Jagged + FRI | KoalaBear⁴ | 2 |
 
 ## Notes
 
