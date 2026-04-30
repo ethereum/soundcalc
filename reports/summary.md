@@ -12,7 +12,7 @@ How to read this report:
 | [OpenVM](openvm.md) | 1.5.0 | **100** bits (UDR) | 8231 KiB | FRI | BabyBear⁴ | 3 | app |
 | [OpenVM2](openvm2.md) | 2.0.0-beta | **100** bits (UDR) | TODO | SWIRL + WHIR | BabyBear⁴ | 4 | app |
 | [Pico](pico.md) | — | **53** bits (JBR) | 281 KiB | FRI | KoalaBear⁴ | 5 | riscv |
-| [SP1](sp1.md) | 6.1.0 | **100** bits (UDR) | 1267 KiB | Jagged + FRI | KoalaBear⁴ | 2 | core |
+| [SP1](sp1.md) | 6.1.0 | **100** bits (UDR) | 887 KiB | Jagged + FRI | KoalaBear⁴ | 3 | core |
 | [ZisK](zisk.md) | 0.16.1 | **128** bits (JBR) | 313 KiB | FRI | Goldilocks³ | 44 | Dma |
 
 ## Notes
