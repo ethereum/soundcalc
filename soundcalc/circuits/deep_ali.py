@@ -45,7 +45,7 @@ class DeepAliCircuit(Circuit):
         self.name = config.name
         self.pcs = config.pcs
         self.field = config.field
-        self.protocol_label = config.pcs.label
+        self.proof_system_name = "DEEP-ALI"
         self.gap_to_radius = config.gap_to_radius
         self.num_constraints = config.num_constraints
         self.AIR_max_degree = config.AIR_max_degree
@@ -121,7 +121,11 @@ class DeepAliCircuit(Circuit):
 
     def get_report_parameter_lines(self) -> list[str]:
         """Returns markdown-formatted parameter lines for reports."""
-        lines = self.pcs.get_report_parameter_lines()
+        lines = [
+            f"- Proof system: {self.proof_system_name}",
+            f"- PCS: {self.pcs.label}",
+        ]
+        lines.extend(self.pcs.get_report_parameter_lines())
         if self.grinding_deep > 0:
             lines.append(f"- Grinding DEEP (bits): {self.grinding_deep}")
         lines.append(f"- Number of constraints: {self.num_constraints}")

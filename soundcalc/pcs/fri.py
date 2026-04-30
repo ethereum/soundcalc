@@ -340,7 +340,6 @@ class FRI(PCS):
     def get_report_parameter_lines(self) -> list[str]:
         batching = "Powers" if self.power_batching else "Affine"
         lines = [
-            f"- Polynomial commitment scheme: FRI",
             f"- Hash size (bits): {self.hash_size_bits}",
             f"- Number of queries: {self.num_queries}",
             f"- Grinding query phase (bits): {self.grinding_query_phase}",

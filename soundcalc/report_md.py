@@ -28,7 +28,8 @@ class zkVMSummary:
     name: str
     version: str | None
     field: str
-    pcs: str
+    # Combined "<proof system> + <PCS>" label, e.g. "DEEP-ALI + FRI".
+    proof_system: str
     num_circuits: int
     security_bits: float
     security_regime: str
@@ -101,9 +102,9 @@ def _format_security_value(value: Any) -> str:
     return str(value)
 
 
-def _pcs_label(circuit: Circuit) -> str:
-    """Get the PCS type label for a circuit."""
-    return circuit.protocol_label
+def _proof_system_label(circuit: Circuit) -> str:
+    """Get the combined "<proof system> + <PCS>" label for a circuit."""
+    return f"{circuit.proof_system_name} + {circuit.pcs.label}"
 
 
 def _collect_zkvm_summary(zkvm: zkVM) -> zkVMSummary:
@@ -120,7 +121,7 @@ def _collect_zkvm_summary(zkvm: zkVM) -> zkVMSummary:
             name=zkvm.get_name(),
             version=zkvm.version,
             field="Unknown",
-            pcs="Unknown",
+            proof_system="Unknown",
             num_circuits=0,
             security_bits=0,
             security_regime="N/A",
@@ -129,7 +130,7 @@ def _collect_zkvm_summary(zkvm: zkVM) -> zkVMSummary:
         )
 
     field = _field_label(circuits[0].field)
-    pcs = _pcs_label(circuits[0])
+    proof_system = _proof_system_label(circuits[0])
 
     # Track minimum security per regime across all circuits
     regime_mins: dict[str, int] = {}  # regime -> min_bits
@@ -160,7 +161,7 @@ def _collect_zkvm_summary(zkvm: zkVM) -> zkVMSummary:
         name=zkvm.get_name(),
         version=zkvm.version,
         field=field,
-        pcs=pcs,
+        proof_system=proof_system,
         num_circuits=len(circuits),
         security_bits=best_bits,
         security_regime=best_regime,
@@ -382,8 +383,8 @@ def _build_summary_report(zkvms: list[zkVM]) -> str:
         "",
         "## Overview",
         "",
-        "| zkVM | Version | Security | Expected Proof Size | Worst-Case Proof Size | PCS | Field | Circuits |",
-        "|------|---------|----------|---------------------|-----------------------|-----|-------|----------|",
+        "| zkVM | Version | Security | Expected Proof Size | Worst-Case Proof Size | Proof system | Field | Circuits |",
+        "|------|---------|----------|---------------------|-----------------------|--------------|-------|----------|",
     ]
 
     summaries = sorted(
@@ -406,7 +407,7 @@ def _build_summary_report(zkvms: list[zkVM]) -> str:
             f"| **{_format_security_value(s.security_bits)}** bits ({s.security_regime}) "
             f"| {expected_str} "
             f"| {worst_str} "
-            f"| {s.pcs} | {s.field} | {s.num_circuits} |"
+            f"| {s.proof_system} | {s.field} | {s.num_circuits} |"
         )
 
     lines.extend([

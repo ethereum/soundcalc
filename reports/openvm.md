@@ -22,7 +22,8 @@ How to read this report:
 ## app
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 193
 - Grinding query phase (bits): 20
@@ -49,7 +50,8 @@ How to read this report:
 ## leaf
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 193
 - Grinding query phase (bits): 20
@@ -76,7 +78,8 @@ How to read this report:
 ## internal
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 118
 - Grinding query phase (bits): 20

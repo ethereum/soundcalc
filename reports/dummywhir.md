@@ -23,7 +23,8 @@ How to read this report:
 ## riscv
 
 **Parameters:**
-- Polynomial commitment scheme: WHIR
+- Proof system: DEEP-ALI
+- PCS: WHIR
 - Hash size (bits): 256
 - Field: Goldilocks³
 - Iterations (M): 5
@@ -51,7 +52,8 @@ How to read this report:
 ## convert
 
 **Parameters:**
-- Polynomial commitment scheme: WHIR
+- Proof system: DEEP-ALI
+- PCS: WHIR
 - Hash size (bits): 256
 - Field: Goldilocks³
 - Iterations (M): 5
@@ -76,7 +78,8 @@ How to read this report:
 ## combine
 
 **Parameters:**
-- Polynomial commitment scheme: WHIR
+- Proof system: DEEP-ALI
+- PCS: WHIR
 - Hash size (bits): 256
 - Field: Goldilocks³
 - Iterations (M): 4
@@ -101,7 +104,8 @@ How to read this report:
 ## embed
 
 **Parameters:**
-- Polynomial commitment scheme: WHIR
+- Proof system: DEEP-ALI
+- PCS: WHIR
 - Hash size (bits): 256
 - Field: Goldilocks³
 - Iterations (M): 3

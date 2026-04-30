@@ -63,7 +63,8 @@ How to read this report:
 ## Dma
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 229
 - Grinding query phase (bits): 16
@@ -96,7 +97,8 @@ How to read this report:
 ## DmaMemCpy
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 229
 - Grinding query phase (bits): 16
@@ -128,7 +130,8 @@ How to read this report:
 ## DmaInputCpy
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 229
 - Grinding query phase (bits): 16
@@ -160,7 +163,8 @@ How to read this report:
 ## Dma64Aligned
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 230
 - Grinding query phase (bits): 16
@@ -192,7 +196,8 @@ How to read this report:
 ## Dma64AlignedInputCpy
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 229
 - Grinding query phase (bits): 16
@@ -224,7 +229,8 @@ How to read this report:
 ## Dma64AlignedMemSet
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 229
 - Grinding query phase (bits): 16
@@ -254,7 +260,8 @@ How to read this report:
 ## Dma64AlignedMem
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 229
 - Grinding query phase (bits): 16
@@ -284,7 +291,8 @@ How to read this report:
 ## Dma64AlignedMemCpy
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 229
 - Grinding query phase (bits): 16
@@ -314,7 +322,8 @@ How to read this report:
 ## DmaUnaligned
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 229
 - Grinding query phase (bits): 16
@@ -345,7 +354,8 @@ How to read this report:
 ## DmaPrePost
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 230
 - Grinding query phase (bits): 16
@@ -375,7 +385,8 @@ How to read this report:
 ## DmaPrePostMemCpy
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 230
 - Grinding query phase (bits): 16
@@ -404,7 +415,8 @@ How to read this report:
 ## DmaPrePostInputCpy
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 229
 - Grinding query phase (bits): 16
@@ -433,7 +445,8 @@ How to read this report:
 ## Main
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 230
 - Grinding query phase (bits): 16
@@ -464,7 +477,8 @@ How to read this report:
 ## Rom
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 221
 - Grinding query phase (bits): 20
@@ -490,7 +504,8 @@ How to read this report:
 ## Mem
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 230
 - Grinding query phase (bits): 16
@@ -520,7 +535,8 @@ How to read this report:
 ## RomData
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 229
 - Grinding query phase (bits): 16
@@ -548,7 +564,8 @@ How to read this report:
 ## InputData
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 229
 - Grinding query phase (bits): 16
@@ -577,7 +594,8 @@ How to read this report:
 ## MemAlign
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 230
 - Grinding query phase (bits): 16
@@ -605,7 +623,8 @@ How to read this report:
 ## MemAlignByte
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 229
 - Grinding query phase (bits): 16
@@ -635,7 +654,8 @@ How to read this report:
 ## MemAlignReadByte
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 229
 - Grinding query phase (bits): 16
@@ -664,7 +684,8 @@ How to read this report:
 ## MemAlignWriteByte
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 229
 - Grinding query phase (bits): 16
@@ -694,7 +715,8 @@ How to read this report:
 ## Arith
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 230
 - Grinding query phase (bits): 16
@@ -722,7 +744,8 @@ How to read this report:
 ## Binary
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 230
 - Grinding query phase (bits): 16
@@ -750,7 +773,8 @@ How to read this report:
 ## BinaryAdd
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 229
 - Grinding query phase (bits): 16
@@ -778,7 +802,8 @@ How to read this report:
 ## BinaryExtension
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 230
 - Grinding query phase (bits): 16
@@ -807,7 +832,8 @@ How to read this report:
 ## Add256
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 229
 - Grinding query phase (bits): 16
@@ -835,7 +861,8 @@ How to read this report:
 ## ArithEq
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 231
 - Grinding query phase (bits): 16
@@ -866,7 +893,8 @@ How to read this report:
 ## ArithEq384
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 232
 - Grinding query phase (bits): 16
@@ -897,7 +925,8 @@ How to read this report:
 ## Keccakf
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 217
 - Grinding query phase (bits): 23
@@ -925,7 +954,8 @@ How to read this report:
 ## Sha256f
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 231
 - Grinding query phase (bits): 16
@@ -953,7 +983,8 @@ How to read this report:
 ## Poseidon2
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 114
 - Grinding query phase (bits): 16
@@ -980,7 +1011,8 @@ How to read this report:
 ## Blake2br
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 230
 - Grinding query phase (bits): 16
@@ -1009,7 +1041,8 @@ How to read this report:
 ## SpecifiedRanges
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 229
 - Grinding query phase (bits): 16
@@ -1040,7 +1073,8 @@ How to read this report:
 ## VirtualTable0
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 230
 - Grinding query phase (bits): 16
@@ -1071,7 +1105,8 @@ How to read this report:
 ## VirtualTable1
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 230
 - Grinding query phase (bits): 16
@@ -1097,7 +1132,8 @@ How to read this report:
 ## DmaPrePost-compressor
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 110
 - Grinding query phase (bits): 20
@@ -1123,7 +1159,8 @@ How to read this report:
 ## ArithEq-compressor
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 110
 - Grinding query phase (bits): 20
@@ -1149,7 +1186,8 @@ How to read this report:
 ## ArithEq384-compressor
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 110
 - Grinding query phase (bits): 20
@@ -1175,7 +1213,8 @@ How to read this report:
 ## Keccakf-compressor
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 110
 - Grinding query phase (bits): 20
@@ -1201,7 +1240,8 @@ How to read this report:
 ## Sha256f-compressor
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 110
 - Grinding query phase (bits): 20
@@ -1227,7 +1267,8 @@ How to read this report:
 ## Blake2br-compressor
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 110
 - Grinding query phase (bits): 20
@@ -1253,7 +1294,8 @@ How to read this report:
 ## Recursive2
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 73
 - Grinding query phase (bits): 20
@@ -1279,7 +1321,8 @@ How to read this report:
 ## Final
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 43
 - Grinding query phase (bits): 22
@@ -1305,7 +1348,8 @@ How to read this report:
 ## Final_Compressed
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 54
 - Grinding query phase (bits): 22

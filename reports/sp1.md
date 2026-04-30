@@ -23,7 +23,7 @@ How to read this report:
 
 **Parameters:**
 - Proof system: Jagged
-- Inner PCS: FRI
+- PCS: FRI
 - Hash size (bits): 248
 - Number of queries: 124
 - Grinding query phase (bits): 16
@@ -50,7 +50,7 @@ How to read this report:
 
 **Parameters:**
 - Proof system: Jagged
-- Inner PCS: FRI
+- PCS: FRI
 - Hash size (bits): 248
 - Number of queries: 124
 - Grinding query phase (bits): 16
@@ -77,7 +77,7 @@ How to read this report:
 
 **Parameters:**
 - Proof system: Jagged
-- Inner PCS: FRI
+- PCS: FRI
 - Hash size (bits): 248
 - Number of queries: 94
 - Grinding query phase (bits): 22

@@ -29,7 +29,7 @@ class SWIRLCircuit(Circuit):
         self.name = config.name
         self.pcs = config.pcs
         self.field = config.field
-        self.protocol_label = "SWIRL + WHIR"
+        self.proof_system_name = "SWIRL"
         self.params = config.params
         self.max_num_constraints_per_air = config.max_num_constraints_per_air
         self.num_airs = config.num_airs
@@ -57,8 +57,8 @@ class SWIRLCircuit(Circuit):
         lines = [
             "",
             "```",
-            "  protocol_family            : SWIRL",
-            "  pcs                        : WHIR",
+            f"  proof_system_name          : {self.proof_system_name}",
+            f"  pcs                        : {self.pcs.label}",
             f"  field                      : {self.field.to_string()}",
             f"  l_skip                     : {self.params.l_skip}",
             f"  n_stack                    : {self.params.n_stack}",
@@ -80,8 +80,8 @@ class SWIRLCircuit(Circuit):
 
     def get_report_parameter_lines(self) -> list[str]:
         lines = [
-            "- Proof system: SWIRL",
-            "- Inner PCS: WHIR",
+            f"- Proof system: {self.proof_system_name}",
+            f"- PCS: {self.pcs.label}",
             f"- Field: {self.field.to_string()}",
             f"- Regime: {self._regime_label()}",
         ]

@@ -21,7 +21,8 @@ class Circuit(ABC):
     name: str
     pcs: PCS
     field: FieldParams
-    protocol_label: str
+    # The name of the proof system (e.g. "DEEP-ALI", "Jagged", "SWIRL").
+    proof_system_name: str
 
     # Set to True when the circuit does not yet expose a full proof-size estimate.
     # When True, reports render "TODO" for proof size.

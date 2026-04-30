@@ -920,7 +920,6 @@ class WHIR(PCS):
     def get_report_parameter_lines(self) -> list[str]:
         batching = "Powers" if self.power_batching else "Affine"
         return [
-            f"- Polynomial commitment scheme: WHIR",
             f"- Hash size (bits): {self.hash_size_bits}",
             f"- Field: {self.field.to_string()}",
             f"- Iterations (M): {self.num_iterations}",

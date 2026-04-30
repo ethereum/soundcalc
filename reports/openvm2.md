@@ -24,7 +24,7 @@ How to read this report:
 
 **Parameters:**
 - Proof system: SWIRL
-- Inner PCS: WHIR
+- PCS: WHIR
 - Field: BabyBear⁴
 - Regime: UDR
 - `l_skip`: 4
@@ -52,7 +52,7 @@ How to read this report:
 
 **Parameters:**
 - Proof system: SWIRL
-- Inner PCS: WHIR
+- PCS: WHIR
 - Field: BabyBear⁴
 - Regime: UDR
 - `l_skip`: 4
@@ -80,7 +80,7 @@ How to read this report:
 
 **Parameters:**
 - Proof system: SWIRL
-- Inner PCS: WHIR
+- PCS: WHIR
 - Field: BabyBear⁴
 - Regime: JBR
 - `m`: 2
@@ -109,7 +109,7 @@ How to read this report:
 
 **Parameters:**
 - Proof system: SWIRL
-- Inner PCS: WHIR
+- PCS: WHIR
 - Field: BabyBear⁴
 - Regime: JBR
 - `m`: 1

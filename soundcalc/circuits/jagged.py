@@ -40,12 +40,11 @@ class JaggedPCS(PCS):
     Jagged Polynomial Commitment Scheme.
     """
 
-    label = "Jagged"
-
     def __init__(self, config: JaggedConfig):
         self.dense_pcs = config.dense_pcs
         self.trace_length = config.trace_length
         self.trace_width = config.trace_width
+        self.label = config.dense_pcs.label
 
     def get_pcs_security_levels(self, regime: ProximityGapsRegime) -> dict[str, int]:
         """
@@ -170,7 +169,7 @@ class JaggedCircuit(Circuit):
     def __init__(self, config: JaggedCircuitConfig):
         self.name = config.name
         self.field = config.field
-        self.protocol_label = "Jagged + FRI"
+        self.proof_system_name = "Jagged"
         self._jagged_pcs = JaggedPCS(JaggedConfig(
             dense_pcs=config.dense_pcs,
             trace_length=config.trace_length,
@@ -223,8 +222,8 @@ class JaggedCircuit(Circuit):
         dense = self._jagged_pcs.dense_pcs
         batching = "Powers" if dense.power_batching else "Affine"
         lines = [
-            "- Proof system: Jagged",
-            "- Inner PCS: FRI",
+            f"- Proof system: {self.proof_system_name}",
+            f"- PCS: {dense.label}",
             f"- Hash size (bits): {dense.hash_size_bits}",
             f"- Number of queries: {dense.num_queries}",
             f"- Grinding query phase (bits): {dense.grinding_query_phase}",

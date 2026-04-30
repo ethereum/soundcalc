@@ -7,7 +7,8 @@ How to read this report:
 - Proof size estimates are indicative (1 KiB = 1024 bytes)
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 256
 - Number of queries: 87
 - Grinding query phase (bits): 28

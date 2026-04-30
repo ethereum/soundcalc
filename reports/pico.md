@@ -24,7 +24,8 @@ How to read this report:
 ## riscv
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 248
 - Number of queries: 84
 - Grinding query phase (bits): 16
@@ -56,7 +57,8 @@ How to read this report:
 ## convert
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 248
 - Number of queries: 84
 - Grinding query phase (bits): 16
@@ -82,7 +84,8 @@ How to read this report:
 ## combine
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 248
 - Number of queries: 84
 - Grinding query phase (bits): 16
@@ -108,7 +111,8 @@ How to read this report:
 ## compress
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 248
 - Number of queries: 21
 - Grinding query phase (bits): 16
@@ -134,7 +138,8 @@ How to read this report:
 ## embed
 
 **Parameters:**
-- Polynomial commitment scheme: FRI
+- Proof system: DEEP-ALI
+- PCS: FRI
 - Hash size (bits): 248
 - Number of queries: 21
 - Grinding query phase (bits): 16
