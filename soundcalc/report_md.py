@@ -30,12 +30,12 @@ class zkVMSummary:
     field: str
     pcs: str
     num_circuits: int
-    weakest_circuit_name: str
     security_bits: float
     security_regime: str
     # None when the final circuit's proof-size estimate is a TODO (see
     # Circuit.proof_size_todo).
     final_proof_size_kib: int | None
+    final_expected_proof_size_kib: int | None
 
 
 def _compute_overview_stats(circuits: list[Circuit]) -> dict[str, Any]:
@@ -122,39 +122,39 @@ def _collect_zkvm_summary(zkvm: zkVM) -> zkVMSummary:
             field="Unknown",
             pcs="Unknown",
             num_circuits=0,
-            weakest_circuit_name="N/A",
             security_bits=0,
             security_regime="N/A",
             final_proof_size_kib=0,
+            final_expected_proof_size_kib=0,
         )
 
     field = _field_label(circuits[0].field)
     pcs = _pcs_label(circuits[0])
 
     # Track minimum security per regime across all circuits
-    regime_mins: dict[str, tuple[int, str]] = {}  # regime -> (min_bits, circuit_name)
+    regime_mins: dict[str, int] = {}  # regime -> min_bits
     for circuit in circuits:
         levels = circuit.get_security_levels()
         for regime_name, regime_data in levels.items():
             if isinstance(regime_data, dict) and "total" in regime_data:
                 total_bits = regime_data["total"]
-                if regime_name not in regime_mins or total_bits < regime_mins[regime_name][0]:
-                    regime_mins[regime_name] = (total_bits, circuit.get_name())
+                if regime_name not in regime_mins or total_bits < regime_mins[regime_name]:
+                    regime_mins[regime_name] = total_bits
 
     # Find the best regime (highest minimum security)
     best_regime = "N/A"
     best_bits = 0
-    weakest_name = circuits[0].get_name()
-    for regime_name, (min_bits, circuit_name) in regime_mins.items():
+    for regime_name, min_bits in regime_mins.items():
         if min_bits > best_bits:
             best_bits = min_bits
             best_regime = regime_name
-            weakest_name = circuit_name
 
     if circuits[-1].proof_size_todo:
         final_proof_kib = None
+        final_expected_proof_kib = None
     else:
         final_proof_kib = int(circuits[-1].get_proof_size_bits() // KIB)
+        final_expected_proof_kib = int(circuits[-1].get_expected_proof_size_bits() // KIB)
 
     return zkVMSummary(
         name=zkvm.get_name(),
@@ -162,10 +162,10 @@ def _collect_zkvm_summary(zkvm: zkVM) -> zkVMSummary:
         field=field,
         pcs=pcs,
         num_circuits=len(circuits),
-        weakest_circuit_name=weakest_name,
         security_bits=best_bits,
         security_regime=best_regime,
         final_proof_size_kib=final_proof_kib,
+        final_expected_proof_size_kib=final_expected_proof_kib,
     )
 
 
@@ -382,8 +382,8 @@ def _build_summary_report(zkvms: list[zkVM]) -> str:
         "",
         "## Overview",
         "",
-        "| zkVM | Version | Security | Proof Size | PCS | Field | Circuits | Weakest Circuit |",
-        "|------|---------|----------|------------|-----|-------|----------|-----------------|",
+        "| zkVM | Version | Security | Expected Proof Size | Worst-Case Proof Size | PCS | Field | Circuits |",
+        "|------|---------|----------|---------------------|-----------------------|-----|-------|----------|",
     ]
 
     summaries = sorted(
@@ -394,13 +394,19 @@ def _build_summary_report(zkvms: list[zkVM]) -> str:
     for s in summaries:
         report_filename = f"{s.name.lower().replace(' ', '_')}.md"
         version_str = s.version if s.version else "—"
-        proof_size_str = "TODO" if s.final_proof_size_kib is None else f"{s.final_proof_size_kib} KiB"
+        if s.final_proof_size_kib is None:
+            expected_str = "TODO"
+            worst_str = "TODO"
+        else:
+            expected_str = f"{s.final_expected_proof_size_kib} KiB"
+            worst_str = f"{s.final_proof_size_kib} KiB"
         lines.append(
             f"| [{s.name}]({report_filename}) "
             f"| {version_str} "
             f"| **{_format_security_value(s.security_bits)}** bits ({s.security_regime}) "
-            f"| {proof_size_str} "
-            f"| {s.pcs} | {s.field} | {s.num_circuits} | {s.weakest_circuit_name} |"
+            f"| {expected_str} "
+            f"| {worst_str} "
+            f"| {s.pcs} | {s.field} | {s.num_circuits} |"
         )
 
     lines.extend([
@@ -408,7 +414,6 @@ def _build_summary_report(zkvms: list[zkVM]) -> str:
         "## Notes",
         "",
         "- **Security**: Best bits of security across the reported regimes",
-        "- **Weakest Circuit**: Circuit determining the overall security level",
         "- **Proof Size**: Final proof size in KiB (1 KiB = 1024 bytes)",
         "",
     ])
