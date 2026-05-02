@@ -128,7 +128,7 @@ class zkVM:
                 hash_size_bits=config["zkevm"]["hash_size_bits"],
                 log_inv_rate=section["log_inv_rate"],
                 num_iterations=section["num_iterations"],
-                folding_factor=section["folding_factor"],
+                folding_factors=section["folding_factors"],
                 field=field,
                 log_degree=section["log_degree"],
                 batch_size=section["batch_size"],
