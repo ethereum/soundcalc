@@ -364,7 +364,7 @@ class WHIR(PCS):
         # Compute the per-iteration log-degree $m_i$ and log-inverse-rate $\mu_i$.
         #
         # Recurrence (fixed domain shift):
-        #   m_{i+1}     = m_i - k_i           (folding by $2^{k_i}$
+        #   m_{i+1}     = m_i - k_i           (folding by $2^{k_i}$)
         #   \mu_{i+1}   = \mu_i + (k_i - 1)   (domain halves; degree drops by $2^{k_i}$)
         self.log_degrees = [config.log_degree]
         self.log_inv_rates = [config.log_inv_rate]
