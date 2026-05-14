@@ -85,32 +85,31 @@ class WHIRConfig:
 
     # The logarithmic reduction factor for each WHIR iteration.
     #
-    # In the paper, this corresponds to the sequence $k_0, ..., k_{M-1}$
-    #
-    # This parameter dictates how aggressively the polynomial is compressed in every iteration.
+    # In the paper, this corresponds to the sequence $k_0, ..., k_{M-1}$.
+    # This parameters dictate how aggressively the polynomial is compressed in every iteration.
     #
     # ### Mathematical Definition
     #
-    # If the folding factor is $k$:
+    # At iteration $i$ with folding factor $k_i$:
     #
     # 1. Polynomial Degree Reduction:
-    #    The number of variables decreases by $k$.
+    #    The number of variables decreases by $k_i$.
     #    \begin{equation}
-    #       m_{new} = m_{old} - k
+    #       m_{i+1} = m_i - k_i
     #    \end{equation}
     #
     # 2. Evaluation Domain Reduction:
-    #    The domain size reduces by a factor of 2.
+    #    The domain size reduces by a factor of 2 each iteration.
     #    \begin{equation}
-    #       |L_{new}| = |L_{old}| / 2
+    #       |L_{i+1}| = |L_i| / 2
     #    \end{equation}
     #
     # ### Impact on Rate
     #
-    # Because the degree shrinks faster ($2^k$) than the domain ($2^1$),
+    # Because the degree shrinks faster ($2^{k_i}$) than the domain ($2^1$),
     # the rate of the code decreases with every step.
     # \begin{equation}
-    #   \rho_{new} = 2^{1-k} ⋅ \rho_{old}
+    #   \rho_{i+1} = 2^{1-k_i} ⋅ \rho_i
     # \end{equation}
     #
     # ### Rust Calculator Note
@@ -119,10 +118,7 @@ class WHIRConfig:
     #
     # See `WhirParameters::fixed_domain_shift` in the reference script:
     # https://github.com/WizardOfMenlo/stir-whir-scripts/blob/main/src/whir.rs#L72
-    #
-    # While the paper allows for variable $k_i$, this calculator (like the
-    # Rust script) currently assumes a constant $k$ for all iterations.
-    folding_factor: int
+    folding_factors: list[int]
 
     # The field that is used
     field: FieldParams
@@ -317,7 +313,7 @@ class WHIR(PCS):
         """
         # Inherit parameters from the given config
         self.hash_size_bits = config.hash_size_bits
-        self.folding_factor = config.folding_factor
+        self.folding_factors = config.folding_factors
         self.num_iterations = config.num_iterations
         self.field = config.field
         self.batch_size = config.batch_size
@@ -344,42 +340,37 @@ class WHIR(PCS):
         # determine all rates (in contrast to FRI, these change over the iterations)
         # this also involves determining all log degrees
         assert config.log_inv_rate > 0, "Log inverse rate must be > 0 (rate < 1.0)"
-        assert config.folding_factor >= 1, (
-            "Folding factor must be >= 1 to reduce degree"
-        )
         assert config.num_iterations >= 1, "Must have at least 1 iteration"
+        assert len(self.folding_factors) == self.num_iterations, (
+            f"Expected {self.num_iterations} folding factors, "
+            f"got {len(self.folding_factors)}"
+        )
+        assert all(k >= 1 for k in self.folding_factors), (
+            "Every folding factor must be >= 1 to reduce degree"
+        )
 
-        # Calculate the log_degree (m) for every iteration 0..M
-        #
-        # This corresponds to the sequence $m_0, ..., m_M$ in the paper.
-        #
-        # Formula: m_i = m_0 - i * k
         self.log_degree = config.log_degree
 
         # Ensure the final polynomial does not end up with a negative number of variables.
         #
-        # This implies m_0 >= M * k
-        final_reduction = self.num_iterations * self.folding_factor
+        # This requires m_0 >= sum_i k_i.
+        final_reduction = sum(self.folding_factors)
         assert final_reduction <= config.log_degree, (
             f"Configuration invalid: Reducing {config.log_degree} variables by "
-            f"{final_reduction} ({self.num_iterations} iters * {self.folding_factor} fold) "
+            f"{final_reduction} (sum of folding factors {self.folding_factors}) "
             "results in a negative number of variables."
         )
 
-        self.log_degrees = [
-            config.log_degree - i * self.folding_factor
-            for i in range(self.num_iterations + 1)
-        ]
-
-        # Calculate `log_inv_rate` (expansion factor) for every iteration.
+        # Compute the per-iteration log-degree $m_i$ and log-inverse-rate $\mu_i$.
         #
-        # Implements a fixed domain shift: Domain halves (rate * 2), Degree / 2^k (rate / 2^k).
-        # - Net change to inv_rate: * 2^(k-1).
-        # - Log change: + (k - 1).
-        self.log_inv_rates = [
-            config.log_inv_rate + i * (self.folding_factor - 1)
-            for i in range(self.num_iterations + 1)
-        ]
+        # Recurrence (fixed domain shift):
+        #   m_{i+1}     = m_i - k_i           (folding by $2^{k_i}$)
+        #   \mu_{i+1}   = \mu_i + (k_i - 1)   (domain halves; degree drops by $2^{k_i}$)
+        self.log_degrees = [config.log_degree]
+        self.log_inv_rates = [config.log_inv_rate]
+        for k in self.folding_factors:
+            self.log_degrees.append(self.log_degrees[-1] - k)
+            self.log_inv_rates.append(self.log_inv_rates[-1] + (k - 1))
 
         # Domain validity check
 
@@ -390,20 +381,19 @@ class WHIR(PCS):
 
         # We use Interleaved Reed-Solomon codes (Lemma 4.4).
         #
-        # We effectively decompose the polynomial into 2^k smaller polynomials
-        # (where k = folding_factor).
+        # We effectively decompose the polynomial into 2^{k_0} smaller polynomials.
         #
-        # The FFTs are performed on the smaller domain of size |L| / 2^k.
+        # The FFTs are performed on the smaller domain of size |L_0| / 2^{k_0}.
         # Therefore, the field's 2-adicity only needs to support this smaller domain.
         #
-        # Requirement: log2(|L|) - k <= two_adicity
-        required_two_adicity = initial_domain_log_size - self.folding_factor
+        # Requirement: log2(|L_0|) - k_0 <= two_adicity
+        required_two_adicity = initial_domain_log_size - self.folding_factors[0]
 
         assert required_two_adicity <= self.field.two_adicity, (
             f"Field {self.field.name} 2-adicity ({self.field.two_adicity}) is too low.\n"
             f"  - Logical Domain Size: 2^{initial_domain_log_size}\n"
-            f"  - Folding Factor: {self.folding_factor}\n"
-            f"  - Required 2-adicity: {required_two_adicity} (Domain / 2^k)"
+            f"  - Folding Factor (k_0): {self.folding_factors[0]}\n"
+            f"  - Required 2-adicity: {required_two_adicity} (Domain / 2^k_0)"
         )
 
         # Array length consistency checks
@@ -436,9 +426,9 @@ class WHIR(PCS):
         )
 
         for i, grinding_bits_folding_iter in enumerate(self.grinding_bits_folding):
-            # Each iteration has a sumcheck phase with exactly 'folding_factor' rounds.
-            assert len(grinding_bits_folding_iter) == self.folding_factor, (
-                f"Iteration {i}: Expected {self.folding_factor} folding grinding entries, "
+            # Each iteration has a sumcheck phase with exactly $k_i$ rounds.
+            assert len(grinding_bits_folding_iter) == self.folding_factors[i], (
+                f"Iteration {i}: Expected {self.folding_factors[i]} folding grinding entries, "
                 f"got {len(grinding_bits_folding_iter)}"
             )
             assert all(g >= 0 for g in grinding_bits_folding_iter), (
@@ -463,7 +453,7 @@ class WHIR(PCS):
         #
         # Construction 5.1: "1. Initial sumcheck... For l = 1...k0"
         # This iteration only contains folding (sumcheck), no OOD/Shift.
-        for round_s in range(1, self.folding_factor + 1):
+        for round_s in range(1, self.folding_factors[0] + 1):
             epsilon = self._epsilon_fold(iteration=0, round=round_s, regime=regime)
             levels[f"fold(i=0,s={round_s})"] = get_bits_of_security_from_error(epsilon)
 
@@ -483,7 +473,7 @@ class WHIR(PCS):
             )
 
             # sum check (one error for each round)
-            for round_s in range(1, self.folding_factor + 1):
+            for round_s in range(1, self.folding_factors[iteration] + 1):
                 epsilon = self._epsilon_fold(iteration, round_s, regime)
                 levels[f"fold(i={iteration},s={round_s})"] = (
                     get_bits_of_security_from_error(epsilon)
@@ -500,14 +490,16 @@ class WHIR(PCS):
         """
         Returns the code for the given iteration and round. That is, this returns a pair (rate, dimension)
         of the code C_{RS}^{i,s} (in notation of Theorem 5.2 in WHIR paper).
-        Here, 0<= i <= M-1 is the iteration and 0 <= s <= k is the round.
+        Here, 0 <= i <= M-1 is the iteration and 0 <= s <= k_i is the round.
         """
 
         # Bound checks
         assert 0 <= iteration < self.num_iterations, (
             f"Iteration {iteration} out of bounds"
         )
-        assert 0 <= round <= self.folding_factor, f"Round {round} out of bounds"
+        assert 0 <= round <= self.folding_factors[iteration], (
+            f"Round {round} out of bounds"
+        )
 
         # The code is C_{RS}^{i,s} = RS[F, L_i^{(2^s)}, m_i - s]
         # So the dimension is 2^{m_i - s}
@@ -530,7 +522,7 @@ class WHIR(PCS):
         Returns delta_i, in the notation of the paper, where i = iteration.
 
         This is determined so that it is small enough for the proximity gaps regime on
-        all codes C_{RS}^{i,s}, s <= k.
+        all codes C_{RS}^{i,s}, s <= k_i.
         """
 
         # we iterate over all codes, i.e., over all rounds s
@@ -541,8 +533,8 @@ class WHIR(PCS):
 
         delta = 1.0
 
-        # The range must be 0 <= s <= k (inclusive).
-        for round in range(0, self.folding_factor + 1):
+        # The range must be 0 <= s <= k_i (inclusive).
+        for round in range(0, self.folding_factors[iteration] + 1):
             (rate, dimension) = self._get_code_for_iteration_and_round(iteration, round)
             delta_round = regime.get_proximity_parameter(rate, dimension)
             delta = min(delta, delta_round)
@@ -560,7 +552,7 @@ class WHIR(PCS):
         """
 
         assert 0 <= iteration < self.num_iterations, "Iteration out of bounds"
-        assert 0 <= round <= self.folding_factor, "Round out of bounds"
+        assert 0 <= round <= self.folding_factors[iteration], "Round out of bounds"
 
         # Get Code Parameters
         #
@@ -624,12 +616,13 @@ class WHIR(PCS):
     ) -> float:
         """
         Returns the error of a folding round. This is epsilon^fold_{i,s} in the notation
-        of the paper (Theorem 5.2 in WHIR paper), where i is the iteration and s <= k is the round.
+        of the paper (Theorem 5.2 in WHIR paper), where i is the iteration and s <= k_i is the round.
         """
 
-        # Explicitly check that s is within the valid range [1, k].
-        assert 1 <= round <= self.folding_factor, (
-            f"Folding round {round} out of bounds (must be 1..{self.folding_factor})"
+        # Explicitly check that s is within the valid range [1, k_i].
+        k_i = self.folding_factors[iteration]
+        assert 1 <= round <= k_i, (
+            f"Folding round {round} out of bounds (must be 1..{k_i})"
         )
 
         # the error has two terms
@@ -766,7 +759,7 @@ class WHIR(PCS):
 
         # Initial Sumcheck (Iteration 0)
         #
-        # The Prover sends 'folding_factor' (k) univariate polynomials.
+        # The Prover sends $k_0$ univariate polynomials.
         #
         # NOTATION (WHIR Paper, Construction 5.1):
         # The paper defines the polynomial h(X) as belonging to F^{<d*}[X].
@@ -789,7 +782,7 @@ class WHIR(PCS):
         #
         # Therefore, we transmit exactly (d-1) elements instead of d.
         proof_size += (
-            self.folding_factor * (self.constraint_degree - 1) * ext_field_bits
+            self.folding_factors[0] * (self.constraint_degree - 1) * ext_field_bits
         )
 
         # Main loop, runs for i = 1 to i = M - 1
@@ -809,11 +802,11 @@ class WHIR(PCS):
 
             # Sumcheck rounds
             #
-            # The Prover sends 'folding_factor' (k) univariate polynomials per iteration.
+            # The Prover sends $k_i$ univariate polynomials in iteration $i$.
             #
             # See above for NOTATION and OPTIMIZATION used here
             proof_size += (
-                self.folding_factor * (self.constraint_degree - 1) * ext_field_bits
+                self.folding_factors[i] * (self.constraint_degree - 1) * ext_field_bits
             )
 
         # Prover sends the final polynomial.
@@ -832,7 +825,7 @@ class WHIR(PCS):
         assert len(self.num_queries) == self.num_iterations
         for i in range(self.num_iterations):
             domain_size = 2 ** (self.log_degrees[i] + self.log_inv_rates[i])
-            block_size = 2**self.folding_factor
+            block_size = 2 ** self.folding_factors[i]
             num_leafs = domain_size / block_size
 
             # The element size depends on the iteration:
@@ -846,7 +839,7 @@ class WHIR(PCS):
 
             # Compute the size of one query (path + leaf data)
             #
-            # A leaf in WHIR contains an entire folding block (size 2^k).
+            # A leaf in WHIR contains an entire folding block (size $2^{k_i}$).
             #
             # For iteration 0, the leaf also contains evaluations for all batch_size polynomials, so the tuple size is
             # block_size * batch_size.
@@ -885,7 +878,6 @@ class WHIR(PCS):
         # Collect scalar parameters
         params = {
             "hash_size_bits": self.hash_size_bits,
-            "folding_factor": self.folding_factor,
             "batch_size": self.batch_size,
             "power_batching": self.power_batching,
             "grinding_batching_phase": self.grinding_batching_phase,
@@ -901,6 +893,7 @@ class WHIR(PCS):
 
         lines.append("")
         lines.append("  Per-round parameters:")
+        lines.append(f"    folding_factors       : {self.folding_factors}")
         lines.append(f"    log_degree            : {self.log_degree}")
         lines.append(f"    log_degrees           : {self.log_degrees}")
         lines.append(f"    log_inv_rates         : {self.log_inv_rates}")
@@ -923,7 +916,7 @@ class WHIR(PCS):
             f"- Hash size (bits): {self.hash_size_bits}",
             f"- Field: {self.field.to_string()}",
             f"- Iterations (M): {self.num_iterations}",
-            f"- Folding factor (k): {self.folding_factor}",
+            f"- Folding factors (k_i): {self.folding_factors}",
             f"- Constraint degree: {self.constraint_degree}",
             f"- Batch size: {self.batch_size}",
             f"- Batching: {batching}",

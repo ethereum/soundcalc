@@ -48,7 +48,7 @@ def load() -> zkVM:
             hash_size_bits=hash_size_bits,
             log_inv_rate=params.log_blowup,
             num_iterations=len(params.whir.rounds),
-            folding_factor=params.whir.k,
+            folding_factors=[params.whir.k] * len(params.whir.rounds),
             field=field,
             log_degree=params.log_stacked_height(),
             batch_size=params.w_stack,

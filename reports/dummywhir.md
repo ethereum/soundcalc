@@ -28,7 +28,7 @@ How to read this report:
 - Hash size (bits): 256
 - Field: Goldilocks³
 - Iterations (M): 5
-- Folding factor (k): 4
+- Folding factors (k_i): [4, 4, 4, 4, 4]
 - Constraint degree: 8
 - Batch size: 200
 - Batching: Powers
@@ -57,7 +57,7 @@ How to read this report:
 - Hash size (bits): 256
 - Field: Goldilocks³
 - Iterations (M): 5
-- Folding factor (k): 4
+- Folding factors (k_i): [4, 4, 4, 4, 4]
 - Constraint degree: 4
 - Batch size: 164
 - Batching: Powers
@@ -83,7 +83,7 @@ How to read this report:
 - Hash size (bits): 256
 - Field: Goldilocks³
 - Iterations (M): 4
-- Folding factor (k): 4
+- Folding factors (k_i): [4, 4, 4, 4]
 - Constraint degree: 4
 - Batch size: 164
 - Batching: Powers
@@ -109,7 +109,7 @@ How to read this report:
 - Hash size (bits): 256
 - Field: Goldilocks³
 - Iterations (M): 3
-- Folding factor (k): 4
+- Folding factors (k_i): [4, 4, 4]
 - Constraint degree: 4
 - Batch size: 164
 - Batching: Powers

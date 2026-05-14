@@ -10,24 +10,24 @@
 \begin{itemize}
   \item Number of iterations: \(M = \texttt{num\_iterations}\)
   \item Iteration index: \(i \in \{0,\dots,M-1\}\)
-  \item Folding round index: \(s \in \{0,\dots,k-1\}\)
+  \item Folding factor in iteration \(i\): \(k_i = \texttt{folding\_factors}[i]\)
+  \item Folding round index in iteration \(i\): \(s \in \{0,\dots,k_i-1\}\)
   \item Extension field size: \(|\mathbb{F}| = \bfield\)
   \item Constraint degree: \(d = \texttt{constraint\_degree}\)
-  \item Folding factor: \(k = \texttt{folding\_factor}\)
-  \item Log-degree in iteration \(i\): \(m_i = \texttt{log\_degrees}[i]\), and we set $m_i = m_0-k\cdot i$
-  \item Log-inverted rate in iteration \(i\): \(\mu_i = \texttt{log\_inv\_rates}[i]\) , and we set $\mu_i = \log_2 \frac{1}{\rho}+(k-1)\cdot i$
+  \item Log-degree in iteration \(i\): \(m_i = \texttt{log\_degrees}[i]\), and we set $m_{i+1} = m_i - k_i$ (equivalently $m_i = m_0 - \sum_{j=0}^{i-1} k_j$)
+  \item Log-inverted rate in iteration \(i\): \(\mu_i = \texttt{log\_inv\_rates}[i]\), and we set $\mu_{i+1} = \mu_i + (k_i - 1)$ (equivalently $\mu_i = \log_2 \frac{1}{\rho} + \sum_{j=0}^{i-1}(k_j - 1)$)
   \item Iteration-round-specific RS codes:
   $$
   \CC_{i,s}=(\CC_{i,s}[\rho],\CC_{i,s}[N])_{i,s}=(2^{-\mu_i},2^{m_i-s})
   $$
-  \item Number of OOD samples in iteration \(i\): \(w_i = \texttt{num\_ood\_samples}[i]\)
-  \item Number of queries in iteration \(i\): \(t_i = \texttt{num\_queries}[i]\)
+  \item OOD sample counts (length \(M-1\)): \(w_j = \texttt{num\_ood\_samples}[j]\) for \(j\in\{0,\ldots,M-2\}\); iteration \(i\in\{1,\ldots,M-1\}\) sends \(w_{i-1}\) OOD evaluations.
+  \item Number of queries in iteration \(i\): \(t_i = \texttt{num\_queries}[i]\) for \(i\in[M]\).
   \item Grinding bits:
     \[
       g_{\mathrm{batch}},\quad
-      \{g^{\mathrm{fold}}_{i,s}\}_{i\in [M],s\in[k]},\quad
-      \{g^{\mathrm{ood}}_i\}_{i\in M},\quad
-      \{g^{\mathrm{qry}}_i\}_{i\in M}.
+      \{g^{\mathrm{fold}}_{i,s}\}_{i\in [M],\,s\in[k_i]},\quad
+      \{g^{\mathrm{ood}}_j\}_{j\in\{0,\ldots,M-2\}},\quad
+      \{g^{\mathrm{qry}}_i\}_{i\in[M]}.
     \]
 \end{itemize}
 
@@ -48,7 +48,7 @@ Overall security:
   \lambda_{\mathrm{total}}
     = \min\{
       \lambda_{\mathrm{batch}},
-      \{\lambda^{\mathrm{fold}}_{i,s}\}_{i\in [M],s\in[k]},
+      \{\lambda^{\mathrm{fold}}_{i,s}\}_{i\in [M],\,s\in[k_i]},
       \{\lambda^{\mathrm{out}}_i\}_{i\in \{1,\ldots,M-1\}},
       \{\lambda^{\mathrm{shift}}_i\}_{i\in \{1,\ldots,M-1\}},
       \lambda^{\mathrm{fin}}
@@ -95,8 +95,8 @@ In both regimes we do as follows after grinding:
 
 The folding error per round refers to Theorem 5.2 of the WHIR paper.\footnote{See \texttt{pcs/whir.py:\_epsilon\_fold()}.}
 
-For iteration \(i\in[M]\) and folding round \(s\in[k]\) in JBR we do\footnote{The function \texttt{pcs/whir.py:\_epsilon\_fold()}
-counts folding rounds from \(1\) to \(k\), whereas here we count from \(0\) to \(k-1\).    }:
+For iteration \(i\in[M]\) and folding round \(s\in[k_i]\) in JBR we do\footnote{The function \texttt{pcs/whir.py:\_epsilon\_fold()}
+counts folding rounds from \(1\) to \(k_i\), whereas here we count from \(0\) to \(k_i-1\).    }:
 \begin{itemize}
     \item % \verb|get_list_size_for_iteration_and_round()|
  %   \begin{itemize}
@@ -160,7 +160,7 @@ For iteration\footnote{See \texttt{pcs/whir.py:\_epsilon\_shift()}.} \(i\in\{1,2
 \begin{itemize}
     \item   Get $\delta$ for the iteration using \eqref{eq:pp_jbr}:
     $$
-    \delta_i =\min_{s\in[k+1]}\delta_J(\CC_{i-1,s}[\rho],\CC_{i-1,s}[N],q)
+    \delta_i =\min_{s\in[k_{i-1}+1]}\delta_J(\CC_{i-1,s}[\rho],\CC_{i-1,s}[N],q)
     $$
 \item Base error (two terms):
 \[
@@ -175,7 +175,7 @@ Same procedure in UDR:
 \begin{itemize}
     \item   Get $\delta$ for the iteration using \eqref{eq:pp_udr}:
     $$
-    \delta_i =\min_{s\in[k+1]}\delta_U(\CC_{i-1,s}[\rho])
+    \delta_i =\min_{s\in[k_{i-1}+1]}\delta_U(\CC_{i-1,s}[\rho])
     $$
 \item Base error  :
 \[
@@ -200,14 +200,14 @@ In JBR:\footnote{See \texttt{pcs/whir.py:\_epsilon\_final()}.}
 \begin{itemize}
     \item  Get $\delta$ for the iteration using \eqref{eq:pp_jbr}:
     $$
-    \delta_{M-1} =\min_{s\in[k+1]}\delta_J(\CC_{M-1,s}[\rho])
+    \delta_{M-1} =\min_{s\in[k_{M-1}+1]}\delta_J(\CC_{M-1,s}[\rho])
     $$
 \end{itemize}
 UDR:
  \begin{itemize}
     \item  Get $\delta$ for the iteration using \eqref{eq:pp_udr}:
     $$
-    \delta_{M-1} =\min_{s\in[k+1]}\delta_U(\CC_{M-1,s}[\rho])
+    \delta_{M-1} =\min_{s\in[k_{M-1}+1]}\delta_U(\CC_{M-1,s}[\rho])
     $$
 \end{itemize}
 Then
@@ -232,33 +232,35 @@ This section summarizes the proof-size formula.\footnote{See \texttt{pcs/whir.py
   S_{\mathrm{if}} = \bhash.
 \]
 
-\subsection{Initial Sumcheck Size}
+\subsection{Sumcheck Size for Iteration \texorpdfstring{\(i\)}{i}}
 
 
-The folding proof size per round is
+The folding proof size at round $i$ is:
 \[
-  S_{\mathrm{sumcheck}} = k(d-1)\bfield.
+  S_{\mathrm{sumcheck},i} = k_i(d-1)\bfield.
 \]
 
-\subsection{OOD Proof Size for Iteration \(i\)}
+\subsection{Merkle root and OOD Proof Size for Iteration \texorpdfstring{\(i\)}{i}}
 
+For iterations \(i\in\{1,\ldots,M-1\}\), the prover sends a Merkle root for $f_i$ and the $w_{i-1}$ OOD evaluations:
 \[
   S_{\mathrm{ood},i}
-    = \bhash+w_i\bfield+k(d-1)\bfield
+    = \bhash+w_{i-1}\bfield.
 \]
 
+After the last iteration the prover also sends the final multilinear polynomial:
 $$
-S_{\mathrm{ood},M}=2^{m_M}\bfield
+S_{\mathrm{final}}=2^{m_M}\bfield.
 $$
 
-\subsection{Query Proof Size for Iteration \(i\)}
+\subsection{Query Proof Size for Iteration \texorpdfstring{\(i\)}{i}}
 
 
 We compute
 \[
   S_{\mathrm{qry},i}
-    =\begin{cases}  eMP(2^{m_i+\mu_i-k},t_i,2^k,\bfield,\bhash).\quad i>0\\
-     eMP(2^{m_0+\mu_0-k},t_0, B\cdot 2^k,\bprime,\bhash).\quad i=0
+    =\begin{cases}  eMP(2^{m_i+\mu_i-k_i},t_i,2^{k_i},\bfield,\bhash).\quad i>0\\
+     eMP(2^{m_0+\mu_0-k_0},t_0, B\cdot 2^{k_0},\bprime,\bhash).\quad i=0
     \end{cases}
 \]
 
@@ -270,15 +272,11 @@ Collecting all terms and summing over all \(M\) iterations:
 \[
 \boxed{
 S_{\mathrm{total}}
-  = S_{\mathrm{if}}+S_{\mathrm{sumcheck}}
-    + \sum_{i\in[M]}
-      \left(
-         S_{\mathrm{ood},i}
-        + S_{\mathrm{qry},i}
-      \right)
+  = S_{\mathrm{if}} + S_{\mathrm{final}}
+    + \sum_{i\in[M]} \left( S_{\mathrm{sumcheck},i} + S_{\mathrm{qry},i} \right)
+    + \sum_{i\in\{1,\ldots,M-1\}} S_{\mathrm{ood},i}
 }
 \]
-
 
 %Expanding,$$
 %\swhirtotal=\bhash + k(d-1)q+2^{m_M}q+\sum_{i\in[M-1]}\left(\bhash+w_i\cdot q +k(d-1)q  \right)

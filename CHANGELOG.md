@@ -2,6 +2,9 @@
 
 toml format changes, newest-first.
 
+### 2026-05-02 — WHIR
+- allow custom folding factors in WHIR
+
 ### 2026-04-20 (`1d4371a`) — Lookups
 - removed `alphabet_size_H`
 
