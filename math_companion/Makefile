@@ -2,7 +2,7 @@
 
 all: main.pdf
 
-main.pdf: main.tex macro.tex prelim.tex fri.tex whir.tex hypercube.tex lookup.tex references.bib
+main.pdf: main.tex macro.tex prelim.tex fri.tex whir.tex hypercube.tex swirl.tex lookup.tex references.bib
 	pdflatex -interaction=nonstopmode main.tex
 	bibtex main
 	pdflatex -interaction=nonstopmode main.tex

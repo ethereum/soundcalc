@@ -5,9 +5,133 @@ The SWIRL proof system is used by OpenVM2. It is a matrix-stacking proof system
 that reduces trace evaluations to a stacked polynomial evaluation, which is then
 opened via the WHIR PCS (\cref{sec:whir_security_level}).
 
-We do not reproduce the SWIRL soundness analysis in this companion. For details, see:
+This companion summarizes the bounds implemented by soundcalc. For full details, see:
 \begin{itemize}
     \item SWIRL paper: \url{https://openvm.dev/swirl.pdf}
     \item Canonical OpenVM2 soundness calculator:
           \url{https://github.com/openvm-org/stark-backend/blob/develop-v2/crates/stark-backend/src/soundness.rs}
 \end{itemize}
+
+The implementation follows the canonical calculator round by round.\footnote{See
+\texttt{soundcalc/circuits/swirl/calculator.py:calculate\_swirl\_soundness()}.}
+Let \(L_{\mathrm{PCS}}\) be the list-size bound for the initial WHIR proximity
+regime. For unique decoding, \(\log_2 L_{\mathrm{PCS}}=0\). For list decoding,
+the BCHKS25 bound used for WHIR determines \(\log_2 L_{\mathrm{PCS}}\).
+
+\subsection{SWIRL component bounds}
+
+LogUp soundness includes the PCS list-size union bound and effective proof-of-work
+bits \(g_{\mathrm{eff}}\), where \(g_{\mathrm{eff}}\) accounts for the small
+\texttt{sample\_bits} bias over the BabyBear base field:\footnote{See
+\texttt{soundcalc/circuits/swirl/calculator.py:SWIRLLogUpSecurityParameters.get\_soundness\_bits()}
+and \texttt{soundcalc/circuits/swirl/calculator.py:\_effective\_pow\_bits()}.}
+\[
+\lambda_{\mathrm{LogUp}}
+= \log_2 |\mathbb{F}_{\mathrm{ext}}|
+  - \log_2(2 I_{\max})
+  - \log_2 M_{\max}
+  - \log_2 L_{\mathrm{PCS}}
+  + g_{\mathrm{eff}}.
+\]
+
+The ordinary GKR checks use the same worst per-round bounds as the backend:
+\[
+\lambda_{\mathrm{GKR,sumcheck}} =
+\log_2 |\mathbb{F}_{\mathrm{ext}}| - \log_2 3,
+\qquad
+\lambda_{\mathrm{GKR,batching}} =
+\log_2 |\mathbb{F}_{\mathrm{ext}}|.
+\]
+
+ZeroCheck after the fused input-layer boundary has degree
+\[
+d_{\mathrm{zc}} =
+\max\{(d_{\max}+1)(2^{\ell_{\mathrm{skip}}}-1),\,d_{\max}+1\},
+\]
+so\footnote{See
+\texttt{soundcalc/circuits/swirl/calculator.py:calculate\_zerocheck\_sumcheck\_soundness()}.}
+\[
+\lambda_{\mathrm{ZeroCheck}}
+= \log_2 |\mathbb{F}_{\mathrm{ext}}| - \log_2 d_{\mathrm{zc}}
+  - \log_2 L_{\mathrm{PCS}}.
+\]
+
+The fused boundary and batch-sumcheck batching term uses\footnote{See
+\texttt{soundcalc/circuits/swirl/calculator.py:calculate\_constraint\_batching\_soundness()}.}
+\[
+d_{\mathrm{fused}}
+=
+\max\{3,n_{\mathrm{extra}}\}
++(2^{\ell_{\mathrm{skip}}}-1)
++(C_{\max}-1),
+\qquad
+d_{\mathrm{batch}} = 3A-1,
+\]
+where \(C_{\max}\) is the maximum number of constraints in one AIR and \(A\) is
+the number of AIRs. The security is
+\[
+\lambda_{\mathrm{fused}}
+=
+\min\{
+\log_2 |\mathbb{F}_{\mathrm{ext}}|-\log_2 d_{\mathrm{fused}},
+\log_2 |\mathbb{F}_{\mathrm{ext}}|-\log_2 d_{\mathrm{batch}}
+\}
+-\log_2 L_{\mathrm{PCS}}.
+\]
+
+Stacked reduction uses the minimum of trace-column batching, the univariate
+round, and multilinear rounds, again with the PCS list-size union bound:
+\[
+\lambda_{\mathrm{stack}}
+=
+\min\{
+\log_2 |\mathbb{F}_{\mathrm{ext}}|-\log_2(2N_{\mathrm{cols}}),
+\log_2 |\mathbb{F}_{\mathrm{ext}}|-\log_2(2(2^{\ell_{\mathrm{skip}}}-1)),
+\log_2 |\mathbb{F}_{\mathrm{ext}}|-1
+\}
+-\log_2 L_{\mathrm{PCS}}.
+\]
+
+\subsection{SWIRL WHIR bounds}
+
+SWIRL uses the OpenVM backend WHIR soundness calculation rather than the older
+generic WHIR routine.\footnote{See
+\texttt{soundcalc/circuits/swirl/calculator.py:\_calculate\_whir\_soundness()}.}
+Each folding sub-round combines the WHIR sumcheck error with the proximity-gap
+error by summing the two errors before converting to bits:
+\[
+\lambda_{\mathrm{fold}}
+= -\log_2(2^{-\lambda_{\mathrm{sumcheck}}}
+          +2^{-\lambda_{\mathrm{gap}}}).
+\]
+Each shift or final round similarly combines query sampling with in-domain
+\(\gamma\)-batching:
+\[
+\lambda_{\mathrm{shift}}
+= -\log_2(2^{-\lambda_{\mathrm{query}}}
+          +2^{-\lambda_{\gamma}}).
+\]
+The WHIR contribution is the minimum of \(\mu\)-batching, all folding
+round-by-round bounds, all shift/final bounds, and non-final OOD bounds.
+
+\subsection{SWIRL proof size}
+
+For OpenVM2, soundcalc estimates SWIRL proof size by counting the backend proof
+codec fields, not by applying the generic WHIR proof-size model alone.\footnote{See
+\texttt{soundcalc/circuits/swirl/proof\_size.py:get\_swirl\_proof\_size\_breakdown\_bits()}.}
+The total proof size is decomposed as
+\[
+\bproof =
+b_{\mathrm{pre}} + b_{\mathrm{GKR}} + b_{\mathrm{batch}}
++ b_{\mathrm{stack}} + b_{\mathrm{WHIR}}.
+\]
+The terms correspond to the top-level fields of
+\texttt{stark-backend/src/proof.rs}: the proof preamble, LogUp GKR proof,
+batch-constraint proof, stacking proof, and backend WHIR proof. Base-field
+elements are counted by their encoded byte length; for BabyBear this is
+\(32\) bits even though the field modulus has \(31\) bits.
+
+The OpenVM2 configuration uses proof-size bounds that assume all optional AIRs
+are present. If no explicit \texttt{proof\_size\_*} value is provided for a
+circuit, the proof-size calculator uses the matching \texttt{soundness\_*}
+bound where available.

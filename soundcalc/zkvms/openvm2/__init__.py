@@ -21,16 +21,17 @@ def load() -> zkVM:
 
     field = parse_field(config["zkevm"]["field"])
     hash_size_bits = config["zkevm"]["hash_size_bits"]
-    logup = SWIRLLogUpSecurityParameters(
-        max_interaction_count=config["swirl"]["logup_max_interaction_count"],
-        log_max_message_length=config["swirl"]["logup_log_max_message_length"],
-        pow_bits=config["swirl"]["logup_pow_bits"],
-    )
+    swirl_config = config["swirl"]
 
     circuits = []
     for section in config.get("circuits", []):
         explicit_regime = section["explicit_regime"]
         explicit_m = section.get("explicit_m") if explicit_regime == "list" else None
+        logup = SWIRLLogUpSecurityParameters(
+            max_interaction_count=swirl_config["logup_max_interaction_count"],
+            log_max_message_length=swirl_config["logup_log_max_message_length"],
+            pow_bits=section.get("logup_pow_bits", swirl_config["logup_pow_bits"]),
+        )
 
         params = build_swirl_system_params(
             l_skip=section["l_skip"],
@@ -43,6 +44,7 @@ def load() -> zkVM:
             explicit_m=explicit_m,
             num_queries=section["whir_num_queries"],
             logup=logup,
+            max_constraint_degree=section["constraint_degree"],
         )
         whir = WHIR(WHIRConfig(
             hash_size_bits=hash_size_bits,
@@ -74,6 +76,46 @@ def load() -> zkVM:
             max_log_trace_height=section["max_log_trace_height"],
             num_trace_columns=section["num_trace_columns"],
             max_interactions_per_air=section["max_interactions_per_air"],
+            soundness_max_num_constraints_per_air=section.get(
+                "soundness_max_constraints_per_air",
+                section["max_constraints_per_air"],
+            ),
+            soundness_num_airs=section.get("soundness_num_airs", section["num_airs"]),
+            soundness_max_log_trace_height=section.get(
+                "soundness_max_log_trace_height",
+                section["max_log_trace_height"],
+            ),
+            soundness_num_trace_columns=section.get(
+                "soundness_num_trace_columns",
+                section["num_trace_columns"],
+            ),
+            soundness_max_interactions_per_air=section.get(
+                "soundness_max_interactions_per_air",
+                section["max_interactions_per_air"],
+            ),
+            proof_size_num_airs=section.get(
+                "proof_size_num_airs",
+                section.get("soundness_num_airs", section["num_airs"]),
+            ),
+            proof_size_max_log_trace_height=section.get(
+                "proof_size_max_log_trace_height",
+                section.get(
+                    "soundness_max_log_trace_height",
+                    section["max_log_trace_height"],
+                ),
+            ),
+            proof_size_num_trace_columns=section.get(
+                "proof_size_num_trace_columns",
+                section.get("soundness_num_trace_columns", section["num_trace_columns"]),
+            ),
+            proof_size_max_interactions_per_air=section.get(
+                "proof_size_max_interactions_per_air",
+                section.get(
+                    "soundness_max_interactions_per_air",
+                    section["max_interactions_per_air"],
+                ),
+            ),
+            proof_size_num_public_values=section.get("proof_size_num_public_values", 0),
         )))
 
     return zkVM(config["zkevm"]["name"], circuits=circuits, version=config["zkevm"].get("version"))
