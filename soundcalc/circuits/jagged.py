@@ -83,15 +83,11 @@ class JaggedPCS(PCS):
         return jagged_sumcheck_size + jagged_evaluation_sumcheck_size
 
 
-    def get_proof_size_bits(self) -> int:
+    def _get_proof_size_bits(self, expected: bool) -> int:
         """
         Returns an estimate for the proof size, given in bits.
         """
-        return self.dense_pcs.get_proof_size_bits() + self._reduction_proof_size_bits()
-
-    def get_expected_proof_size_bits(self) -> int:
-        """Returns estimated *expected* proof size in bits."""
-        return self.dense_pcs.get_expected_proof_size_bits() + self._reduction_proof_size_bits()
+        return self.dense_pcs._get_proof_size_bits(expected) + self._reduction_proof_size_bits()
 
     def get_rate(self) -> float:
         return self.dense_pcs.get_rate()

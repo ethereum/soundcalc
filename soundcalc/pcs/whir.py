@@ -566,34 +566,6 @@ class WHIR(PCS):
 
         return list_size
 
-    def _get_batching_error(self, regime: ProximityGapsRegime) -> float:
-        """
-        Returns the error due to the batching step. This depends on whether batching is done
-        with powers or with random coefficients.
-
-        This follows https://github.com/WizardOfMenlo/stir-whir-scripts/blob/main/src/whir.rs#L144
-        """
-
-        (rate, dimension) = self._get_code_for_iteration_and_round(0, 0)
-
-        # Calculate Base Error
-        #
-        # The error depends on how we combine the polynomials.
-        if self.power_batching:
-            # Power Batching: sum c^i * f_i
-            # Error is typically proportional to (batch_size - 1) * list_size / |F|
-            epsilon = regime.get_error_powers(rate, dimension, self.batch_size)
-        else:
-            # Linear Batching: sum r_i * f_i (where r_i are independent)
-            # Error is typically list_size / |F| (independent of batch_size)
-            epsilon = regime.get_error_linear(rate, dimension)
-
-        # Apply Grinding
-        #
-        # Reducing error by expending computational work (2^-bits).
-        epsilon = apply_grinding(epsilon, self.grinding_batching_phase)
-        return epsilon
-
     def _epsilon_query(self, iteration: int, regime: ProximityGapsRegime) -> float:
         """
         Returns the query-only error (1-delta_i)^{t_i} for the given iteration,
@@ -852,14 +824,6 @@ class WHIR(PCS):
             proof_size += merkle_multi_proof_size
 
         return proof_size
-
-    def get_proof_size_bits(self) -> int:
-        """Returns estimated proof size in bits."""
-        return self._get_proof_size_bits(expected=False)
-
-    def get_expected_proof_size_bits(self) -> int:
-        """Returns estimated *expected* proof size in bits."""
-        return self._get_proof_size_bits(expected=True)
 
     def get_rate(self) -> float:
         return 2 ** (-self.log_inv_rates[0])

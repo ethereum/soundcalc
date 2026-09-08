@@ -20,10 +20,7 @@ class DummyPCS(PCS):
         # Not needed for this test.
         return {}
 
-    def get_proof_size_bits(self) -> int:
-        return 0
-
-    def get_expected_proof_size_bits(self) -> int:
+    def _get_proof_size_bits(self, expected: bool) -> int:
         return 0
 
     def get_rate(self) -> float:

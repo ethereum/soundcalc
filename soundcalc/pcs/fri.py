@@ -191,23 +191,6 @@ class FRI(PCS):
 
         return bits
 
-    def _get_batching_error(self, regime: ProximityGapsRegime) -> float:
-        """
-        Returns the error due to the batching step. This depends on whether batching is done
-        with powers or with random coefficients.
-        """
-        rate = self.rho
-        dimension = self.trace_length
-
-        if self.power_batching:
-            epsilon = regime.get_error_powers(rate, dimension, self.batch_size)
-        elif self.multilinear_batching:
-            epsilon = regime.get_error_multilinear(rate, dimension, self.batch_size)
-        else:
-            epsilon = regime.get_error_linear(rate, dimension)
-
-        return apply_grinding(epsilon, self.grinding_batching_phase)
-
     def _get_commit_phase_error(self, round: int, regime: ProximityGapsRegime) -> float:
         """
         Returns the error from a round of the commit phase.
@@ -259,7 +242,7 @@ class FRI(PCS):
         )
         return rounds
 
-    def get_proof_size_bits(self) -> int:
+    def _get_proof_size_bits(self, expected: bool) -> int:
         """
         Returns an estimate for the proof size, given in bits.
         """
@@ -274,23 +257,7 @@ class FRI(PCS):
             domain_size=int(self.D),
             folding_factors=self.FRI_folding_factors,
             rate=self.rho,
-            expected=False
-        )
-
-    def get_expected_proof_size_bits(self) -> int:
-        """Returns estimated *expected* proof size in bits."""
-        # XXX (BW): note that it is not clear that this is the
-        # proof size for every zkEVM we can think of
-        # XXX (BW): we should probably also add something for the OOD samples and plookup, lookup etc.
-        return get_FRI_proof_size_bits(
-            hash_size_bits=self.hash_size_bits,
-            field_size_bits=self.field.extension_field_element_size_bits(),
-            batch_size=self.batch_size,
-            num_queries=self.num_queries,
-            domain_size=int(self.D),
-            folding_factors=self.FRI_folding_factors,
-            rate=self.rho,
-            expected=True
+            expected=expected
         )
 
     def get_rate(self) -> float:

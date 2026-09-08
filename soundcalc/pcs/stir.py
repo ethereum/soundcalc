@@ -294,24 +294,6 @@ class STIR(PCS):
         """Returns ell_i such that C_i is (delta_i, ell_i)-list decodable."""
         return regime.get_max_list_size(*self._get_code(iteration, folded=False))
 
-    def _get_batching_error(self, regime: ProximityGapsRegime) -> float:
-        """
-        Error of batching `batch_size` functions into f_0 by a random linear combination.
-        Same as in WHIR (mutual correlated agreement on C_0).
-        """
-        (rate, dimension) = self._get_code(0, folded=False)
-
-        # Get the base error depending on the batching method
-        if self.power_batching:
-            # Power Batching: sum c^i * f_i
-            epsilon = regime.get_error_powers(rate, dimension, self.batch_size)
-        else:
-            # Linear Batching: random linear combination of f_i
-            epsilon = regime.get_error_linear(rate, dimension)
-
-        # Apply grinding to the batching error
-        return apply_grinding(epsilon, self.grinding_batching_phase)
-
     def _epsilon_fold(self, iteration: int, regime: ProximityGapsRegime) -> float:
         """
         Error of folding f_i by 2^{k_i} with a single random challenge r:
@@ -392,14 +374,6 @@ class STIR(PCS):
             num_ood_samples=self.num_ood_samples,
             expected=expected,
         )
-
-    def get_proof_size_bits(self) -> int:
-        """Returns estimated proof size in bits."""
-        return self._get_proof_size_bits(expected=False)
-
-    def get_expected_proof_size_bits(self) -> int:
-        """Returns estimated *expected* proof size in bits."""
-        return self._get_proof_size_bits(expected=True)
 
     def get_rate(self) -> float:
         return 2 ** (-self.log_inv_rates[0])
