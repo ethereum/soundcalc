@@ -114,3 +114,7 @@ Based on papers (links point to specific versions where possible):
 - [BCHKS25](https://eprint.iacr.org/2025/2055)
 - [eSTARK](https://eprint.iacr.org/archive/2023/474/20230331:165019)
 - [RISC0](https://dev.risczero.com/proof-system-in-detail.pdf)
+
+## License
+
+Licensed under the [Apache License, Version 2.0](LICENSE).
