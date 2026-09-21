@@ -21,6 +21,11 @@ SUMMARY_REPORT_NAME = "summary.md"
 # zkVMs excluded from the summary overview (test/dummy entries)
 _SUMMARY_EXCLUDE = {"DummyWHIR", "DummySTIR"}
 
+# Minimum requirements for a zkVM to appear in the summary overview
+# See https://blog.ethereum.org/2025/12/18/zkevm-security-foundations#three-milestones
+_SUMMARY_MIN_SECURITY_BITS = 100
+_SUMMARY_MAX_EXPECTED_PROOF_SIZE_KIB = 600
+
 
 @dataclass
 class zkVMSummary:
@@ -205,6 +210,26 @@ def _collect_zkvm_summary(zkvm: zkVM) -> zkVMSummary:
         final_proof_size_kib=final_proof_kib,
         final_expected_proof_size_kib=final_expected_proof_kib,
     )
+
+
+def _is_shown_in_summary(s: zkVMSummary) -> bool:
+    """
+    Decide whether a zkVM appears in the summary overview.
+
+    Hides test/dummy entries, zkVMs below the minimum security, and zkVMs
+    whose expected proof size is too large. zkVMs with an unknown (TODO)
+    proof size are kept.
+    """
+    if s.name in _SUMMARY_EXCLUDE:
+        return False
+    if s.security_bits < _SUMMARY_MIN_SECURITY_BITS:
+        return False
+    if (
+        s.final_expected_proof_size_kib is not None
+        and s.final_expected_proof_size_kib >= _SUMMARY_MAX_EXPECTED_PROOF_SIZE_KIB
+    ):
+        return False
+    return True
 
 
 def _get_parameter_lines(circuit: Circuit) -> list[str]:
@@ -417,6 +442,8 @@ def _build_summary_report(zkvms: list[zkVM]) -> str:
         "How to read this report:",
         "- Click on zkVM names to view detailed individual reports",
         "- Security shows the best bits of security across the reported regimes",
+        f"- Only zkVMs with at least {_SUMMARY_MIN_SECURITY_BITS} bits of security "
+        f"and an expected proof size below {_SUMMARY_MAX_EXPECTED_PROOF_SIZE_KIB} KiB are shown",
         "",
         "## Overview",
         "",
@@ -425,7 +452,7 @@ def _build_summary_report(zkvms: list[zkVM]) -> str:
     ]
 
     summaries = sorted(
-        [_collect_zkvm_summary(z) for z in zkvms if z.get_name() not in _SUMMARY_EXCLUDE],
+        filter(_is_shown_in_summary, (_collect_zkvm_summary(z) for z in zkvms)),
         key=lambda s: s.name.lower(),
     )
 
