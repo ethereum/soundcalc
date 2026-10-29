@@ -1,0 +1,110 @@
+[zkevm]
+name = "Ziren"
+field = "KoalaBear^4"
+version = "2.0"
+hash_size_bits = 248
+
+[[circuits]]
+protocol_family = "JAGGED"
+dense_pcs = "whir"
+name = "core"
+udr_only = true
+trace_length = 4194304
+trace_columns = 37665
+dense_length = 2097152
+log_degree = 21
+dense_batch = 544
+num_constraints = 25367
+air_max_degree = 3
+opening_points = 1
+power_batching = true
+log_inv_rate = 2
+num_iterations = 3
+folding_factors = [3, 6, 6]
+whir_log_inv_rates = [2, 5, 8, 11]
+constraint_degree = 3
+num_queries = [124, 88, 85]
+num_ood_samples = [2, 2]
+grinding_batching_phase = 14
+grinding_bits_folding = [[0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]
+grinding_bits_queries = [22, 22, 22]
+grinding_bits_ood = [0, 0]
+
+[[circuits.lookups]]
+name = "logup-gkr"
+logup_type = "multivariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 108
+num_lookups_M = 22591
+grinding_bits_lookup = 22
+multilinear_fingerprint = true
+
+[[circuits]]
+protocol_family = "JAGGED"
+dense_pcs = "whir"
+name = "compress"
+explicit_regime = "list"
+explicit_m = 6
+trace_length = 4194304
+trace_columns = 406
+dense_length = 2097152
+log_degree = 21
+dense_batch = 64
+num_constraints = 410
+air_max_degree = 3
+opening_points = 1
+power_batching = true
+log_inv_rate = 3
+num_iterations = 3
+folding_factors = [2, 6, 6]
+whir_log_inv_rates = [3, 6, 9, 12]
+constraint_degree = 3
+num_queries = [58, 28, 19]
+num_ood_samples = [2, 2]
+grinding_batching_phase = 27
+grinding_bits_folding = [[27, 27], [27, 27, 27, 27, 27, 27], [27, 27, 27, 27, 27, 27]]
+grinding_bits_queries = [26, 26, 26]
+grinding_bits_ood = [0, 0]
+
+[[circuits.lookups]]
+name = "logup-gkr"
+logup_type = "multivariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 71
+grinding_bits_lookup = 22
+multilinear_fingerprint = true
+
+[[circuits]]
+protocol_family = "JAGGED"
+name = "wrap"
+hash_size_bits = 254
+udr_only = true
+blowup_factor = 8
+rho = 0.125
+trace_length = 1048576
+trace_columns = 254
+dense_length = 2097152
+dense_batch = 24
+num_constraints = 262
+air_max_degree = 9
+opening_points = 1
+power_batching = false
+multilinear_batching = true
+num_queries = 94
+fri_folding_factors = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+fri_early_stop_degree = 8
+grinding_batching_phase = 24
+grinding_query_phase = 26
+
+[[circuits.lookups]]
+name = "logup-gkr"
+logup_type = "multivariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 66
+grinding_bits_lookup = 22
+multilinear_fingerprint = true

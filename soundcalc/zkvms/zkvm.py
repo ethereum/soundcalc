@@ -192,27 +192,59 @@ class zkVM:
     @classmethod
     def _build_jagged_circuit_from_section(cls, config: dict, section: dict) -> JaggedCircuit:
         field = cls._field(config, section)
-        # Jagged currently only supports the unique-decoding regime.
         explicit_regime = section.get("explicit_regime")
-        if explicit_regime is not None and explicit_regime != "unique":
+        explicit_m = section.get("explicit_m") if explicit_regime == "list" else None
+        # The dense PCS under the jagged reduction: FRI (Basefold) by default,
+        # WHIR when the config asks for it.
+        dense_pcs_kind = section.get("dense_pcs", "fri").lower()
+        if dense_pcs_kind == "fri":
+            dense_pcs = FRI(FRIConfig(
+                hash_size_bits=cls._hash_size_bits(config, section),
+                rho=section["rho"],
+                gap_to_radius=section.get("gap_to_radius"),
+                trace_length=section["dense_length"],
+                field=field,
+                batch_size=section["dense_batch"],
+                power_batching=section["power_batching"],
+                multilinear_batching=section.get("multilinear_batching", False),
+                num_queries=section["num_queries"],
+                FRI_folding_factors=section.get("fri_folding_factors"),
+                FRI_early_stop_degree=section.get("fri_early_stop_degree"),
+                grinding_batching_phase=section.get("grinding_batching_phase", 0),
+                grinding_query_phase=section.get("grinding_query_phase", 0),
+            ))
+        elif dense_pcs_kind == "whir":
+            # WHIR batches with one challenge (powers) or independent
+            # coefficients; it has no multilinear batching, so a config that
+            # asks for one would be modelled as something else.  Refuse it
+            # rather than let the key be read as accepted.
+            if section.get("multilinear_batching", False):
+                raise ValueError(
+                    f"circuit {section['name']!r}: multilinear_batching is not a WHIR "
+                    "batching law; set power_batching instead"
+                )
+            dense_pcs = WHIR(WHIRConfig(
+                hash_size_bits=cls._hash_size_bits(config, section),
+                log_inv_rate=section["log_inv_rate"],
+                log_inv_rates=section.get("whir_log_inv_rates"),
+                num_iterations=section["num_iterations"],
+                folding_factors=section["folding_factors"],
+                field=field,
+                log_degree=section["log_degree"],
+                batch_size=section["dense_batch"],
+                power_batching=section["power_batching"],
+                grinding_batching_phase=section.get("grinding_batching_phase", 0),
+                constraint_degree=section["constraint_degree"],
+                grinding_bits_folding=section["grinding_bits_folding"],
+                num_queries=section["num_queries"],
+                grinding_bits_queries=section["grinding_bits_queries"],
+                num_ood_samples=section["num_ood_samples"],
+                grinding_bits_ood=section["grinding_bits_ood"],
+            ))
+        else:
             raise ValueError(
-                f"Jagged only supports explicit_regime=\"unique\", got {explicit_regime!r}"
+                f"Unknown dense_pcs {dense_pcs_kind!r} for a JAGGED circuit (expected 'fri' or 'whir')"
             )
-        dense_pcs = FRI(FRIConfig(
-            hash_size_bits=cls._hash_size_bits(config, section),
-            rho=section["rho"],
-            gap_to_radius=section.get("gap_to_radius"),
-            trace_length=section["dense_length"],
-            field=field,
-            batch_size=section["dense_batch"],
-            power_batching=section["power_batching"],
-            multilinear_batching=section.get("multilinear_batching", False),
-            num_queries=section["num_queries"],
-            FRI_folding_factors=section.get("fri_folding_factors"),
-            FRI_early_stop_degree=section.get("fri_early_stop_degree"),
-            grinding_batching_phase=section.get("grinding_batching_phase", 0),
-            grinding_query_phase=section.get("grinding_query_phase", 0),
-        ))
         lookups = _parse_lookups_from_toml(section, field)
         return JaggedCircuit(JaggedCircuitConfig(
             name=section["name"],
@@ -223,6 +255,8 @@ class zkVM:
             num_constraints=section["num_constraints"],
             AIR_max_degree=section["air_max_degree"],
             lookups=lookups if lookups else None,
+            explicit_regime=explicit_regime,
+            explicit_m=explicit_m,
         ))
 
     @classmethod

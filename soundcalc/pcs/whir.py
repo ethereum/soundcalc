@@ -57,6 +57,7 @@ class WHIRConfig:
     # This parameter sets only the initial rate ρ.
     log_inv_rate: int
 
+
     # The total number of WHIR iterations, denoted by $M$ in the paper.
     #
     # This parameter dictates how many reduction steps are performed to reduce
@@ -298,6 +299,16 @@ class WHIRConfig:
     # agree on the sampled OOD point.
     grinding_bits_ood: list[int]
 
+    # OPTIONAL explicit per-round rate schedule $[\mu_0, ..., \mu_n]$, one entry
+    # per committed round plus the initial one.
+    #
+    # WHIR's own recurrence is $\mu_{i+1} = \mu_i + (k_i - 1)$: the domain is
+    # kept and the degree drops by $2^{k_i}$.  An implementation is free to
+    # commit each round at a different rate than that -- Ziren, for instance,
+    # re-commits at $\mu_{i+1} = 2 + 3(i+1)$ -- and the query phase must then be
+    # analysed at the rates the prover actually used.  Leave it unset for the
+    # standard recurrence.
+    log_inv_rates: list[int] | None = None
 
 class WHIR(PCS):
     """
@@ -371,6 +382,20 @@ class WHIR(PCS):
             self.log_degrees.append(self.log_degrees[-1] - k)
             self.log_inv_rates.append(self.log_inv_rates[-1] + (k - 1))
 
+        # An implementation may commit each round at its own rate instead of the
+        # recurrence above; the query phase is then analysed at those rates.
+        if config.log_inv_rates is not None:
+            assert len(config.log_inv_rates) == len(self.log_inv_rates), (
+                f"log_inv_rates must have {len(self.log_inv_rates)} entries "
+                f"(one per round plus the initial rate), got {len(config.log_inv_rates)}"
+            )
+            assert config.log_inv_rates[0] == config.log_inv_rate, (
+                "log_inv_rates[0] must equal log_inv_rate "
+                f"({config.log_inv_rates[0]} != {config.log_inv_rate})"
+            )
+            assert all(r > 0 for r in config.log_inv_rates), "every rate must be > 0"
+            self.log_inv_rates = list(config.log_inv_rates)
+
         # Domain validity check
 
         # Calculate the initial domain size in bits: |L| = 2^{m + log_inv_rate}
@@ -394,6 +419,23 @@ class WHIR(PCS):
             f"  - Folding Factor (k_0): {self.folding_factors[0]}\n"
             f"  - Required 2-adicity: {required_two_adicity} (Domain / 2^k_0)"
         )
+
+        # The same requirement holds at every later round: round i re-commits
+        # 2^{log_degrees[i]} coefficients at rate 2^{-log_inv_rates[i]} and
+        # folds by k_i, so its FFT domain is |L_i| / 2^{k_i}.  With the
+        # recurrence the initial check implies these; an explicit
+        # `log_inv_rates` schedule can raise a later rate past the field, so
+        # each round is checked on its own.  The final round has no fold: its
+        # polynomial is sent in the clear over the full domain |L_M|.
+        for i in range(1, self.num_iterations + 1):
+            k_i = self.folding_factors[i] if i < self.num_iterations else 0
+            required_two_adicity = self.log_degrees[i] + self.log_inv_rates[i] - k_i
+            assert required_two_adicity <= self.field.two_adicity, (
+                f"Field {self.field.name} 2-adicity ({self.field.two_adicity}) is too low at round {i}.\n"
+                f"  - Logical Domain Size: 2^{self.log_degrees[i] + self.log_inv_rates[i]}\n"
+                f"  - Folding Factor (k_{i}): {k_i}\n"
+                f"  - Required 2-adicity: {required_two_adicity} (Domain / 2^k_{i})"
+            )
 
         # Array length consistency checks
 
