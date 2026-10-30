@@ -1,87 +1,1696 @@
 [zkevm]
 name = "ZisK"
-version = "0.16.1"
+version = "1.4.0-alpha"
 field = "Goldilocks^3"
 hash_size_bits = 256
 
 [[circuits]]
+name = "Main"
 protocol_family = "FRI_STARK"
-name = "Dma"
 group = "basic"
-trace_length = 2097152
+trace_length = 4194304
 rho = 0.5
 air_max_degree = 3
-num_columns_fixed = 1
-num_columns_witness = 55
-num_columns = 56
-num_constraints = 49
+num_columns_fixed = 2
+num_columns_witness = 239
+num_columns = 241
+num_constraints = 713
 opening_points = 3
-batch_size = 46
+batch_size = 194
 power_batching = true
-num_queries = 229
-fri_folding_factors = [8, 8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005333333333333333
-proof_size = "1.62 MB"
+initial_tree_widths = [2, 152, 87, 6]
+num_evals = 194
+num_queries = 212
+fri_folding_factors = [32, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.004
+proof_size = "1.52 MB"
 
 [[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
+name = "Direct_gsum_[1000]"
 logup_type = "univariate"
-rows_L = 2097152
-rows_T = 2097152
-num_columns_S = 11
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[77]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 2
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[8001]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 7
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
+rows_L = 4194304
+rows_T = 4194304
 num_columns_S = 6
 num_lookups_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Permutation_gsum_[8000]"
+name = "Lookup_gsum_[5000]"
 logup_type = "univariate"
-rows_L = 2097152
+rows_L = 4194304
 rows_T = 0
 num_columns_S = 11
-num_lookups_M = 2
+num_lookups_M = 4
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[7890]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 11
+num_lookups_M = 4
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 6
+num_lookups_M = 168
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
 name = "Range Check_gsum_[102]"
 logup_type = "univariate"
-rows_L = 2097152
+rows_L = 4194304
 rows_T = 0
 num_columns_S = 1
-num_lookups_M = 1
+num_lookups_M = 168
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
 name = "Range Check_gsum_[103]"
 logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Rom"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 4194304
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 22
+num_columns = 23
+num_constraints = 9
+opening_points = 3
+batch_size = 21
+power_batching = true
+initial_tree_widths = [1, 1, 9, 6]
+num_evals = 21
+num_queries = 211
+fri_folding_factors = [32, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.26 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[7890]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 4
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Mem"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 4194304
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 81
+num_columns = 82
+num_constraints = 84
+opening_points = 3
+batch_size = 70
+power_batching = true
+initial_tree_widths = [1, 48, 33, 6]
+num_evals = 70
+num_queries = 211
+fri_folding_factors = [32, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.23 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[11]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 7
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[10]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 6
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 13
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[105]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 9
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "InputData"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 4194304
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 23
+num_columns = 24
+num_constraints = 30
+opening_points = 3
+batch_size = 25
+power_batching = true
+initial_tree_widths = [1, 9, 14, 6]
+num_evals = 25
+num_queries = 211
+fri_folding_factors = [32, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.14 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[11]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 7
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 6
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[102]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 8
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "RomData"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 4194304
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 16
+num_columns = 17
+num_constraints = 25
+opening_points = 3
+batch_size = 20
+power_batching = true
+initial_tree_widths = [1, 10, 6, 6]
+num_evals = 20
+num_queries = 211
+fri_folding_factors = [32, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.13 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[12]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 5
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[10]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 6
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[102]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "MemAlign"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 2097152
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 44
+num_columns = 45
+num_constraints = 46
+opening_points = 3
+batch_size = 63
+power_batching = true
+initial_tree_widths = [1, 32, 12, 6]
+num_evals = 63
+num_queries = 211
+fri_folding_factors = [16, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.07 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[133]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[88]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 4
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "MemAlignLarge"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 8388608
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 44
+num_columns = 45
+num_constraints = 46
+opening_points = 3
+batch_size = 63
+power_batching = true
+initial_tree_widths = [1, 32, 12, 6]
+num_evals = 63
+num_queries = 212
+fri_folding_factors = [16, 16, 16, 8, 8]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.003666666666666667
+proof_size = "1.20 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[133]"
+logup_type = "univariate"
+rows_L = 8388608
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[88]"
+logup_type = "univariate"
+rows_L = 8388608
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 4
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 8388608
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "MemAlignByte"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 4194304
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 28
+num_columns = 29
+num_constraints = 16
+opening_points = 3
+batch_size = 25
+power_batching = true
+initial_tree_widths = [1, 16, 12, 6]
+num_evals = 25
+num_queries = 211
+fri_folding_factors = [32, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.14 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[10]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 6
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[88]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 6
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[106]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "MemAlignReadByte"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 4194304
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 19
+num_columns = 20
+num_constraints = 10
+opening_points = 3
+batch_size = 18
+power_batching = true
+initial_tree_widths = [1, 10, 9, 6]
+num_evals = 18
+num_queries = 211
+fri_folding_factors = [32, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.13 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[10]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 6
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[88]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 6
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "MemAlignWriteByte"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 4194304
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 26
+num_columns = 27
+num_constraints = 15
+opening_points = 3
+batch_size = 23
+power_batching = true
+initial_tree_widths = [1, 14, 12, 6]
+num_evals = 23
+num_queries = 211
+fri_folding_factors = [32, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.14 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[10]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 6
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[88]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 6
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[106]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "MemAlignByteLarge"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 8388608
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 28
+num_columns = 29
+num_constraints = 16
+opening_points = 3
+batch_size = 25
+power_batching = true
+initial_tree_widths = [1, 16, 12, 6]
+num_evals = 25
+num_queries = 211
+fri_folding_factors = [16, 16, 16, 8, 8]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.16 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[10]"
+logup_type = "univariate"
+rows_L = 8388608
+rows_T = 8388608
+num_columns_S = 6
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[88]"
+logup_type = "univariate"
+rows_L = 8388608
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 8388608
+rows_T = 8388608
+num_columns_S = 6
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 8388608
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[106]"
+logup_type = "univariate"
+rows_L = 8388608
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "MemAlignReadByteLarge"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 8388608
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 19
+num_columns = 20
+num_constraints = 10
+opening_points = 3
+batch_size = 18
+power_batching = true
+initial_tree_widths = [1, 10, 9, 6]
+num_evals = 18
+num_queries = 211
+fri_folding_factors = [16, 16, 16, 8, 8]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.15 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[10]"
+logup_type = "univariate"
+rows_L = 8388608
+rows_T = 8388608
+num_columns_S = 6
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[88]"
+logup_type = "univariate"
+rows_L = 8388608
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 8388608
+rows_T = 8388608
+num_columns_S = 6
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 8388608
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Arith"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 2097152
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 91
+num_columns = 92
+num_constraints = 69
+opening_points = 3
+batch_size = 66
+power_batching = true
+initial_tree_widths = [1, 45, 46, 6]
+num_evals = 66
+num_queries = 211
+fri_folding_factors = [16, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.14 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[330]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 23
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[331]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 4
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 2097152
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Binary"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 4194304
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 54
+num_columns = 55
+num_constraints = 14
+opening_points = 3
+batch_size = 49
+power_batching = true
+initial_tree_widths = [1, 39, 15, 6]
+num_evals = 49
+num_queries = 211
+fri_folding_factors = [32, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.19 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[125]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 7
+num_lookups_M = 8
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "BinaryLarge"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 4194304
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 108
+num_columns = 109
+num_constraints = 26
+opening_points = 3
+batch_size = 93
+power_batching = true
+initial_tree_widths = [1, 78, 30, 6]
+num_evals = 93
+num_queries = 212
+fri_folding_factors = [32, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.003666666666666667
+proof_size = "1.28 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[125]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 7
+num_lookups_M = 16
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "BinaryHuge"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 4194304
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 213
+num_columns = 214
+num_constraints = 49
+opening_points = 3
+batch_size = 180
+power_batching = true
+initial_tree_widths = [1, 156, 57, 6]
+num_evals = 180
+num_queries = 212
+fri_folding_factors = [32, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.004
+proof_size = "1.45 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[125]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 7
+num_lookups_M = 32
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "BinaryAdd"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 4194304
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 20
+num_columns = 21
+num_constraints = 11
+opening_points = 3
+batch_size = 19
+power_batching = true
+initial_tree_widths = [1, 11, 9, 6]
+num_evals = 19
+num_queries = 211
+fri_folding_factors = [32, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.13 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 4
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "BinaryAddLarge"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 4194304
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 40
+num_columns = 41
+num_constraints = 20
+opening_points = 3
+batch_size = 33
+power_batching = true
+initial_tree_widths = [1, 22, 18, 6]
+num_evals = 33
+num_queries = 211
+fri_folding_factors = [32, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.16 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 8
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "BinaryAddHuge"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 4194304
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 77
+num_columns = 78
+num_constraints = 37
+opening_points = 3
+batch_size = 60
+power_batching = true
+initial_tree_widths = [1, 44, 33, 6]
+num_evals = 60
+num_queries = 211
+fri_folding_factors = [32, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.22 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 16
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "BinaryAddHi"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 4194304
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 24
+num_columns = 25
+num_constraints = 14
+opening_points = 3
+batch_size = 21
+power_batching = true
+initial_tree_widths = [1, 12, 12, 6]
+num_evals = 21
+num_queries = 211
+fri_folding_factors = [32, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.14 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 4
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "BinaryAddHiLarge"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 4194304
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 45
+num_columns = 46
+num_constraints = 25
+opening_points = 3
+batch_size = 36
+power_batching = true
+initial_tree_widths = [1, 24, 21, 6]
+num_evals = 36
+num_queries = 211
+fri_folding_factors = [32, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.17 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 8
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "BinaryAddHiHuge"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 4194304
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 87
+num_columns = 88
+num_constraints = 47
+opening_points = 3
+batch_size = 66
+power_batching = true
+initial_tree_widths = [1, 48, 39, 6]
+num_evals = 66
+num_queries = 211
+fri_folding_factors = [32, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.24 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 16
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "BinaryExtension"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 4194304
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 52
+num_columns = 53
+num_constraints = 30
+opening_points = 3
+batch_size = 45
+power_batching = true
+initial_tree_widths = [1, 34, 18, 6]
+num_evals = 45
+num_queries = 211
+fri_folding_factors = [32, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.18 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[124]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 8
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[102]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "BinaryExtensionLarge"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 4194304
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 104
+num_columns = 105
+num_constraints = 58
+opening_points = 3
+batch_size = 85
+power_batching = true
+initial_tree_widths = [1, 68, 36, 6]
+num_evals = 85
+num_queries = 212
+fri_folding_factors = [32, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.003666666666666667
+proof_size = "1.27 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[124]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 16
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[102]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Add256"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 1048576
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 98
+num_columns = 99
+num_constraints = 52
+opening_points = 3
+batch_size = 69
+power_batching = true
+initial_tree_widths = [1, 47, 51, 6]
+num_evals = 69
+num_queries = 211
+fri_folding_factors = [16, 16, 16, 8]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.07 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 16
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 16
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "ArithEq"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 1048576
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 2
+num_columns_witness = 84
+num_columns = 86
+num_constraints = 125
+opening_points = 31
+batch_size = 480
+power_batching = true
+initial_tree_widths = [2, 45, 39, 6]
+num_evals = 480
+num_queries = 212
+fri_folding_factors = [16, 16, 16, 8]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.003666666666666667
+proof_size = "1.06 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5002]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104, 105]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 3
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 7
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[107]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 6
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "ArithEqLarge"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 2097152
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 2
+num_columns_witness = 84
+num_columns = 86
+num_constraints = 125
+opening_points = 31
+batch_size = 480
+power_batching = true
+initial_tree_widths = [2, 45, 39, 6]
+num_evals = 480
+num_queries = 212
+fri_folding_factors = [16, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.004333333333333334
+proof_size = "1.15 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5002]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104, 105]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 3
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 7
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[107]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 6
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Arith256X"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 1048576
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 2
+num_columns_witness = 48
+num_columns = 50
+num_constraints = 64
+opening_points = 31
+batch_size = 266
+power_batching = true
+initial_tree_widths = [2, 19, 29, 6]
+num_evals = 266
+num_queries = 211
+fri_folding_factors = [16, 16, 16, 8]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1020.83 KB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5002]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104, 105]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 6
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[107]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Arith256XLarge"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 2097152
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 2
+num_columns_witness = 48
+num_columns = 50
+num_constraints = 64
+opening_points = 31
+batch_size = 266
+power_batching = true
+initial_tree_widths = [2, 19, 29, 6]
+num_evals = 266
+num_queries = 212
+fri_folding_factors = [16, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.004
+proof_size = "1.09 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5002]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104, 105]"
+logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
 num_columns_S = 1
@@ -94,29 +1703,1037 @@ logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
 num_columns_S = 1
+num_lookups_M = 6
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[107]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
 num_lookups_M = 2
 grinding_bits_lookup = 0
 
 [[circuits]]
+name = "ArithSecp256K1"
 protocol_family = "FRI_STARK"
-name = "DmaMemCpy"
+group = "basic"
+trace_length = 1048576
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 2
+num_columns_witness = 66
+num_columns = 68
+num_constraints = 65
+opening_points = 29
+batch_size = 280
+power_batching = true
+initial_tree_widths = [2, 27, 39, 6]
+num_evals = 280
+num_queries = 211
+fri_folding_factors = [16, 16, 16, 8]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.03 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5002]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104, 105]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 3
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 7
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[107]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 6
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "ArithSecp256K1Large"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 2097152
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 2
+num_columns_witness = 66
+num_columns = 68
+num_constraints = 65
+opening_points = 29
+batch_size = 280
+power_batching = true
+initial_tree_widths = [2, 27, 39, 6]
+num_evals = 280
+num_queries = 212
+fri_folding_factors = [16, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.004
+proof_size = "1.12 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5002]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104, 105]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 3
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 7
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[107]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 6
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "ArithBn254"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 1048576
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 2
+num_columns_witness = 72
+num_columns = 74
+num_constraints = 80
+opening_points = 29
+batch_size = 337
+power_batching = true
+initial_tree_widths = [2, 33, 39, 6]
+num_evals = 337
+num_queries = 212
+fri_folding_factors = [16, 16, 16, 8]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.003666666666666667
+proof_size = "1.04 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5002]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104, 105]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 3
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 7
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[107]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 6
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "ArithBn254Large"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 2097152
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 2
+num_columns_witness = 72
+num_columns = 74
+num_constraints = 80
+opening_points = 29
+batch_size = 337
+power_batching = true
+initial_tree_widths = [2, 33, 39, 6]
+num_evals = 337
+num_queries = 212
+fri_folding_factors = [16, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.004
+proof_size = "1.13 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5002]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104, 105]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 3
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 7
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[107]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 6
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "ArithEq384"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 1048576
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 2
+num_columns_witness = 74
+num_columns = 76
+num_constraints = 94
+opening_points = 47
+batch_size = 552
+power_batching = true
+initial_tree_widths = [2, 35, 39, 6]
+num_evals = 552
+num_queries = 212
+fri_folding_factors = [16, 16, 16, 8]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.004
+proof_size = "1.05 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5002]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104, 105]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 3
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 7
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[107]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 6
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "ArithEq384Large"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 2097152
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 2
+num_columns_witness = 74
+num_columns = 76
+num_constraints = 94
+opening_points = 47
+batch_size = 552
+power_batching = true
+initial_tree_widths = [2, 35, 39, 6]
+num_evals = 552
+num_queries = 212
+fri_folding_factors = [16, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.004333333333333334
+proof_size = "1.13 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5002]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104, 105]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 3
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 7
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[107]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 6
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "TwistedEdwards"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 262144
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 2
+num_columns_witness = 103
+num_columns = 105
+num_constraints = 70
+opening_points = 28
+batch_size = 414
+power_batching = true
+initial_tree_widths = [2, 41, 62, 6]
+num_evals = 414
+num_queries = 211
+fri_folding_factors = [16, 8, 8, 8]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "963.30 KB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 262144
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5002]"
+logup_type = "univariate"
+rows_L = 262144
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 262144
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104, 105]"
+logup_type = "univariate"
+rows_L = 262144
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 7
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 262144
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 11
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[107]"
+logup_type = "univariate"
+rows_L = 262144
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 14
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Keccakf"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 2097152
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 3
+num_columns_witness = 609
+num_columns = 612
+num_constraints = 459
+opening_points = 140
+batch_size = 3628
+power_batching = true
+initial_tree_widths = [3, 467, 142, 6]
+num_evals = 3628
+num_queries = 214
+fri_folding_factors = [16, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.006333333333333333
+proof_size = "2.09 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[126]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 64
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[127]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 5
+num_lookups_M = 16
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 5
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Sha256f"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 524288
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 2
+num_columns_witness = 116
+num_columns = 118
+num_constraints = 113
+opening_points = 87
+batch_size = 1261
+power_batching = true
+initial_tree_widths = [2, 102, 14, 6]
+num_evals = 1261
+num_queries = 212
+fri_folding_factors = [16, 16, 8, 8]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.004
+proof_size = "1.06 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 524288
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 524288
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[108]"
+logup_type = "univariate"
+rows_L = 524288
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Poseidon"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 131072
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 2
+num_columns_witness = 386
+num_columns = 388
+num_constraints = 431
+opening_points = 17
+batch_size = 534
+power_batching = true
+initial_tree_widths = [2, 84, 302, 6]
+num_evals = 534
+num_queries = 211
+fri_folding_factors = [16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.36 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 131072
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 131072
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 4
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 131072
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 64
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Poseidon2KoalaBear"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 1048576
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 2
+num_columns_witness = 493
+num_columns = 495
+num_constraints = 218
+opening_points = 33
+batch_size = 420
+power_batching = true
+initial_tree_widths = [2, 195, 298, 6]
+num_evals = 420
+num_queries = 212
+fri_folding_factors = [16, 16, 16, 8]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.003666666666666667
+proof_size = "1.72 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 192
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Blake2br"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 1048576
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 3
+num_columns_witness = 260
+num_columns = 263
+num_constraints = 104
+opening_points = 10
+batch_size = 264
+power_batching = true
+initial_tree_widths = [3, 122, 138, 6]
+num_evals = 264
+num_queries = 211
+fri_folding_factors = [16, 16, 16, 8]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.34 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[129]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 5
+num_lookups_M = 32
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[88]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 6
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[128]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 1048576
+num_columns_S = 3
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[132]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 1048576
+num_columns_S = 4
+num_lookups_M = 6
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[100]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 16
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Blake3f"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 1048576
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 2
+num_columns_witness = 215
+num_columns = 217
+num_constraints = 65
+opening_points = 62
+batch_size = 572
+power_batching = true
+initial_tree_widths = [2, 114, 101, 6]
+num_evals = 572
+num_queries = 212
+fri_folding_factors = [16, 16, 16, 8]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.004
+proof_size = "1.28 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[129]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 5
+num_lookups_M = 32
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[130]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 1048576
+num_columns_S = 2
+num_lookups_M = 4
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 16
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[106]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Blake2s"
+protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 1048576
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 2
+num_columns_witness = 109
+num_columns = 111
+num_constraints = 33
+opening_points = 86
+batch_size = 365
+power_batching = true
+initial_tree_widths = [2, 57, 52, 6]
+num_evals = 365
+num_queries = 212
+fri_folding_factors = [16, 16, 16, 8]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.003666666666666667
+proof_size = "1.10 MB"
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[129]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 5
+num_lookups_M = 16
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[131]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 1048576
+num_columns_S = 2
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 1048576
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 8
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[106]"
+logup_type = "univariate"
+rows_L = 1048576
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Dma"
+protocol_family = "FRI_STARK"
 group = "basic"
 trace_length = 2097152
 rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 1
-num_columns_witness = 40
-num_columns = 41
-num_constraints = 22
+num_columns_witness = 57
+num_columns = 58
+num_constraints = 54
 opening_points = 3
-batch_size = 33
+batch_size = 48
 power_batching = true
-num_queries = 229
-fri_folding_factors = [8, 8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005
-proof_size = "1.60 MB"
+initial_tree_widths = [1, 36, 21, 6]
+num_evals = 48
+num_queries = 211
+fri_folding_factors = [16, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.09 MB"
 
 [[circuits.lookups]]
 name = "Lookup_gsum_[5000]"
@@ -179,81 +2796,6 @@ rows_L = 2097152
 rows_T = 0
 num_columns_S = 1
 num_lookups_M = 2
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "DmaInputCpy"
-group = "basic"
-trace_length = 2097152
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 1
-num_columns_witness = 34
-num_columns = 35
-num_constraints = 20
-opening_points = 3
-batch_size = 27
-power_batching = true
-num_queries = 229
-fri_folding_factors = [8, 8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.004666666666666667
-proof_size = "1.59 MB"
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 2097152
-num_columns_S = 11
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[8001]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 7
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 6
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[8000]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 11
-num_lookups_M = 2
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[102]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[104]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
@@ -262,12 +2804,12 @@ logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
 num_columns_S = 1
-num_lookups_M = 1
+num_lookups_M = 2
 grinding_bits_lookup = 0
 
 [[circuits]]
-protocol_family = "FRI_STARK"
 name = "Dma64Aligned"
+protocol_family = "FRI_STARK"
 group = "basic"
 trace_length = 2097152
 rho = 0.5
@@ -275,16 +2817,18 @@ air_max_degree = 3
 num_columns_fixed = 1
 num_columns_witness = 71
 num_columns = 72
-num_constraints = 88
+num_constraints = 102
 opening_points = 3
 batch_size = 62
 power_batching = true
-num_queries = 230
-fri_folding_factors = [8, 8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005666666666666667
-proof_size = "1.66 MB"
+initial_tree_widths = [1, 35, 36, 6]
+num_evals = 62
+num_queries = 211
+fri_folding_factors = [16, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.11 MB"
 
 [[circuits.lookups]]
 name = "Direct_gsum_[5000]"
@@ -341,7 +2885,7 @@ num_lookups_M = 8
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[103]"
+name = "Range Check_gsum_[104]"
 logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
@@ -350,30 +2894,32 @@ num_lookups_M = 2
 grinding_bits_lookup = 0
 
 [[circuits]]
+name = "Dma64AlignedLarge"
 protocol_family = "FRI_STARK"
-name = "Dma64AlignedInputCpy"
 group = "basic"
-trace_length = 2097152
+trace_length = 8388608
 rho = 0.5
 air_max_degree = 3
 num_columns_fixed = 1
-num_columns_witness = 52
-num_columns = 53
-num_constraints = 52
+num_columns_witness = 71
+num_columns = 72
+num_constraints = 102
 opening_points = 3
-batch_size = 44
+batch_size = 62
 power_batching = true
-num_queries = 229
-fri_folding_factors = [8, 8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005333333333333333
-proof_size = "1.62 MB"
+initial_tree_widths = [1, 35, 36, 6]
+num_evals = 62
+num_queries = 212
+fri_folding_factors = [16, 16, 16, 8, 8]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.003666666666666667
+proof_size = "1.24 MB"
 
 [[circuits.lookups]]
 name = "Direct_gsum_[5000]"
 logup_type = "univariate"
-rows_L = 2097152
+rows_L = 8388608
 rows_T = 0
 num_columns_S = 11
 num_lookups_M = 1
@@ -382,8 +2928,8 @@ grinding_bits_lookup = 0
 [[circuits.lookups]]
 name = "Direct_gsum_[8200]"
 logup_type = "univariate"
-rows_L = 2097152
-rows_T = 2097152
+rows_L = 8388608
+rows_T = 8388608
 num_columns_S = 10
 num_lookups_M = 1
 grinding_bits_lookup = 0
@@ -392,7 +2938,7 @@ grinding_bits_lookup = 0
 name = "Lookup_gsum_[5000]"
 logup_type = "univariate"
 rows_L = 0
-rows_T = 2097152
+rows_T = 8388608
 num_columns_S = 11
 num_lookups_M = 1
 grinding_bits_lookup = 0
@@ -400,7 +2946,7 @@ grinding_bits_lookup = 0
 [[circuits.lookups]]
 name = "Lookup_gsum_[88]"
 logup_type = "univariate"
-rows_L = 2097152
+rows_L = 8388608
 rows_T = 0
 num_columns_S = 2
 num_lookups_M = 4
@@ -409,33 +2955,33 @@ grinding_bits_lookup = 0
 [[circuits.lookups]]
 name = "Permutation_gsum_[10]"
 logup_type = "univariate"
-rows_L = 2097152
+rows_L = 8388608
 rows_T = 0
 num_columns_S = 6
-num_lookups_M = 4
+num_lookups_M = 9
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
 name = "Range Check_gsum_[102]"
 logup_type = "univariate"
-rows_L = 2097152
+rows_L = 8388608
 rows_T = 0
 num_columns_S = 1
 num_lookups_M = 8
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[103]"
+name = "Range Check_gsum_[104]"
 logup_type = "univariate"
-rows_L = 2097152
+rows_L = 8388608
 rows_T = 0
 num_columns_S = 1
 num_lookups_M = 2
 grinding_bits_lookup = 0
 
 [[circuits]]
-protocol_family = "FRI_STARK"
 name = "Dma64AlignedMemSet"
+protocol_family = "FRI_STARK"
 group = "basic"
 trace_length = 2097152
 rho = 0.5
@@ -443,16 +2989,18 @@ air_max_degree = 3
 num_columns_fixed = 1
 num_columns_witness = 29
 num_columns = 30
-num_constraints = 62
+num_constraints = 71
 opening_points = 3
 batch_size = 30
 power_batching = true
-num_queries = 229
-fri_folding_factors = [8, 8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005
-proof_size = "1.58 MB"
+initial_tree_widths = [1, 14, 15, 6]
+num_evals = 30
+num_queries = 211
+fri_folding_factors = [16, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.04 MB"
 
 [[circuits.lookups]]
 name = "Direct_gsum_[5000]"
@@ -491,7 +3039,7 @@ num_lookups_M = 8
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[103]"
+name = "Range Check_gsum_[104]"
 logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
@@ -500,8 +3048,8 @@ num_lookups_M = 2
 grinding_bits_lookup = 0
 
 [[circuits]]
-protocol_family = "FRI_STARK"
 name = "Dma64AlignedMem"
+protocol_family = "FRI_STARK"
 group = "basic"
 trace_length = 2097152
 rho = 0.5
@@ -509,16 +3057,18 @@ air_max_degree = 3
 num_columns_fixed = 1
 num_columns_witness = 44
 num_columns = 45
-num_constraints = 81
+num_constraints = 91
 opening_points = 3
 batch_size = 46
 power_batching = true
-num_queries = 229
-fri_folding_factors = [8, 8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005333333333333333
-proof_size = "1.61 MB"
+initial_tree_widths = [1, 26, 18, 6]
+num_evals = 46
+num_queries = 211
+fri_folding_factors = [16, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.07 MB"
 
 [[circuits.lookups]]
 name = "Direct_gsum_[5000]"
@@ -557,7 +3107,7 @@ num_lookups_M = 9
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[103]"
+name = "Range Check_gsum_[104]"
 logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
@@ -566,8 +3116,76 @@ num_lookups_M = 2
 grinding_bits_lookup = 0
 
 [[circuits]]
+name = "Dma64AlignedMemLarge"
 protocol_family = "FRI_STARK"
+group = "basic"
+trace_length = 4194304
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 1
+num_columns_witness = 44
+num_columns = 45
+num_constraints = 91
+opening_points = 3
+batch_size = 46
+power_batching = true
+initial_tree_widths = [1, 26, 18, 6]
+num_evals = 46
+num_queries = 211
+fri_folding_factors = [32, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.17 MB"
+
+[[circuits.lookups]]
+name = "Direct_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Direct_gsum_[8200]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 4194304
+num_columns_S = 10
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 4194304
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Permutation_gsum_[10]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 9
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Range Check_gsum_[104]"
+logup_type = "univariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 1
+num_lookups_M = 2
+grinding_bits_lookup = 0
+
+[[circuits]]
 name = "Dma64AlignedMemCpy"
+protocol_family = "FRI_STARK"
 group = "basic"
 trace_length = 2097152
 rho = 0.5
@@ -575,16 +3193,18 @@ air_max_degree = 3
 num_columns_fixed = 1
 num_columns_witness = 61
 num_columns = 62
-num_constraints = 69
+num_constraints = 87
 opening_points = 3
 batch_size = 52
 power_batching = true
-num_queries = 229
-fri_folding_factors = [8, 8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005333333333333333
-proof_size = "1.64 MB"
+initial_tree_widths = [1, 31, 30, 6]
+num_evals = 52
+num_queries = 211
+fri_folding_factors = [16, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.10 MB"
 
 [[circuits.lookups]]
 name = "Direct_gsum_[5000]"
@@ -623,7 +3243,7 @@ num_lookups_M = 17
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[103]"
+name = "Range Check_gsum_[104]"
 logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
@@ -632,8 +3252,8 @@ num_lookups_M = 2
 grinding_bits_lookup = 0
 
 [[circuits]]
-protocol_family = "FRI_STARK"
 name = "DmaUnaligned"
+protocol_family = "FRI_STARK"
 group = "basic"
 trace_length = 2097152
 rho = 0.5
@@ -641,16 +3261,18 @@ air_max_degree = 3
 num_columns_fixed = 1
 num_columns_witness = 36
 num_columns = 37
-num_constraints = 75
+num_constraints = 76
 opening_points = 3
 batch_size = 52
 power_batching = true
-num_queries = 229
-fri_folding_factors = [8, 8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005333333333333333
-proof_size = "1.59 MB"
+initial_tree_widths = [1, 24, 12, 6]
+num_evals = 52
+num_queries = 211
+fri_folding_factors = [16, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.06 MB"
 
 [[circuits.lookups]]
 name = "Direct_gsum_[5000]"
@@ -667,6 +3289,15 @@ logup_type = "univariate"
 rows_L = 2097152
 rows_T = 2097152
 num_columns_S = 18
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[10]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 6
 num_lookups_M = 1
 grinding_bits_lookup = 0
 
@@ -692,13 +3323,13 @@ grinding_bits_lookup = 0
 name = "Permutation_gsum_[10]"
 logup_type = "univariate"
 rows_L = 2097152
-rows_T = 2097152
+rows_T = 0
 num_columns_S = 6
 num_lookups_M = 2
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[103]"
+name = "Range Check_gsum_[104]"
 logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
@@ -707,8 +3338,8 @@ num_lookups_M = 2
 grinding_bits_lookup = 0
 
 [[circuits]]
-protocol_family = "FRI_STARK"
 name = "DmaPrePost"
+protocol_family = "FRI_STARK"
 group = "basic"
 trace_length = 2097152
 rho = 0.5
@@ -716,16 +3347,18 @@ air_max_degree = 3
 num_columns_fixed = 1
 num_columns_witness = 98
 num_columns = 99
-num_constraints = 69
+num_constraints = 85
 opening_points = 3
 batch_size = 83
 power_batching = true
-num_queries = 230
-fri_folding_factors = [8, 8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005999999999999999
-proof_size = "1.71 MB"
+initial_tree_widths = [1, 66, 32, 6]
+num_evals = 83
+num_queries = 211
+fri_folding_factors = [16, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.16 MB"
 
 [[circuits.lookups]]
 name = "Lookup_gsum_[8002]"
@@ -773,42 +3406,62 @@ num_lookups_M = 1
 grinding_bits_lookup = 0
 
 [[circuits]]
+name = "JumpDest"
 protocol_family = "FRI_STARK"
-name = "DmaPrePostMemCpy"
 group = "basic"
 trace_length = 2097152
 rho = 0.5
 air_max_degree = 3
-num_columns_fixed = 1
-num_columns_witness = 85
-num_columns = 86
-num_constraints = 38
-opening_points = 3
-batch_size = 70
+num_columns_fixed = 2
+num_columns_witness = 60
+num_columns = 62
+num_constraints = 67
+opening_points = 5
+batch_size = 64
 power_batching = true
-num_queries = 230
-fri_folding_factors = [8, 8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005666666666666667
-proof_size = "1.69 MB"
+initial_tree_widths = [2, 32, 28, 6]
+num_evals = 64
+num_queries = 211
+fri_folding_factors = [16, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.10 MB"
 
 [[circuits.lookups]]
-name = "Lookup_gsum_[8002]"
+name = "Direct_gsum_[8100]"
 logup_type = "univariate"
 rows_L = 2097152
-rows_T = 0
-num_columns_S = 6
+rows_T = 2097152
+num_columns_S = 8
 num_lookups_M = 1
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Lookup_gsum_[88]"
+name = "Lookup_gsum_[5000]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 11
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[8101]"
 logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
 num_columns_S = 2
-num_lookups_M = 12
+num_lookups_M = 8
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[8102]"
+logup_type = "univariate"
+rows_L = 2097152
+rows_T = 0
+num_columns_S = 4
+num_lookups_M = 2
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
@@ -818,1348 +3471,57 @@ rows_L = 2097152
 rows_T = 0
 num_columns_S = 6
 num_lookups_M = 4
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[8000]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 2097152
-num_columns_S = 11
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "DmaPrePostInputCpy"
-group = "basic"
-trace_length = 2097152
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 1
-num_columns_witness = 53
-num_columns = 54
-num_constraints = 20
-opening_points = 3
-batch_size = 44
-power_batching = true
-num_queries = 229
-fri_folding_factors = [8, 8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005333333333333333
-proof_size = "1.62 MB"
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[8002]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 6
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[88]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 2
-num_lookups_M = 8
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 6
-num_lookups_M = 2
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[8000]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 2097152
-num_columns_S = 11
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "Main"
-group = "basic"
-trace_length = 4194304
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 3
-num_columns_witness = 62
-num_columns = 65
-num_constraints = 144
-opening_points = 3
-batch_size = 61
-power_batching = true
-num_queries = 230
-fri_folding_factors = [8, 8, 8, 8, 8, 8]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.006333333333333333
-proof_size = "1.80 MB"
-
-[[circuits.lookups]]
-name = "Direct_gsum_[1000]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 4194304
-num_columns_S = 5
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 11
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[7890]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 11
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 4194304
-num_columns_S = 6
-num_lookups_M = 34
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[102]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 34
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[106]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "Rom"
-group = "basic"
-trace_length = 4194304
-rho = 0.5
-air_max_degree = 2
-num_columns_fixed = 1
-num_columns_witness = 18
-num_columns = 19
-num_constraints = 3
-opening_points = 3
-batch_size = 18
-power_batching = true
-num_queries = 221
-fri_folding_factors = [8, 8, 8, 8, 8, 8]
-fri_early_stop_degree = 32
-grinding_query_phase = 20
-gap_to_radius = 0.005
-proof_size = "1.84 MB"
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[7890]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 4194304
-num_columns_S = 11
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "Mem"
-group = "basic"
-trace_length = 4194304
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 2
-num_columns_witness = 22
-num_columns = 24
-num_constraints = 34
-opening_points = 3
-batch_size = 29
-power_batching = true
-num_queries = 230
-fri_folding_factors = [8, 8, 8, 8, 8, 8]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005666666666666667
-proof_size = "1.72 MB"
-
-[[circuits.lookups]]
-name = "Direct_gsum_[11]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 4194304
-num_columns_S = 6
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 4194304
-num_columns_S = 6
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[102]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[103]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 5
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
 name = "Range Check_gsum_[104]"
 logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "RomData"
-group = "basic"
-trace_length = 2097152
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 2
-num_columns_witness = 15
-num_columns = 17
-num_constraints = 23
-opening_points = 3
-batch_size = 19
-power_batching = true
-num_queries = 229
-fri_folding_factors = [8, 8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.004333333333333333
-proof_size = "1.56 MB"
-
-[[circuits.lookups]]
-name = "Direct_gsum_[11]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 2097152
-num_columns_S = 6
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 2097152
-num_columns_S = 6
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[102]"
-logup_type = "univariate"
 rows_L = 2097152
 rows_T = 0
 num_columns_S = 1
-num_lookups_M = 3
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "InputData"
-group = "basic"
-trace_length = 2097152
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 2
-num_columns_witness = 23
-num_columns = 25
-num_constraints = 30
-opening_points = 3
-batch_size = 27
-power_batching = true
-num_queries = 229
-fri_folding_factors = [8, 8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.004666666666666667
-proof_size = "1.57 MB"
-
-[[circuits.lookups]]
-name = "Direct_gsum_[11]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 2097152
-num_columns_S = 6
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 2097152
-num_columns_S = 6
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[102]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[103]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 8
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "MemAlign"
-group = "basic"
-trace_length = 2097152
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 2
-num_columns_witness = 47
-num_columns = 49
-num_constraints = 40
-opening_points = 3
-batch_size = 59
-power_batching = true
-num_queries = 230
-fri_folding_factors = [8, 8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005666666666666667
-proof_size = "1.62 MB"
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[133]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 6
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 6
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[107]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 8
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "MemAlignByte"
-group = "basic"
-trace_length = 4194304
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 1
-num_columns_witness = 28
-num_columns = 29
-num_constraints = 16
-opening_points = 3
-batch_size = 25
-power_batching = true
-num_queries = 229
-fri_folding_factors = [8, 8, 8, 8, 8, 8]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005333333333333333
-proof_size = "1.72 MB"
-
-[[circuits.lookups]]
-name = "Direct_gsum_[10]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 4194304
-num_columns_S = 6
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[88]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 2
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 4194304
-num_columns_S = 6
 num_lookups_M = 2
 grinding_bits_lookup = 0
 
 [[circuits.lookups]]
-name = "Range Check_gsum_[103]"
+name = "Range Check_gsum_[106]"
 logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[107]"
-logup_type = "univariate"
-rows_L = 4194304
+rows_L = 2097152
 rows_T = 0
 num_columns_S = 1
 num_lookups_M = 1
 grinding_bits_lookup = 0
 
 [[circuits]]
+name = "VirtualTableZisk0"
 protocol_family = "FRI_STARK"
-name = "MemAlignReadByte"
-group = "basic"
-trace_length = 4194304
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 1
-num_columns_witness = 19
-num_columns = 20
-num_constraints = 10
-opening_points = 3
-batch_size = 18
-power_batching = true
-num_queries = 229
-fri_folding_factors = [8, 8, 8, 8, 8, 8]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005
-proof_size = "1.71 MB"
-
-[[circuits.lookups]]
-name = "Direct_gsum_[10]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 4194304
-num_columns_S = 6
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[88]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 2
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 4194304
-num_columns_S = 6
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[103]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "MemAlignWriteByte"
-group = "basic"
-trace_length = 4194304
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 1
-num_columns_witness = 26
-num_columns = 27
-num_constraints = 15
-opening_points = 3
-batch_size = 23
-power_batching = true
-num_queries = 229
-fri_folding_factors = [8, 8, 8, 8, 8, 8]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005333333333333333
-proof_size = "1.72 MB"
-
-[[circuits.lookups]]
-name = "Direct_gsum_[10]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 4194304
-num_columns_S = 6
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[88]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 2
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 4194304
-num_columns_S = 6
-num_lookups_M = 2
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[103]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[107]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "Arith"
 group = "basic"
 trace_length = 2097152
 rho = 0.5
 air_max_degree = 3
-num_columns_fixed = 1
-num_columns_witness = 89
-num_columns = 90
-num_constraints = 65
-opening_points = 3
-batch_size = 64
-power_batching = true
-num_queries = 230
-fri_folding_factors = [8, 8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005666666666666667
-proof_size = "1.69 MB"
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[330]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 2
-num_lookups_M = 23
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[331]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 0
-num_columns_S = 4
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 2097152
-rows_T = 2097152
-num_columns_S = 11
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "Binary"
-group = "basic"
-trace_length = 4194304
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 1
-num_columns_witness = 54
-num_columns = 55
-num_constraints = 14
-opening_points = 3
-batch_size = 49
-power_batching = true
-num_queries = 230
-fri_folding_factors = [8, 8, 8, 8, 8, 8]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005999999999999999
-proof_size = "1.78 MB"
-
-[[circuits.lookups]]
-name = "Direct_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 11
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[125]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 7
-num_lookups_M = 8
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 4194304
-num_columns_S = 11
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "BinaryAdd"
-group = "basic"
-trace_length = 4194304
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 1
-num_columns_witness = 19
-num_columns = 20
-num_constraints = 9
-opening_points = 3
-batch_size = 18
-power_batching = true
-num_queries = 229
-fri_folding_factors = [8, 8, 8, 8, 8, 8]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005
-proof_size = "1.71 MB"
-
-[[circuits.lookups]]
-name = "Direct_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 11
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 4194304
-num_columns_S = 11
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[103]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 4
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "BinaryExtension"
-group = "basic"
-trace_length = 4194304
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 1
-num_columns_witness = 47
-num_columns = 48
+num_columns_fixed = 55
+num_columns_witness = 33
+num_columns = 88
 num_constraints = 8
 opening_points = 3
-batch_size = 40
+batch_size = 78
 power_batching = true
-num_queries = 230
-fri_folding_factors = [8, 8, 8, 8, 8, 8]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005999999999999999
-proof_size = "1.77 MB"
-
-[[circuits.lookups]]
-name = "Direct_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 11
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[124]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 7
-num_lookups_M = 8
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 4194304
-num_columns_S = 11
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[102]"
-logup_type = "univariate"
-rows_L = 4194304
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "Add256"
-group = "basic"
-trace_length = 1048576
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 1
-num_columns_witness = 98
-num_columns = 99
-num_constraints = 36
-opening_points = 3
-batch_size = 69
-power_batching = true
-num_queries = 229
-fri_folding_factors = [8, 8, 8, 8, 8]
+initial_tree_widths = [55, 12, 21, 6]
+num_evals = 78
+num_queries = 211
+fri_folding_factors = [16, 16, 16, 16]
 fri_early_stop_degree = 64
-grinding_query_phase = 16
-gap_to_radius = 0.005
-proof_size = "1.60 MB"
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.14 MB"
 
 [[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 1048576
-num_columns_S = 11
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 1048576
-rows_T = 0
-num_columns_S = 6
-num_lookups_M = 16
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[103]"
-logup_type = "univariate"
-rows_L = 1048576
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 16
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "ArithEq"
-group = "basic"
-trace_length = 1048576
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 2
-num_columns_witness = 83
-num_columns = 85
-num_constraints = 103
-opening_points = 36
-batch_size = 470
-power_batching = true
-num_queries = 231
-fri_folding_factors = [8, 8, 8, 8, 8]
-fri_early_stop_degree = 64
-grinding_query_phase = 16
-gap_to_radius = 0.007333333333333333
-proof_size = "1.59 MB"
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 1048576
-num_columns_S = 11
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[5002]"
-logup_type = "univariate"
-rows_L = 1048576
-rows_T = 0
-num_columns_S = 2
-num_lookups_M = 2
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 1048576
-rows_T = 0
-num_columns_S = 6
-num_lookups_M = 2
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[103, 104]"
-logup_type = "univariate"
-rows_L = 1048576
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 3
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[103]"
-logup_type = "univariate"
-rows_L = 1048576
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 7
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[108]"
-logup_type = "univariate"
-rows_L = 1048576
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 6
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "ArithEq384"
-group = "basic"
-trace_length = 1048576
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 2
-num_columns_witness = 73
-num_columns = 75
-num_constraints = 76
-opening_points = 54
-batch_size = 536
-power_batching = true
-num_queries = 232
-fri_folding_factors = [8, 8, 8, 8, 8]
-fri_early_stop_degree = 64
-grinding_query_phase = 16
-gap_to_radius = 0.007666666666666666
-proof_size = "1.58 MB"
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 1048576
-num_columns_S = 11
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[5002]"
-logup_type = "univariate"
-rows_L = 1048576
-rows_T = 0
-num_columns_S = 2
-num_lookups_M = 2
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 1048576
-rows_T = 0
-num_columns_S = 6
-num_lookups_M = 2
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[103, 104]"
-logup_type = "univariate"
-rows_L = 1048576
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 3
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[103]"
-logup_type = "univariate"
-rows_L = 1048576
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 7
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[108]"
-logup_type = "univariate"
-rows_L = 1048576
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 6
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "Keccakf"
-group = "basic"
-trace_length = 131072
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 2
-num_columns_witness = 3016
-num_columns = 3018
-num_constraints = 2432
-opening_points = 26
-batch_size = 4065
-power_batching = true
-num_queries = 217
-fri_folding_factors = [8, 8, 8, 8]
-fri_early_stop_degree = 64
-grinding_query_phase = 23
-gap_to_radius = 0.007333333333333333
-proof_size = "6.25 MB"
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[126]"
-logup_type = "univariate"
-rows_L = 131072
-rows_T = 0
-num_columns_S = 4
-num_lookups_M = 534
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 131072
-num_columns_S = 11
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 131072
-rows_T = 0
-num_columns_S = 6
-num_lookups_M = 25
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "Sha256f"
-group = "basic"
-trace_length = 262144
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 2
-num_columns_witness = 115
-num_columns = 117
-num_constraints = 115
-opening_points = 87
-batch_size = 1265
-power_batching = true
-num_queries = 231
-fri_folding_factors = [8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.006666666666666666
-proof_size = "1.48 MB"
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 262144
-num_columns_S = 11
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 262144
-rows_T = 0
-num_columns_S = 6
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[109]"
-logup_type = "univariate"
-rows_L = 262144
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 2
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "Poseidon2"
-group = "basic"
-trace_length = 131072
-rho = 0.25
-air_max_degree = 4
-num_columns_fixed = 2
-num_columns_witness = 66
-num_columns = 68
-num_constraints = 85
-opening_points = 17
-batch_size = 182
-power_batching = true
-num_queries = 114
-fri_folding_factors = [8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.004
-proof_size = "698.25 KB"
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 131072
-num_columns_S = 11
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 131072
-rows_T = 0
-num_columns_S = 6
-num_lookups_M = 4
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "Blake2br"
-group = "basic"
-trace_length = 262144
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 3
-num_columns_witness = 199
-num_columns = 202
-num_constraints = 189
-opening_points = 29
-batch_size = 651
-power_batching = true
-num_queries = 230
-fri_folding_factors = [8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005999999999999999
-proof_size = "1.61 MB"
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[5000]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 262144
-num_columns_S = 11
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[10]"
-logup_type = "univariate"
-rows_L = 262144
-rows_T = 0
-num_columns_S = 6
-num_lookups_M = 4
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Permutation_gsum_[127]"
-logup_type = "univariate"
-rows_L = 262144
-rows_T = 262144
-num_columns_S = 3
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Range Check_gsum_[103]"
-logup_type = "univariate"
-rows_L = 262144
-rows_T = 0
-num_columns_S = 1
-num_lookups_M = 12
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "SpecifiedRanges"
-group = "basic"
-trace_length = 1048576
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 59
-num_columns_witness = 74
-num_columns = 133
-num_constraints = 16
-opening_points = 3
-batch_size = 107
-power_batching = true
-num_queries = 229
-fri_folding_factors = [8, 8, 8, 8, 8]
-fri_early_stop_degree = 64
-grinding_query_phase = 16
-gap_to_radius = 0.005333333333333333
-proof_size = "1.84 MB"
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[102]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 1048576
-num_columns_S = 1
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[103, 104]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 1048576
-num_columns_S = 1
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[104, 105, 106, 107, 108]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 1048576
-num_columns_S = 1
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[104]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 1048576
-num_columns_S = 1
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[108, 109]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 1048576
-num_columns_S = 1
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[108]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 1048576
-num_columns_S = 1
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "VirtualTable0"
-group = "basic"
-trace_length = 2097152
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 52
-num_columns_witness = 23
-num_columns = 75
-num_constraints = 6
-opening_points = 3
-batch_size = 69
-power_batching = true
-num_queries = 230
-fri_folding_factors = [8, 8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005666666666666667
-proof_size = "1.87 MB"
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[124, 8001]"
+name = "Lookup_gsum_[5000, 5000]"
 logup_type = "univariate"
 rows_L = 0
 rows_T = 2097152
-num_columns_S = 7
+num_columns_S = 8
 num_lookups_M = 1
 grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[125, 124]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 2097152
-num_columns_S = 7
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[125]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 2097152
-num_columns_S = 7
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[126, 331, 8002, 133, 125]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 2097152
-num_columns_S = 7
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[330]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 2097152
-num_columns_S = 2
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits.lookups]]
-name = "Lookup_gsum_[5002, 88, 77, 8003, 126]"
-logup_type = "univariate"
-rows_L = 0
-rows_T = 2097152
-num_columns_S = 4
-num_lookups_M = 1
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "VirtualTable1"
-group = "basic"
-trace_length = 2097152
-rho = 0.5
-air_max_degree = 3
-num_columns_fixed = 73
-num_columns_witness = 23
-num_columns = 96
-num_constraints = 6
-opening_points = 3
-batch_size = 90
-power_batching = true
-num_queries = 230
-fri_folding_factors = [8, 8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 16
-gap_to_radius = 0.005999999999999999
-proof_size = "1.91 MB"
 
 [[circuits.lookups]]
 name = "Lookup_gsum_[5000]"
@@ -2171,145 +3533,140 @@ num_lookups_M = 1
 grinding_bits_lookup = 0
 
 [[circuits]]
+name = "VirtualTableZisk1"
 protocol_family = "FRI_STARK"
-name = "DmaPrePost-compressor"
-group = "compression"
-trace_length = 262144
-rho = 0.25
-air_max_degree = 5
-num_columns_fixed = 58
-num_columns_witness = 107
-num_columns = 165
-num_constraints = 179
-opening_points = 6
-batch_size = 198
+group = "basic"
+trace_length = 2097152
+rho = 0.5
+air_max_degree = 3
+num_columns_fixed = 59
+num_columns_witness = 59
+num_columns = 118
+num_constraints = 13
+opening_points = 3
+batch_size = 98
 power_batching = true
-num_queries = 110
-fri_folding_factors = [8, 8, 8, 8, 8]
-fri_early_stop_degree = 32
-grinding_query_phase = 20
-gap_to_radius = 0.004666666666666667
-proof_size = "791.32 KB"
+initial_tree_widths = [59, 23, 36, 6]
+num_evals = 98
+num_queries = 211
+fri_folding_factors = [16, 16, 16, 16]
+fri_early_stop_degree = 64
+grinding_query_phase = 24
+gap_to_radius = 0.0033333333333333335
+proof_size = "1.19 MB"
 
 [[circuits.lookups]]
-name = "Connection_gprod_[1]"
+name = "Lookup_gsum_[102]"
 logup_type = "univariate"
-rows_L = 262144
-rows_T = 262144
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 1
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[104, 103, 106, 100, 108, 330, 5002]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
 num_columns_S = 2
-num_lookups_M = 36
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[105]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 1
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[107]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 1
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[124, 126]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 6
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[125, 8001]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 7
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[125]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 7
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[126, 8002, 133, 125]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 7
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[127, 129, 124]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 6
+num_lookups_M = 1
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[5002, 8101, 88, 77, 8003, 8102, 331, 127]"
+logup_type = "univariate"
+rows_L = 0
+rows_T = 2097152
+num_columns_S = 5
+num_lookups_M = 1
 grinding_bits_lookup = 0
 
 [[circuits]]
-protocol_family = "FRI_STARK"
-name = "ArithEq-compressor"
-group = "compression"
-trace_length = 262144
-rho = 0.25
-air_max_degree = 5
-num_columns_fixed = 58
-num_columns_witness = 107
-num_columns = 165
-num_constraints = 179
-opening_points = 6
-batch_size = 198
-power_batching = true
-num_queries = 110
-fri_folding_factors = [8, 8, 8, 8, 8]
-fri_early_stop_degree = 32
-grinding_query_phase = 20
-gap_to_radius = 0.004666666666666667
-proof_size = "791.32 KB"
-
-[[circuits.lookups]]
-name = "Connection_gprod_[1]"
-logup_type = "univariate"
-rows_L = 262144
-rows_T = 262144
-num_columns_S = 2
-num_lookups_M = 36
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "ArithEq384-compressor"
-group = "compression"
-trace_length = 262144
-rho = 0.25
-air_max_degree = 5
-num_columns_fixed = 58
-num_columns_witness = 107
-num_columns = 165
-num_constraints = 179
-opening_points = 6
-batch_size = 198
-power_batching = true
-num_queries = 110
-fri_folding_factors = [8, 8, 8, 8, 8]
-fri_early_stop_degree = 32
-grinding_query_phase = 20
-gap_to_radius = 0.004666666666666667
-proof_size = "791.32 KB"
-
-[[circuits.lookups]]
-name = "Connection_gprod_[1]"
-logup_type = "univariate"
-rows_L = 262144
-rows_T = 262144
-num_columns_S = 2
-num_lookups_M = 36
-grinding_bits_lookup = 0
-
-[[circuits]]
-protocol_family = "FRI_STARK"
 name = "Keccakf-compressor"
-group = "compression"
-trace_length = 1048576
-rho = 0.25
-air_max_degree = 5
-num_columns_fixed = 58
-num_columns_witness = 107
-num_columns = 165
-num_constraints = 179
-opening_points = 6
-batch_size = 198
-power_batching = true
-num_queries = 110
-fri_folding_factors = [8, 8, 8, 8, 8, 4]
-fri_early_stop_degree = 32
-grinding_query_phase = 20
-gap_to_radius = 0.006333333333333333
-proof_size = "905.29 KB"
-
-[[circuits.lookups]]
-name = "Connection_gprod_[1]"
-logup_type = "univariate"
-rows_L = 1048576
-rows_T = 1048576
-num_columns_S = 2
-num_lookups_M = 36
-grinding_bits_lookup = 0
-
-[[circuits]]
 protocol_family = "FRI_STARK"
-name = "Sha256f-compressor"
 group = "compression"
 trace_length = 524288
 rho = 0.25
 air_max_degree = 5
-num_columns_fixed = 58
-num_columns_witness = 107
-num_columns = 165
-num_constraints = 179
-opening_points = 6
-batch_size = 198
+num_columns_fixed = 43
+num_columns_witness = 488
+num_columns = 531
+num_constraints = 1006
+opening_points = 72
+batch_size = 1624
 power_batching = true
-num_queries = 110
-fri_folding_factors = [8, 8, 8, 8, 8]
-fri_early_stop_degree = 64
-grinding_query_phase = 20
-gap_to_radius = 0.005333333333333333
-proof_size = "853.95 KB"
+initial_tree_widths = [43, 344, 144, 12]
+num_evals = 1624
+num_queries = 103
+fri_folding_factors = [16, 16, 8, 8]
+fri_early_stop_degree = 128
+grinding_query_phase = 27
+gap_to_radius = 0.004333333333333334
+proof_size = "877.27 KB"
 
 [[circuits.lookups]]
 name = "Connection_gprod_[1]"
@@ -2317,29 +3674,176 @@ logup_type = "univariate"
 rows_L = 524288
 rows_T = 524288
 num_columns_S = 2
+num_lookups_M = 18
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[1000]"
+logup_type = "univariate"
+rows_L = 524288
+rows_T = 524288
+num_columns_S = 5
+num_lookups_M = 108
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[250]"
+logup_type = "univariate"
+rows_L = 524288
+rows_T = 524288
+num_columns_S = 1
 num_lookups_M = 36
 grinding_bits_lookup = 0
 
+[[circuits.lookups]]
+name = "Lookup_gsum_[500]"
+logup_type = "univariate"
+rows_L = 524288
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 12
+grinding_bits_lookup = 0
+
 [[circuits]]
+name = "Poseidon2KoalaBear-compressor"
 protocol_family = "FRI_STARK"
-name = "Blake2br-compressor"
 group = "compression"
-trace_length = 262144
+trace_length = 524288
 rho = 0.25
 air_max_degree = 5
-num_columns_fixed = 58
-num_columns_witness = 107
-num_columns = 165
-num_constraints = 179
-opening_points = 6
-batch_size = 198
+num_columns_fixed = 43
+num_columns_witness = 413
+num_columns = 456
+num_constraints = 928
+opening_points = 71
+batch_size = 1389
 power_batching = true
-num_queries = 110
-fri_folding_factors = [8, 8, 8, 8, 8]
-fri_early_stop_degree = 32
-grinding_query_phase = 20
-gap_to_radius = 0.004666666666666667
-proof_size = "791.32 KB"
+initial_tree_widths = [43, 290, 123, 12]
+num_evals = 1389
+num_queries = 103
+fri_folding_factors = [16, 16, 8, 8]
+fri_early_stop_degree = 128
+grinding_query_phase = 27
+gap_to_radius = 0.004
+proof_size = "811.41 KB"
+
+[[circuits.lookups]]
+name = "Connection_gprod_[1]"
+logup_type = "univariate"
+rows_L = 524288
+rows_T = 524288
+num_columns_S = 2
+num_lookups_M = 18
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[1000]"
+logup_type = "univariate"
+rows_L = 524288
+rows_T = 524288
+num_columns_S = 5
+num_lookups_M = 90
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[250]"
+logup_type = "univariate"
+rows_L = 524288
+rows_T = 524288
+num_columns_S = 1
+num_lookups_M = 30
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[500]"
+logup_type = "univariate"
+rows_L = 524288
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 10
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Recursive2"
+protocol_family = "FRI_STARK"
+group = "aggregation"
+trace_length = 524288
+rho = 0.25
+air_max_degree = 5
+num_columns_fixed = 43
+num_columns_witness = 338
+num_columns = 381
+num_constraints = 854
+opening_points = 71
+batch_size = 1156
+power_batching = true
+initial_tree_widths = [43, 236, 102, 12]
+num_evals = 1156
+num_queries = 106
+fri_folding_factors = [16, 16, 8, 8]
+fri_early_stop_degree = 128
+grinding_query_phase = 24
+gap_to_radius = 0.004
+proof_size = "784.46 KB"
+
+[[circuits.lookups]]
+name = "Connection_gprod_[1]"
+logup_type = "univariate"
+rows_L = 524288
+rows_T = 524288
+num_columns_S = 2
+num_lookups_M = 18
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[1000]"
+logup_type = "univariate"
+rows_L = 524288
+rows_T = 524288
+num_columns_S = 5
+num_lookups_M = 72
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[250]"
+logup_type = "univariate"
+rows_L = 524288
+rows_T = 524288
+num_columns_S = 1
+num_lookups_M = 24
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[500]"
+logup_type = "univariate"
+rows_L = 524288
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 8
+grinding_bits_lookup = 0
+
+[[circuits]]
+name = "Final"
+protocol_family = "FRI_STARK"
+group = "final"
+trace_length = 262144
+rho = 0.0625
+air_max_degree = 8
+num_columns_fixed = 43
+num_columns_witness = 296
+num_columns = 339
+num_constraints = 427
+opening_points = 71
+batch_size = 1122
+power_batching = true
+initial_tree_widths = [43, 236, 60, 21]
+num_evals = 1122
+num_queries = 51
+fri_folding_factors = [16, 16, 16, 8]
+fri_early_stop_degree = 128
+grinding_query_phase = 27
+gap_to_radius = 0.0033333333333333335
+proof_size = "402.49 KB"
 
 [[circuits.lookups]]
 name = "Connection_gprod_[1]"
@@ -2347,95 +3851,98 @@ logup_type = "univariate"
 rows_L = 262144
 rows_T = 262144
 num_columns_S = 2
-num_lookups_M = 36
+num_lookups_M = 18
 grinding_bits_lookup = 0
 
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "Recursive2"
-group = "aggregation"
-trace_length = 131072
-rho = 0.125
-air_max_degree = 8
-num_columns_fixed = 49
-num_columns_witness = 71
-num_columns = 120
-num_constraints = 158
-opening_points = 4
-batch_size = 145
-power_batching = true
-num_queries = 73
-fri_folding_factors = [8, 8, 8, 8, 8]
-fri_early_stop_degree = 32
-grinding_query_phase = 20
-gap_to_radius = 0.004
-proof_size = "565.01 KB"
-
 [[circuits.lookups]]
-name = "Connection_gprod_[1]"
+name = "Lookup_gsum_[1000]"
 logup_type = "univariate"
-rows_L = 131072
-rows_T = 131072
-num_columns_S = 2
-num_lookups_M = 27
+rows_L = 262144
+rows_T = 262144
+num_columns_S = 5
+num_lookups_M = 72
 grinding_bits_lookup = 0
 
-[[circuits]]
-protocol_family = "FRI_STARK"
-name = "Final"
-group = "final"
-trace_length = 65536
-rho = 0.03125
-air_max_degree = 8
-num_columns_fixed = 46
-num_columns_witness = 68
-num_columns = 114
-num_constraints = 154
-opening_points = 4
-batch_size = 139
-power_batching = true
-num_queries = 43
-fri_folding_factors = [16, 16, 16, 16]
-fri_early_stop_degree = 32
-grinding_query_phase = 22
-gap_to_radius = 0.003333333333333333
-proof_size = "327.71 KB"
-
 [[circuits.lookups]]
-name = "Connection_gprod_[1]"
+name = "Lookup_gsum_[250]"
 logup_type = "univariate"
-rows_L = 65536
-rows_T = 65536
-num_columns_S = 2
+rows_L = 262144
+rows_T = 262144
+num_columns_S = 1
 num_lookups_M = 24
 grinding_bits_lookup = 0
 
+[[circuits.lookups]]
+name = "Lookup_gsum_[500]"
+logup_type = "univariate"
+rows_L = 262144
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 8
+grinding_bits_lookup = 0
+
 [[circuits]]
-protocol_family = "FRI_STARK"
 name = "Final_Compressed"
+protocol_family = "STIR"
 group = "final_compressed"
-trace_length = 32768
-rho = 0.0625
+trace_length = 262144
+rho = 0.03125
 air_max_degree = 8
-num_columns_fixed = 49
-num_columns_witness = 71
-num_columns = 120
-num_constraints = 158
-opening_points = 4
-batch_size = 145
+num_columns_fixed = 43
+num_columns_witness = 164
+num_columns = 207
+num_constraints = 276
+opening_points = 69
+batch_size = 649
 power_batching = true
-num_queries = 54
-fri_folding_factors = [8, 8, 8]
-fri_early_stop_degree = 1024
-grinding_query_phase = 22
-gap_to_radius = 0.003333333333333333
-proof_size = "254.64 KB"
+initial_tree_widths = [43, 128, 36, 21]
+num_evals = 649
+log_inv_rate = 5
+num_iterations = 3
+folding_factors = [4, 3, 3]
+log_degree = 18
+num_queries = [41, 26, 22]
+num_ood_samples = [1, 1]
+grinding_batching_phase = 0
+grinding_bits_folding = 0
+grinding_bits_queries = [27, 26, 23]
+grinding_bits_ood = [0, 0]
+gap_to_radius = 0.0033333333333333335
+proof_size = "244.06 KB"
+proof_size_max = "292.15 KB"
 
 [[circuits.lookups]]
 name = "Connection_gprod_[1]"
 logup_type = "univariate"
-rows_L = 32768
-rows_T = 32768
+rows_L = 262144
+rows_T = 262144
 num_columns_S = 2
-num_lookups_M = 27
+num_lookups_M = 18
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[1000]"
+logup_type = "univariate"
+rows_L = 262144
+rows_T = 262144
+num_columns_S = 5
+num_lookups_M = 36
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[250]"
+logup_type = "univariate"
+rows_L = 262144
+rows_T = 262144
+num_columns_S = 1
+num_lookups_M = 12
+grinding_bits_lookup = 0
+
+[[circuits.lookups]]
+name = "Lookup_gsum_[500]"
+logup_type = "univariate"
+rows_L = 262144
+rows_T = 0
+num_columns_S = 2
+num_lookups_M = 4
 grinding_bits_lookup = 0
