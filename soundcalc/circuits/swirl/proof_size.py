@@ -15,6 +15,8 @@ USIZE_BITS = 32
 U8_BITS = 8
 # OpenVM backend proof construction: common main is one commitment, and the
 # VM has one cached trace commitment and no preprocessed trace commitment.
+# These are the defaults of `num_commitments` and `num_cached_commitments` in
+# `SWIRLProofSizeConfig`.
 OPENVM_NUM_COMMITS = 2
 OPENVM_NUM_CACHED_COMMITMENTS = 1
 
@@ -30,6 +32,22 @@ class SWIRLProofSizeConfig:
     num_trace_columns: int
     max_interactions_per_air: int
     num_public_values: int = 0
+    # Optional proof-shape fields, for a circuit whose proof shapes are known:
+    # they give one proof's shape, such as the largest. Unset, the GKR depth and
+    # the column openings take their bounds, and the opening parts and the two
+    # commitment counts follow the OpenVM layout above.
+    # LogUp-GKR layers, `l_skip + n_logup` (default: `l_skip` plus the
+    # `n_logup` bound, or 0 without interactions).
+    num_gkr_rounds: int | None = None
+    # Column openings: one per column, two for a column whose AIR reads the
+    # next row (default: two per column).
+    num_column_openings: int | None = None
+    # Opening parts: one per AIR part (default: `num_airs + num_commitments - 1`).
+    num_opening_parts: int | None = None
+    # Cached trace commitments in the preamble.
+    num_cached_commitments: int = OPENVM_NUM_CACHED_COMMITMENTS
+    # Stacked commitments, each with its own Merkle paths in WHIR's first round.
+    num_commitments: int = OPENVM_NUM_COMMITS
 
 
 @dataclass(frozen=True)
@@ -67,23 +85,65 @@ def _round0_univariate_len(l_skip: int, degree: int) -> int:
 
 
 def _num_opening_parts(config: SWIRLProofSizeConfig) -> int:
-    return config.num_airs + OPENVM_NUM_COMMITS - 1
+    if config.num_opening_parts is not None:
+        return config.num_opening_parts
+    return config.num_airs + config.num_commitments - 1
 
 
 def _num_column_openings(config: SWIRLProofSizeConfig) -> int:
+    if config.num_column_openings is not None:
+        return config.num_column_openings
     return 2 * config.num_trace_columns
 
 
-def _validate(config: SWIRLProofSizeConfig) -> None:
-    num_opening_parts = _num_opening_parts(config)
-    num_column_openings = _num_column_openings(config)
+def _max_num_gkr_rounds(config: SWIRLProofSizeConfig) -> int:
+    total_interactions_nonzero = (
+        config.num_airs > 0 and config.max_interactions_per_air > 0
+    )
+    if not total_interactions_nonzero:
+        return 0
+    n_logup = calculate_n_logup_bound(
+        config.params.l_skip,
+        config.num_airs,
+        config.max_interactions_per_air,
+        config.max_log_trace_height,
+        config.field.p,
+    )
+    return config.params.l_skip + n_logup
 
+
+def _num_gkr_rounds(config: SWIRLProofSizeConfig) -> int:
+    if config.num_gkr_rounds is not None:
+        return config.num_gkr_rounds
+    return _max_num_gkr_rounds(config)
+
+
+def _validate(config: SWIRLProofSizeConfig) -> None:
     if config.num_airs < 1:
         raise ValueError("SWIRL proof-size config must have at least one AIR")
+    if config.num_commitments < 1:
+        raise ValueError("SWIRL proof-size config must have at least one commitment")
+    if config.num_cached_commitments < 0:
+        raise ValueError("SWIRL proof-size cached commitments cannot be negative")
+    # Common main is always one of the commitments (see `_preamble_bits`).
+    if config.num_cached_commitments > config.num_commitments - 1:
+        raise ValueError(
+            "SWIRL proof-size cached commitments must leave one commitment for common main"
+        )
+
+    num_opening_parts = _num_opening_parts(config)
+    num_column_openings = _num_column_openings(config)
     if num_opening_parts < config.num_airs:
         raise ValueError("SWIRL proof-size opening parts must cover every present AIR")
     if num_column_openings < config.num_trace_columns:
         raise ValueError("SWIRL proof-size column openings cannot be smaller than trace columns")
+    if num_column_openings > 2 * config.num_trace_columns:
+        raise ValueError("SWIRL proof-size column openings cannot exceed two per trace column")
+    if config.num_gkr_rounds is not None:
+        if config.num_gkr_rounds < 0:
+            raise ValueError("SWIRL proof-size GKR rounds cannot be negative")
+        if config.num_gkr_rounds > _max_num_gkr_rounds(config):
+            raise ValueError("SWIRL proof-size GKR rounds cannot exceed the n_logup bound")
     if config.params.w_stack < 1:
         raise ValueError("SWIRL proof-size w_stack must be positive")
     if config.params.log_stacked_height() != config.whir.log_degree:
@@ -139,7 +199,7 @@ def _preamble_bits(
 
     # Present TraceVData entries: log_height and cached_commitments Vec.
     bits += config.num_airs * (USIZE_BITS + USIZE_BITS)
-    bits += OPENVM_NUM_CACHED_COMMITMENTS * digest_bits
+    bits += config.num_cached_commitments * digest_bits
 
     # public_values: outer Vec length plus one base-field Vec per AIR.
     bits += USIZE_BITS
@@ -157,21 +217,7 @@ def _gkr_bits(
     bits += base_bits  # logup_pow_witness
     bits += ext_bits  # q0_claim
 
-    total_interactions_nonzero = (
-        config.num_airs > 0 and config.max_interactions_per_air > 0
-    )
-    if not total_interactions_nonzero:
-        return bits + _vec_bits(0, 4 * ext_bits)
-
-    n_logup = calculate_n_logup_bound(
-        config.params.l_skip,
-        config.num_airs,
-        config.max_interactions_per_air,
-        config.max_log_trace_height,
-        config.field.p,
-    )
-    num_gkr_rounds = config.params.l_skip + n_logup
-
+    num_gkr_rounds = _num_gkr_rounds(config)
     bits += _vec_bits(num_gkr_rounds, 4 * ext_bits)
     num_sumcheck_arrays = num_gkr_rounds * (num_gkr_rounds - 1) // 2
     bits += num_sumcheck_arrays * 3 * ext_bits
@@ -216,7 +262,7 @@ def _stacking_bits(
     bits += USIZE_BITS  # sumcheck_round_polys length
     bits += config.params.n_stack * 2 * ext_bits
     bits += USIZE_BITS  # stacking_openings outer length
-    bits += OPENVM_NUM_COMMITS * USIZE_BITS
+    bits += config.num_commitments * USIZE_BITS
     bits += config.params.w_stack * ext_bits
     return bits
 
@@ -257,9 +303,9 @@ def _whir_bits(
         if initial_merkle_depth < 0:
             raise ValueError("SWIRL proof-size initial WHIR Merkle depth is negative")
         bits += USIZE_BITS  # initial merkle depth
-        bits += OPENVM_NUM_COMMITS * USIZE_BITS  # per-commit widths
+        bits += config.num_commitments * USIZE_BITS  # per-commit widths
         bits += initial_queries * block_size * params.w_stack * base_bits
-        bits += OPENVM_NUM_COMMITS * initial_queries * initial_merkle_depth * digest_bits
+        bits += config.num_commitments * initial_queries * initial_merkle_depth * digest_bits
 
     for round_idx in range(1, num_whir_rounds):
         num_queries = whir.rounds[round_idx].num_queries

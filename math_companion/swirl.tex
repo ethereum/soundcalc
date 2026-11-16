@@ -137,3 +137,19 @@ The OpenVM2 configuration uses proof-size bounds that assume all optional AIRs
 are present. If no explicit \texttt{proof\_size\_*} value is provided for a
 circuit, the proof-size calculator uses the matching \texttt{soundness\_*}
 bound where available.
+
+By default, the GKR proof has \(\ell_{\mathrm{skip}} + n_{\mathrm{logup}}\) layers
+with \(n_{\mathrm{logup}}\) at its bound (none if no AIR has interactions), and
+every trace column is opened at two points. A circuit whose proof shapes are
+known, such as Pico's under its verifying-key whitelist, can state the shape of
+its largest proof instead, with keys that change only the proof
+size:\footnote{See
+\texttt{soundcalc/circuits/swirl/proof\_size.py:SWIRLProofSizeConfig}.}
+\begin{itemize}
+  \item \texttt{proof\_size\_num\_gkr\_rounds}: the number of GKR layers;
+  \item \texttt{proof\_size\_num\_column\_openings}: the number of column openings;
+  \item \texttt{proof\_size\_num\_opening\_parts}: the number of opening parts;
+  \item \texttt{proof\_size\_num\_cached\_commitments}: the number of cached-trace
+    commitments;
+  \item \texttt{proof\_size\_num\_commitments}: the number of stacked commitments.
+\end{itemize}

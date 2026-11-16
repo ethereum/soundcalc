@@ -40,7 +40,7 @@ class DeepAliCircuit(Circuit):
     """
     Circuit using the DEEP-ALI proof system over a polynomial commitment scheme.
 
-    Used by FRI-based and WHIR-based zkVMs (e.g. ZisK, Pico, DummyWHIR).
+    Used by FRI-based and WHIR-based zkVMs (e.g. ZisK, OpenVM, DummyWHIR).
     """
 
     def __init__(self, config: DeepAliConfig):

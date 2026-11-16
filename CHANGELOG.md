@@ -2,6 +2,9 @@
 
 toml format changes, newest-first.
 
+### 2026-11-08 — SWIRL proof shape
+- added optional `proof_size_num_gkr_rounds`, `proof_size_num_column_openings`, `proof_size_num_opening_parts`, `proof_size_num_cached_commitments` and `proof_size_num_commitments` to SWIRL `[[circuits]]` sections: the LogUp-GKR layers, the batch-constraint column openings and opening parts, the cached-trace commitments and the stacked commitments of one proof, for a circuit whose proof shapes are known (for example its largest proof's); unset, each keeps the bound or the OpenVM layout used so far (unset opening parts are `num_airs + num_commitments - 1`, so they follow `proof_size_num_commitments`); only affects the proof size
+
 ### 2026-10-23 — Initial commitment
 - added optional `initial_tree_widths` to FRI and STIR `[[circuits]]` sections: the number of base field columns in each tree committed before the PCS; if unset, all `batch_size` functions are assumed to live in one tree; only affects the proof size
 - added optional `num_evals` (default `0`) to DEEP-ALI `[[circuits]]` sections (FRI, STIR and WHIR): the number of out-of-domain evaluations sent in the proof; only affects the proof size

@@ -7,7 +7,7 @@ from soundcalc.circuits.deep_ali import DeepAliCircuit, DeepAliConfig
 from soundcalc.proxgaps.johnson_bound import JohnsonBoundRegime
 from soundcalc.proxgaps.unique_decoding import UniqueDecodingRegime
 from soundcalc.lookups.logup import LogUp, LogUpConfig, LogUpType
-from soundcalc.zkvms import dummy_stir, dummy_whir, pico
+from soundcalc.zkvms import dummy_stir, dummy_whir, openvm
 
 
 class DummyPCS(PCS):
@@ -200,7 +200,7 @@ def test_multilinear_fingerprint_defaults_follow_lookup_type():
     assert multivariate_config.multilinear_fingerprint is True
 
 
-@pytest.mark.parametrize("zkvm", [pico, dummy_stir, dummy_whir])
+@pytest.mark.parametrize("zkvm", [openvm, dummy_stir, dummy_whir])
 def test_num_evals_adds_to_proof_size(zkvm):
     circuit = zkvm.load().get_circuits()[0]
     sizes = circuit.get_proof_size_bits(), circuit.get_expected_proof_size_bits()

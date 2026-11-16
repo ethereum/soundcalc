@@ -8,6 +8,7 @@ from soundcalc.circuits.circuit import Circuit
 from soundcalc.circuits.deep_ali import DeepAliCircuit, DeepAliConfig
 from soundcalc.circuits.jagged import JaggedCircuit, JaggedCircuitConfig
 from soundcalc.circuits.swirl import (
+    PROOF_SHAPE_INPUTS,
     SWIRLCircuit,
     SWIRLCircuitConfig,
     SWIRLLogUpSecurityParameters,
@@ -322,6 +323,7 @@ class zkVM:
                 ),
             ),
             proof_size_num_public_values=section.get("proof_size_num_public_values", 0),
+            **{key: section.get(key) for key, _, _ in PROOF_SHAPE_INPUTS},
         ))
 
     @classmethod

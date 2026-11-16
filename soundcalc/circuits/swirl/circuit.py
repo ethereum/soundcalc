@@ -15,6 +15,17 @@ from soundcalc.common.fields import FieldParams
 from soundcalc.pcs.whir import WHIR
 
 
+# The optional proof-shape fields of `SWIRLProofSizeConfig`, as (TOML key and
+# `SWIRLCircuitConfig` field, `SWIRLProofSizeConfig` field, report label).
+PROOF_SHAPE_INPUTS = (
+    ("proof_size_num_gkr_rounds", "num_gkr_rounds", "Proof-size GKR rounds"),
+    ("proof_size_num_column_openings", "num_column_openings", "Proof-size column openings"),
+    ("proof_size_num_opening_parts", "num_opening_parts", "Proof-size opening parts"),
+    ("proof_size_num_cached_commitments", "num_cached_commitments", "Proof-size cached commitments"),
+    ("proof_size_num_commitments", "num_commitments", "Proof-size commitments"),
+)
+
+
 @dataclass(frozen=True)
 class SWIRLCircuitConfig:
     name: str
@@ -36,6 +47,11 @@ class SWIRLCircuitConfig:
     proof_size_num_trace_columns: int
     proof_size_max_interactions_per_air: int
     proof_size_num_public_values: int = 0
+    proof_size_num_gkr_rounds: int | None = None
+    proof_size_num_column_openings: int | None = None
+    proof_size_num_opening_parts: int | None = None
+    proof_size_num_cached_commitments: int | None = None
+    proof_size_num_commitments: int | None = None
 
 
 class SWIRLCircuit(Circuit):
@@ -62,6 +78,11 @@ class SWIRLCircuit(Circuit):
             config.proof_size_max_interactions_per_air
         )
         self.proof_size_num_public_values = config.proof_size_num_public_values
+        self.proof_size_num_gkr_rounds = config.proof_size_num_gkr_rounds
+        self.proof_size_num_column_openings = config.proof_size_num_column_openings
+        self.proof_size_num_opening_parts = config.proof_size_num_opening_parts
+        self.proof_size_num_cached_commitments = config.proof_size_num_cached_commitments
+        self.proof_size_num_commitments = config.proof_size_num_commitments
 
     def get_security_levels(self) -> dict[str, dict[str, int]]:
         levels = calculate_swirl_soundness(
@@ -113,7 +134,17 @@ class SWIRLCircuit(Circuit):
             self.max_interactions_per_air,
         )
 
+    def _proof_size_shape(self) -> list[tuple[str, str, str, int]]:
+        """The optional proof-shape inputs that are set, as entries of
+        `PROOF_SHAPE_INPUTS` followed by the value."""
+        return [
+            (key, name, label, getattr(self, key))
+            for key, name, label in PROOF_SHAPE_INPUTS
+            if getattr(self, key) is not None
+        ]
+
     def _proof_size_config(self) -> SWIRLProofSizeConfig:
+        shape = {name: value for _, name, _, value in self._proof_size_shape()}
         return SWIRLProofSizeConfig(
             params=self.params,
             field=self.field,
@@ -124,6 +155,7 @@ class SWIRLCircuit(Circuit):
             num_trace_columns=self.proof_size_num_trace_columns,
             max_interactions_per_air=self.proof_size_max_interactions_per_air,
             num_public_values=self.proof_size_num_public_values,
+            **shape,
         )
 
     def get_proof_size_bits(self) -> int:
@@ -177,6 +209,7 @@ class SWIRLCircuit(Circuit):
         lines.extend([
             f"  proof_size_num_public_values       : {self.proof_size_num_public_values}",
         ])
+        lines.extend(f"  {key:<35}: {value}" for key, _, _, value in self._proof_size_shape())
         lines.append("```")
         return "\n".join(lines)
 
@@ -222,4 +255,5 @@ class SWIRLCircuit(Circuit):
         lines.extend([
             f"- Proof-size public values bound: {self.proof_size_num_public_values}",
         ])
+        lines.extend(f"- {label}: {value}" for _, _, label, value in self._proof_size_shape())
         return lines

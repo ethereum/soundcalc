@@ -10,6 +10,7 @@ How to read this report:
 | zkVM | Version | Security | Expected Proof Size | Worst-Case Proof Size | Proof system | Field | Circuits |
 |------|---------|----------|---------------------|-----------------------|--------------|-------|----------|
 | [OpenVM2](openvm2.md) | 2.0.0 | **100** bits (mixed) | 270 KiB | 270 KiB | SWIRL + WHIR | BabyBear⁴ | 6 |
+| [Pico](pico.md) | 3.1.1 | **128** bits (mixed) | 292 KiB | 292 KiB | SWIRL + WHIR | KoalaBear⁵ | 6 |
 | [SP1](sp1.md) | 6.1.0 | **100** bits (UDR) | 524 KiB | 555 KiB | Jagged + FRI | KoalaBear⁴ | 3 |
 | [Venus](venus.md) | 0.1.6 | **128** bits (JBR) | 268 KiB | 274 KiB | DEEP-ALI + FRI | Goldilocks³ | 44 |
 | [ZisK](zisk.md) | 1.4.0-alpha | **128** bits (JBR) | 240 KiB | 247 KiB | Mixed(DEEP-ALI + FRI, DEEP-ALI + STIR) | Goldilocks³ | 60 |

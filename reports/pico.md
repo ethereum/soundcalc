@@ -1,4 +1,4 @@
-# 📊 Pico
+# 📊 Pico (v3.1.1)
 
 How to read this report:
 - Table rows correspond to security regimes
@@ -10,154 +10,224 @@ How to read this report:
 
 | Metric | Value | Relevant circuit | Notes |
 | --- | --- | --- | --- |
-| Final bits of security | **53 bits** | [riscv](#riscv) | Regime: JBR |
-| Final proof size (worst case) | **236 KiB** | [embed](#embed) | |
+| Final bits of security | **128 bits** | [riscv](#riscv) | Regime: mixed |
+| Final proof size (worst case) | **292 KiB** | [compress](#compress) | |
 
 ## Circuits
 
 - [riscv](#riscv)
 - [convert](#convert)
 - [combine](#combine)
-- [compress](#compress)
+- [deferred](#deferred)
 - [embed](#embed)
+- [compress](#compress)
 
 ## riscv
 
 **Parameters:**
-- Proof system: DEEP-ALI
-- PCS: FRI
-- Hash size (bits): 248
-- Number of queries: 84
-- Grinding query phase (bits): 16
-- Field: KoalaBear⁴
-- Rate (ρ): 0.5
-- Trace length (H): $2^{22}$
-- FRI rounds: 22
-- FRI folding factors: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
-- FRI early stop degree: 2
-- Batch size: 1435
-- Batching: Powers
-- Number of constraints: 4729
-- Lookup (logup): alu
-- Lookup (logup): byte
-- Lookup (logup): global_type
-- Lookup (logup): memory
-- Lookup (logup): poseidon2
-- Lookup (logup): program
-- Lookup (logup): syscall
+- Proof system: SWIRL
+- PCS: WHIR
+- Field: KoalaBear⁵
+- Regime: UDR
+- `l_skip`: 4
+- `n_stack`: 19
+- `w_stack`: 640
+- Log blowup: 1
+- WHIR queries per round: [261, 119, 110, 109]
+- WHIR folding PoW (bits): 5
+- WHIR query-phase PoW (bits): 20
+- WHIR μ PoW (bits): 15
+- Max constraints per AIR: 2989
+- Number of AIRs: 19
+- Max log trace height: 23
+- Number of trace columns: 3877
+- Max interactions per AIR: 1843
+- Proof-size number of AIRs bound: 19
+- Proof-size max log trace height bound: 23
+- Proof-size trace columns bound: 1450
+- Proof-size max interactions per AIR bound: 121
+- Proof-size public values bound: 261
+- Proof-size GKR rounds: 31
+- Proof-size column openings: 1624
+- Proof-size opening parts: 21
+- Proof-size cached commitments: 0
+- Proof-size commitments: 3
 
-**Proof Size:** 2220 KiB (expected) / 2252 KiB (worst case)
+**Proof Size:** 11309 KiB (expected) / 11309 KiB (worst case)
 
-| regime | total | alu | byte | global_type | memory | poseidon2 | program | syscall | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 18 | commit round 19 | commit round 2 | commit round 20 | commit round 21 | commit round 22 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 50 | 93 | 92 | 96 | 93 | 94 | 95 | 99 | 111 | 99 | 92 | 103 | 112 | 113 | 114 | 115 | 116 | 117 | 118 | 119 | 120 | 121 | 104 | 122 | 122 | 123 | 105 | 106 | 107 | 108 | 109 | 110 | 111 | 50 |
-| JBR | 53 | 93 | 92 | 96 | 93 | 94 | 95 | 99 | 106 | 95 | 69 | 81 | 90 | 91 | 92 | 93 | 94 | 95 | 96 | 97 | 98 | 99 | 82 | 100 | 101 | 102 | 83 | 84 | 85 | 86 | 87 | 88 | 89 | 53 |
+| regime | total | constraint_batching | gkr_batching | gkr_sumcheck | logup | stacked_reduction | whir | whir_fold_rbr | whir_gamma_batching | whir_mu_batching | whir_ood_rbr | whir_proximity_gaps | whir_query | whir_shift_rbr | whir_sumcheck | zerocheck_sumcheck |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 128 | 143 | 154 | 153 | 133 | 142 | 128 | 136 | 146 | 136 | 136 | 136 | 128 | 128 | 158 | 149 |
 
 
 ## convert
 
 **Parameters:**
-- Proof system: DEEP-ALI
-- PCS: FRI
-- Hash size (bits): 248
-- Number of queries: 84
-- Grinding query phase (bits): 16
-- Field: KoalaBear⁴
-- Rate (ρ): 0.5
-- Trace length (H): $2^{20}$
-- FRI rounds: 20
-- FRI folding factors: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
-- FRI early stop degree: 2
-- Batch size: 485
-- Batching: Powers
-- Number of constraints: 323
-- Lookup (logup): memory
+- Proof system: SWIRL
+- PCS: WHIR
+- Field: KoalaBear⁵
+- Regime: UDR
+- `l_skip`: 4
+- `n_stack`: 17
+- `w_stack`: 92
+- Log blowup: 2
+- WHIR queries per round: [160, 114, 109]
+- WHIR folding PoW (bits): 4
+- WHIR query-phase PoW (bits): 20
+- WHIR μ PoW (bits): 13
+- Max constraints per AIR: 170
+- Number of AIRs: 21
+- Max log trace height: 19
+- Number of trace columns: 1409
+- Max interactions per AIR: 34
+- Proof-size public values bound: 119
+- Proof-size GKR rounds: 25
+- Proof-size column openings: 1554
+- Proof-size opening parts: 42
+- Proof-size cached commitments: 0
+- Proof-size commitments: 2
 
-**Proof Size:** 929 KiB (expected) / 957 KiB (worst case)
+**Proof Size:** 1370 KiB (expected) / 1370 KiB (worst case)
 
-| regime | total | memory | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 18 | commit round 19 | commit round 2 | commit round 20 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 50 | 96 | 115 | 101 | 96 | 105 | 114 | 115 | 116 | 117 | 118 | 119 | 120 | 121 | 122 | 122 | 106 | 123 | 107 | 108 | 109 | 110 | 111 | 112 | 113 | 50 |
-| JBR | 53 | 96 | 110 | 97 | 73 | 83 | 92 | 93 | 94 | 95 | 96 | 97 | 98 | 99 | 100 | 101 | 84 | 102 | 85 | 86 | 87 | 88 | 89 | 90 | 91 | 53 |
+| regime | total | constraint_batching | gkr_batching | gkr_sumcheck | logup | stacked_reduction | whir | whir_fold_rbr | whir_gamma_batching | whir_mu_batching | whir_ood_rbr | whir_proximity_gaps | whir_query | whir_shift_rbr | whir_sumcheck | zerocheck_sumcheck |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 128 | 147 | 154 | 153 | 133 | 143 | 128 | 136 | 147 | 138 | 138 | 136 | 128 | 128 | 157 | 148 |
 
 
 ## combine
 
 **Parameters:**
-- Proof system: DEEP-ALI
-- PCS: FRI
-- Hash size (bits): 248
-- Number of queries: 84
-- Grinding query phase (bits): 16
-- Field: KoalaBear⁴
-- Rate (ρ): 0.5
-- Trace length (H): $2^{18}$
-- FRI rounds: 18
-- FRI folding factors: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
-- FRI early stop degree: 2
-- Batch size: 485
-- Batching: Powers
-- Number of constraints: 323
-- Lookup (logup): memory
+- Proof system: SWIRL
+- PCS: WHIR
+- Field: KoalaBear⁵
+- Regime: UDR
+- `l_skip`: 4
+- `n_stack`: 17
+- `w_stack`: 27
+- Log blowup: 2
+- WHIR queries per round: [160, 114, 109]
+- WHIR folding PoW (bits): 4
+- WHIR query-phase PoW (bits): 20
+- WHIR μ PoW (bits): 13
+- Max constraints per AIR: 170
+- Number of AIRs: 21
+- Max log trace height: 17
+- Number of trace columns: 1409
+- Max interactions per AIR: 34
+- Proof-size public values bound: 119
+- Proof-size GKR rounds: 23
+- Proof-size column openings: 1554
+- Proof-size opening parts: 42
+- Proof-size cached commitments: 0
+- Proof-size commitments: 2
 
-**Proof Size:** 857 KiB (expected) / 881 KiB (worst case)
+**Proof Size:** 715 KiB (expected) / 715 KiB (worst case)
 
-| regime | total | memory | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 18 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 50 | 97 | 115 | 103 | 98 | 107 | 116 | 117 | 118 | 119 | 120 | 121 | 122 | 122 | 123 | 108 | 109 | 110 | 111 | 112 | 113 | 114 | 115 | 50 |
-| JBR | 53 | 97 | 110 | 99 | 75 | 85 | 94 | 95 | 96 | 97 | 98 | 99 | 100 | 101 | 102 | 86 | 87 | 88 | 89 | 90 | 91 | 92 | 93 | 53 |
+| regime | total | constraint_batching | gkr_batching | gkr_sumcheck | logup | stacked_reduction | whir | whir_fold_rbr | whir_gamma_batching | whir_mu_batching | whir_ood_rbr | whir_proximity_gaps | whir_query | whir_shift_rbr | whir_sumcheck | zerocheck_sumcheck |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 128 | 147 | 154 | 153 | 133 | 143 | 128 | 136 | 147 | 140 | 138 | 136 | 128 | 128 | 157 | 148 |
 
 
-## compress
+## deferred
 
 **Parameters:**
-- Proof system: DEEP-ALI
-- PCS: FRI
-- Hash size (bits): 248
-- Number of queries: 21
-- Grinding query phase (bits): 16
-- Field: KoalaBear⁴
-- Rate (ρ): 0.0625
-- Trace length (H): $2^{17}$
-- FRI rounds: 17
-- FRI folding factors: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
-- FRI early stop degree: 16
-- Batch size: 485
-- Batching: Powers
-- Number of constraints: 323
-- Lookup (logup): memory
+- Proof system: SWIRL
+- PCS: WHIR
+- Field: KoalaBear⁵
+- Regime: UDR
+- `l_skip`: 4
+- `n_stack`: 17
+- `w_stack`: 27
+- Log blowup: 2
+- WHIR queries per round: [160, 114, 109]
+- WHIR folding PoW (bits): 4
+- WHIR query-phase PoW (bits): 20
+- WHIR μ PoW (bits): 13
+- Max constraints per AIR: 170
+- Number of AIRs: 21
+- Max log trace height: 17
+- Number of trace columns: 1409
+- Max interactions per AIR: 34
+- Proof-size public values bound: 119
+- Proof-size GKR rounds: 23
+- Proof-size column openings: 1554
+- Proof-size opening parts: 42
+- Proof-size cached commitments: 0
+- Proof-size commitments: 2
 
-**Proof Size:** 250 KiB (expected) / 258 KiB (worst case)
+**Proof Size:** 715 KiB (expected) / 715 KiB (worst case)
 
-| regime | total | memory | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 16 | commit round 17 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 35 | 98 | 115 | 104 | 95 | 105 | 114 | 115 | 116 | 117 | 118 | 119 | 119 | 120 | 106 | 107 | 108 | 109 | 110 | 111 | 112 | 113 | 35 |
-| JBR | 57 | 98 | 106 | 95 | 61 | 71 | 80 | 81 | 82 | 83 | 84 | 85 | 86 | 87 | 72 | 73 | 74 | 75 | 76 | 77 | 78 | 79 | 57 |
+| regime | total | constraint_batching | gkr_batching | gkr_sumcheck | logup | stacked_reduction | whir | whir_fold_rbr | whir_gamma_batching | whir_mu_batching | whir_ood_rbr | whir_proximity_gaps | whir_query | whir_shift_rbr | whir_sumcheck | zerocheck_sumcheck |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UDR | 128 | 147 | 154 | 153 | 133 | 143 | 128 | 136 | 147 | 140 | 138 | 136 | 128 | 128 | 157 | 148 |
 
 
 ## embed
 
 **Parameters:**
-- Proof system: DEEP-ALI
-- PCS: FRI
-- Hash size (bits): 248
-- Number of queries: 21
-- Grinding query phase (bits): 16
-- Field: KoalaBear⁴
-- Rate (ρ): 0.0625
-- Trace length (H): $2^{15}$
-- FRI rounds: 15
-- FRI folding factors: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
-- FRI early stop degree: 16
-- Batch size: 485
-- Batching: Powers
-- Number of constraints: 323
-- Lookup (logup): memory
+- Proof system: SWIRL
+- PCS: WHIR
+- Field: KoalaBear⁵
+- Regime: JBR
+- `m`: 2
+- `l_skip`: 4
+- `n_stack`: 16
+- `w_stack`: 11
+- Log blowup: 4
+- WHIR queries per round: [65, 34, 24]
+- WHIR folding PoW (bits): 16
+- WHIR query-phase PoW (bits): 20
+- WHIR μ PoW (bits): 18
+- Max constraints per AIR: 170
+- Number of AIRs: 21
+- Max log trace height: 16
+- Number of trace columns: 1409
+- Max interactions per AIR: 34
+- Proof-size public values bound: 119
+- Proof-size GKR rounds: 21
+- Proof-size column openings: 1554
+- Proof-size opening parts: 42
+- Proof-size cached commitments: 0
+- Proof-size commitments: 2
 
-**Proof Size:** 229 KiB (expected) / 236 KiB (worst case)
+**Proof Size:** 233 KiB (expected) / 233 KiB (worst case)
 
-| regime | total | memory | ALI | DEEP | batching | commit round 1 | commit round 10 | commit round 11 | commit round 12 | commit round 13 | commit round 14 | commit round 15 | commit round 2 | commit round 3 | commit round 4 | commit round 5 | commit round 6 | commit round 7 | commit round 8 | commit round 9 | query phase |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UDR | 35 | 100 | 115 | 106 | 97 | 107 | 116 | 117 | 118 | 119 | 119 | 120 | 108 | 109 | 110 | 111 | 112 | 113 | 114 | 115 | 35 |
-| JBR | 57 | 100 | 106 | 97 | 63 | 73 | 82 | 83 | 84 | 85 | 86 | 87 | 74 | 75 | 76 | 77 | 78 | 79 | 80 | 81 | 57 |
+| regime | total | constraint_batching | gkr_batching | gkr_sumcheck | logup | stacked_reduction | whir | whir_fold_rbr | whir_gamma_batching | whir_mu_batching | whir_ood_rbr | whir_proximity_gaps | whir_query | whir_shift_rbr | whir_sumcheck | zerocheck_sumcheck |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| JBR | 128 | 144 | 154 | 153 | 130 | 140 | 128 | 128 | 142 | 133 | 130 | 128 | 128 | 128 | 163 | 145 |
+
+
+## compress
+
+**Parameters:**
+- Proof system: SWIRL
+- PCS: WHIR
+- Field: KoalaBear⁵
+- Regime: JBR
+- `m`: 2
+- `l_skip`: 4
+- `n_stack`: 16
+- `w_stack`: 25
+- Log blowup: 4
+- WHIR queries per round: [65, 34, 24]
+- WHIR folding PoW (bits): 16
+- WHIR query-phase PoW (bits): 20
+- WHIR μ PoW (bits): 18
+- Max constraints per AIR: 170
+- Number of AIRs: 21
+- Max log trace height: 16
+- Number of trace columns: 1409
+- Max interactions per AIR: 34
+- Proof-size public values bound: 119
+- Proof-size GKR rounds: 22
+- Proof-size column openings: 1554
+- Proof-size opening parts: 42
+- Proof-size cached commitments: 0
+- Proof-size commitments: 2
+
+**Proof Size:** 292 KiB (expected) / 292 KiB (worst case)
+
+| regime | total | constraint_batching | gkr_batching | gkr_sumcheck | logup | stacked_reduction | whir | whir_fold_rbr | whir_gamma_batching | whir_mu_batching | whir_ood_rbr | whir_proximity_gaps | whir_query | whir_shift_rbr | whir_sumcheck | zerocheck_sumcheck |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| JBR | 128 | 144 | 154 | 153 | 130 | 140 | 128 | 128 | 142 | 132 | 130 | 128 | 128 | 128 | 163 | 145 |
 
