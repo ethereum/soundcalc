@@ -1,0 +1,78 @@
+[zkevm]
+name = "Ziren"
+field = "KoalaBear^4"
+version = "2.0"
+hash_size_bits = 248
+
+[[circuits]]
+protocol_family = "JAGGED"
+dense_pcs = "whir"
+name = "core"
+udr_only = true
+trace_length = 4194304
+trace_columns = 37593
+dense_length = 2097152
+log_degree = 21
+dense_batch = 544
+num_constraints = 25467
+air_max_degree = 3
+opening_points = 1
+power_batching = true
+log_inv_rate = 1
+num_iterations = 3
+folding_factors = [3, 6, 6]
+whir_log_inv_rates = [1, 4, 7, 10]
+constraint_degree = 3
+num_queries = [203, 93, 85]
+num_ood_samples = [2, 2]
+grinding_batching_phase = 14
+grinding_bits_folding = [[0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]
+grinding_bits_queries = [22, 22, 22]
+grinding_bits_ood = [0, 0]
+
+[[circuits.lookups]]
+name = "logup-gkr"
+logup_type = "multivariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 108
+num_lookups_M = 22548
+grinding_bits_lookup = 22
+multilinear_fingerprint = true
+
+[[circuits]]
+protocol_family = "JAGGED"
+dense_pcs = "whir"
+name = "compress"
+explicit_regime = "list"
+explicit_m = 6
+trace_length = 4194304
+trace_columns = 421
+dense_length = 2097152
+log_degree = 21
+dense_batch = 128
+num_constraints = 417
+air_max_degree = 3
+opening_points = 1
+power_batching = true
+log_inv_rate = 3
+num_iterations = 3
+folding_factors = [2, 6, 6]
+whir_log_inv_rates = [3, 6, 9, 12]
+constraint_degree = 3
+num_queries = [58, 28, 19]
+num_ood_samples = [2, 2]
+grinding_batching_phase = 27
+grinding_bits_folding = [[27, 27], [27, 27, 27, 27, 27, 27], [27, 27, 27, 27, 27, 27]]
+grinding_bits_queries = [26, 26, 26]
+grinding_bits_ood = [0, 0]
+
+[[circuits.lookups]]
+name = "logup-gkr"
+logup_type = "multivariate"
+rows_L = 4194304
+rows_T = 0
+num_columns_S = 6
+num_lookups_M = 77
+grinding_bits_lookup = 22
+multilinear_fingerprint = true
